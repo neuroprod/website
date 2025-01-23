@@ -19,6 +19,7 @@ export class GodLevel extends PlatformLevel{
     private godController!: God;
     private skipGodChoice: boolean =false;
 private startPos =-10
+    private landlord!: SceneObject3D;
     init() {
         super.init();
         LoadHandler.onComplete =this.configScene.bind(this)
@@ -26,7 +27,7 @@ private startPos =-10
         LoadHandler.startLoading()
         LoadHandler.startLoading()
         LoadHandler.startLoading()
-
+        LoadHandler.startLoading()
 
         SceneHandler.setScene("e857a11e-d9f9-4a0c").then(() => {
 
@@ -38,7 +39,9 @@ private startPos =-10
                 LoadHandler.stopLoading()
             });
 
-
+            SceneHandler.addScene(SceneHandler.getSceneIDByName("landlord")).then(() => {
+                LoadHandler.stopLoading()
+            });
 
             SceneHandler.addScene("9f307f29-4140-48d6").then(() => {
                 LoadHandler.stopLoading()
@@ -59,6 +62,11 @@ private startPos =-10
         GameModel.gameRenderer.addModel(this.characterController.cloudParticles.particlesModel)
 
 
+        this.landlord = sceneHandler.getSceneObject("rootLandlord")
+        this.landlord.setScaler(1.2)
+        this.landlord.z =-0.05
+        this.landlord.x =this.startPos-1
+        sceneHandler.getSceneObject("LandlordArmGun").hide()
 
 
        this.tree = sceneHandler.getSceneObject("rootTree")
@@ -89,7 +97,7 @@ private startPos =-10
         charRoot.setScaler(1.2)
         this.characterController.setCharacter()
         this.characterController.gotoAndIdle(new Vector3(this.startPos, 0.1, 0), 1, () => {
-            this.blockInput =false
+            this.playIntro();
 
         })
         GameModel.gameCamera.camDistance =2;
@@ -211,5 +219,16 @@ update(){
         this.godController.destroy()
         if(this.tl) this.tl.clear()
 
+    }
+
+    private playIntro() {
+        this.characterController.setAngle(-Math.PI)
+        gsap.delayedCall(0.5,()=>{
+            GameModel.conversationHandler.startConversation("mrLoathsome")
+            GameModel.conversationHandler.doneCallBack =()=>{
+                this.characterController.setAngle(0)
+                this.blockInput =false
+            }
+        });
     }
 }

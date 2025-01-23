@@ -38,6 +38,7 @@ export default class Renderer {
 
     async setup(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
+      
         this.pixelRatio = window.devicePixelRatio;
         this.textureHandler = new TextureHandler();
         Renderer.instance = this;
@@ -57,7 +58,7 @@ export default class Renderer {
             //  console.log(this.device)
             this.context = this.canvas.getContext("webgpu") as GPUCanvasContext;
             this.presentationFormat = navigator.gpu.getPreferredCanvasFormat();
-
+console.log(this.presentationFormat)
             this.context.configure({
                 device: this.device,
                 format: this.presentationFormat,

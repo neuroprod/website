@@ -1,4 +1,17 @@
 [
+
+  {
+    "name": "mrLoathsome",
+    "data": [
+
+      {"char":"charRoot","pos":[-0.2, 0.8, 0],"text": "Hi Mr Loathsome!"},
+      {"char":"rootLandlord","pos":[0.1, 0.7, 0],"text": "Don't \"Mr\" me Pirate!\nI want my money by the end of the day!"},
+      {"text": "Or else you can go sleep\non the street with the rest\nof the scum."},
+      {"char":"charRoot","pos":[-0.2, 0.8, 0],"text": "Yes Sir! I won't disapoint you!"},
+      {"char":"rootLandlord","pos":[0.1, 0.7, 0],"text": "Types like you always disappoint me Pirate!"},
+      {"text": "Now, get me those 30 coins you own me!."}
+    ]
+  },
   {
     "name": "tree",
     "data": [
@@ -7,7 +20,7 @@
       {"text":"I need to pay my rent." },
       {"char":"rootTree","pos":[-0.34, 0.9, 0],"text": "You know, there is more\nto live then paying rent."},
       {"text": "Climb my branches,\nand discover what it's all about."},
-      {"char":"charRoot","pos":[0.1, 0.9, 0],"text": "I don't know,\nIsn't that dangerous..."},
+      {"char":"charRoot","pos":[0.1, 0.9, 0],"text": "I don't know,\nMr Loathsome looked realy angry this time."},
       {"char":"rootTree","pos":[-0.34, 0.9, 0],"text": "Sigh... The are also\ncoins in the branches."},
       {"char":"charRoot","pos":[0.1, 0.9, 0],"text": "Why didn't you tell me that earlier\nI'm on my way!"}
     ]
@@ -21,7 +34,7 @@
       {"text": "Are you God?"},
       {"char":"godRoot","pos":[-0.3, 0.85, 0],"text": "Noooo, my child!"},
       {"text": "I am the man in the sky!"},
-      {"text": "Every year, I bring plastic presents\nto the children!"},
+      {"text": "Every year, I bring presents\nto the children!"},
       {"text": "If they are good, that is..."},
       {"text": "Do you want to have a present?"},
       {"char":"charRoot","pos":[0.1, 0.83, 0],"choice": [
@@ -130,9 +143,10 @@
     "name": "hand",
     "data": [
 
-      {"char":"rootHand","pos":[0.01, 0.8, 0],"text": "Hi pirate, want to have some fun?"},
+      {"char":"rootHand","pos":[-0.2, 0.8, 0],"text": "Hi pirate, want to have some fun?"},
       {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "I'm broke Candy. Maybe some other time..."},
-      {"char":"rootHand","pos":[0.01, 0.8, 0],"text": "mmm, ok.\nSince you are a pirate maybe you can\nhelp me get my fingers back?"},
+      {"char":"rootHand","pos":[-0.2, 0.8, 0],"text": "Yea, everyone seems broke these days."},
+      {"text": "Maybe you can help me get my fingers back? You being a pirate and such."},
       {"text": "Some of my clients really miss them"},
       {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "You know Candy, I'm actualy not a real pirate."},
       {"text": "Sure, I download a movie every know and then."},
@@ -140,7 +154,7 @@
       {"char":"rootHand","pos":[0.01, 0.8, 0],"text": "ow...  "},
       {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "...   "},
       {"text": "What happend with your fingers?"},
-      {"char":"rootHand","pos":[0.01, 0.8, 0],"text": "Mr Scruffy took them.\nBecause I don't bring in enough money"},
+      {"char":"rootHand","pos":[0.01, 0.8, 0],"text": "Mr Loathsome took them.\nHe says I dont bring in enough money"},
       {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "ok, i'll see what I can do"}
     ]
   }

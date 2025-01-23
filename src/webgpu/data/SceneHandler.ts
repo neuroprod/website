@@ -11,6 +11,7 @@ import MathUtils from "../lib/MathUtils.ts";
 class SceneHandler {
     public scenesData: Array<any> = [];
     public sceneDataByID: Map<string, any> = new Map<string, any>();
+
     public sceneObjectsByLoadID: Map<string, SceneObject3D> = new Map<string, SceneObject3D>()
 
     public sceneObjectsByName: Map<string, SceneObject3D> = new Map<string, SceneObject3D>()
@@ -60,7 +61,12 @@ class SceneHandler {
         }
     }
 
-
+    getSceneIDByName(name:string){
+            for(let s of this.scenesData){
+                if(s.name==name)return s.id;
+            }
+            return ""
+    }
     async setScene(sceneId: string) {
         //save currentscenes?
         ProjectData.setNewScene()
@@ -76,6 +82,7 @@ class SceneHandler {
 
 
         this.sceneData = this.sceneDataByID.get(sceneId)
+
         this.currentSceneID = sceneId;
         if ( this.sceneData ) {
 
