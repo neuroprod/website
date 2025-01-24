@@ -20,6 +20,8 @@ import LoadHandler from "../data/LoadHandler.ts";
 import ModelRenderer from "../lib/model/ModelRenderer.ts";
 import Model from "../lib/model/Model.ts";
 import SceneObject3D from "../data/SceneObject3D.ts";
+import TransRenderPass from "./TransparentMaterials/TransRenderPass.ts";
+import GradingRenderPass from "./grading/GradingPass.ts";
 
 export default class GameRenderer {
     public allModels: Array<Model> = []
@@ -44,6 +46,8 @@ export default class GameRenderer {
     private shadowDenoise: DeNoisePass;
     private transparentModelRenderer: ModelRenderer;
     private transitionValue: number =0;
+    private transparentPass: TransRenderPass;
+    private gradingPass: GradingRenderPass;
 
     constructor(renderer: Renderer, camera: Camera) {
         this.renderer = renderer;
@@ -62,14 +66,13 @@ export default class GameRenderer {
 
 
         this.lightPass = new LightRenderPass(renderer, camera, this.sunLight)
-
-
+        this.transparentModelRenderer = new ModelRenderer(this.renderer, "transparent", camera)
+        this.transparentPass = new TransRenderPass(renderer, camera, this.sunLight,this.transparentModelRenderer)
+        this.gradingPass = new GradingRenderPass(renderer)
         this.debugTextureMaterial = new DebugTextureMaterial(this.renderer, "debugTextureMaterial")
         this.blitFinal = new Blit(renderer, "blitFinal", this.debugTextureMaterial)
-       //
-        // this.passSelect.push(new SelectItem(Textures.SHADOW_DEPTH, {texture: Textures.SHADOW_DEPTH, type: 2}));
-        // this.passSelect.push(new SelectItem(Textures.SHADOW_DEPTH, {texture: Textures.SHADOW_DEPTH, type: 2}));
-        //this.passSelect.push(new SelectItem(Textures.GTAO, {texture: Textures.GTAO, type: 1}));
+
+        this.passSelect.push(new SelectItem(Textures.GRADING, {texture: Textures.GRADING, type: 0}));
         this.passSelect.push(new SelectItem(Textures.LIGHT, {texture: Textures.LIGHT, type: 0}));
         this.passSelect.push(new SelectItem("video/test.mp4", {texture: "video/test.mp4", type: 0}));
         this.passSelect.push(new SelectItem(Textures.SHADOW, {texture: Textures.SHADOW, type: 0}));
@@ -97,7 +100,7 @@ export default class GameRenderer {
         this.debugTextureMaterial.setUniform("renderType", this.currentValue.type)
 
 
-        this.transparentModelRenderer = new ModelRenderer(this.renderer, "transparent", camera)
+
 
 
     }
@@ -175,7 +178,8 @@ export default class GameRenderer {
         this.shadowMapPass.update()
         this.shadowPass.update();
         this.lightPass.update();
-
+        this.transparentPass.update();
+        this.gradingPass.update();
         if(this.transitionValue !=0){
             //
         }
@@ -216,7 +220,8 @@ export default class GameRenderer {
         //this.shadowBlurPass.add();
 
         this.lightPass.add(this.renderer.timeStamps.getSet(2, 3));
-
+       this.transparentPass.add();
+        this.gradingPass.add()
     }
 
     //put in canvas
@@ -224,7 +229,7 @@ export default class GameRenderer {
 
         this.blitFinal.draw(pass);
 
-        this.transparentModelRenderer.draw(pass)
+    //   this.transparentModelRenderer.draw(pass)
 
         if(this.transitionValue !=0){
             //

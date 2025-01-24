@@ -20,7 +20,7 @@ export default class LightRenderPass extends RenderPass{
     constructor(renderer:Renderer,camera:Camera,dirLight:DirectionalLight) {
             super(renderer,"lightRenderPass");
         this.colorTarget = new RenderTexture(renderer, Textures.LIGHT, {
-            format: TextureFormat.RGBA8Unorm,
+            format: TextureFormat.RGBA16Float,
             sampleCount: this.sampleCount,
             scaleToCanvas: true,
 

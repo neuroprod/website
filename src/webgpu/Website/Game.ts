@@ -66,7 +66,7 @@ export default class Game {
     }
 
     update() {
-        this.setGUI();
+
 
         if (LoadHandler.isLoading()) return
 
@@ -113,7 +113,7 @@ this.overlay.update()
     }
 
 
-    private setGUI() {
+     setGUI() {
         UI.pushWindow("Game")
 
         for (let l of LevelHandler.levelKeys) {

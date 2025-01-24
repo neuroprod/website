@@ -20,5 +20,6 @@ export const Textures = {
     MAINFONT: "bold.png",
     SHADOW_DENOISE: "shadowDenoise",
     BLUE_NOISE: "blueNoise.png",
-    DRAWING_BACKGROUND: "drawBackground.png"
+    DRAWING_BACKGROUND: "drawBackground.png",
+    GRADING: "grading"
 }

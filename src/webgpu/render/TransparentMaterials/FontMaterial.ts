@@ -28,7 +28,7 @@ export default class FontMaterial extends Material{
         uniforms.addTexture("colorTexture",this.renderer.getTexture(Textures.MAINFONT))
         uniforms.addSampler("mySampler")
         this.cullMode =CullMode.None;
-        this.depthCompare="always"
+        this.depthCompare="less-equal"
         this.depthWrite =false;
 
         this.blendModes =[Blend.preMultAlpha()]
