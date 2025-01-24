@@ -18,7 +18,7 @@ export default class GradingMaterial extends Material {
         this.addUniformGroup(uniforms,true);
 
 
-        uniforms.addTexture("colorTexture", this.renderer.getTexture(Textures.LIGHT), {sampleType:TextureSampleType.UnfilterableFloat})
+        uniforms.addTexture("colorTexture", this.renderer.getTexture(Textures.INGAMEFX), {sampleType:TextureSampleType.UnfilterableFloat})
         this.depthWrite =false;
         this.depthCompare ="always"
         //this.logShader =true;
@@ -67,9 +67,11 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
    
       let textureSize =vec2<f32>( textureDimensions(colorTexture));
       let uvPos = vec2<i32>(floor(uv0*textureSize));
-      let color=textureLoad(colorTexture,  uvPos ,0); ;
+      var color=textureLoad(colorTexture,  uvPos ,0); ;
   
-  
+       let dist = distance( uv0, vec2(0.5, 0.5));
+     let fall =0.3;
+    color =color* smoothstep(0.8, fall * 0.799, dist * (0.6+ fall));
       
      return vec4(acestonemap(color.xyz),1.0) ;
 }

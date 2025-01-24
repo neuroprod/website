@@ -13,6 +13,7 @@ import FontMesh from "../modelMaker/FontMesh.ts";
 import ShadowFontDepthMaterial from "../render/shadow/ShadowFontDepthMaterial.ts";
 import Font from "./Font.ts";
 import FontMaterial from "../render/TransparentMaterials/FontMaterial.ts";
+import MaskMaterial from "../render/InGameFX/MaskMaterial.ts";
 
 class ProjectData {
     private folders!: any;
@@ -22,6 +23,7 @@ class ProjectData {
     public projectsNameMap: Map<string, Project> = new Map<string, Project>();
     private renderer!: Renderer;
     private defaultShadowMaterial!: ShadowDepthMaterial;
+    private defaultMaskMaterial!: MaskMaterial;
     projectSelectItems: Array<SelectItem> = [];
 
     private defaultFontShadowMaterial!: ShadowFontDepthMaterial;
@@ -34,7 +36,7 @@ class ProjectData {
        this.renderer =renderer;
 
        this.defaultShadowMaterial = new ShadowDepthMaterial(renderer, "shadowDepth");
-
+        this.defaultMaskMaterial =new MaskMaterial(renderer,"")
        this.defaultFontShadowMaterial = new ShadowFontDepthMaterial(renderer, "fontDepthMaterial");
        this.font = new Font()
 
@@ -118,7 +120,7 @@ class ProjectData {
             model.setMaterial("shadow", this.defaultShadowMaterial)
         }
 
-
+        model.setMaterial("mask", this.defaultMaskMaterial)
         let obj3D = new SceneObject3D(this.renderer, label)
         obj3D.addChild(model)
         obj3D.model = model;

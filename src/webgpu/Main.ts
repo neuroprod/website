@@ -209,10 +209,10 @@ export default class Main {
             if (addMainMenuTextButton("Edit", true)) {
                 this.setMainState(MainState.editor)
             }
-            this.game.setGUI()
+          /*  this.game.setGUI()
            UI.pushWindow("rendering")
             this.gameRenderer.onUI()
-            UI.popWindow()
+            UI.popWindow()*/
             // popMainMenu()
         } else {
             pushMainMenu("MainMenu", 207, 0)

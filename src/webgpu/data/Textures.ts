@@ -21,5 +21,7 @@ export const Textures = {
     SHADOW_DENOISE: "shadowDenoise",
     BLUE_NOISE: "blueNoise.png",
     DRAWING_BACKGROUND: "drawBackground.png",
-    GRADING: "grading"
+    GRADING: "grading",
+    INGAMEFX: "ingameFX",
+    MASK: "mask"
 }

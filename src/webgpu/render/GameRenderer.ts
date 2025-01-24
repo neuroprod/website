@@ -22,8 +22,18 @@ import Model from "../lib/model/Model.ts";
 import SceneObject3D from "../data/SceneObject3D.ts";
 import TransRenderPass from "./TransparentMaterials/TransRenderPass.ts";
 import GradingRenderPass from "./grading/GradingPass.ts";
+import InGameFXPass from "./InGameFX/InGameFXPass.ts";
+import MaskRenderPass from "./InGameFX/MaskRenderPass.ts";
 
 export default class GameRenderer {
+    get distortValue(): number {
+        return this._distortValue;
+    }
+
+    set distortValue(value: number) {
+        this._distortValue = value;
+        this.inGameFXPass.distortValue =this._distortValue
+    }
     public allModels: Array<Model> = []
     private renderer: Renderer;
     private gBufferPass: GBufferRenderPass;
@@ -48,7 +58,9 @@ export default class GameRenderer {
     private transitionValue: number =0;
     private transparentPass: TransRenderPass;
     private gradingPass: GradingRenderPass;
-
+    private inGameFXPass: InGameFXPass;
+    private maskRenderPass: MaskRenderPass;
+private _distortValue=0;
     constructor(renderer: Renderer, camera: Camera) {
         this.renderer = renderer;
         this.sunLight = new DirectionalLight(renderer, camera)
@@ -68,11 +80,15 @@ export default class GameRenderer {
         this.lightPass = new LightRenderPass(renderer, camera, this.sunLight)
         this.transparentModelRenderer = new ModelRenderer(this.renderer, "transparent", camera)
         this.transparentPass = new TransRenderPass(renderer, camera, this.sunLight,this.transparentModelRenderer)
+        this.maskRenderPass = new MaskRenderPass(renderer,camera)
+        this.inGameFXPass = new InGameFXPass(renderer)
+
         this.gradingPass = new GradingRenderPass(renderer)
         this.debugTextureMaterial = new DebugTextureMaterial(this.renderer, "debugTextureMaterial")
         this.blitFinal = new Blit(renderer, "blitFinal", this.debugTextureMaterial)
 
         this.passSelect.push(new SelectItem(Textures.GRADING, {texture: Textures.GRADING, type: 0}));
+        this.passSelect.push(new SelectItem(Textures.MASK, {texture: Textures.MASK, type: 0}));
         this.passSelect.push(new SelectItem(Textures.LIGHT, {texture: Textures.LIGHT, type: 0}));
         this.passSelect.push(new SelectItem("video/test.mp4", {texture: "video/test.mp4", type: 0}));
         this.passSelect.push(new SelectItem(Textures.SHADOW, {texture: Textures.SHADOW, type: 0}));
@@ -120,6 +136,7 @@ export default class GameRenderer {
         this.gBufferPass.modelRenderer.setModels([])
         this.shadowMapPass.modelRenderer.setModels([])
         this.transparentModelRenderer.setModels([])
+        this.maskRenderPass.modelRenderer.setModels([])
         this.allModels = []
 
 
@@ -179,6 +196,7 @@ export default class GameRenderer {
         this.shadowPass.update();
         this.lightPass.update();
         this.transparentPass.update();
+        this.inGameFXPass.update()
         this.gradingPass.update();
         if(this.transitionValue !=0){
             //
@@ -221,6 +239,8 @@ export default class GameRenderer {
 
         this.lightPass.add(this.renderer.timeStamps.getSet(2, 3));
        this.transparentPass.add();
+       this.maskRenderPass.add()
+       this.inGameFXPass.add()
         this.gradingPass.add()
     }
 
@@ -235,5 +255,9 @@ export default class GameRenderer {
             //
         }
 
+    }
+
+    addToMask(model: Array<Model>) {
+        this.maskRenderPass.modelRenderer.setModels(model)
     }
 }

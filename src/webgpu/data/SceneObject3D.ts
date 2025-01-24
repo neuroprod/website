@@ -371,4 +371,14 @@ if(this.isText && this.model){
         super.destroy();
 
     }
+
+    getAllChildModels(childModels: Array<Model>) {
+        if(this.model)childModels.push(this.model)
+        for (let child of this.children) {
+            let c  =child as SceneObject3D
+
+            if(c.getAllChildModels)  c.getAllChildModels(childModels)
+
+        }
+    }
 }

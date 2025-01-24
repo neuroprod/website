@@ -3,6 +3,11 @@ import SceneObject3D from "../../../data/SceneObject3D.ts";
 import Timer from "../../../lib/Timer.ts";
 import gsap from "gsap";
 import {lerp} from "@math.gl/core";
+import GameRenderer from "../../../render/GameRenderer.ts";
+import LevelHandler from "../LevelHandler.ts";
+import ProjectData from "../../../data/ProjectData.ts";
+import GameModel from "../../GameModel.ts";
+import Model from "../../../lib/model/Model.ts";
 
 export default class Kris {
     private kris!: SceneObject3D;
@@ -43,7 +48,9 @@ export default class Kris {
         this.kris.z = -0.1
         //headTopKris
         this.head = sceneHandler.getSceneObject("headTopKris")
-
+        let childModels:Array<Model> =[]
+        this.kris.getAllChildModels(childModels)
+        GameModel.gameRenderer.addToMask( childModels)
         this.eyeLeftClosed = sceneHandler.getSceneObject("eyeLeftClosedKris")
         this.eyeLeftClosed.hide()
         this.eyeRightClosed = sceneHandler.getSceneObject("eyeRightClosedKris")
