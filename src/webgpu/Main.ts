@@ -162,6 +162,7 @@ export default class Main {
         }
         if (state == MainState.modelMaker) {
             this.modelMaker.setActive()
+
         }
         if (state == MainState.editor) {
             SceneEditor.setActive()
@@ -169,6 +170,7 @@ export default class Main {
         if (state == MainState.game) {
             this.game.setActive()
         }
+        this.gameRenderer.fxEnabled =false
         this.currentMainState = state;
     }
 
@@ -209,10 +211,10 @@ export default class Main {
             if (addMainMenuTextButton("Edit", true)) {
                 this.setMainState(MainState.editor)
             }
-          /*  this.game.setGUI()
+           this.game.setGUI()
            UI.pushWindow("rendering")
             this.gameRenderer.onUI()
-            UI.popWindow()*/
+            UI.popWindow()
             // popMainMenu()
         } else {
             pushMainMenu("MainMenu", 207, 0)

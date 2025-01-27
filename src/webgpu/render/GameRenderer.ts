@@ -26,11 +26,30 @@ import InGameFXPass from "./InGameFX/InGameFXPass.ts";
 import MaskRenderPass from "./InGameFX/MaskRenderPass.ts";
 
 export default class GameRenderer {
+    get fxEnabled(): boolean {
+        return this._fxEnabled;
+    }
+
+    set fxEnabled(value: boolean) {
+        if( this._fxEnabled == value)return;
+        this._fxEnabled = value;
+        if(this._fxEnabled){
+            this.gradingPass.setBaseTexture(this.renderer.getTexture(Textures.INGAMEFX))
+        }else{
+            this.gradingPass.setBaseTexture(this.renderer.getTexture(Textures.LIGHT))
+        }
+
+    }
+    private _fxEnabled: boolean = false;
     get distortValue(): number {
         return this._distortValue;
     }
 
     set distortValue(value: number) {
+        if(value==0){this.fxEnabled =false}else
+        {
+            this.fxEnabled =true;
+        }
         this._distortValue = value;
         this.inGameFXPass.distortValue =this._distortValue
     }
@@ -239,8 +258,10 @@ private _distortValue=0;
 
         this.lightPass.add(this.renderer.timeStamps.getSet(2, 3));
        this.transparentPass.add();
-       this.maskRenderPass.add()
-       this.inGameFXPass.add()
+       if(this._fxEnabled) {
+           this.maskRenderPass.add()
+           this.inGameFXPass.add()
+       }
         this.gradingPass.add()
     }
 

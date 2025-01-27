@@ -38,7 +38,7 @@ class LevelHandler {
     }
 
     setLevel(key: string) {
-        GameModel.coinHandeler.hide()
+
         if (this.currentLevel) this.currentLevel.destroy()
         this.currentLevel = this.levels.get(key) as BaseLevel;
         if (this.currentLevel) {
@@ -47,7 +47,8 @@ class LevelHandler {
         } else {
             console.log("level doesnt exist ->", key)
         }
-
+        GameModel.gameRenderer.fxEnabled =false
+        GameModel.coinHandeler.hide()
     }
 
     destroyCurrentLevel() {

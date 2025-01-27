@@ -10,6 +10,7 @@ import Camera from "../../lib/Camera.ts";
 import DirectionalLight from "../lights/DirectionalLight.ts";
 import {Vector4} from "@math.gl/core";
 import GradingMaterial from "./GradingMaterial.ts";
+import Texture from "../../lib/textures/Texture.ts";
 
 
 export default class GradingRenderPass extends RenderPass{
@@ -36,6 +37,9 @@ export default class GradingRenderPass extends RenderPass{
 
         this.blit  =new Blit(renderer,"blitGrading",this.gradingMaterial)
 
+    }
+    setBaseTexture(t:Texture){
+        this.gradingMaterial.setTexture("colorTexture",t)
     }
     update(){
 
