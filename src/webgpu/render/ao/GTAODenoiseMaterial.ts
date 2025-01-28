@@ -1,7 +1,13 @@
 import Material from "../../lib/material/Material.ts";
 import {ShaderType} from "../../lib/material/ShaderTypes.ts";
 import UniformGroup from "../../lib/material/UniformGroup.ts";
-import {CompareFunction, FilterMode, TextureSampleType} from "../../lib/WebGPUConstants.ts";
+import {
+    AddressMode,
+    CompareFunction,
+    FilterMode,
+    SamplerBindingType,
+    TextureSampleType
+} from "../../lib/WebGPUConstants.ts";
 import {Textures} from "../../data/Textures.ts";
 import DefaultTextures from "../../lib/textures/DefaultTextures.ts";
 
@@ -18,7 +24,7 @@ export default class GTAODenoiseMaterial extends Material
         this.addUniformGroup(uniforms,true);
         uniforms.addTexture("noisy",DefaultTextures.getWhite(this.renderer),{sampleType:TextureSampleType.Float });
         uniforms.addTexture("depth_differences",this.renderer.getTexture("GTAODepth"),{sampleType:TextureSampleType.Uint });
-        uniforms.addSampler("point_clamp_sampler",GPUShaderStage.FRAGMENT,FilterMode.Nearest)
+        uniforms.addSampler("point_clamp_sampler",GPUShaderStage.FRAGMENT,FilterMode.Nearest,AddressMode.ClampToEdge,1,SamplerBindingType.NonFiltering)
         this.depthWrite = false
         this.depthCompare = CompareFunction.Always
 

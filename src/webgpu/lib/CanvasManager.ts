@@ -9,11 +9,12 @@ export default class CanvasManager {
         this.canvas = canvas;
         this.pixelRatio = window.devicePixelRatio;
         this.resize();
-        window.onresize = this.resize.bind(this);
+        window.addEventListener('resize', this.resize.bind(this));
 
     }
 
     resize() {
+        console.log("resize")
         this.canvas.style.width =Math.floor(  window.innerWidth) + "px";
         this.canvas.style.height = Math.floor( window.innerHeight) + "px";
         this.canvas.width =Math.floor( window.innerWidth * this.pixelRatio);

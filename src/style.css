@@ -7,9 +7,7 @@ body {
  overflow: hidden;
   overscroll-behavior-y: none;
 }
-#app{
-  height: 5000px;
-}
+
 canvas {
   position: sticky;
   top: 0px;
