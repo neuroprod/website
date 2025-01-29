@@ -60,7 +60,7 @@ export default class SelectorPopUp extends PopUp {
         super(id, settings);
         this.itemSize = 33;
         this.posOffset = pos;
-        let maxSize = UI_I.screenSize.y - pos.y - 10;
+        let maxSize = UI_I.pixelSize.y - pos.y - 10;
         this.size.set(targetWidth, Math.min(this.itemSize * items.length + InputTextRadius, maxSize));
         this.settings.box.size.copy(this.size);
         this.items = items;
@@ -120,6 +120,6 @@ export default class SelectorPopUp extends PopUp {
         UI_I.currentDrawBatch.fillBatch.addRoundedRect(this.textRect, ButtonColor, InputTextRadius - 1);
         // super.prepDraw();
         UI_I.currentDrawBatch.sdfBatch.addLine(this.textPos, this.label, 14, TextColorDefault);
-        UI_I.currentDrawBatch.sdfBatch.addIcon(this.iconPos, Icons.DOWN_ARROW, 14, TextColorBright);
+       UI_I.currentDrawBatch.sdfBatch.addIcon(this.iconPos, Icons.DOWN_ARROW, 14, TextColorBright);
     }
 }

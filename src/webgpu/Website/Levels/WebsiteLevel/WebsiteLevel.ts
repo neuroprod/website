@@ -3,7 +3,7 @@ import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import {Vector2, Vector3} from "@math.gl/core";
 import UI from "../../../lib/UI/UI.ts";
-import WebsiteShow from "./WebsiteShow.ts";
+
 import MouseInteractionWrapper from "../../MouseInteractionWrapper.ts";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
 
@@ -22,26 +22,30 @@ import WebsitePath from "./WebsitePath.ts";
 export class WebsiteLevel extends BaseLevel {
 
 
-    private websiteShow = new WebsiteShow()
+
     private video1!: VideoPlayer;
     private st!: ScrollTrigger;
     private numItems: number =5;
-    private websitePath: WebsitePath;
+    private websitePath!: WebsitePath;
+    private height: number=0;
 constructor() {
 
     super();
     gsap.registerPlugin(ScrollTrigger)
     this.video1 =new VideoPlayer(GameModel.renderer,"video/test.mp4",new Vector2(1920,1080))
-    this.websitePath = new WebsitePath(this.numItems)
+
 }
     init() {
         super.init();
         LoadHandler.onComplete = this.configScene.bind(this)
         LoadHandler.startLoading()
+       LoadHandler.startLoading()
         LoadHandler.startLoading()
-
         SceneHandler.setScene("1f78eea8-a005-4204").then(() => {
-            SceneHandler.addScene("1234").then(() => {
+         SceneHandler.addScene(SceneHandler.getSceneIDByName("website1")).then(() => {
+                LoadHandler.stopLoading()
+            });
+            SceneHandler.addScene(SceneHandler.getSceneIDByName("website2")).then(() => {
                 LoadHandler.stopLoading()
             });
             LoadHandler.stopLoading()
@@ -63,7 +67,23 @@ constructor() {
         GameModel.gameCamera.setLockedView(new Vector3(0, 0, 0), new Vector3(0, 0, 1))
 
         GameModel.gameRenderer.setLevelType("website")
+        let placeHolder =SceneHandler.getSceneObject("placeHolder")
 
+        this.numItems = placeHolder.children.length
+        this.websitePath = new WebsitePath(this.numItems,placeHolder.children)
+
+        let websiteItems= ["root1","root2"]
+        for(let i=0;i<websiteItems.length;i++){
+            let item = SceneHandler.getSceneObject(websiteItems[i])
+            if(item){
+                let p = placeHolder.children[i];
+                item.setPositionV(p.getPosition().clone())
+                item.y-=0.02;
+                item.setRotationQ(p.getRotation().clone());
+                (p as SceneObject3D).hide();
+            }
+
+        }
 
      /*  let char = SceneHandler.getSceneObject("charRoot")
         char.setScaler(0.7)
@@ -108,16 +128,7 @@ this.setScroll()
 
     }
 
-    public bounce(s: string) {
-        let so = SceneHandler.getSceneObject(s) as SceneObject3D;
-        if(so.sx!=1)return;
-        let scale = 1
-        let tl = gsap.timeline();
-        let size = 1.1
-        tl.to(so, {sx: scale * 1.2, sy: scale * 1.2, sz: scale * 1.2, ease: "back.in", duration: 0.4})
-        tl.to(so, {sx: scale, sy: scale, sz: scale, ease: "elastic.out", duration: 0.6})
 
-    }
 
     destroy() {
         let char = SceneHandler.getSceneObject("charRoot")
@@ -130,25 +141,30 @@ this.setScroll()
         super.destroy();
         window.scrollTo(0, 0);
         document.body.style.overflow = "hidden"
-        this.websiteShow.destroy()
+
         this.video1.pauze()
 
     }
 
     onUI() {
-        if (UI.LButton("test")) this.websiteShow.show()
+        if (UI.LButton("test")) {}
     }
 
     update() {
         super.update();
-        let t = document.body.getBoundingClientRect().top
-        let p = Math.abs(t / 1000)
-        GameModel.gameCamera.setLockedView(new Vector3(p, 0.35, 0), new Vector3(p, 0.35, 1));
-        let numSnaps =5;
-        let height =window.innerHeight*(numSnaps+1);
-        let app = document.getElementById("app")
-        if(app) app.style.height =height+"px"
-        // this.websiteSphere.update(this.sphereBlend)
+        if(this.st){
+            this.websitePath.update(this.st.progress)
+        }
+    
+        if (window.scrollY==0) {
+            window.scroll(0,  this.height-1); // reset the scroll position to the top left of the document.
+        }
+        if (window.scrollY>this.height-1) {
+            window.scroll(0,  1); // reset the scroll position to the top left of the document.
+        }
+        GameModel.gameCamera.setLockedView(this.websitePath.camLookAt, this.websitePath.camPosition);
+
+
     }
 onResize(){
     let numSnaps =this.numItems;
@@ -159,15 +175,16 @@ onResize(){
     }
 
 
-    let height =window.innerHeight*(numSnaps+1);
+    this.height =window.innerHeight*(numSnaps+1);
     let app = document.getElementById("app")
-    if(app) app.style.height =height+"px"
+    if(app) app.style.height =this.height+"px"
 
     let heightSnap =window.innerHeight*(numSnaps);
-
+    this.height-=window.innerHeight;
     let  snaps:Array<number> =[]
-    for(let i=0;i<numSnaps;i++){
-        snaps.push(1/(numSnaps-1) *i)
+    snaps.push(0.001)
+    for(let i=1;i<=numSnaps;i++){
+        snaps.push(1/(numSnaps) *i)
     }
     console.log(snaps,scrollPos)
 
@@ -182,15 +199,17 @@ onResize(){
                 ease: 'power2.inOut' // the ease of the snap animation ("power3" by default)
             },
 
-          //  onUpdate: self => console.log("progress", self.progress)
+           //onUpdate: () => {this.st.progress}
+
         }
     )
-
+    window.scrollTo(0, 1);
   //  this.st.scroll(scrollPos)
 }
 
     private setScroll() {
-        window.scrollTo(0, 0);
+        window.scrollTo(0, 1);
+
         document.body.style.overflowY = "visible"
         document.body.style.overflowX = "hidden"
 
