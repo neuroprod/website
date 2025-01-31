@@ -18,6 +18,8 @@ import Box from "../../../lib/mesh/geometry/Box.ts";
 
 import {ScrollTrigger} from "gsap/ScrollTrigger";
 import WebsitePath from "./WebsitePath.ts";
+import KrisWebsite from "./KrisWebsite.ts";
+import SoundHandler from "../../SoundHandler.ts";
 
 export class WebsiteLevel extends BaseLevel {
 
@@ -28,6 +30,7 @@ export class WebsiteLevel extends BaseLevel {
     private numItems: number =5;
     private websitePath!: WebsitePath;
     private height: number=0;
+    private krisWebsite!: KrisWebsite;
 constructor() {
 
     super();
@@ -41,11 +44,15 @@ constructor() {
         LoadHandler.startLoading()
        LoadHandler.startLoading()
         LoadHandler.startLoading()
+        LoadHandler.startLoading()
         SceneHandler.setScene("1f78eea8-a005-4204").then(() => {
          SceneHandler.addScene(SceneHandler.getSceneIDByName("website1")).then(() => {
                 LoadHandler.stopLoading()
             });
             SceneHandler.addScene(SceneHandler.getSceneIDByName("website2")).then(() => {
+                LoadHandler.stopLoading()
+            });
+            SceneHandler.addScene(SceneHandler.getSceneIDByName("kris")).then(() => {
                 LoadHandler.stopLoading()
             });
             LoadHandler.stopLoading()
@@ -61,7 +68,7 @@ constructor() {
         //leftMargin
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
-        this.setMouseHitObjects(SceneHandler.mouseHitModels);
+
 
 
         GameModel.gameCamera.setLockedView(new Vector3(0, 0, 0), new Vector3(0, 0, 1))
@@ -78,12 +85,31 @@ constructor() {
             if(item){
                 let p = placeHolder.children[i];
                 item.setPositionV(p.getPosition().clone())
-                item.y-=0.02;
+                item.y-=0.2;
                 item.setRotationQ(p.getRotation().clone());
                 (p as SceneObject3D).hide();
             }
 
         }
+        SceneHandler.getSceneObject("root1").addChild(SceneHandler.getSceneObject("krisRoot"))
+
+        this.krisWebsite = new KrisWebsite()
+        this.krisWebsite.reset()
+        this.krisWebsite.show()
+
+        let kris = this.mouseInteractionMap.get("kris") as MouseInteractionWrapper
+
+        kris.onRollOver =()=>{
+            this.krisWebsite.startWave()
+            GameModel.gameRenderer.distortValue =1
+        }
+        kris.onRollOut =()=>{
+            this.krisWebsite.stopWave()
+            GameModel.gameRenderer.distortValue =0
+        }
+
+
+
 
      /*  let char = SceneHandler.getSceneObject("charRoot")
         char.setScaler(0.7)
@@ -155,7 +181,7 @@ this.setScroll()
         if(this.st){
             this.websitePath.update(this.st.progress)
         }
-    
+
         if (window.scrollY==0) {
             window.scroll(0,  this.height-1); // reset the scroll position to the top left of the document.
         }
@@ -163,7 +189,7 @@ this.setScroll()
             window.scroll(0,  1); // reset the scroll position to the top left of the document.
         }
         GameModel.gameCamera.setLockedView(this.websitePath.camLookAt, this.websitePath.camPosition);
-
+        this.krisWebsite.update()
 
     }
 onResize(){

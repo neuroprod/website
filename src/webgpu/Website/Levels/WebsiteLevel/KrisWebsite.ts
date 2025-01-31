@@ -2,12 +2,16 @@ import sceneHandler from "../../../data/SceneHandler.ts";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
 import Timer from "../../../lib/Timer.ts";
 import gsap from "gsap";
-import {lerp} from "@math.gl/core";
-
+import {lerp, Vector3} from "@math.gl/core";
+import GameRenderer from "../../../render/GameRenderer.ts";
+import LevelHandler from "../LevelHandler.ts";
+import ProjectData from "../../../data/ProjectData.ts";
 import GameModel from "../../GameModel.ts";
 import Model from "../../../lib/model/Model.ts";
+import LinkedItem from "./LinkedItem.ts";
+import {createNoise2D} from "../../../lib/SimplexNoise.ts";
 
-export default class Kris {
+export default class KrisWebsite {
     private kris!: SceneObject3D;
     private eyeLeftClosed!: SceneObject3D;
     private eyeRightClosed!: SceneObject3D;
@@ -33,6 +37,10 @@ export default class Kris {
     private leg2!: SceneObject3D;
 
     private legRot=0;
+
+    private krisTarget =new Vector3(-0.35,0,0)
+private friends =["textHolder2","textHolder1","kris","always","starGreen1"]
+    private rootLinked!: LinkedItem;
     constructor() {
 
     }
@@ -40,10 +48,31 @@ export default class Kris {
     reset() {
         this.state = 0;
         this.kris = sceneHandler.getSceneObject("krisRoot")
-        this.kris.setScaler(1.2)
-        this.kris.x = 0.7;
+        this.kris.setScaler(0.5)
+        this.kris.x =this.krisTarget.x;
         this.kris.y = 0
+
         this.kris.z = -0.1
+        this.kris.ry =0.1
+        let noise = createNoise2D()
+        let prevFriend  =new LinkedItem("krisRoot",noise)
+        this.rootLinked = prevFriend;
+        for(let f of this.friends){
+
+          let l =new LinkedItem(f,noise)
+          l.parent= prevFriend
+          prevFriend.child =l
+          l.init();
+          prevFriend =l;
+
+
+        }
+
+
+
+
+
+
         //headTopKris
         this.head = sceneHandler.getSceneObject("headTopKris")
         let childModels:Array<Model> =[]
@@ -66,6 +95,8 @@ export default class Kris {
         this.leg1= sceneHandler.getSceneObject( "krisLeg1");
         this.leg2= sceneHandler.getSceneObject( "krisLeg2");
 
+        this.leg1.ry =0;Math.PI
+        this.leg2.ry =0;Math.PI
     }
 
     update() {
@@ -95,17 +126,18 @@ export default class Kris {
 
     show() {
         let tl = gsap.timeline()
-        this.kris.x = 0.7 + 2;
+        this.kris.x = -2;
+        this.rootLinked.set()
         this.armLerp = 0.5
         this.legLerp = 1
-        tl.to(this.kris, {x: 0.7, duration: 2, ease: "power1.out"}, 1)
+        tl.to(this.kris, {x: this.krisTarget.x, duration: 2, ease: "power1.out"}, 1)
         tl.to(this, {armLerp: 0, duration: 0.3},3)
         tl.to(this, {legLerp: 0, duration: 0.3},3-0.3)
     }
 
     private updateIdle() {
         let delta = Timer.delta;
-
+        this.rootLinked.update()
         this.legRot+=delta*30;
         let legSize =0.035
         this.leg1.y =lerp(0, Math.sin(this.legRot)*legSize+legSize,this.legLerp)
@@ -115,7 +147,7 @@ export default class Kris {
         this.head.y = 0.32 + Math.sin(this.headAngle) * 0.009
 
         this.arm1Angle += delta * 8
-        this.armRight.rz = lerp(Math.PI - 0.5, Math.sin(this.arm1Angle) * 0.5 + Math.PI, this.armLerp)
+        //this.armRight.rz = lerp(Math.PI - 0.5, Math.sin(this.arm1Angle) * 0.5 + Math.PI, this.armLerp)
         this.armLeft.rz = lerp(0.9, Math.sin(this.arm1Angle) * 0.5, this.armLerp)
 
 
