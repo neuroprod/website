@@ -24,7 +24,7 @@ import TransRenderPass from "./TransparentMaterials/TransRenderPass.ts";
 import GradingRenderPass from "./grading/GradingPass.ts";
 import InGameFXPass from "./InGameFX/InGameFXPass.ts";
 import MaskRenderPass from "./InGameFX/MaskRenderPass.ts";
-
+import gsap from "gsap";
 export default class GameRenderer {
     get fxEnabled(): boolean {
         return this._fxEnabled;
@@ -280,5 +280,14 @@ private _distortValue=0;
 
     addToMask(model: Array<Model>) {
         this.maskRenderPass.modelRenderer.setModels(model)
+    }
+    tweenToNonBlack() {
+
+        gsap.to(  this.gradingPass,{blackValue :1})
+
+    }
+    tweenToBlack() {
+        gsap.to(  this.gradingPass,{blackValue :0,duration:0.5})
+
     }
 }

@@ -17,7 +17,7 @@ export default class GradingMaterial extends Material {
         let uniforms =new UniformGroup(this.renderer,"uniforms");
         this.addUniformGroup(uniforms,true);
 
-
+        uniforms.addUniform("blackValue",1);
         uniforms.addTexture("colorTexture", this.renderer.getTexture(Textures.LIGHT), {sampleType:TextureSampleType.UnfilterableFloat})
         this.depthWrite =false;
         this.depthCompare ="always"
@@ -73,7 +73,7 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
      let fall =0.3;
     color =color* smoothstep(0.8, fall * 0.799, dist * (0.6+ fall));
       
-     return vec4(acestonemap(color.xyz),1.0) ;
+     return vec4(acestonemap(color.xyz)*uniforms.blackValue,1.0) ;
 }
 ///////////////////////////////////////////////////////////
         `

@@ -1,3 +1,5 @@
+import GameModel from "../Website/GameModel.ts";
+
 class LoadHandler{
 
     private loadingCount =0;
@@ -9,6 +11,7 @@ class LoadHandler{
     update(){
         if(this.loadingCount==0 && this._isLoading){
             this._isLoading =false;
+            GameModel.gameRenderer.tweenToNonBlack()
             if(this.onComplete)this.onComplete()
             //console.log("loadingDone")
         }

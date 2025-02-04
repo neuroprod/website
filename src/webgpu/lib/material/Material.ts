@@ -35,7 +35,7 @@ export default class Material extends ObjectGPU {
     private depthStencilState!: GPUDepthStencilState;
     private needsDepth: boolean = true;
     private shader!: GPUShaderModule;
-    private defaultUniformGroup!: UniformGroup;
+     defaultUniformGroup!: UniformGroup;
 
 
     constructor(renderer: Renderer, label: string) {

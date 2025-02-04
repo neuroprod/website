@@ -11,11 +11,10 @@ import {StrawberryLevel} from "./StrawberryLevel/StrawberryLevel.ts";
 import AppState from "../../AppState.ts";
 import GameModel from "../GameModel.ts";
 import {DockLevel} from "./DockLevel/DockLevel.ts";
-import Sea from "./DockLevel/Sea.ts";
 import {SeaLevel} from "./SeaLevel/SeaLevel.ts";
 import {HandLevel} from "./HandLevel/HandLevel.ts";
 import {IntroLevel} from "./IntroLevel/IntroLevel.ts";
-
+import gsap from "gsap";
 
 class LevelHandler {
     public levelKeys: Array<string> = [];
@@ -42,16 +41,22 @@ class LevelHandler {
 
     setLevel(key: string) {
 
-        if (this.currentLevel) this.currentLevel.destroy()
-        this.currentLevel = this.levels.get(key) as BaseLevel;
-        if (this.currentLevel) {
-            AppState.setState("currentLevel", key);
-            this.currentLevel.init()
-        } else {
-            console.log("level doesnt exist ->", key)
-        }
-        GameModel.gameRenderer.fxEnabled =false
-        GameModel.coinHandeler.hide()
+        GameModel.gameRenderer.tweenToBlack()
+gsap.delayedCall(0.5,()=>{
+    if (this.currentLevel) this.currentLevel.destroy()
+    this.currentLevel = this.levels.get(key) as BaseLevel;
+    if (this.currentLevel) {
+        AppState.setState("currentLevel", key);
+        this.currentLevel.init()
+    } else {
+        console.log("level doesnt exist ->", key)
+    }
+    GameModel.gameRenderer.fxEnabled = false
+    GameModel.coinHandeler.hide()
+})
+
+
+
     }
 
     destroyCurrentLevel() {

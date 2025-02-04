@@ -361,8 +361,10 @@ export default class TextBalloonHandler {
 
         }
 
-        this.updatePath()
 
+        this.updatePath()
+        this.textModel.material.defaultUniformGroup.update()
+        this.balloonModel.material.defaultUniformGroup.update()
         this.balloonModel.visible =true
         this.textModel.visible =true
         this.arrowModelPoint.visible =true

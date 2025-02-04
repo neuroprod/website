@@ -19,6 +19,7 @@ export default class GradingRenderPass extends RenderPass{
 
     private blit: Blit;
     private gradingMaterial: GradingMaterial;
+    blackValue=1 ;
 
     constructor(renderer:Renderer) {
         super(renderer,"lightRenderPass");
@@ -41,8 +42,9 @@ export default class GradingRenderPass extends RenderPass{
     setBaseTexture(t:Texture){
         this.gradingMaterial.setTexture("colorTexture",t)
     }
-    update(){
 
+    update(){
+        this.gradingMaterial.setUniform("blackValue",this.blackValue)
     }
     draw() {
 
