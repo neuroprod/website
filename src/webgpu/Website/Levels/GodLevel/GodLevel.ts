@@ -27,7 +27,6 @@ private startPos =-10
         LoadHandler.startLoading()
         LoadHandler.startLoading()
         LoadHandler.startLoading()
-        LoadHandler.startLoading()
 
         SceneHandler.setScene("e857a11e-d9f9-4a0c").then(() => {
 
@@ -39,9 +38,7 @@ private startPos =-10
                 LoadHandler.stopLoading()
             });
 
-            SceneHandler.addScene(SceneHandler.getSceneIDByName("landlord")).then(() => {
-                LoadHandler.stopLoading()
-            });
+
 
             SceneHandler.addScene("9f307f29-4140-48d6").then(() => {
                 LoadHandler.stopLoading()
@@ -62,11 +59,7 @@ private startPos =-10
         GameModel.gameRenderer.addModel(this.characterController.cloudParticles.particlesModel)
 
 
-        this.landlord = sceneHandler.getSceneObject("rootLandlord")
-        this.landlord.setScaler(1.2)
-        this.landlord.z =-0.05
-        this.landlord.x =this.startPos-1
-        sceneHandler.getSceneObject("LandlordArmGun").hide()
+
 
 
        this.tree = sceneHandler.getSceneObject("rootTree")
@@ -222,13 +215,11 @@ update(){
     }
 
     private playIntro() {
-        this.characterController.setAngle(-Math.PI)
-        gsap.delayedCall(0.5,()=>{
-            GameModel.conversationHandler.startConversation("mrLoathsome")
-            GameModel.conversationHandler.doneCallBack =()=>{
-                this.characterController.setAngle(0)
-                this.blockInput =false
-            }
-        });
+        GameModel.conversationHandler.startConversation("start")
+        GameModel.conversationHandler.doneCallBack =()=>{
+            this.blockInput =false
+        }
+
+
     }
 }

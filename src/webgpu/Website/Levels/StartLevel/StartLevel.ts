@@ -7,7 +7,7 @@ import {Vector3} from "@math.gl/core";
 import Kris from "./Kris.ts";
 
 import gsap from "gsap";
-import Bezier from "../../../lib/path/Bezier.ts";
+
 import CharacterController from "../../CharacterController.ts";
 import Timer from "../../../lib/Timer.ts";
 import MouseInteractionWrapper from "../../MouseInteractionWrapper.ts";
@@ -113,7 +113,7 @@ export class StartLevel extends BaseLevel {
             gsap.to(pirate, {sx: 0, sy: 0, sz: 0, duration: 0.2})
             gsap.to(graphicsDev, {sx: 0, sy: 0, sz: 0, duration: 0.2})
             this.characterController.gotoAndIdle(new Vector3(3, 0.1, 0), 1, () => {
-                LevelHandler.setLevel("God")
+                LevelHandler.setLevel("Intro")
             })
         }
         mainChar.onRollOver =()=>{

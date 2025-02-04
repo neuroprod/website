@@ -9,8 +9,15 @@
       {"text": "Or else you can go sleep\non the street with the rest\nof the scum."},
       {"char":"charRoot","pos":[-0.2, 0.8, 0],"text": "Yes Sir! I won't disapoint you!"},
       {"char":"rootLandlord","pos":[0.1, 0.7, 0],"text": "Types like you always disappoint me Pirate!"},
-      {"text": "Now, get me those 30 coins you own me!."}
+      {"text": "Now, get me those 30 coins you own me!"},
+      {"char":"charRoot","pos":[-0.2, 0.8, 0],"text": "I'm on my way!"}
     ]
+  },
+  {
+    "name": "start",
+    "data": [
+      {"char":"charRoot","pos":[-0.2, 0.8, 0],"text": "I better get crackin..."}
+ ]
   },
   {
     "name": "tree",
@@ -114,7 +121,7 @@
   {
     "name": "cookie",
     "data": [
-      {"char":"cookieRoot","pos":[0.3, 1.0, 0],"text": "Fuck off man!"},
+      {"char":"cookieRoot","pos":[0.3, 1.0, 0],"text": "Fuck off man, get lost!"},
       {"char":"charRoot","pos":[0.01, 0.8, 0],"text": "Why are you always so angry?"},
       {"char":"cookieRoot","pos":[0.3, 1.0, 0],"text": "I don't know?\nMy mom told me\nI was a happy baby."},
       {"text": "But then I had to go to\nschool and stuff."},
@@ -148,7 +155,7 @@
       {"char":"rootHand","pos":[-0.2, 0.8, 0],"text": "Yea, everyone seems broke these days."},
       {"text": "Maybe you can help me get my fingers back? You being a pirate and such."},
       {"text": "Some of my clients really miss them"},
-      {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "You know Candy, I'm actualy not a real pirate."},
+      {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "You know Candy, I'm actually not a real pirate."},
       {"text": "Sure, I download a movie every know and then."},
       {"text": "But mostly, It's just me trying to pretend I'm free."},
       {"char":"rootHand","pos":[0.01, 0.8, 0],"text": "ow...  "},

@@ -14,6 +14,7 @@ import {DockLevel} from "./DockLevel/DockLevel.ts";
 import Sea from "./DockLevel/Sea.ts";
 import {SeaLevel} from "./SeaLevel/SeaLevel.ts";
 import {HandLevel} from "./HandLevel/HandLevel.ts";
+import {IntroLevel} from "./IntroLevel/IntroLevel.ts";
 
 
 class LevelHandler {
@@ -26,11 +27,13 @@ class LevelHandler {
     init() {
 
         this.addLevel("Start", new StartLevel())
+        this.addLevel("Website", new WebsiteLevel())
+        this.addLevel("Intro", new IntroLevel())
         this.addLevel("God", new GodLevel())
         this.addLevel("GodChoice", new GodChoiceLevel())
         this.addLevel("Cookie", new CookieLevel())
         this.addLevel("CookieGame", new CookieGame())
-        this.addLevel("Website", new WebsiteLevel())
+
         this.addLevel("StrawBerry", new StrawberryLevel())
         this.addLevel("Hand", new HandLevel())
         this.addLevel("Dock", new DockLevel())

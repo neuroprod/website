@@ -29,6 +29,7 @@ import SceneHandler from "./data/SceneHandler.ts";
 import LoadHandler from "./data/LoadHandler.ts";
 import TextBalloonHandler from "./Website/conversation/TextBalloonHandler.ts";
 import LevelHandler from "./Website/Levels/LevelHandler.ts";
+import Timer from "./lib/Timer.ts";
 
 
 enum MainState {
@@ -145,8 +146,11 @@ export default class Main {
         } else {
             this.setMainState(MainState.game)
         }
+        console.log("startTick")
+      //  gsap.ticker.remove(gsap.updateRoot);
 
         this.tick();
+
     }
 
     private setMainState(state: MainState) {
@@ -176,7 +180,10 @@ export default class Main {
 
     private tick() {
         window.requestAnimationFrame(() => this.tick());
+
+
         this.update();
+
         UI.updateGPU();
 
         this.gameRenderer.update();

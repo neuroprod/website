@@ -8,10 +8,19 @@ import {HitTrigger} from "../../data/HitTriggers.ts";
 import GameModel from "../GameModel.ts";
 
 export class PlatformLevel extends BaseLevel{
+    get blockInput(): boolean {
+        return this._blockInput;
+    }
+
+    set blockInput(value: boolean) {
+        GameModel.keyInput.clear()
+        GameModel.gamepadInput.clear()
+        this._blockInput = value;
+    }
     public characterController!: CharacterController;
     private coinHandler!: CoinGrabber;
 
-    blockInput =false
+    private _blockInput =false
 
     init() {
         super.init();
@@ -23,7 +32,7 @@ export class PlatformLevel extends BaseLevel{
 
         this.coinHandler =new CoinGrabber()
        GameModel.conversationHandler.dataCallBack =this.conversationDataCallBack.bind(this)
-        this.blockInput =false;
+        this._blockInput =false;
        GameModel.gameRenderer.setLevelType("platform")
     }
     update(){
@@ -39,7 +48,7 @@ export class PlatformLevel extends BaseLevel{
             if (!jump) jump = GameModel.gamepadInput.getJump()
         }
 
-        if( !this.blockInput){
+        if( !this._blockInput){
             this.characterController.update( delta, hInput, jump)
         }else{
             this.characterController.updateIdle(delta)

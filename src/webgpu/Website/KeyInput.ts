@@ -95,4 +95,9 @@ export default class KeyInput{
     }
 
 
+    clear() {
+        this.space =false;
+        this.leftDown =false;
+        this.rightDown =false;
+    }
 }

@@ -55,4 +55,9 @@ export default class GamePadInput{
     getJump() {
         return  this.jump;
     }
+
+    clear() {
+        this.hDir =0
+        this.jump =false;
+    }
 }
