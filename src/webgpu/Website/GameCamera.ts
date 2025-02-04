@@ -39,7 +39,7 @@ public camDistance =2.5
         this.renderer =renderer;
         this.camera = camera;
         this.charRoot = SceneHandler.root
-        this.camera.near =0.1
+        this.camera.near =1
     }
 
 

@@ -1,4 +1,3 @@
-
 import {PlatformLevel} from "../PlatformLevel.ts";
 import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
@@ -11,24 +10,26 @@ import GameModel from "../../GameModel.ts";
 import Timer from "../../../lib/Timer.ts";
 import {Vector3} from "@math.gl/core";
 import SeaFull from "./SeaFull.ts";
+import God from "../GodLevel/God.ts";
+import levelHandler from "../LevelHandler.ts";
 
 
 
-export class SeaLevel extends PlatformLevel{
+export class SeaLevel extends PlatformLevel {
     private tl!: gsap.core.Timeline;
 
     private rootShip!: SceneObject3D;
     private sea!: SeaFull;
     private foam!: SceneObject3D;
 
-
-
-
-
-
+private camLookAt!:Vector3 ;
+    private camPosition!:Vector3;
+    private god!: SceneObject3D;
+    private godController!: God;
     init() {
         super.init();
-        LoadHandler.onComplete =this.configScene.bind(this)
+        LoadHandler.onComplete = this.configScene.bind(this)
+        LoadHandler.startLoading()
         LoadHandler.startLoading()
         LoadHandler.startLoading()
         LoadHandler.startLoading()
@@ -56,20 +57,25 @@ export class SeaLevel extends PlatformLevel{
                 LoadHandler.stopLoading()
             });
 
+            SceneHandler.addScene("0c10748d-698e-4393").then(() => {
+                LoadHandler.stopLoading()
+            });
 
             LoadHandler.stopLoading()
         })
 
     }
+
     configScene() {
         super.configScene()
-        LoadHandler.onComplete =()=>{}
-        this.blockInput =false
+        LoadHandler.onComplete = () => {
+        }
+        this.blockInput = false
 
 
         this.rootShip = sceneHandler.getSceneObject("rootShip")
-        this.rootShip.x =-7
-        this.rootShip.z =-0.7
+        this.rootShip.x = -7
+        this.rootShip.z = -0.7
 
         let char = sceneHandler.getSceneObject("charRoot")
         char.x = -1.6;
@@ -81,68 +87,91 @@ export class SeaLevel extends PlatformLevel{
 
         let tree = sceneHandler.getSceneObject("rootTree")
         tree.setScaler(1.5)
-        tree.z =0
-        tree.x =1.5
-        tree.y =0.3
+        tree.z = 0
+        tree.x = 1.5
+        tree.y = 0.3
         tree.ry = Math.PI;
         tree.rz = 0.02;
-        this.rootShip.addChild( tree)
+        this.rootShip.addChild(tree)
 
 
         let cookie = sceneHandler.getSceneObject("cookieRoot")
         cookie.setScaler(1.3)
-        cookie.z =0
-        cookie.x =0
-        cookie.y =0.3
-        cookie.ry =Math.PI;
-        this.rootShip.addChild( cookie)
+        cookie.z = 0
+        cookie.x = 0
+        cookie.y = 0.3
+        cookie.ry = Math.PI;
+        this.rootShip.addChild(cookie)
 
 
         let strawberyy = sceneHandler.getSceneObject("strawberryRoot")
         strawberyy.setScaler(1.2)
-        strawberyy.z =0.1
-        strawberyy.x =0.7
-        strawberyy.y =0.7
-        strawberyy.ry =Math.PI;
-        this.rootShip.addChild( strawberyy)
+        strawberyy.z = 0.1
+        strawberyy.x = 0.7
+        strawberyy.y = 0.7
+        strawberyy.ry = Math.PI;
+        this.rootShip.addChild(strawberyy)
 
-this.foam = sceneHandler.getSceneObject("foamHolder")
-        for (let s of this.foam.children){
-            s.rz=Math.random()*6
+
+
+        this.god = sceneHandler.getSceneObject("godRoot")
+
+
+
+        this.god.ry =0
+        this.god.y =0
+        this.god.x =0.9
+        this.god.z =-0.7
+
+        this.godController =new God()
+        this.godController.initEnd(this.god)
+
+
+
+
+
+        this.foam = sceneHandler.getSceneObject("foamHolder")
+        for (let s of this.foam.children) {
+            s.rz = Math.random() * 6
         }
 
-      //this.characterController.setCharacter()
+        //this.characterController.setCharacter()
         GameModel.gameCamera.setCharacter()
-        GameModel.gameCamera.setLockedView(new Vector3(0,1,0),new Vector3(0,1,4))
+        this.camLookAt =new Vector3(0, 1, 0);
+        this.camPosition =new Vector3(0, 1, 4);
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
-       // GameModel.gameRenderer.addModel(this.characterController.cloudParticles.particlesModel)
+        // GameModel.gameRenderer.addModel(this.characterController.cloudParticles.particlesModel)
 
-      this.sea =new SeaFull(GameModel.renderer)
-       GameModel.gameRenderer.addModel(this.sea.seaModel)
+        this.sea = new SeaFull(GameModel.renderer)
+        GameModel.gameRenderer.addModel(this.sea.seaModel)
 
-        GameModel.gameCamera.camDistance =8;
-        GameModel.gameCamera.heightOffset =0.5
+        GameModel.gameCamera.camDistance = 8;
+        GameModel.gameCamera.heightOffset = 0.5
+        this.blockInput =true
+
+        this.tl = gsap.timeline()
+        this.tl.to(this.rootShip, {x: 0, duration: 10},0)
+        this.tl.to(this.camPosition, {x: 2.4,y:1,z:1.5,ease:"power2.inOut", duration: 5},9)
+        this.tl.to(this.camLookAt, {x: 2.4,y:1,z:0, ease:"power2.inOut",duration: 5},9)
+        this.tl.call(()=>{
+            this.godController.showEnd(()=>{
+                GameModel.conversationHandler.startConversation("godEnd")
+                GameModel.conversationHandler.doneCallBack =()=>{
+levelHandler.setLevel("Start")
+                }
 
 
-
-this.tl =gsap.timeline()
-this.tl.to( this.rootShip,{x:0,duration:15})
-
-
-
-
-
-
-
+            })
+        },[],15)
     }
-    conversationDataCallBack(data:string){
+
+    conversationDataCallBack(data: string) {
         super.conversationDataCallBack(data);
 
     }
+
     resolveHitTrigger(f: SceneObject3D) {
-        if(!super.resolveHitTrigger(f)){
-
-
+        if (!super.resolveHitTrigger(f)) {
 
 
         }
@@ -152,21 +181,22 @@ this.tl.to( this.rootShip,{x:0,duration:15})
 
     update() {
         super.update();
-       this.sea.update()
-        this.rootShip.y =Math.sin(Timer.time*2.4)*0.03
-        this.rootShip.rz =Math.sin(Timer.time*1)*0.02 +Math.PI+0.05
+        this.sea.update()
+        this.rootShip.y = Math.sin(Timer.time * 2.4) * 0.03
+        this.rootShip.rz = Math.sin(Timer.time * 1) * 0.02 + Math.PI + 0.05
 
-        this.foam.y =-this.rootShip.y*1.5
+        this.foam.y = -this.rootShip.y * 1.5
 
-       for (let s of this.foam.children){
-           s.rz-=Timer.delta*2
-       }
-
+        for (let s of this.foam.children) {
+            s.rz -= Timer.delta * 2
+        }
+        this.godController.update()
+        GameModel.gameCamera.setLockedView(this.camLookAt, this.camPosition)
     }
 
-    destroy(){
+    destroy() {
         super.destroy()
-        if(this.tl) this.tl.clear()
+        if (this.tl) this.tl.clear()
 
     }
 }

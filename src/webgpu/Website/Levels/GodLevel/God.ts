@@ -35,7 +35,22 @@ private arms:Array<Arm>=[]
 private cloudFloat =0
     private floating: boolean=false;
     private godHair!: SceneObject3D;
+    private cloudTarget =5.3;
     constructor() {
+
+    }
+    initEnd(god: SceneObject3D) {
+        this.god =god;
+        this.god.y =0.7+4
+        this.god.z =-0.7
+        this.god.setScaler(1.3)
+        this.god.ry=-0.2
+        this.endX = god.x;
+
+        god.x+=2;
+        this.initArms()
+        this.floating =false
+        this.godHair = sceneHandler.getSceneObject("godHair")
 
     }
     init(god: SceneObject3D) {
@@ -50,7 +65,7 @@ private cloudFloat =0
         this.godHair = sceneHandler.getSceneObject("godHair")
     }
     initGame(){
-        sceneHandler.getSceneObject("godLightning").hide()
+
         sceneHandler.getSceneObject("godNDA").hide()
         sceneHandler.getSceneObject("godCloud").hide()
         sceneHandler.getSceneObject("godPresent").hide()
@@ -69,8 +84,17 @@ private cloudFloat =0
     }
     public show(onComplete:()=>void){
         this.tl =gsap.timeline()
-
+        this.cloudTarget =5.3
         this.tl.to(this.god,{rz:0,y:5.3,z:-0.2,x:this.endX,duration:2,ease:"power3.out"})
+
+        this.tl.call(()=>{  this.cloudFloat =0;this.floating =true})
+        this.tl.call(onComplete)
+    }
+    public showEnd(onComplete:()=>void){
+        this.tl =gsap.timeline()
+        this.god.y =2.5
+        this.cloudTarget =0.7
+        this.tl.to(this.god,{y:this.cloudTarget,duration:3,ease:"elastic.out(0.8,0.9)"})
 
         this.tl.call(()=>{  this.cloudFloat =0;this.floating =true})
         this.tl.call(onComplete)
@@ -79,7 +103,7 @@ private cloudFloat =0
     let delta =Timer.delta;
         if( this.god &&  this.floating){
             this.cloudFloat -=delta*0.7
-            this.god.y = 5.3+Math.sin(this.cloudFloat)*0.05
+            this.god.y = this.cloudTarget+Math.sin(this.cloudFloat)*0.05
 
             this.godHair.y = this.godHair.posEditor.y  +Math.sin(-this.cloudFloat+0.5)*0.010
         }
