@@ -11,7 +11,7 @@ export default class Camera extends UniformGroup {
     public cameraUp: Vector3 = new Vector3(0, 1, 0);
     public fovy = 0.7
     public near = 2;
-    public far = 50;
+    public far = 20;
     public ratio = 1;
     public lensShift = new Vector2(0, 0)
     public viewProjectionInv = new Matrix4();

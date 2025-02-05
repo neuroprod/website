@@ -33,8 +33,9 @@ export default class CoinHandler{
     }
     update(){
         this.textModel.y =100
-        if(this.numCoins!=this.displayCoins){
 
+        if(this.numCoins!=this.displayCoins){
+            this.textModel.visible =true
             this.displayTime-=Timer.delta;
             if(this.displayTime<0){
 

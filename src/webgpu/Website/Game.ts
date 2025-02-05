@@ -80,7 +80,7 @@ export default class Game {
         this.gameCamera.update()
         GameModel.coinHandeler.update()
         this.textBalloonHandler.update()
-this.overlay.update()
+        this.overlay.update()
         DebugDraw.update();
 
     }
@@ -105,7 +105,7 @@ this.overlay.update()
 
     drawInCanvas(pass: CanvasRenderPass) {
         if (LoadHandler.isLoading()) return
-        this.gameRenderer.drawFinal(pass);
+      this.gameRenderer.drawFinal(pass);
 
 
       //  DebugDraw.draw(pass);

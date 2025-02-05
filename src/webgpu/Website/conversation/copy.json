@@ -153,16 +153,19 @@
       {"char":"rootHand","pos":[-0.2, 0.8, 0],"text": "Hi pirate, want to have some fun?"},
       {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "I'm broke Candy. Maybe some other time..."},
       {"char":"rootHand","pos":[-0.2, 0.8, 0],"text": "Yea, everyone seems broke these days."},
-      {"text": "Maybe you can help me get my fingers back? You being a pirate and such."},
+      {"text": "Maybe you can help me get my fingers back?\nYou being a pirate and such."},
       {"text": "Some of my clients really miss them"},
       {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "You know Candy, I'm actually not a real pirate."},
       {"text": "Sure, I download a movie every know and then."},
       {"text": "But mostly, It's just me trying to pretend I'm free."},
+      {"text": "I don't even own a sword, or a ship..."},
       {"char":"rootHand","pos":[0.01, 0.8, 0],"text": "ow...  "},
       {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "...   "},
-      {"text": "What happend with your fingers?"},
-      {"char":"rootHand","pos":[0.01, 0.8, 0],"text": "Mr Loathsome took them.\nHe says I dont bring in enough money"},
-      {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "ok, i'll see what I can do"}
+      {"char":"rootHand","pos":[0.01, 0.8, 0],"text": "The gnomes down the road sell swords. Maybe they can help?"},
+      {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "Ow Candy, I'll see what I can do."},
+      {"text": "What happend with your fingers anyway?"},
+      {"char":"rootHand","pos":[0.01, 0.8, 0],"text": "Mr Loathsome took them.\nHe says I don't bring in enough money."},
+      {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "... I'm gonna look out for those gnomes Candy!"}
     ]
   }
 

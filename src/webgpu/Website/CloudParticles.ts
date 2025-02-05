@@ -1,4 +1,4 @@
-import Renderer from "../lib/Renderer.ts";
+ import Renderer from "../lib/Renderer.ts";
 import Model from "../lib/model/Model.ts";
 
 
@@ -60,13 +60,13 @@ class CloudParticle{
     walk(position: Vector3, vel: number) {
         this.canDelete =false;
         this.position.copy(position as NumericArray)
-        this.position.y+=0.1
+        this.position.y+=0.0
         this.position.z+=0
-
+        this.position.x+=Math.random()*0.2 *Math.sign(vel)
         this.positionTarget.copy(position as NumericArray)
         this.positionTarget.y+=Math.random()*0.1+0.1
         this.scale =Math.random()+1;
-        let duration =0.8;
+        let duration =0.5;
         gsap.to( this.position,{x:this.positionTarget.x,y:this.positionTarget.y,z:this.positionTarget.z,ease:"power3.out",duration:duration} )
 
         gsap.to(this,{scale:0,duration:duration,onComplete:()=>{this.canDelete =true}} )
@@ -127,8 +127,8 @@ init(){
     addParticleWalk(position:Vector3,vel:number){
 
         if(this.walkRelease>0) return;
-        if(Math.abs(vel)<1) return;
-        this.walkRelease =0.1+Math.random()*0.1;
+        if(Math.abs(vel)<2) return;
+        this.walkRelease =0.1+Math.random()*0.2;
                 let p = this.getParticle()
                 p.walk(position,vel)
                 this.particles.push(p)
