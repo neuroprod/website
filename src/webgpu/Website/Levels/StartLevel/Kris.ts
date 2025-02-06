@@ -44,6 +44,7 @@ export default class Kris {
         this.kris.x = 0.7;
         this.kris.y = 0
         this.kris.z = -0.1
+        this.kris.ry = -0.1
         //headTopKris
         this.head = sceneHandler.getSceneObject("headTopKris")
         let childModels:Array<Model> =[]
@@ -65,7 +66,8 @@ export default class Kris {
 
         this.leg1= sceneHandler.getSceneObject( "krisLeg1");
         this.leg2= sceneHandler.getSceneObject( "krisLeg2");
-
+        this.leg1.ry =Math.PI
+        this.leg2.ry =Math.PI
     }
 
     update() {

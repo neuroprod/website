@@ -11,6 +11,7 @@ export enum HitTrigger
         TREE,
         DOCK,
         HAND,
+       GNOME,
     }
 
 export  const HitTriggerSelectItems:Array<SelectItem> =[]

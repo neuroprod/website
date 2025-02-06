@@ -98,7 +98,7 @@ this.hand =   sceneHandler.getSceneObject("rootHand")
                      GameModel.conversationHandler.startConversation("hand")
 
                         GameModel.conversationHandler.doneCallBack =()=>{
-LevelHandler.setLevel("Dock");
+LevelHandler.setLevel("Gnome");
                         }});
 
                 });

@@ -15,6 +15,7 @@ import {SeaLevel} from "./SeaLevel/SeaLevel.ts";
 import {HandLevel} from "./HandLevel/HandLevel.ts";
 import {IntroLevel} from "./IntroLevel/IntroLevel.ts";
 import gsap from "gsap";
+import {GnomeLevel} from "./GnomeLevel/GnomeLevel.ts";
 
 class LevelHandler {
     public levelKeys: Array<string> = [];
@@ -35,6 +36,7 @@ class LevelHandler {
 
         this.addLevel("StrawBerry", new StrawberryLevel())
         this.addLevel("Hand", new HandLevel())
+        this.addLevel("Gnome", new GnomeLevel())
         this.addLevel("Dock", new DockLevel())
         this.addLevel("Sea", new SeaLevel())
     }
