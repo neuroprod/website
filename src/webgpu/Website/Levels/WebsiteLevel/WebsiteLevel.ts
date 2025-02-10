@@ -45,6 +45,7 @@ constructor() {
        LoadHandler.startLoading()
         LoadHandler.startLoading()
         LoadHandler.startLoading()
+        LoadHandler.startLoading()
         SceneHandler.setScene("1f78eea8-a005-4204").then(() => {
          SceneHandler.addScene(SceneHandler.getSceneIDByName("website1")).then(() => {
                 LoadHandler.stopLoading()
@@ -53,6 +54,9 @@ constructor() {
                 LoadHandler.stopLoading()
             });
             SceneHandler.addScene(SceneHandler.getSceneIDByName("kris")).then(() => {
+                LoadHandler.stopLoading()
+            });
+            SceneHandler.addScene(SceneHandler.getSceneIDByName("website3")).then(() => {
                 LoadHandler.stopLoading()
             });
             LoadHandler.stopLoading()
@@ -79,7 +83,7 @@ constructor() {
         this.numItems = placeHolder.children.length
         this.websitePath = new WebsitePath(this.numItems,placeHolder.children)
 
-        let websiteItems= ["root1","root2"]
+        let websiteItems= ["root1","root2","root3"]
         for(let i=0;i<websiteItems.length;i++){
             let item = SceneHandler.getSceneObject(websiteItems[i])
             if(item){
@@ -218,12 +222,12 @@ onResize(){
             trigger: "body",
             start: "0",
             end:heightSnap,
-            snap: {
+           /* snap: {
                 snapTo: snaps, // snap to the closest label in the timeline
                 duration: { min: 0.1, max: 2 }, // the snap animation should be at least 0.2 seconds, but no more than 3 seconds (determined by velocity)
                 delay: 0.2, // wait 0.2 seconds from the last scroll event before doing the snapping
                 ease: 'power2.inOut' // the ease of the snap animation ("power3" by default)
-            },
+            },*/
 
            //onUpdate: () => {this.st.progress}
 
