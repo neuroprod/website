@@ -62,7 +62,7 @@ export default class GameRenderer {
     private passSelect: Array<SelectItem> = []
     private lightPass: LightRenderPass;
     private sunLight: DirectionalLight;
-    private shadowMapPass: ShadowMapRenderPass;
+    shadowMapPass: ShadowMapRenderPass;
     //preProcessDepth: PreProcessDepth;
     // private gtoaPass: GTAORenderPass;
     private shadowBlurPass: ShadowBlurRenderPass;

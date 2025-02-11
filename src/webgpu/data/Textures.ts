@@ -23,5 +23,6 @@ export const Textures = {
     DRAWING_BACKGROUND: "drawBackground.png",
     GRADING: "grading",
     INGAMEFX: "ingameFX",
-    MASK: "mask"
+    MASK: "mask",
+    TEXT_INVASION: "TextInvasion.png"
 }

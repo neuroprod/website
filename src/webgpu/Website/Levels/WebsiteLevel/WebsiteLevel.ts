@@ -20,6 +20,7 @@ import {ScrollTrigger} from "gsap/ScrollTrigger";
 import WebsitePath from "./WebsitePath.ts";
 import KrisWebsite from "./KrisWebsite.ts";
 import SoundHandler from "../../SoundHandler.ts";
+import PixelGame from "./PixelGame.ts";
 
 export class WebsiteLevel extends BaseLevel {
 
@@ -31,18 +32,20 @@ export class WebsiteLevel extends BaseLevel {
     private websitePath!: WebsitePath;
     private height: number=0;
     private krisWebsite!: KrisWebsite;
+    private pixelGame: PixelGame;
 constructor() {
 
     super();
     gsap.registerPlugin(ScrollTrigger)
     this.video1 =new VideoPlayer(GameModel.renderer,"video/test.mp4",new Vector2(1920,1080))
-
+    this.pixelGame = new PixelGame(GameModel.renderer)
 }
     init() {
         super.init();
         LoadHandler.onComplete = this.configScene.bind(this)
         LoadHandler.startLoading()
        LoadHandler.startLoading()
+        LoadHandler.startLoading()
         LoadHandler.startLoading()
         LoadHandler.startLoading()
         LoadHandler.startLoading()
@@ -59,6 +62,9 @@ constructor() {
             SceneHandler.addScene(SceneHandler.getSceneIDByName("website3")).then(() => {
                 LoadHandler.stopLoading()
             });
+            SceneHandler.addScene(SceneHandler.getSceneIDByName("lab101")).then(() => {
+                LoadHandler.stopLoading()
+            });
             LoadHandler.stopLoading()
         })
 
@@ -72,8 +78,9 @@ constructor() {
         //leftMargin
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
-
-
+        GameModel.gameRenderer.addModel(this.pixelGame.pixelModel)
+        GameModel.gameRenderer.shadowMapPass.modelRenderer.addModel(this.pixelGame.pixelModel)
+       // GameModel.gameRenderer.addModel(this.video1)
 
         GameModel.gameCamera.setLockedView(new Vector3(0, 0, 0), new Vector3(0, 0, 1))
 
@@ -83,7 +90,7 @@ constructor() {
         this.numItems = placeHolder.children.length
         this.websitePath = new WebsitePath(this.numItems,placeHolder.children)
 
-        let websiteItems= ["root1","root2","root3"]
+        let websiteItems= ["root1","root2","root3","root4"]
         for(let i=0;i<websiteItems.length;i++){
             let item = SceneHandler.getSceneObject(websiteItems[i])
             if(item){
@@ -96,7 +103,7 @@ constructor() {
 
         }
         SceneHandler.getSceneObject("root1").addChild(SceneHandler.getSceneObject("krisRoot"))
-
+        SceneHandler.getSceneObject("root4").addChild(this.pixelGame.pixelModel)
         this.krisWebsite = new KrisWebsite()
         this.krisWebsite.reset()
         this.krisWebsite.show()
@@ -216,13 +223,13 @@ onResize(){
     for(let i=1;i<=numSnaps;i++){
         snaps.push(1/(numSnaps) *i)
     }
-    console.log(snaps,scrollPos)
+
 
     this.st =ScrollTrigger.create({
             trigger: "body",
             start: "0",
             end:heightSnap,
-           /* snap: {
+          /* snap: {
                 snapTo: snaps, // snap to the closest label in the timeline
                 duration: { min: 0.1, max: 2 }, // the snap animation should be at least 0.2 seconds, but no more than 3 seconds (determined by velocity)
                 delay: 0.2, // wait 0.2 seconds from the last scroll event before doing the snapping
