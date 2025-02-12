@@ -21,6 +21,7 @@ import WebsitePath from "./WebsitePath.ts";
 import KrisWebsite from "./KrisWebsite.ts";
 import SoundHandler from "../../SoundHandler.ts";
 import PixelGame from "./PixelGame.ts";
+import MeatHandler from "./MeatHandler.ts";
 
 export class WebsiteLevel extends BaseLevel {
 
@@ -32,19 +33,23 @@ export class WebsiteLevel extends BaseLevel {
     private websitePath!: WebsitePath;
     private height: number=0;
     private krisWebsite!: KrisWebsite;
-    private pixelGame: PixelGame;
+    private pixelGame!: PixelGame;
+    private meatHandler: MeatHandler;
 constructor() {
 
     super();
     gsap.registerPlugin(ScrollTrigger)
-    this.video1 =new VideoPlayer(GameModel.renderer,"video/test.mp4",new Vector2(1920,1080))
-    this.pixelGame = new PixelGame(GameModel.renderer)
+    this.video1 =new VideoPlayer(GameModel.renderer,"video/foodfish.mp4",new Vector2(1920,1080))
+    this.meatHandler = new MeatHandler()
 }
     init() {
         super.init();
         LoadHandler.onComplete = this.configScene.bind(this)
         LoadHandler.startLoading()
        LoadHandler.startLoading()
+        LoadHandler.startLoading()
+        LoadHandler.startLoading()
+        LoadHandler.startLoading()
         LoadHandler.startLoading()
         LoadHandler.startLoading()
         LoadHandler.startLoading()
@@ -62,7 +67,16 @@ constructor() {
             SceneHandler.addScene(SceneHandler.getSceneIDByName("website3")).then(() => {
                 LoadHandler.stopLoading()
             });
+            SceneHandler.addScene(SceneHandler.getSceneIDByName("arduinoGame")).then(() => {
+                LoadHandler.stopLoading()
+            });
             SceneHandler.addScene(SceneHandler.getSceneIDByName("lab101")).then(() => {
+                LoadHandler.stopLoading()
+            });
+            SceneHandler.addScene(SceneHandler.getSceneIDByName("youtube")).then(() => {
+                LoadHandler.stopLoading()
+            });
+            SceneHandler.addScene(SceneHandler.getSceneIDByName("rinusCorneel")).then(() => {
                 LoadHandler.stopLoading()
             });
             LoadHandler.stopLoading()
@@ -71,7 +85,7 @@ constructor() {
     }
 
     configScene() {
-
+        this.pixelGame = new PixelGame(GameModel.renderer)
         LoadHandler.onComplete = () => {
         }
 
@@ -90,7 +104,7 @@ constructor() {
         this.numItems = placeHolder.children.length
         this.websitePath = new WebsitePath(this.numItems,placeHolder.children)
 
-        let websiteItems= ["root1","root2","root3","root4"]
+        let websiteItems= ["root1","root2","root3","root4","root5",'root6','root7']
         for(let i=0;i<websiteItems.length;i++){
             let item = SceneHandler.getSceneObject(websiteItems[i])
             if(item){
@@ -122,42 +136,28 @@ constructor() {
 
 
 
-     /*  let char = SceneHandler.getSceneObject("charRoot")
-        char.setScaler(0.7)
-        char.x =0.5
-        char.z =0.0
-        char.ry =Math.PI
-        char.y =-1.6;
-        let fv =SceneHandler.getSceneObject("foodVideo")
+
+       let fv =SceneHandler.getSceneObject("videoHolder")
 
 
         let m = new Model(GameModel.renderer,"video1")
         m.material =new GBufferMaterial(GameModel.renderer,"video1")
         m.material.setTexture('colorTexture',this.video1.getTexture())
         m.mesh =new Plane(GameModel.renderer,1920/1000,1080/1000)
-            m.setScaler(0.3)
-        m.z = 0.03
+            m.setScaler(0.20)
+        m.z = 0.017
+        m.x = -0.01
+        m.y = 0.005
         m.rx =Math.PI/2
 
         fv.addChild(m)
-        GameModel.gameRenderer.addModel(m)*/
-this.setScroll()
+        GameModel.gameRenderer.addModel(m)
 
-       /* let webSiteRoot = SceneHandler.getSceneObject("rootWebsite")
-        this.websiteShow.setObjects(webSiteRoot.children)
+        this.meatHandler.init(SceneHandler.getSceneObject("meat1"),SceneHandler.getSceneObject("meat2"),SceneHandler.getSceneObject("editBtn"), this.mouseInteractionMap.get("edit") as MouseInteractionWrapper)
 
-        this.websiteShow.show()*/
-    /*    gsap.delayedCall(2, () => {
-            let backButton = this.mouseInteractionMap.get("backButton") as MouseInteractionWrapper
-            backButton.onClick = () => {
-                LevelHandler.setLevel("Start")
-            }
-            backButton.onRollOver = () => {
+        this.setScroll()
 
-                this.bounce("backButton")
-            }
 
-        });*/
 
 
 
@@ -201,6 +201,7 @@ this.setScroll()
         }
         GameModel.gameCamera.setLockedView(this.websitePath.camLookAt, this.websitePath.camPosition);
         this.krisWebsite.update()
+        this.meatHandler.update()
 
     }
 onResize(){

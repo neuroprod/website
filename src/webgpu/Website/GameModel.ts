@@ -9,6 +9,7 @@ import MouseListener from "../lib/MouseListener.ts";
 import SoundHandler from "./SoundHandler.ts";
 import Overlay from "./Overlay.ts";
 import CoinHandler from "./handlers/CoinHandler.ts";
+import {MainState} from "../Main.ts";
 
  class GameModel {
 
@@ -25,6 +26,7 @@ import CoinHandler from "./handlers/CoinHandler.ts";
 
     //godPresent
     presentID=-1;
+    setMainState!: OmitThisParameter<(state: MainState) => void>;
 
 
 

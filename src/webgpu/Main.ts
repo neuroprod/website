@@ -30,9 +30,10 @@ import LoadHandler from "./data/LoadHandler.ts";
 import TextBalloonHandler from "./Website/conversation/TextBalloonHandler.ts";
 import LevelHandler from "./Website/Levels/LevelHandler.ts";
 import Timer from "./lib/Timer.ts";
+import GameModel from "./Website/GameModel.ts";
 
 
-enum MainState {
+export enum MainState {
 
     modelMaker,
     editor,
@@ -147,9 +148,9 @@ export default class Main {
         } else {
             this.setMainState(MainState.game)
         }
-        console.log("startTick")
-      //  gsap.ticker.remove(gsap.updateRoot);
 
+      //  gsap.ticker.remove(gsap.updateRoot);
+GameModel.setMainState = this.setMainState.bind(this)
         this.tick();
 
     }
