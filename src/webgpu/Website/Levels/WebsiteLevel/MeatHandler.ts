@@ -22,11 +22,14 @@ export default class MeatHandler{
         this.meat2 =meat2;
 
         this.copy.push("This website sucks!")
-        this.copy.push("Yes, This website sucks!")
-        this.copy.push("sucks!")
-        this.copy.push("sucks!")
-
-
+        this.copy.push("Yea, where are the particles?")
+        this.copy.push("And the white space?")
+        this.copy.push("And the fancy font?")
+        this.copy.push("You should edit it!")
+        this.copy.push("You can make it better")
+        this.copy.push("much better")
+        this.copy.push("do it")
+        this.copy.push("do it")
         edit.onRollOver =()=>{
             if( this.btnTimeLine)this.btnTimeLine.clear()
             this.btnTimeLine = gsap.timeline()

@@ -41,6 +41,7 @@ export default class TextureLoader extends Texture {
            this.options.mipLevelCount = Math.max(Math.log2(imageBitmap.height) - 2, 0);
 
         }
+        this.options.mipLevelCount =Math.max(this.options.mipLevelCount,1)
 
         //this.options.usage = GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT;
         this.isDirty = true;

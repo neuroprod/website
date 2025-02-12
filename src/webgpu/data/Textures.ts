@@ -24,5 +24,8 @@ export const Textures = {
     GRADING: "grading",
     INGAMEFX: "ingameFX",
     MASK: "mask",
-    TEXT_INVASION: "TextInvasion.png"
+    TEXT_INVASION: "TextInvasion.png",
+    SPACE_SHIP: "SpaceBottom.png",
+    SPACE_ARM: "SpaceArmL.png",
+    SPACE_HEAD: "SpaceHead.png"
 }

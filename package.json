@@ -19,6 +19,7 @@
     "@webgpu/types": "^0.1.40",
     "earcut": "^2.2.4",
     "gsap": "^3.12.5",
-    "howler": "^2.2.4"
+    "howler": "^2.2.4",
+    "physx-js-webidl": "^2.5.0"
   }
 }

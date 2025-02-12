@@ -20,8 +20,12 @@ import {ScrollTrigger} from "gsap/ScrollTrigger";
 import WebsitePath from "./WebsitePath.ts";
 import KrisWebsite from "./KrisWebsite.ts";
 import SoundHandler from "../../SoundHandler.ts";
-import PixelGame from "./PixelGame.ts";
+import PixelObject from "./arduinoGame/PixelObject.ts";
 import MeatHandler from "./MeatHandler.ts";
+import ArduinoGame from "./arduinoGame/ArduinoGame.ts";
+import PhysX from "physx-js-webidl";
+import Timer from "../../../lib/Timer.ts";
+import FoodForFish from "./foodforfish/FoodForFish.ts";
 
 export class WebsiteLevel extends BaseLevel {
 
@@ -33,17 +37,25 @@ export class WebsiteLevel extends BaseLevel {
     private websitePath!: WebsitePath;
     private height: number=0;
     private krisWebsite!: KrisWebsite;
-    private pixelGame!: PixelGame;
+
     private meatHandler: MeatHandler;
+    private arduinoGame: ArduinoGame;
+    private foodForFish: FoodForFish;
+
+
 constructor() {
 
     super();
     gsap.registerPlugin(ScrollTrigger)
     this.video1 =new VideoPlayer(GameModel.renderer,"video/foodfish.mp4",new Vector2(1920,1080))
     this.meatHandler = new MeatHandler()
+    this.arduinoGame =new ArduinoGame()
+this.foodForFish = new FoodForFish()
+
 }
     init() {
         super.init();
+
         LoadHandler.onComplete = this.configScene.bind(this)
         LoadHandler.startLoading()
        LoadHandler.startLoading()
@@ -85,15 +97,16 @@ constructor() {
     }
 
     configScene() {
-        this.pixelGame = new PixelGame(GameModel.renderer)
+
         LoadHandler.onComplete = () => {
         }
 
         //leftMargin
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
-        GameModel.gameRenderer.addModel(this.pixelGame.pixelModel)
-        GameModel.gameRenderer.shadowMapPass.modelRenderer.addModel(this.pixelGame.pixelModel)
+
+
+
        // GameModel.gameRenderer.addModel(this.video1)
 
         GameModel.gameCamera.setLockedView(new Vector3(0, 0, 0), new Vector3(0, 0, 1))
@@ -116,8 +129,7 @@ constructor() {
             }
 
         }
-        SceneHandler.getSceneObject("root1").addChild(SceneHandler.getSceneObject("krisRoot"))
-        SceneHandler.getSceneObject("root4").addChild(this.pixelGame.pixelModel)
+
         this.krisWebsite = new KrisWebsite()
         this.krisWebsite.reset()
         this.krisWebsite.show()
@@ -154,6 +166,10 @@ constructor() {
         GameModel.gameRenderer.addModel(m)
 
         this.meatHandler.init(SceneHandler.getSceneObject("meat1"),SceneHandler.getSceneObject("meat2"),SceneHandler.getSceneObject("editBtn"), this.mouseInteractionMap.get("edit") as MouseInteractionWrapper)
+        this.arduinoGame.init(SceneHandler.getSceneObject("root4"))
+
+        this.foodForFish.init(SceneHandler.getSceneObject("root2"),SceneHandler.getSceneObject("fwaLogo"),SceneHandler.getSceneObject("FishMouth"))
+
 
         this.setScroll()
 
@@ -202,7 +218,8 @@ constructor() {
         GameModel.gameCamera.setLockedView(this.websitePath.camLookAt, this.websitePath.camPosition);
         this.krisWebsite.update()
         this.meatHandler.update()
-
+this.arduinoGame.update()
+        this.foodForFish.update()
     }
 onResize(){
     let numSnaps =this.numItems;
