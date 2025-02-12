@@ -187,7 +187,7 @@ this.mouth =mouth;
         this.logo.y =this.logoIn.y
         this.burpTL = gsap.timeline()
         this.burpTL.to(this.mouth,{rz:1},0)
-        this.burpTL.to(this.logo,{x:this.logoOut.x,y:this.logoOut.y,ease:"power2.inOut",duration:2},0.2)
+        this.burpTL.to(this.logo,{x:this.logoOut.x,y:this.logoOut.y,ease:"power2.inOut",duration:1},0.1)
         this.burpTL.to(this.logo,{x:this.logoHalf.x,y:this.logoHalf.y,ease:"power2.inOut",duration:2})
         this.burpTL.to(this.logo,{x:this.logoOut.x,y:this.logoOut.y,ease:"power2.inOut",duration:2})
         this.burpTL.to(this.logo,{x:this.logoHalf.x,y:this.logoHalf.y,ease:"power2.inOut",duration:2})
