@@ -61,6 +61,10 @@ export default class Game {
        GameModel.conversationHandler = this.conversationHandler;
        GameModel.mouseListener = this.mouseListener;
         GameModel.coinHandeler = new CoinHandler(renderer)
+
+
+
+
         LevelHandler.init()
         SoundHandler.init()
     }

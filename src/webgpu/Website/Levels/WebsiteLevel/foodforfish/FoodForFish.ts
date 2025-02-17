@@ -226,4 +226,8 @@ this.logo.hide()
         this.boxIndex++;
 
     }
+
+    destroy() {
+        if(this.burpTL)this.burpTL.clear()
+    }
 }
