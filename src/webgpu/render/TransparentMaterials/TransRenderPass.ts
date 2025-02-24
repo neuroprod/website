@@ -20,7 +20,7 @@ export default class TransRenderPass extends RenderPass{
 
     constructor(renderer:Renderer,camera:Camera,dirLight:DirectionalLight,modelRenderer: ModelRenderer) {
             super(renderer,"TransRenderPass");
-     this.modelRenderer =modelRenderer;
+        this.modelRenderer =modelRenderer;
         this.colorAttachment = new ColorAttachment(renderer.getTexture(Textures.LIGHT),{ loadOp: LoadOp.Load});
         this.colorAttachments = [this.colorAttachment]
 

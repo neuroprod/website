@@ -12,6 +12,7 @@ export enum HitTrigger
         DOCK,
         HAND,
        GNOME,
+        GIRL,
     }
 
 export  const HitTriggerSelectItems:Array<SelectItem> =[]

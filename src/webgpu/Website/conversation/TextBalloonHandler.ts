@@ -217,6 +217,9 @@ export default class TextBalloonHandler {
             this.holder.y = w.y * 100;
 
             this.textModel.material.setUniform("charPos", this.charPos)
+            this.balloonModel.visible =true
+            this.textModel.visible =true
+            this.arrowModelPoint.visible =true
 
         }
 
@@ -234,7 +237,7 @@ export default class TextBalloonHandler {
         if (this.newBalloon) {
             this.makeArrowPoint()
         }
-        this.showText = true;
+
 
         this.charPos = -4
         this.textMesh.setText(text, ProjectData.font, 0.15)
@@ -363,13 +366,12 @@ export default class TextBalloonHandler {
 
 
         this.updatePath()
-        this.textModel.material.defaultUniformGroup.update()
-        this.balloonModel.material.defaultUniformGroup.update()
-        this.balloonModel.visible =true
-        this.textModel.visible =true
-        this.arrowModelPoint.visible =true
-        this.newBalloon = false
 
+        this.balloonModel.visible =false
+        this.textModel.visible =true
+        this.arrowModelPoint.visible =false
+        this.newBalloon = false
+        this.showText = true;
 
     }
 
@@ -393,9 +395,9 @@ export default class TextBalloonHandler {
         for(let d of this.dots){
             d.visible =false
         }
-        this.holder.y =-100
+        this.holder.y =-1000
         this.textModel.material.setUniform("charPos", this.charPos)
-
+this.showText =false;
     }
 
     private makeArrowPoint() {

@@ -3,6 +3,7 @@ import {ShaderType} from "../material/ShaderTypes.ts";
 import UniformGroup from "../material/UniformGroup.ts";
 import DefaultTextures from "../textures/DefaultTextures.ts";
 import {CompareFunction, FilterMode} from "../WebGPUConstants.ts";
+import Blend from "../material/Blend.ts";
 
 export default class BaseBlitMaterial extends Material
 {
@@ -19,7 +20,7 @@ export default class BaseBlitMaterial extends Material
 
         this.depthWrite = false
         this.depthCompare = CompareFunction.Always
-
+this.blendModes=[Blend.preMultAlpha()]
     }
     getShader(): string {
         return /* wgsl */ `
@@ -42,7 +43,10 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 @fragment
 fn mainFragment(${this.getFragmentInput()}) ->  @location(0) vec4f
 {
-    return textureSample(colorTexture, mySampler,  uv) ;
+let c = textureSample(colorTexture, mySampler,  uv);
+var v = c*c.w;
+v.w = c.w;
+    return v;
 }
 ///////////////////////////////////////////////////////////
         `

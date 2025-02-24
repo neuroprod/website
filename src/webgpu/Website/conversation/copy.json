@@ -185,7 +185,24 @@
     {"char":"gnome1","pos":[0.01, 0.5, 0],"text": "hahahaha"},
     {"char":"charRoot","pos":[0.1, 0.8, 0],"text": "hahahaha"}
   ]
-}, {
+},
+  {
+    "name": "girlStrawberry",
+    "data": [
+      {"char":"girl","pos":[0.01, 1.2, 0],"text": "Hi Pirate, whats up?"},
+      {"char":"charRoot","pos":[-0.1, 0.8, 0],"text": "Ow man, feels like the game\nis rigged against me."},
+      {"text": "Whatever I do I feel like I'm loosing"},
+      {"char":"girl","pos":[0.01, 1.2, 0],"text": "Yea, it's rigged. But that doesn't\nmean you can't do anything about it"},
+      {"text": "Even if its something small"},
+      {"text": "Like, I got this can of beans\nfrom Strawberry,\nafter I gave him some change."},
+      {"text": "And I love beans!\nThey are my favorite\ncanned vegetable!"}
+    ]
+  },
+
+
+
+
+  {
   "name": "sea",
   "data": [
 
@@ -213,7 +230,6 @@
   "data": [
 
     {"char":"charRoot","pos":[0.1, 0.8, 0],"text": "Hi God, Want to join the party?"},
-
     {"char":"godRoot","pos":[-0.3, 0.85, 0],"text": "Don't believe in God pirate.\nIt only gives you false hope..."},
     {"text": "Nice ship you got there!"},
     {"char":"charRoot","pos":[0.1, 0.8, 0],"text": "Thanks, worked my ass off to get it!"},

@@ -58,9 +58,7 @@ export default class Material extends ObjectGPU {
     makePipeLine(pass: RenderPass) {
         if (this.pipeLine) return;
 
-
         this.makeShader();
-
 
         let count = 0;
         for (let a of pass.colorAttachments) {

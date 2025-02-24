@@ -113,6 +113,7 @@ class ProjectData {
 
             model.material =    project.getGBufferClipMaterial();
             model.setMaterial("shadow", project.getShadowClipMaterial())
+            
 
         } else {
 
