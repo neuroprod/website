@@ -5,11 +5,13 @@
     "data": [
 
       {"char":"charRoot","pos":[-0.2, 0.8, 0],"text": "Hi Mr Loathsome!", "callBack": "raiseHand" },
-      {"char":"rootLandlord","pos":[0.17, 0.72, 0],"text": "Don't \"Mr\" me Pirate!\nI want my money by\nthe end of the day!"},
-      {"text": "Or else you can go sleep\non the street with the rest\nof the scum."},
-      {"char":"charRoot","pos":[-0.2, 0.8, 0],"text": "Yes Sir! I won't disapoint you!"},
-      {"char":"rootLandlord","pos":[0.17, 0.72, 0],"text": "Types like you always\ndisappoint me Pirate!"},
-      {"text": "Now, get me those\n30 coins you own me!"},
+      {"char":"rootLandlord","pos":[0.17, 0.72, 0],"text": "Don't \"Mr\" me Pirate!\nI want my money by\nthe end of the day!"  ,"callBack": "moveHand"},
+      {"text": "Or else you can go sleep\non the street with the rest\nof the scum."
+        ,"callBack": "lowerHand"
+      },
+      {"char":"charRoot","pos":[-0.2, 0.8, 0],"text": "Yes Sir! I won't disapoint you!","callBack": "raiseHand"},
+      {"char":"rootLandlord","pos":[0.17, 0.72, 0],"text": "Types like you always\ndisappoint me Pirate!"  ,"callBack": "moveHand"},
+      {"text": "Now, get me those\n30 coins you own me!"   ,"callBack": "raiseHand"},
       {"char":"charRoot","pos":[-0.2, 0.8, 0],"text": "I'm on my way!"}
     ]
   },
