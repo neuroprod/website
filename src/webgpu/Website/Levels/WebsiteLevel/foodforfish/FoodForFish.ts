@@ -17,20 +17,20 @@ export default class FoodForFish{
     private sx =1.2*0.8
     private sy =0.27*0.8
     private sz =0.05
-    private nextTime =3;
+    private nextTime =0;
     private burpTL!: gsap.core.Timeline;
     private mouth!: SceneObject3D;
     private logo!: SceneObject3D;
 
-    private logoIn =new Vector3(0.23,0.11,0)
-    private logoOut =new Vector3(0.1,0.13,0)
+    private logoIn =new Vector3(0.23,0.11-0.025,0)
+    private logoOut =new Vector3(0.1,0.13-0.025,0)
     private logoHalf:Vector3 = this.logoIn.clone().add(this.logoOut).scale(0.5)
     private boxIndex=0;
     private numShootBoxes =0
     private root!: SceneObject3D;
    private tmpPose!:PhysX.PxTransform;
     private shootVec!: PhysX.PxVec3;
-    private firstCount =10;
+
     constructor() {
         PhysX().then((PhysX) =>{
             let version = PhysX.PHYSICS_VERSION;
@@ -151,15 +151,10 @@ this.mouth =mouth;
         this.scene.fetchResults(true);
         this.nextTime-=Timer.delta
 
-        if(this.firstCount>0){
-            if(Timer.frame%60==0){
-                this.shoot()
-                this.firstCount--;
-            }
-        }
+
 
         if(this.nextTime<0){
-            this.nextTime=12
+            this.nextTime=6
             this.burp()
         }
 
@@ -190,7 +185,7 @@ this.mouth =mouth;
         this.burpTL.to(this.logo,{x:this.logoOut.x,y:this.logoOut.y,ease:"power2.inOut",duration:1},0.1)
         this.burpTL.to(this.logo,{x:this.logoHalf.x,y:this.logoHalf.y,ease:"power2.inOut",duration:2})
         this.burpTL.to(this.logo,{x:this.logoOut.x,y:this.logoOut.y,ease:"power2.inOut",duration:2})
-        this.burpTL.to(this.logo,{x:this.logoHalf.x,y:this.logoHalf.y,ease:"power2.inOut",duration:2})
+      //  this.burpTL.to(this.logo,{x:this.logoHalf.x,y:this.logoHalf.y,ease:"power2.inOut",duration:2})
 
         this.burpTL.call(()=>{this.shoot()},[],"<")
         this.burpTL.to(this.mouth,{rz:0.0},"<0.5")
@@ -199,7 +194,7 @@ this.mouth =mouth;
 
     }
     private shoot(){
-this.logo.hide()
+        this.logo.hide()
         this.numShootBoxes ++;
         let b = this.boxModels2[this.boxIndex]
         this.root.addChild(b);
@@ -212,12 +207,12 @@ this.logo.hide()
         this.tmpPose.q.z=-0.1
         box.setGlobalPose(this.tmpPose)
         this.shootVec.z =(Math.random()-0.5)*0.1
-        this.shootVec.x =(Math.random()*5+2)*-1
+        this.shootVec.x =(Math.random()*5+4)*-1
         this.shootVec.y =2+Math.random();
         box.setLinearVelocity( this.shootVec)
-        this.shootVec.z =(Math.random()-0.5)*0.3
-        this.shootVec.x =(Math.random()-0.5)*0.3
-        this.shootVec.y =(Math.random()-0.5)*0.3
+        this.shootVec.z =(Math.random()-0.5)*0.1
+        this.shootVec.x =(Math.random()-0.5)*0.1
+        this.shootVec.y =(Math.random()-0.5)*0.1
 
         box.setAngularVelocity( this.shootVec)
         this.scene.addActor(box);
