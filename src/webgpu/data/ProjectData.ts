@@ -99,21 +99,25 @@ class ProjectData {
         let projMesh = project.getProjectMeshByID(d.meshId);
         if (!projMesh) return null
 
-        let m = this.makeSceneObjectWithMesh(project, projMesh, d.label, d.id);
+        let m = this.makeSceneObjectWithMesh(project, projMesh, d.label, d.id,d.isTransparent);
         return m;
 
 
     }
 
-   public makeSceneObjectWithMesh(project: Project, projMesh: ProjectMesh, label:string, id:string)
+   public makeSceneObjectWithMesh(project: Project, projMesh: ProjectMesh, label:string, id:string,trans:boolean =false)
     {
         let model = new Model(this.renderer,  projMesh.id);
         model.mesh =  projMesh.getMesh();
         if ( projMesh.meshType == MeshType.TRANS_PLANE) {
+            if(trans){
+                model.material =    project.getTransparentMaterial();
+            }else{
+                model.material =    project.getGBufferClipMaterial();
+            }
 
-            model.material =    project.getGBufferClipMaterial();
             model.setMaterial("shadow", project.getShadowClipMaterial())
-            
+
 
         } else {
 

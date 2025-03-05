@@ -35,6 +35,8 @@ export default class SceneObject3D extends Object3D {
     needsHitTest = false;
     needsTrigger: boolean = false;
     needsMouseHit: boolean = false;
+   isTransparent: boolean = false;
+    needsTransShading: boolean = false;
     dropShadow:boolean =true;
     mouseHitID: string = ""
     public triggerIsEnabled = true;
@@ -173,6 +175,13 @@ export default class SceneObject3D extends Object3D {
                 UI.LTextInput("mouseHitID", this, "mouseHitID")
             }
         }
+
+        if (this.model) {
+            this.isTransparent = UI.LBool(this, "isTransparent");
+            if(this.isTransparent)
+            this.needsTransShading = UI.LBool(this,"needsTransShading" );
+
+        }
         if (this.isText) {
             let t = UI.LTextInput("text", this.text)
             if(t!=this.text){
@@ -219,6 +228,15 @@ export default class SceneObject3D extends Object3D {
             this.lockScaleXY = obj.lockScaleXY
 
         }
+        if(obj.isTransparent !=undefined){
+            this.isTransparent = obj.isTransparent
+
+if( this.model && this.isTransparent) this.model.transparent = true;
+        }
+        if(obj.needsTransShading !=undefined){
+            this.needsTransShading = obj.needsTransShading
+
+        }
         if(obj.textColor !=undefined){
           this.textColor.r  =obj.textColor[0]
             this.textColor.g  =obj.textColor[1]
@@ -247,9 +265,11 @@ if(this.isText && this.model){
         obj.needsMouseHit = this.needsMouseHit
         obj.position = this.getPosition()
         obj.rotation = this.getRotation()
-        obj.hitTriggerItem = this.hitTriggerItem
-        obj.lockScaleXY =this.lockScaleXY
-        obj.dropShadow = this.dropShadow
+        obj.hitTriggerItem = this.hitTriggerItem;
+        obj.lockScaleXY =this.lockScaleXY;
+        obj.dropShadow = this.dropShadow;
+        obj.isTransparent  =this.isTransparent;
+        obj.needsTransShading  =this.needsTransShading;
         obj.textColor =[this.textColor.r,this.textColor.g,this.textColor.b,this.textColor.a]
         if (this.model) {
             obj.model = this.model.label

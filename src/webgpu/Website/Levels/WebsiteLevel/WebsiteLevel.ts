@@ -20,22 +20,24 @@ import KrisWebsite from "./KrisWebsite.ts";
 import MeatHandler from "./MeatHandler.ts";
 import ArduinoGame from "./arduinoGame/ArduinoGame.ts";
 import FoodForFish from "./foodforfish/FoodForFish.ts";
+import sceneHandler from "../../../data/SceneHandler.ts";
 
 export class WebsiteLevel extends BaseLevel {
 
 
     private video1!: VideoPlayer;
-    private st!: ScrollTrigger;
-    private numItems: number = 5;
-    private websitePath!: WebsitePath;
+
+
+
     private height: number = 0;
     private krisWebsite!: KrisWebsite;
 
     private meatHandler: MeatHandler;
     private arduinoGame: ArduinoGame;
     private foodForFish: FoodForFish;
-
-
+    private websiteItems = ["root1", "root2", "root3", "root4", "root5", 'root6', 'root7']
+    private numItems: number =  this.websiteItems.length;
+    private heightMS!: number;
     constructor() {
 
         super();
@@ -105,24 +107,17 @@ export class WebsiteLevel extends BaseLevel {
         GameModel.gameCamera.setLockedView(new Vector3(0, 0, 0), new Vector3(0, 0, 1))
 
         GameModel.gameRenderer.setLevelType("website")
-        let placeHolder = SceneHandler.getSceneObject("placeHolder")
 
-        this.numItems = placeHolder.children.length
-        this.websitePath = new WebsitePath(this.numItems, placeHolder.children)
 
-        let websiteItems = ["root1", "root2", "root3", "root4", "root5", 'root6', 'root7']
-        for (let i = 0; i < websiteItems.length; i++) {
-            let item = SceneHandler.getSceneObject(websiteItems[i])
-            if (item) {
-                let p = placeHolder.children[i];
-                item.setPositionV(p.getPosition().clone())
-                item.y -= 0.2;
-                item.setRotationQ(p.getRotation().clone());
-                (p as SceneObject3D).hide();
-            }
 
+
+        for (let i = 0; i < this.websiteItems.length; i++) {
+            let item = SceneHandler.getSceneObject(this.websiteItems[i])
+          item.x =1*i;
+            item.y =0;
+            item.z =0;
         }
-
+        SceneHandler.getSceneObject(this.websiteItems[0]).addChild( sceneHandler.getSceneObject("krisRoot"))
         this.krisWebsite = new KrisWebsite()
         this.krisWebsite.reset()
         this.krisWebsite.show()
@@ -170,6 +165,14 @@ export class WebsiteLevel extends BaseLevel {
 
 
     destroy() {
+
+        for (let i = 0; i < this.websiteItems.length; i++) {
+            let item = SceneHandler.getSceneObject(this.websiteItems[i])
+item.x =0;
+
+        }
+
+
         let char = SceneHandler.getSceneObject("charRoot")
         if (char) {
             char.x = 0
@@ -192,17 +195,24 @@ export class WebsiteLevel extends BaseLevel {
 
     update() {
         super.update();
-        if (this.st) {
-            this.websitePath.update(this.st.progress)
+
+        let xPos = ((window.scrollY/this.height)*this.numItems)
+
+        if(window.scrollY>this.height/2){
+            SceneHandler.getSceneObject(this.websiteItems[0]).x =this.websiteItems.length
+
+        }else{
+
+            SceneHandler.getSceneObject(this.websiteItems[0]).x =0
         }
 
-        if (window.scrollY == 0) {
+       if (window.scrollY == 0) {
             window.scroll(0, this.height - 1); // reset the scroll position to the top left of the document.
         }
         if (window.scrollY > this.height - 1) {
             window.scroll(0, 1); // reset the scroll position to the top left of the document.
         }
-        GameModel.gameCamera.setLockedView(this.websitePath.camLookAt, this.websitePath.camPosition);
+        GameModel.gameCamera.setLockedView(new Vector3(xPos,0.25,0),new Vector3(xPos,0.25 ,0.7));
         this.krisWebsite.update()
         this.meatHandler.update()
         this.arduinoGame.update()
@@ -212,18 +222,17 @@ export class WebsiteLevel extends BaseLevel {
     onResize() {
         let numSnaps = this.numItems;
         let scrollPos = 0;
-        if (this.st) {
-            scrollPos = this.st.scroll()
-            this.st.kill()
-        }
 
 
-        this.height = window.innerHeight * (numSnaps + 1);
+
+        this.height = window.innerHeight * (numSnaps);
+        this.heightMS = window.innerHeight * (numSnaps);
         let app = document.getElementById("app")
-        if (app) app.style.height = this.height + "px"
-
-        let heightSnap = window.innerHeight * (numSnaps);
+        if (app) app.style.height = this.heightMS + "px"
         this.height -= window.innerHeight;
+/*
+        let heightSnap = window.innerHeight * (numSnaps);
+
         let snaps: Array<number> = []
         snaps.push(0.001)
         for (let i = 1; i <= numSnaps; i++) {
@@ -244,9 +253,9 @@ export class WebsiteLevel extends BaseLevel {
 
                 //onUpdate: () => {this.st.progress}
 
-            }
-        )
-        window.scrollTo(0, 1);
+        //    }
+       // )
+       // window.scrollTo(0, 1);
         //  this.st.scroll(scrollPos)
     }
 

@@ -67,25 +67,26 @@
   {
     "name": "godPresent0",
     "data": [
-      {"char":"godRoot","pos":[0.15,0.8,0],"text": "A lightning strike!\nIt doesn't have many uses."}
+      {"char":"godRoot","pos":[0.15,0.8,0],"text": "A user agreement!\nBy choosing this, You agree that your data will be used and sold to the highest bidder."},
+      {"text": "Thanks!"}
     ]
   },
   {
     "name": "godPresent1",
     "data": [
-      {"char":"godRoot","pos":[0.15,0.8,0],"text": "An empty box\nWith a ribbon warped around it."}
+      {"char":"godRoot","pos":[0.15,0.8,0],"text": "A degree in Economics\nnot sure you can use that."}
     ]
   },
   {
     "name": "godPresent2",
     "data": [
-      {"char":"godRoot","pos":[0.15,0.8,0],"text": "A non-disclosure agreement.\nHow exiting!"}
+      {"char":"godRoot","pos":[0.15,0.8,0],"text": "Cold hard cash\nVery usefull!"}
     ]
   },
   {
     "name": "godPresent3",
     "data": [
-      {"char":"godRoot","pos":[0.15,0.8,0],"text": "A toy hamer\nYou can't realy use that"}
+      {"char":"godRoot","pos":[0.15,0.8,0],"text": "A non-disclosure agreement.\nHow exiting!"}
     ]
   },
   {

@@ -55,7 +55,7 @@ private friends =["textHolder2","textHolder1","kris","always","starGreen1"]
         this.kris.z = -0.1
         this.kris.ry =0.1
         let noise = createNoise2D()
-        let prevFriend  =new LinkedItem("krisRoot",noise)
+      /*  let prevFriend  =new LinkedItem("krisRoot",noise)
         this.rootLinked = prevFriend;
         for(let f of this.friends){
 
@@ -66,7 +66,7 @@ private friends =["textHolder2","textHolder1","kris","always","starGreen1"]
           prevFriend =l;
 
 
-        }
+        }*/
 
 
 
@@ -126,18 +126,21 @@ private friends =["textHolder2","textHolder1","kris","always","starGreen1"]
 
     show() {
         let tl = gsap.timeline()
-        this.kris.x = -2;
-        this.rootLinked.set()
-        this.armLerp = 0.5
-        this.legLerp = 1
-        tl.to(this.kris, {x: this.krisTarget.x, duration: 2, ease: "power1.out"}, 1)
-        tl.to(this, {armLerp: 0, duration: 0.3},3)
-        tl.to(this, {legLerp: 0, duration: 0.3},3-0.3)
+        this.kris.x = this.krisTarget.x;
+
+        this.armLerp = 0.0
+        this.legLerp = 0
+        this.kris.y =2
+       // this.rootLinked.set()
+
+        tl.to(this.kris, {y: 0,         duration: 2, ease: "back.out(0.3)"}, 0.5)
+      //  tl.to(this, {armLerp: 0, duration: 0.3},3)
+       // tl.to(this, {legLerp: 0, duration: 0.3},3-0.3)
     }
 
     private updateIdle() {
         let delta = Timer.delta;
-        this.rootLinked.update()
+     //   this.rootLinked.update()
         this.legRot+=delta*30;
         let legSize =0.035
         this.leg1.y =lerp(0, Math.sin(this.legRot)*legSize+legSize,this.legLerp)

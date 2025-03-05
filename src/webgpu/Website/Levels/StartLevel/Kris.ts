@@ -80,10 +80,17 @@ export default class Kris {
         let tl = gsap.timeline()
 
         tl.to(this.kris, {y: 3, duration: 0.5, ease: "back.in(1)"}, 0)
-        tl.to(this.kris, {x: 0, duration: 0.3, ease: "power2.in"}, 0.2)
-        tl.to(this.kris, {rz: 3, duration: 0.3, ease: "power2.in"}, 0.2)
+       // tl.to(this.kris, {x: 0, duration: 0.3, ease: "power2.in"}, 0.2)
+       // tl.to(this.kris, {rz: 3, duration: 0.3, ease: "power2.in"}, 0.2)
     }
-
+    fall() {
+        this.state = 2;
+        let tl = gsap.timeline()
+        this.kris.y =3;
+        tl.to(this.kris, {y: 0, duration: 0.5, ease: "back.out(1)"}, 0)
+        // tl.to(this.kris, {x: 0, duration: 0.3, ease: "power2.in"}, 0.2)
+        // tl.to(this.kris, {rz: 3, duration: 0.3, ease: "power2.in"}, 0.2)
+    }
     public startWave() {
 
         gsap.to(this, {armLerp: 1, duration: 0.3})

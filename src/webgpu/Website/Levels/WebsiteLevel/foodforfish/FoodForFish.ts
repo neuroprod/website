@@ -212,7 +212,7 @@ this.logo.hide()
         this.tmpPose.q.z=-0.1
         box.setGlobalPose(this.tmpPose)
         this.shootVec.z =(Math.random()-0.5)*0.1
-        this.shootVec.x =(Math.random()*10+2)*-1
+        this.shootVec.x =(Math.random()*5+2)*-1
         this.shootVec.y =2+Math.random();
         box.setLinearVelocity( this.shootVec)
         this.shootVec.z =(Math.random()-0.5)*0.3

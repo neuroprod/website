@@ -10,6 +10,7 @@ import ShadowClipDepthMaterial from "../render/shadow/ShadowClipDepthMaterial.ts
 import GBufferMaterial from "../render/GBuffer/GBufferMaterial.ts";
 import LoadHandler from "./LoadHandler.ts";
 import DefaultTextures from "../lib/textures/DefaultTextures.ts";
+import TransparentMaterial from "../render/TransparentMaterials/TransparentMaterial.ts";
 
 export default class Project {
     public name: string = "";
@@ -30,6 +31,7 @@ export default class Project {
     private gBufferClipMaterial!: GBufferClipMaterial;
     private shadowClipMaterial!: ShadowClipDepthMaterial;
     private GBufferMaterial!: GBufferMaterial;
+    private transparentMaterial!: TransparentMaterial;
 
     constructor(renderer: Renderer) {
         this.renderer = renderer;
@@ -157,5 +159,14 @@ console.log(this.loadTexture)
         }
         this.GBufferMaterial.setTexture("colorTexture", this.getBaseTexture());
         return this.GBufferMaterial;
+    }
+
+    getTransparentMaterial() {
+        if (!this.transparentMaterial) {
+            this.transparentMaterial = new TransparentMaterial(this.renderer, "transMat");
+
+        }
+        this.transparentMaterial.setTexture("colorTexture", this.getBaseTexture());
+        return    this.transparentMaterial;
     }
 }
