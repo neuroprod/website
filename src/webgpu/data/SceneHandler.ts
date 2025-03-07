@@ -122,7 +122,7 @@ class SceneHandler {
 
             } else if (d.isText) {
 
-                sceneObj = ProjectData.makeSceneObjectWithText(d.label, d.text)
+                sceneObj = ProjectData.makeSceneObjectWithText(d.label, d.text,d.textSpacing)
             } else {
                 sceneObj = new SceneObject3D(this.renderer, d.label)
                 sceneObj.UUID = d.id;

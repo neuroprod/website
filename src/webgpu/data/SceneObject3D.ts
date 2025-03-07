@@ -15,7 +15,6 @@ import {HitTrigger, HitTriggerSelectItems} from "./HitTriggers.ts";
 import FontMesh from "../modelMaker/FontMesh.ts";
 
 import ProjectData from "./ProjectData.ts";
-import SceneHandler from "./SceneHandler.ts";
 import ColorV from "../lib/ColorV.ts";
 
 
@@ -31,21 +30,23 @@ export default class SceneObject3D extends Object3D {
 
     isText: boolean = false;
     text: string = ""
-    textColor:ColorV =new ColorV(0,0,0,1)
+    textColor: ColorV = new ColorV(0, 0, 0, 1)
+    textSpacing =-1
     needsHitTest = false;
     needsTrigger: boolean = false;
     needsMouseHit: boolean = false;
-   isTransparent: boolean = false;
+    isTransparent: boolean = false;
     needsTransShading: boolean = false;
-    dropShadow:boolean =true;
+    dropShadow: boolean = true;
     mouseHitID: string = ""
     public triggerIsEnabled = true;
     hitTriggerItem: HitTrigger = HitTrigger.NONE;
     triggerRadius = 0.2
- lockScaleXY: boolean = false;
+    lockScaleXY: boolean = false;
 
-    posEditor:Vector3=new Vector3()
-    rotEditor:Vector3=new Vector3()
+    posEditor: Vector3 = new Vector3()
+    rotEditor: Vector3 = new Vector3()
+
     constructor(renderer: Renderer, label: string) {
         super(renderer, label);
         if (!SceneObject3D.emptyTreeSettings) {
@@ -53,10 +54,7 @@ export default class SceneObject3D extends Object3D {
             SceneObject3D.emptyTreeSettings.btnColor.setHex("#6e4e4e", 1)
         }
     }
-    setEditorValues(){
-        this.posEditor.from(this._position)
-        this.rotEditor.from(this.euler)
-    }
+
     get rxD() {
         return this.rx * RAD2DEG;
     }
@@ -80,6 +78,11 @@ export default class SceneObject3D extends Object3D {
 
     set rzD(value) {
         this.rz = value * DEG2RAD
+    }
+
+    setEditorValues() {
+        this.posEditor.from(this._position)
+        this.rotEditor.from(this.euler)
     }
 
     onUINice(depth: number) {
@@ -123,15 +126,16 @@ export default class SceneObject3D extends Object3D {
         DebugDraw.drawCircle(this.getWorldPos(), this.triggerRadius)
     }
 
-    public setText(s:string,color:Vector4 =new Vector4()){
+    public setText(s: string, color: Vector4 = new Vector4()) {
         if (s != this.text && this.model) {
-        this.text = s;
-        let m = this.model.mesh as FontMesh;
-        m.setText(this.text, ProjectData.font)
+            this.text = s;
+            let m = this.model.mesh as FontMesh;
+            m.setText(this.text, ProjectData.font)
             console.log("fix this")
         }
 
     }
+
     onDataUI() {
         UI.pushID(this.UUID)
         UI.LTextInput("name", this, "label")
@@ -178,34 +182,38 @@ export default class SceneObject3D extends Object3D {
 
         if (this.model) {
             this.isTransparent = UI.LBool(this, "isTransparent");
-            if(this.isTransparent)
-            this.needsTransShading = UI.LBool(this,"needsTransShading" );
+            if (this.isTransparent)
+                this.needsTransShading = UI.LBool(this, "needsTransShading");
 
         }
         if (this.isText) {
             let t = UI.LTextInput("text", this.text)
-            if(t!=this.text){
-                this.text =t
-                if(this.model){
-                    let text =this.text
-                    if(text.startsWith("#")){
+
+            let ts = UI.LFloat( "textSpacing",this.textSpacing,"textSpacing")
+
+            if (t != this.text || ts != this.textSpacing) {
+                this.text = t
+                this.textSpacing =ts;
+                if (this.model) {
+                    let text = this.text
+                    if (text.startsWith("#")) {
 
                         let id = text.slice(1)
-                        let copy =ProjectData.copy[id]
+                        let copy = ProjectData.copy[id]
 
-                        if(copy){
-                            text=copy;
+                        if (copy) {
+                            text = copy;
                         }
                     }
 
-                    (this.model.mesh as FontMesh).setText(text, ProjectData.font);
+                    (this.model.mesh as FontMesh).setText(text, ProjectData.font,this.textSpacing);
                 }
 
             }
 
 
             let tc = UI.LColor("textColor", this.textColor)
-            if( this.model) {
+            if (this.model) {
                 this.model.material.setUniform("color", this.textColor)
             }
         }
@@ -217,34 +225,38 @@ export default class SceneObject3D extends Object3D {
         this.needsTrigger = obj.needsTrigger;
         this.triggerRadius = obj.triggerRadius;
         this.hitTriggerItem = obj.hitTriggerItem
-        if(obj.needsMouseHit){
+        if (obj.needsMouseHit) {
             this.needsMouseHit = obj.needsMouseHit
             this.mouseHitID = obj.mouseHitID
         }
-        if(obj.dropShadow !=undefined){
+        if (obj.dropShadow != undefined) {
             this.dropShadow = obj.dropShadow
 
-        } if(obj.lockScaleXY !=undefined){
+        }
+        if (obj.lockScaleXY != undefined) {
             this.lockScaleXY = obj.lockScaleXY
 
         }
-        if(obj.isTransparent !=undefined){
+        if (obj.isTransparent != undefined) {
             this.isTransparent = obj.isTransparent
 
-if( this.model && this.isTransparent) this.model.transparent = true;
+            if (this.model && this.isTransparent) this.model.transparent = true;
         }
-        if(obj.needsTransShading !=undefined){
+        if (obj.needsTransShading != undefined) {
             this.needsTransShading = obj.needsTransShading
 
         }
-        if(obj.textColor !=undefined){
-          this.textColor.r  =obj.textColor[0]
-            this.textColor.g  =obj.textColor[1]
-            this.textColor.b  =obj.textColor[2]
-            this.textColor.a  =obj.textColor[3]
-if(this.isText && this.model){
-    this.model.material.setUniform("color",this.textColor)
-}
+        if (obj.textSpacing  != undefined) {
+             this.textSpacing=obj.textSpacing ;
+        }
+        if (obj.textColor != undefined) {
+            this.textColor.r = obj.textColor[0]
+            this.textColor.g = obj.textColor[1]
+            this.textColor.b = obj.textColor[2]
+            this.textColor.a = obj.textColor[3]
+            if (this.isText && this.model) {
+                this.model.material.setUniform("color", this.textColor)
+            }
 
         }
 
@@ -259,6 +271,7 @@ if(this.isText && this.model){
         obj.projectId = this.projectId;
         obj.isText = this.isText;
         obj.text = this.text;
+        obj.textSpacing = this.textSpacing ;
         obj.needsTrigger = this.needsTrigger;
         obj.triggerRadius = this.triggerRadius
         obj.mouseHitID = this.mouseHitID
@@ -266,11 +279,12 @@ if(this.isText && this.model){
         obj.position = this.getPosition()
         obj.rotation = this.getRotation()
         obj.hitTriggerItem = this.hitTriggerItem;
-        obj.lockScaleXY =this.lockScaleXY;
+        obj.lockScaleXY = this.lockScaleXY;
         obj.dropShadow = this.dropShadow;
-        obj.isTransparent  =this.isTransparent;
-        obj.needsTransShading  =this.needsTransShading;
-        obj.textColor =[this.textColor.r,this.textColor.g,this.textColor.b,this.textColor.a]
+        obj.isTransparent = this.isTransparent;
+        obj.needsTransShading = this.needsTransShading;
+
+        obj.textColor = [this.textColor.r, this.textColor.g, this.textColor.b, this.textColor.a]
         if (this.model) {
             obj.model = this.model.label
             obj.scale = this.model.getScale();
@@ -336,6 +350,7 @@ if(this.isText && this.model){
         return false;
 
     }
+
     show() {
         if (this.model) this.model.visible = true
     }
@@ -343,7 +358,8 @@ if(this.isText && this.model){
     hide() {
         if (this.model) this.model.visible = false
     }
-    isShowning(){
+
+    isShowning() {
 
         if (this.model) return this.model.visible
         return false;
@@ -351,8 +367,8 @@ if(this.isText && this.model){
 
     copy(label: string) {
 
-        if(this.isText){
-            let m = ProjectData.makeSceneObjectWithText(label,this.text)
+        if (this.isText) {
+            let m = ProjectData.makeSceneObjectWithText(label, this.text)
             this.copyProperties(m)
             this.parent?.addChild(m);
             if (this.model && m?.model) {
@@ -360,8 +376,8 @@ if(this.isText && this.model){
             }
             m.setEditorValues()
             return m;
-        }else{
-            let m = ProjectData.getModel({label:label,projectId: this.projectId, meshId:this.meshId,id:""})
+        } else {
+            let m = ProjectData.getModel({label: label, projectId: this.projectId, meshId: this.meshId, id: ""})
             if (m) {
                 this.copyProperties(m)
                 m.setEditorValues()
@@ -387,17 +403,18 @@ if(this.isText && this.model){
 
 
     }
+
     destroy() {
         super.destroy();
 
     }
 
     getAllChildModels(childModels: Array<Model>) {
-        if(this.model)childModels.push(this.model)
+        if (this.model) childModels.push(this.model)
         for (let child of this.children) {
-            let c  =child as SceneObject3D
+            let c = child as SceneObject3D
 
-            if(c.getAllChildModels)  c.getAllChildModels(childModels)
+            if (c.getAllChildModels) c.getAllChildModels(childModels)
 
         }
     }

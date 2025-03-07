@@ -157,7 +157,7 @@ class ProjectData {
 
 
     }
-    makeSceneObjectWithText(name: string, text: string) {
+    makeSceneObjectWithText(name: string, text: string,textSpacing:number) {
 
         let model = new Model(this.renderer, "textModel")
         model.transparent =true;
@@ -174,7 +174,8 @@ class ProjectData {
             }
         }
 
-        mesh.setText(text, this.font);
+        if(textSpacing==undefined)textSpacing =-1
+        mesh.setText(text, this.font,textSpacing);
         model.mesh = mesh
 
         model.material =  new FontMaterial(this.renderer, "fontMaterial");

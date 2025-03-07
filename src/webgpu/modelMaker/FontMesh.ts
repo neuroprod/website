@@ -24,7 +24,7 @@ export default class FontMesh extends Mesh{
     private indexTemp:Array<number> =[]
     private indicesPos: number=0;
 
-    setText(text: string, font: Font, fontSize = 0.0021, hAligh: HAlign = HAlign.Left, vAligh: VAlign = VAlign.Top) {
+    setText(text: string, font: Font,fontSpacing =-1, fontSize = 0.0021, hAligh: HAlign = HAlign.Left, vAligh: VAlign = VAlign.Top) {
 
         this.indicesPos = 0;
         let textArr = text.split("\n")
@@ -44,7 +44,7 @@ export default class FontMesh extends Mesh{
 
 
         for (let i = 0; i < numLines; i++) {
-            this.addLine(textArr[i], font, fontSize, hAligh)
+            this.addLine(textArr[i], font, fontSpacing,fontSize, hAligh)
             this.startY += fontHeight;
 
         }
@@ -61,17 +61,17 @@ export default class FontMesh extends Mesh{
 
     }
 
-    addLine(line: string, font: Font, fontSize: number, hAligh: HAlign) {
+    addLine(line: string, font: Font,fontSpacing:number, fontSize: number, hAligh: HAlign) {
 
         this.startX =0;
 
 
         if (hAligh == HAlign.Center) {
-            let lineSize = this.getLineSize(line, font, fontSize);
+            let lineSize = this.getLineSize(line, font,fontSpacing, fontSize);
             this.startX = -lineSize / 2
         }
         if (hAligh == HAlign.Right) {
-            let lineSize = this.getLineSize(line, font, fontSize);
+            let lineSize = this.getLineSize(line, font,fontSpacing, fontSize);
             this.startX = -lineSize
         }
 
@@ -79,23 +79,23 @@ export default class FontMesh extends Mesh{
             let c = line.charCodeAt(i);
             let char = font.charArray[c];
 
-            this.addChar(char, fontSize);
+            this.addChar(char, fontSpacing,fontSize);
 
         }
 
     }
-    getLineSize(line: string, font: Font, fontSize: number) {
+    getLineSize(line: string, font: Font,fontSpacing:number, fontSize: number) {
         let size = 0
         for (let i = 0; i < line.length; i++) {
             let c = line.charCodeAt(i);
             let char = font.charArray[c];
-            size += char.xadvance * fontSize;
+            size += char.xadvance * fontSize+fontSpacing*fontSize;
 
         }
         return size;
 
     }
-    addChar( char: Char,fontSize:number) {
+    addChar( char: Char,fontSpacing:number,fontSize:number) {
 
 
 
@@ -134,7 +134,7 @@ export default class FontMesh extends Mesh{
         );
         this.indicesPos += 4;
 
-        this.startX+=char.xadvance*fontSize -1*fontSize
+        this.startX+=char.xadvance*fontSize +fontSpacing*fontSize
     }
 
 
