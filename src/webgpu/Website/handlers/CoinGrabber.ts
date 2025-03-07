@@ -36,7 +36,7 @@ private coins :Array<SceneObject3D> =[];
     takeCoin(f: SceneObject3D) {
         f.triggerIsEnabled =false;
 
-        GameModel.coinHandeler.addCoins(1)
+        GameModel.coinHandler.addCoins(1)
         gsap.to(f,{ sx:0,sy:0,sz:0,ease:"back.in",duration:0.2,onComplete:()=>{f.hide();}})
     }
 }

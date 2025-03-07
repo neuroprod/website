@@ -44,9 +44,10 @@ class LevelHandler {
     }
 
     setLevel(key: string) {
-
+        history.pushState({urlPath:'/'+key},"",'/'+key)
         GameModel.gameRenderer.tweenToBlack()
 gsap.delayedCall(0.5,()=>{
+    GameModel.coinHandler.hide()
     if (this.currentLevel) this.currentLevel.destroy()
     this.currentLevel = this.levels.get(key) as BaseLevel;
     if (this.currentLevel) {
@@ -56,7 +57,7 @@ gsap.delayedCall(0.5,()=>{
         console.log("level doesnt exist ->", key)
     }
     GameModel.gameRenderer.fxEnabled = false
-    GameModel.coinHandeler.hide()
+
 })
 
 

@@ -1,19 +1,22 @@
-import GameModel from "../../GameModel.ts";
-import SceneObject3D from "../../../data/SceneObject3D.ts";
-import Timer from "../../../lib/Timer.ts";
-import MouseInteractionWrapper from "../../MouseInteractionWrapper.ts";
+import GameModel from "../../../GameModel.ts";
+import SceneObject3D from "../../../../data/SceneObject3D.ts";
+import Timer from "../../../../lib/Timer.ts";
+import MouseInteractionWrapper from "../../../MouseInteractionWrapper.ts";
 import gsap from "gsap";
-import {MainState} from "../../../Main.ts";
+import {MainState} from "../../../../Main.ts";
+import IndexedItem from "../IndexedItem.ts";
 
-export default class MeatHandler{
+export default class MeatHandler extends IndexedItem{
     private meat1!: SceneObject3D;
     private meat2!: SceneObject3D;
     private time =0;
     private indexCount =0
     private copy:Array<string>=[]
     private btnTimeLine!: gsap.core.Timeline;
+    private enabled: boolean =false;
 
     constructor() {
+        super()
     }
 
     init(meat1: SceneObject3D, meat2: SceneObject3D,editBtn:SceneObject3D, edit: MouseInteractionWrapper){
@@ -49,9 +52,17 @@ export default class MeatHandler{
 
         }
     }
+    setCurrentIndex(index:number){
 
+        if(index ==2) {
+            this.enabled =true;
+        }else{
+            this.enabled =false;
+        }
+
+    }
     update(){
-
+        if(!this.enabled)return
         this.time-=Timer.delta
         if(this.time<0){
 

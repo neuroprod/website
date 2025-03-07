@@ -131,7 +131,7 @@ export class GodLevel extends PlatformLevel {
                                     gsap.delayedCall(2, () => {
                                         LevelHandler.setLevel("Cookie")
                                     })
-                                    GameModel.coinHandeler.show()
+                                    //GameModel.coinHandeler.show()
                                     GameModel.coinHandeler.addCoins(5)
 
                                 } else {

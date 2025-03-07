@@ -3,7 +3,6 @@ import Renderer from "./lib/Renderer.ts";
 import CanvasRenderPass from "./CanvasRenderPass.ts";
 
 import PreLoader from "./lib/PreLoader.ts";
-//import KeyInput from "./game/KeyInput.ts";
 import UI from "./lib/UI/UI.ts";
 import ModelMaker from "./modelMaker/ModelMaker.ts";
 import MouseListener from "./lib/MouseListener.ts";
@@ -27,10 +26,9 @@ import ModelData from "./data/ProjectData.ts";
 import DebugDraw from "./Website/DebugDraw.ts";
 import SceneHandler from "./data/SceneHandler.ts";
 import LoadHandler from "./data/LoadHandler.ts";
-import TextBalloonHandler from "./Website/conversation/TextBalloonHandler.ts";
 import LevelHandler from "./Website/Levels/LevelHandler.ts";
-import Timer from "./lib/Timer.ts";
 import GameModel from "./Website/GameModel.ts";
+import gameModel from "./Website/GameModel.ts";
 
 
 export enum MainState {
@@ -73,8 +71,16 @@ export default class Main {
         })
 
         let f = new SDFFont()
+        window.addEventListener("popstate", (event) => {
+            console.log(
+                `location: ${document.location}, state: ${JSON.stringify(event.state)}`,
+            );
+        });
 
-
+        if (location.hostname === "localhost") {
+             GameModel.debug =true;
+        }
+        console.log(location.pathname)
     }
 
     public preload() {
@@ -131,7 +137,6 @@ export default class Main {
         this.gameRenderer = new GameRenderer(this.renderer, this.camera)
 
 
-
         // this.gameRenderer.gBufferPass.modelRenderer.setModels(SceneData.usedModels);
         // this.gameRenderer.shadowMapPass.modelRenderer.setModels(SceneData.usedModels);
 
@@ -146,14 +151,14 @@ export default class Main {
 
         let state = AppState.getState(AppStates.MAIN_STATE);
 
-        if (state != undefined) {
+        if (state != undefined && GameModel.debug) {
             this.setMainState(state)
         } else {
             this.setMainState(MainState.game)
         }
 
-      //  gsap.ticker.remove(gsap.updateRoot);
-GameModel.setMainState = this.setMainState.bind(this)
+        //  gsap.ticker.remove(gsap.updateRoot);
+        GameModel.setMainState = this.setMainState.bind(this)
         this.tick();
 
     }
@@ -167,7 +172,7 @@ GameModel.setMainState = this.setMainState.bind(this)
             SceneEditor.saveTemp()
         }
         if (this.currentMainState == MainState.game) {
-           LevelHandler.destroyCurrentLevel()
+            LevelHandler.destroyCurrentLevel()
         }
         if (state == MainState.modelMaker) {
             this.modelMaker.setActive()
@@ -179,7 +184,7 @@ GameModel.setMainState = this.setMainState.bind(this)
         if (state == MainState.game) {
             this.game.setActive()
         }
-        this.gameRenderer.fxEnabled =false
+        this.gameRenderer.fxEnabled = false
         this.currentMainState = state;
     }
 
@@ -217,16 +222,17 @@ GameModel.setMainState = this.setMainState.bind(this)
     private onUI() {
         if (this.currentMainState == MainState.game) {
 
-
-            // pushMainMenu("editMenu", 74, 0)
-            UI_I.currentComponent = UI_I.panelLayer;
-            if (addMainMenuTextButton("Edit", true)) {
-                this.setMainState(MainState.editor)
+            if (gameModel.debug) {
+                // pushMainMenu("editMenu", 74, 0)
+                UI_I.currentComponent = UI_I.panelLayer;
+                if (addMainMenuTextButton("Edit", true)) {
+                    this.setMainState(MainState.editor)
+                }
+                this.game.setGUI()
+                UI.pushWindow("rendering")
+                this.gameRenderer.onUI()
+                UI.popWindow()
             }
-           this.game.setGUI()
-           UI.pushWindow("rendering")
-            this.gameRenderer.onUI()
-            UI.popWindow()
             // popMainMenu()
         } else {
             pushMainMenu("MainMenu", 207, 0)

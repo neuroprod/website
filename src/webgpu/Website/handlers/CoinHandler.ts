@@ -22,7 +22,7 @@ export default class CoinHandler{
         this.textMesh.setText( this.displayCoins+"", ProjectData.font, 0.15)
 
         this.textModel.mesh = this.textMesh;
-        this.textModel.setScaler(2)
+        this.textModel.setScaler(1)
 
         GameModel.overlay.modelRenderer.addModel(this.textModel)
     }
@@ -33,7 +33,8 @@ export default class CoinHandler{
     }
     update(){
         this.textModel.y =100
-        this.textModel.visible =true
+
+      //  this.textModel.visible =true
         if(this.numCoins!=this.displayCoins){
 
             this.displayTime-=Timer.delta;
@@ -59,6 +60,8 @@ export default class CoinHandler{
     }
 
     hide() {
+        console.log("hide")
+        console.trace()
         this.textModel.visible=false
     }
     show() {

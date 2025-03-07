@@ -60,7 +60,7 @@ export default class Game {
        GameModel.textBalloonHandler = this.textBalloonHandler
        GameModel.conversationHandler = this.conversationHandler;
        GameModel.mouseListener = this.mouseListener;
-        GameModel.coinHandeler = new CoinHandler(renderer)
+        GameModel.coinHandler = new CoinHandler(renderer)
 
 
 
@@ -82,7 +82,7 @@ export default class Game {
         }
 
         this.gameCamera.update()
-        GameModel.coinHandeler.update()
+        GameModel.coinHandler.update()
         this.textBalloonHandler.update()
         this.overlay.update()
         DebugDraw.update();
@@ -91,12 +91,13 @@ export default class Game {
 
 
     setActive() {
+
         let newName = AppState.getState("currentLevel");
-        if(!newName){
-            LevelHandler.setLevel("Start")
-        }else{
-            LevelHandler.setLevel(newName)
+        if(!newName || !GameModel.debug) {
+            newName = "Start"
         }
+            LevelHandler.setLevel(newName)
+
 
 
     }

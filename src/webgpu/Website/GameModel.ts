@@ -22,11 +22,12 @@ import {MainState} from "../Main.ts";
     conversationHandler!: ConversationHandler;
     mouseListener!: MouseListener;
     overlay!: Overlay;
-    coinHandeler!: CoinHandler;
+    coinHandler!: CoinHandler;
 
     //godPresent
     presentID=-1;
     setMainState!: OmitThisParameter<(state: MainState) => void>;
+    debug: boolean =false;
 
 
 
