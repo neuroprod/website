@@ -132,7 +132,7 @@ export class GodLevel extends PlatformLevel {
                                         LevelHandler.setLevel("Cookie")
                                     })
                                     //GameModel.coinHandeler.show()
-                                    GameModel.coinHandeler.addCoins(5)
+                                    GameModel.coinHandler.addCoins(5)
 
                                 } else {
                                     LevelHandler.setLevel("GodChoice")

@@ -157,7 +157,7 @@ class ProjectData {
 
 
     }
-    makeSceneObjectWithText(name: string, text: string,textSpacing:number) {
+    makeSceneObjectWithText(name: string, text: string,textSpacing:number=-1) {
 
         let model = new Model(this.renderer, "textModel")
         model.transparent =true;
