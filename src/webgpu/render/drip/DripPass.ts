@@ -59,13 +59,13 @@ export default class DripPass extends RenderPass {
     private camera: Camera;
     private modelRenderer: ModelRenderer;
     private model: Model;
-    private numParticle = 3000;
+    private numParticle = 1000;
     private instanceData: Float32Array;
 
     private particles: Array<Particle> = []
     private grids: Array<Grid> = []
     private width = 100;
-    private height = 100;
+    private height = 200;
     private gridSize = 10;
     private numHGrids: number = 0;
     private numVGrids: number = 0;
@@ -140,6 +140,12 @@ export default class DripPass extends RenderPass {
 
         this.assignGrid()
         this.compareFriends()
+        for (let p of this.particles) {
+            p.resolve()
+
+        }
+        this.compareFriends()
+
         this.setParticles()
 
 
@@ -219,7 +225,7 @@ p.friendCount=0;
                 d2 /= dist;
                 if (dist < 1) {
 
-                    let of = (1 - dist) / 2
+                    let of = (1 - dist) / 8
                     p1.fx += d1 * of//x
                     p1.fy += d2 * of//y
 
@@ -232,7 +238,7 @@ p.friendCount=0;
                     let distN = Math.pow(1 - (dist / this.attractionDistance), 2);
 
 
-                    let of = (-distN) / 100
+                    let of = (-distN) / 400
                     p1.fx += d1 * of//x
                     p1.fy += d2 * of//y
 
