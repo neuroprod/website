@@ -68,16 +68,16 @@ export class WebsiteLevel extends BaseLevel {
         LoadHandler.startLoading()
         LoadHandler.startLoading()
         SceneHandler.setScene("1f78eea8-a005-4204").then(() => {
-            SceneHandler.addScene(SceneHandler.getSceneIDByName("website1")).then(() => {
+            SceneHandler.addScene(SceneHandler.getSceneIDByName("websiteGraphicsDev")).then(() => {
                 LoadHandler.stopLoading()
             });
-            SceneHandler.addScene(SceneHandler.getSceneIDByName("website2")).then(() => {
+            SceneHandler.addScene(SceneHandler.getSceneIDByName("foodforfish")).then(() => {
                 LoadHandler.stopLoading()
             });
             SceneHandler.addScene(SceneHandler.getSceneIDByName("kris")).then(() => {
                 LoadHandler.stopLoading()
             });
-            SceneHandler.addScene(SceneHandler.getSceneIDByName("website3")).then(() => {
+            SceneHandler.addScene(SceneHandler.getSceneIDByName("meat")).then(() => {
                 LoadHandler.stopLoading()
             });
             SceneHandler.addScene(SceneHandler.getSceneIDByName("arduinoGame")).then(() => {

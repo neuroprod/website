@@ -27,5 +27,6 @@ export const Textures = {
     TEXT_INVASION: "TextInvasion.png",
     SPACE_SHIP: "SpaceBottom.png",
     SPACE_ARM: "SpaceArmL.png",
-    SPACE_HEAD: "SpaceHead.png"
+    SPACE_HEAD: "SpaceHead.png",
+    DRIP: "dripPass"
 }
