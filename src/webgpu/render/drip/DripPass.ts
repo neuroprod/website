@@ -9,6 +9,7 @@ import ModelRenderer from "../../lib/model/ModelRenderer.ts";
 import Model from "../../lib/model/Model.ts";
 import Quad from "../../lib/mesh/geometry/Quad.ts";
 import ParticleMaterial from "./ParticleMaterial.ts";
+import UI from "../../lib/UI/UI.ts";
 
 class Particle {
     x: number = 0;
@@ -71,6 +72,9 @@ export default class DripPass extends RenderPass {
     private numVGrids: number = 0;
 
     private attractionDistance = 10;
+    private topAttraction: number=0.5;
+    private surfaceTension: number=0.01;
+    private gravety: number=1;
 
     constructor(renderer: Renderer) {
         super(renderer, "dripRenderPass");
@@ -140,14 +144,14 @@ export default class DripPass extends RenderPass {
 
         this.assignGrid()
         this.compareFriends()
-        for (let p of this.particles) {
-            p.resolve()
 
-        }
-        this.compareFriends()
 
         this.setParticles()
+        this.assignGrid()
+        this.compareFriends()
 
+
+        this.setParticles()
 
 
         this.model.createBuffer(this.instanceData, "instancesData");
@@ -173,7 +177,9 @@ export default class DripPass extends RenderPass {
     }
 
     unUI() {
-
+this.topAttraction = UI.LFloat(this,"topAttraction","topAttraction")
+        this.surfaceTension = UI.LFloat(this,"surfaceTension","surfaceTension")
+        this.gravety= UI.LFloat(this,"gravety","gravety")
     }
 
     private setParticles() {
@@ -190,14 +196,14 @@ export default class DripPass extends RenderPass {
                     resetCount++
                 }
             }
-            if(p.y>90){
+            if(p.y>80){
 
-                let atr =Math.pow( (p.y-90)/10,2);
-                p.fy += atr*0.5
+                let atr =Math.pow( (p.y-80)/20,2);
+                p.fy += atr*this.topAttraction
             }
 
-            p.fy -= p.speed
-
+            p.fy -= p.speed*this.gravety
+           // p.fx -= p.speed
             p.resolve()
             this.instanceData[indexCount++] = p.x
             this.instanceData[indexCount++] = p.y
@@ -223,22 +229,12 @@ p.friendCount=0;
                 }
                 d1 /= dist;
                 d2 /= dist;
-                if (dist < 1) {
 
-                    let of = (1 - dist) / 8
-                    p1.fx += d1 * of//x
-                    p1.fy += d2 * of//y
-
-
-                    p2.fx -= d1 * of//x
-                    p2.fy -= d2 * of//y
-
-                }
                 if (dist < this.attractionDistance) {
                     let distN = Math.pow(1 - (dist / this.attractionDistance), 2);
 
 
-                    let of = (-distN) / 400
+                    let of = (-distN) *this.surfaceTension
                     p1.fx += d1 * of//x
                     p1.fy += d2 * of//y
 
@@ -247,6 +243,18 @@ p.friendCount=0;
                     p2.fy -= d2 * of//y
                     p1.friendCount ++
                     p2.friendCount ++
+                }
+                if (dist < 1) {
+
+                    let of = (1 - dist) / 2
+                    p1.fx += d1 * of//x
+                    p1.fy += d2 * of//y
+
+
+                    p2.fx -= d1 * of//x
+                    p2.fy -= d2 * of//y
+
+
                 }
 
             }

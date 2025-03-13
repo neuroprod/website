@@ -27,7 +27,7 @@ export default class ParticleMaterial extends Material{
         this.depthCompare="less-equal"
         this.depthWrite =false;
 
-       // this.blendModes =[Blend.preMultAlpha()]
+       //this.blendModes =[Blend.add()]
     }
     getShader(): string {
         return /* wgsl */ `
@@ -54,7 +54,8 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 @fragment
 fn mainFragment(${this.getFragmentInput()}) ->  @location(0) vec4f
 {
-    return   vec4f(uv,0,1.0);
+let l =1.0- length(uv-vec2(0.5))*2.0;
+    return   vec4f(vec3(l),1.0);
 }
 ///////////////////////////////////////////////////////////
         `

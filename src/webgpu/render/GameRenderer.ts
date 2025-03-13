@@ -81,7 +81,7 @@ export default class GameRenderer {
     private inGameFXPass: InGameFXPass;
     private maskRenderPass: MaskRenderPass;
 
-    private dripPass:DripPass
+   // private dripPass:DripPass
 
 private _distortValue=0;
     constructor(renderer: Renderer, camera: Camera) {
@@ -108,13 +108,13 @@ private _distortValue=0;
 
         this.gradingPass = new GradingRenderPass(renderer)
 
-        this.dripPass =new DripPass(renderer)
+       // this.dripPass =new DripPass(renderer)
 
 
 
         this.debugTextureMaterial = new DebugTextureMaterial(this.renderer, "debugTextureMaterial")
         this.blitFinal = new Blit(renderer, "blitFinal", this.debugTextureMaterial)
-        this.passSelect.push(new SelectItem(Textures.DRIP, {texture: Textures.DRIP, type: 0}));
+       // this.passSelect.push(new SelectItem(Textures.DRIP, {texture: Textures.DRIP, type: 0}));
         this.passSelect.push(new SelectItem(Textures.GRADING, {texture: Textures.GRADING, type: 0}));
         this.passSelect.push(new SelectItem(Textures.MASK, {texture: Textures.MASK, type: 0}));
         this.passSelect.push(new SelectItem(Textures.LIGHT, {texture: Textures.LIGHT, type: 0}));
@@ -226,7 +226,7 @@ private _distortValue=0;
         this.transparentPass.update();
         this.inGameFXPass.update()
         this.gradingPass.update();
-        this.dripPass.update();
+       // this.dripPass.update();
         if(this.transitionValue !=0){
             //
         }
@@ -242,14 +242,14 @@ private _distortValue=0;
             this.debugTextureMaterial.setUniform("renderType", this.currentValue.type)
 
         }
-        this.dripPass.unUI();
+       // this.dripPass.unUI();
     }
 
     //doPasses
     draw() {
         if (LoadHandler.isLoading()) return;
 
-        this.dripPass.add()
+       // this.dripPass.add()
 
         this.shadowMapPass.add();
 

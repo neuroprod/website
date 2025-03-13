@@ -20,6 +20,7 @@ import MeatHandler from "./meat/MeatHandler.ts";
 import ArduinoGame from "./arduinoGame/ArduinoGame.ts";
 import FoodForFish from "./foodforfish/FoodForFish.ts";
 import IndexedItem from "./IndexedItem.ts";
+import DripTest from "./drip/DripTest.ts";
 
 export class WebsiteLevel extends BaseLevel {
 
@@ -40,6 +41,7 @@ export class WebsiteLevel extends BaseLevel {
     private numItems: number = this.websiteItems.length;
     private heightMS!: number;
     private currentViewIndex: number = -1;
+    private driptest: DripTest;
 
     constructor() {
 
@@ -49,6 +51,8 @@ export class WebsiteLevel extends BaseLevel {
         this.meatHandler = new MeatHandler()
         this.arduinoGame = new ArduinoGame()
         this.foodForFish = new FoodForFish()
+        this.driptest =new DripTest()
+
         this.indexedItems.push(this.meatHandler)
         this.indexedItems.push(this.arduinoGame)
         this.indexedItems.push(this.foodForFish)
@@ -163,6 +167,15 @@ export class WebsiteLevel extends BaseLevel {
 
 
         this.video1.play()
+
+
+        let holder = SceneHandler.getSceneObject("dripHolder")
+        holder.hide()
+
+        this.driptest.init(holder)
+
+
+
         this.setCurrentViewIndex(0)
     }
 
@@ -192,8 +205,7 @@ export class WebsiteLevel extends BaseLevel {
     }
 
     onUI() {
-        if (UI.LButton("test")) {
-        }
+      this.driptest.onUI()
     }
 
     update() {
@@ -220,6 +232,7 @@ export class WebsiteLevel extends BaseLevel {
         this.meatHandler.update()
         this.arduinoGame.update()
         this.foodForFish.update()
+        this.driptest.update()
     }
 
     onResize() {
