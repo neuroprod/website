@@ -133,11 +133,13 @@ export class WebsiteLevel extends BaseLevel {
 
         kris.onRollOver = () => {
             this.krisWebsite.startWave()
+
             GameModel.gameRenderer.distortValue = 1
+            GameModel.gameRenderer.distortValue = 0
         }
         kris.onRollOut = () => {
             this.krisWebsite.stopWave()
-            GameModel.gameRenderer.distortValue = 0
+
         }
 
 
@@ -169,8 +171,8 @@ export class WebsiteLevel extends BaseLevel {
         this.video1.play()
 
 
-        let holder = SceneHandler.getSceneObject("dripHolder")
-        holder.hide()
+        let holder = SceneHandler.getSceneObject("dripShape")
+
 
         this.driptest.init(holder)
 
@@ -227,7 +229,7 @@ export class WebsiteLevel extends BaseLevel {
         if (window.scrollY > this.height - 1) {
             window.scroll(0, 1); // reset the scroll position to the top left of the document.
         }
-        GameModel.gameCamera.setLockedView(new Vector3(xPos, 0.25, 0), new Vector3(xPos, 0.25, 0.7));
+        GameModel.gameCamera.setLockedView(new Vector3(xPos, 0.25, 0), new Vector3(xPos, 0.25, 0.65));
         this.krisWebsite.update()
         this.meatHandler.update()
         this.arduinoGame.update()
