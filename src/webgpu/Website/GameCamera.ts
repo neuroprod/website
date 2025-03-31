@@ -3,7 +3,7 @@ import Renderer from "../lib/Renderer.ts";
 
 import SceneObject3D from "../data/SceneObject3D.ts";
 import {NumericArray} from "@math.gl/types";
-import {Vector3} from "@math.gl/core";
+import {Vector2, Vector3} from "@math.gl/core";
 import Timer from "../lib/Timer.ts";
 import {lerpValueDelta} from "../lib/MathUtils.ts";
 import gsap from "gsap";
@@ -25,7 +25,12 @@ export default class GameCamera{
    public cameraLookAt: Vector3 =new Vector3();
     public cameraWorld: Vector3 =new Vector3();
 
-public camDistance =2.5
+
+    public cameraLookAtTemp: Vector3 =new Vector3();
+    public cameraWorldTemp: Vector3 =new Vector3();
+
+
+    public camDistance =2.5
     public heightOffset =0.5
     private camPos: Vector3 =new Vector3();
 
@@ -35,6 +40,12 @@ public camDistance =2.5
     private minX: number=-100;
     private maxX: number=100;
     private tl!: gsap.core.Timeline;
+
+
+    private mouseNorm =new Vector2()
+
+
+
     constructor(renderer:Renderer,camera:Camera) {
         this.renderer =renderer;
         this.camera = camera;
@@ -52,8 +63,51 @@ public camDistance =2.5
 
 
         this.camera.ratio = this.renderer.ratio
-        this.camera.cameraLookAt.copy(this.cameraLookAt as NumericArray);
-        this.camera.cameraWorld.copy(this.cameraWorld as NumericArray);
+
+
+        this.cameraLookAtTemp.copy(this.cameraLookAt as NumericArray);//target
+       this.cameraWorldTemp.copy(this.cameraWorld as NumericArray);//eye
+        let rotationCenter =0.5
+         let center =  this.cameraWorldTemp.clone()
+         center.lerp(   this.cameraLookAtTemp, rotationCenter );
+        let distanceToEye = center.distance( this.cameraWorldTemp);
+        let distanceToTarget = center.distance(this.cameraLookAtTemp);
+
+        let dir =  this.cameraLookAtTemp.clone().subtract(this.cameraWorldTemp);
+        dir.normalize();
+
+        let theta = Math.atan2(dir.x, dir.z);
+        let thetaLength = Math.sqrt(dir.x * dir.x + dir.z * dir.z);
+        let phi = Math.atan2(thetaLength, dir.y);
+        this.mouseNorm.lerp(GameModel.mouseListener.mouseNorm,0.1)
+
+        theta +=       this.mouseNorm.x*-0.02
+        phi+=       this.mouseNorm.y*-0.01
+
+
+        let dirNew = new Vector3((Math.sin(phi) * Math.sin(theta)), Math.cos(phi), Math.sin(phi) * Math.cos(theta));
+        this.cameraWorldTemp = center.clone();
+        let adj = dirNew.clone();
+        adj.scale(distanceToEye);
+        this.cameraWorldTemp.subtract(adj);
+
+        this.cameraLookAtTemp= center.clone();
+        adj = dirNew.clone();
+        adj.scale(distanceToTarget);
+        this.cameraLookAtTemp.add(adj);
+
+
+
+
+
+
+
+
+
+
+
+        this.camera.cameraLookAt.copy(  this.cameraLookAtTemp as NumericArray);
+        this.camera.cameraWorld.copy(  this.cameraWorldTemp as NumericArray);
         this.camera.cameraWorld.y+=this.shakeY;
         this.camera.cameraLookAt.y+=this.shakeY*0.5
         this.camera.cameraUp.set(0,1,0)

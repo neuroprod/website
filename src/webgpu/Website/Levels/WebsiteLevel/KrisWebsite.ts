@@ -38,7 +38,7 @@ export default class KrisWebsite {
 
     private legRot=0;
 
-    private krisTarget =new Vector3(-0.35,0,0)
+    private krisTarget =new Vector3(-0,0,0)
 private friends =["textHolder2","textHolder1","kris","always","starGreen1"]
     private rootLinked!: LinkedItem;
     constructor() {
@@ -52,8 +52,8 @@ private friends =["textHolder2","textHolder1","kris","always","starGreen1"]
         this.kris.x =this.krisTarget.x;
         this.kris.y = 0
 
-        this.kris.z = -0.1
-        this.kris.ry =0.1
+        this.kris.z = -0.3
+        this.kris.ry =0
         let noise = createNoise2D()
       /*  let prevFriend  =new LinkedItem("krisRoot",noise)
         this.rootLinked = prevFriend;

@@ -110,7 +110,7 @@ private isDropping=false;
         if(  this.isDropping){
 
             this.modelDrop.y+=this.dropSpeed*Timer.delta
-            this.dropSpeed+=10*Timer.delta;
+            this.dropSpeed+=15*Timer.delta;
             let y =this.modelDrop.getWorldPos().y
 
             if(y<0){
@@ -121,7 +121,7 @@ private isDropping=false;
     }
     public setDrip() {
         this.setPoints()
-        this.mesh.setExtrusion(this.points, MeshType.EXTRUSION, 0.6, this.zero)
+        this.mesh.setExtrusion(this.points, MeshType.EXTRUSION, 0.4, this.zero)
     }
     private startDrip() {
         if(this.tl)this.tl.clear()

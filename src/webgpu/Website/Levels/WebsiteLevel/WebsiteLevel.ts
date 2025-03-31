@@ -171,10 +171,10 @@ export class WebsiteLevel extends BaseLevel {
         this.video1.play()
 
 
-        let holder = SceneHandler.getSceneObject("dripShape")
+      let holderLeft = SceneHandler.getSceneObject("textHolderLeft")
+        let holderRight = SceneHandler.getSceneObject("textHolderRight")
 
-
-        this.driptest.init(holder)
+       this.driptest.init(holderLeft,holderRight)
 
 
 

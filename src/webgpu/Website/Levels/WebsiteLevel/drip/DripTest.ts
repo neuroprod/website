@@ -12,54 +12,60 @@ export default class DripTest{
     private drip3: Drip;
     private drip4: Drip;
     private drip5: Drip;
-    private holder: Object3D;
+    private holderLeft: Object3D;
+    private holderRight: Object3D;
 private drips:Array<Drip>=[]
 
     constructor() {
 
-        this.holder = new Object3D(GameModel.renderer);
-        this.holder.setScaler(0.03)
+        this.holderLeft = new Object3D(GameModel.renderer);
+        this.holderLeft.setScaler(0.03)
+        this.holderRight = new Object3D(GameModel.renderer);
+        this.holderRight.setScaler(0.03)
 
 
+        //left
         this.drip1 =new Drip();
         this.drip1.sideOffset=0.0
-        this.drip1.model.x =-3.53
-        this.drip1.model.y =-3.78
+        this.drip1.model.x =-2
+        this.drip1.model.y =-4.6
         this.drip1.baseWith =0.44
         this.drips.push(this.drip1)
-        this.holder.addChild(this.drip1.model)
+        this.holderLeft.addChild(this.drip1.model)
 
         this.drip2 =new Drip();
-        this.drip2.model.x =4.13
-        this.drip2.model.y =-1.54
+        this.drip2.model.x =0
+        this.drip2.model.y =-4.4
+        this.drip2.sideOffset=0.1
         this.drip2.baseWith =0.71
         this.drips.push(this.drip2)
-        this.holder.addChild(this.drip2.model)
+        this.holderLeft.addChild(this.drip2.model)
+
 
         this.drip3 =new Drip();
         this.drip3.model.x =1.58
-        this.drip3.model.y =-3.7
-        this.drip3.baseWith =0.71
+        this.drip3.model.y =-4.2
+        this.drip3.baseWith =0.6
+        this.drip3.sideOffset =0.2
         this.drips.push(this.drip3)
-        this.holder.addChild(this.drip3.model)
+        this.holderLeft.addChild(this.drip3.model)
 
 
         this.drip4 =new Drip();
-        this.drip4.model.x =0
-        this.drip4.model.y =-3.71
+        this.drip4.model.x =0.75
+        this.drip4.model.y =-4.8
         this.drip4.baseWith =0.79
         this.drips.push(this.drip4)
-        this.holder.addChild(this.drip4.model)
+        this.holderRight.addChild(this.drip4.model)
 
 
         this.drip5 =new Drip();
-
-        this.drip5.model.x =-1.75
-        this.drip5.model.y =-3.73
+        this.drip5.model.x =-1.2
+        this.drip5.model.y =-4.8
         this.drip5.baseWith =0.9
         this.drip5.sideOffset =0.05
         this.drips.push(this.drip5)
-        this.holder.addChild(this.drip5.model)
+        this.holderRight.addChild(this.drip5.model)
 
     }
     update(){
@@ -68,10 +74,16 @@ private drips:Array<Drip>=[]
         }
     }
 
-    init(holder: SceneObject3D) {
+    init(holderLeft: SceneObject3D,holderRight: SceneObject3D) {
 
-        this.holder.setPositionV(holder.getPosition())
-        this.holder.setRotationQ(holder.getRotation())
+        this.holderLeft.setPositionV(holderLeft.getPosition())
+        this.holderLeft.setRotationQ(holderLeft.getRotation())
+
+
+        this.holderRight.setPositionV(holderRight.getPosition())
+        this.holderRight.setRotationQ(holderRight.getRotation())
+
+
 
         for(let drip of this.drips){
            drip.setDrip()

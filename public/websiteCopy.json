@@ -9,5 +9,9 @@
   "arduinoGame":"A free to play game for anyone\nthat passes by my house.\nRunning on an arduino and\na home made ledscreen.",
   "arduinoGameTitle":"A Game for the",
   "arduinoGameTitle2":"Neighbourhood",
-  "instructions":"Use arrow keys and spacebar\nor use your favorite controller"
+  "instructions":"Use arrow keys and spacebar\nor use your favorite controller",
+
+  "welcome1":"Hello, [Visitor's Name]!\nWelcome to a world of\nendless possibilities.\nExplore my selection\nof products and\nservices crafted\nto enrich your life.",
+  "welcome2a":"Welcome!\nI appreciate you\nchoosing\nneuroproductions.be.",
+  "welcome2b":"Please take a moment\nto relax and enjoy a\nsmooth browsing\nexperience."
 }

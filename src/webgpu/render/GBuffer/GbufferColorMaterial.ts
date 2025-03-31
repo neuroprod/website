@@ -23,7 +23,7 @@ export default class GBufferColorMaterial extends Material{
 
         let uniforms =new UniformGroup(this.renderer,"uniforms");
         this.addUniformGroup(uniforms,true);
-uniforms.addUniform("color",new Vector4(253/255,146/255,200/255,1))
+uniforms.addUniform("color",new Vector4(240/255,110/255,170/255,1))
 
         //this.logShader =true;
     }
