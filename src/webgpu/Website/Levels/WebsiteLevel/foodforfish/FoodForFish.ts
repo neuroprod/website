@@ -7,15 +7,16 @@ import Box from "../../../../lib/mesh/geometry/Box.ts";
 import ShadowDepthMaterial from "../../../../render/shadow/ShadowDepthMaterial.ts";
 import SceneObject3D from "../../../../data/SceneObject3D.ts";
 import gsap from "gsap";
-import {Vector3} from "@math.gl/core";
+import {lerp, Vector3} from "@math.gl/core";
 import IndexedItem from "../IndexedItem.ts";
+import MouseInteractionWrapper from "../../../MouseInteractionWrapper.ts";
 
 export default class FoodForFish extends IndexedItem {
     private scene!: PhysX.PxScene;
     private boxes: Array<PhysX.PxRigidDynamic> = [];
     private boxModels: Array<Model> = [];
     private boxModels2: Array<Model> = [];
-    private numBoxes = 50
+    private numBoxes = 20
     private sx = 1.2 * 0.8
     private sy = 0.27 * 0.8
     private sz = 0.05
@@ -24,8 +25,8 @@ export default class FoodForFish extends IndexedItem {
     private mouth!: SceneObject3D;
     private logo!: SceneObject3D;
 
-    private logoIn = new Vector3(0.23, 0.11 - 0.025, 0)
-    private logoOut = new Vector3(0.1, 0.13 - 0.025, 0)
+    private logoIn = new Vector3(0.23, 0.11+0.012 , 0)
+    private logoOut = new Vector3(0.1, 0.13+0.012, 0)
     private logoHalf: Vector3 = this.logoIn.clone().add(this.logoOut).scale(0.5)
     private boxIndex = 0;
     private numShootBoxes = 0
@@ -34,7 +35,9 @@ export default class FoodForFish extends IndexedItem {
     private shootVec!: PhysX.PxVec3;
     private enabled: boolean = false;
     private enabledPhysics: boolean = false;
-
+private isSucking:boolean =true
+    private suckTime: number =0
+    private suckSpeed: number=1;
     constructor() {
         super()
         PhysX().then((PhysX) => {
@@ -113,11 +116,21 @@ export default class FoodForFish extends IndexedItem {
 
             this.tmpPose = new PhysX.PxTransform(PhysX.PxIDENTITYEnum.PxIdentity);
             this.shootVec = new PhysX.PxVec3(-10, 2, 0);
-            console.log('Created scene objects');
+
 
         });
     }
-
+    setInteractionHandler(fish: MouseInteractionWrapper) {
+fish.onClick=()=>{
+    if (this.isSucking) this.shoot()
+}
+        fish.onRollOver=()=>{
+            this.suckSpeed =4
+        }
+        fish.onRollOut=()=>{
+            this.suckSpeed =1
+        }
+    }
     setCurrentIndex(index: number) {
 
         if (index == 1) {
@@ -177,16 +190,13 @@ export default class FoodForFish extends IndexedItem {
         this.scene.simulate(Timer.delta);
         this.scene.fetchResults(true);
 
-
-        if (this.enabled) {
-            this.nextTime -= Timer.delta
-
-
-            if (this.nextTime < 0) {
-                this.nextTime = 6
-                this.burp()
-            }
+        if(this.isSucking){
+                this.suckTime -= Timer.delta*this.suckSpeed;
+                let sPos = Math.sin(this.suckTime)*0.5+0.5
+            this.logo.x  =lerp(this.logoOut.x,this.logoHalf.x,sPos)
+            this.logo.y  =lerp(this.logoOut.y,this.logoHalf.y,sPos)
         }
+
         for (let i = 0; i < this.numShootBoxes; i++) {
             // this.setBox(this.boxes[i],this.boxModels[i])
             this.setBox(this.boxes[i], this.boxModels2[i])
@@ -208,52 +218,53 @@ export default class FoodForFish extends IndexedItem {
 
     }
 
-    private burp() {
-        if (this.burpTL) this.burpTL.clear()
-        this.logo.show()
-        this.logo.x = this.logoIn.x
-        this.logo.y = this.logoIn.y
-        this.burpTL = gsap.timeline()
-        this.burpTL.to(this.mouth, {rz: 1}, 0)
-        this.burpTL.to(this.logo, {x: this.logoOut.x, y: this.logoOut.y, ease: "power2.inOut", duration: 1}, 0.1)
-        this.burpTL.to(this.logo, {x: this.logoHalf.x, y: this.logoHalf.y, ease: "power2.inOut", duration: 2})
-        this.burpTL.to(this.logo, {x: this.logoOut.x, y: this.logoOut.y, ease: "power2.inOut", duration: 2})
-        //  this.burpTL.to(this.logo,{x:this.logoHalf.x,y:this.logoHalf.y,ease:"power2.inOut",duration:2})
-
-        this.burpTL.call(() => {
-            this.shoot()
-        }, [], "<")
-        this.burpTL.to(this.mouth, {rz: 0.0}, "<0.5")
-
-
-    }
 
     private shoot() {
-        this.logo.hide()
+        this.isSucking =false;
+
         this.numShootBoxes++;
+        this.numShootBoxes =Math.min(   this.numShootBoxes,this.numBoxes)
         let b = this.boxModels2[this.boxIndex]
         this.root.addChild(b);
+
+
+
         GameModel.gameRenderer.addModel(b)
         GameModel.gameRenderer.shadowMapPass.modelRenderer.addModel(b)
         let box = this.boxes[this.boxIndex];
         this.tmpPose.p.x = this.logoHalf.x * 10
         this.tmpPose.p.y = this.logoHalf.y * 10
         this.tmpPose.p.z = this.logoHalf.z * 10
-        this.tmpPose.q.z = -0.1
+        this.tmpPose.q.z = -0.2
         box.setGlobalPose(this.tmpPose)
-        this.shootVec.z = (Math.random() - 0.5) * 0.1
-        this.shootVec.x = (Math.random() * 5 + 4) * -1
-        this.shootVec.y = 2 + Math.random();
+        this.shootVec.z = 0//(Math.random() - 0.5) * 0.1
+        this.shootVec.x = (Math.random() * 1 + 4) * -1
+        this.shootVec.y =  -  this.shootVec.x/2
         box.setLinearVelocity(this.shootVec)
         this.shootVec.z = (Math.random() - 0.5) * 0.1
-        this.shootVec.x = (Math.random() - 0.5) * 0.1
+        this.shootVec.x = (Math.random() - 0.5) * 0.15
         this.shootVec.y = (Math.random() - 0.5) * 0.1
 
         box.setAngularVelocity(this.shootVec)
         this.scene.addActor(box);
+////////
+        this.logo.x = this.logoIn.x
+        this.logo.y = this.logoIn.y
+
+        this.burpTL = gsap.timeline()
+        this.burpTL.to(this.mouth, {rz: 0, duration: 1}, 0.5)
+        this.burpTL.to(this.mouth, {rz: 1, duration: 1}, 1.5)
 
 
+        this.burpTL.to(this.logo, {x: this.logoOut.x, y: this.logoOut.y, ease: "power2.inOut", duration: 1}, 2.5)
+        this.burpTL.call(()=>{
+            this.suckTime =Math.PI
+            this.isSucking =true
+
+        },null,3.5)
         this.boxIndex++;
-
+        this.boxIndex %= this.boxModels2.length
     }
+
+
 }

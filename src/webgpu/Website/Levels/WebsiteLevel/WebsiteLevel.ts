@@ -142,21 +142,22 @@ export class WebsiteLevel extends BaseLevel {
 
         }
 
-
+//food for fish video
         let fv = SceneHandler.getSceneObject("videoHolder")
-
-
         let m = new Model(GameModel.renderer, "video1")
         m.material = new GBufferMaterial(GameModel.renderer, "video1")
         m.material.setTexture('colorTexture', this.video1.getTexture())
         m.mesh = new Plane(GameModel.renderer, 1920 / 1000, 1080 / 1000)
         m.setScaler(0.20)
         m.z = 0.017
-        m.x = -0.01
+        m.x = 0.00
         m.y = 0.005
         m.rx = Math.PI / 2
-
         fv.addChild(m)
+
+
+        let fish = this.mouseInteractionMap.get("fish") as MouseInteractionWrapper
+this.foodForFish.setInteractionHandler(fish)
         GameModel.gameRenderer.addModel(m)
 
         this.meatHandler.init(SceneHandler.getSceneObject("meat1"), SceneHandler.getSceneObject("meat2"), SceneHandler.getSceneObject("editBtn"), this.mouseInteractionMap.get("edit") as MouseInteractionWrapper)
