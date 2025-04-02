@@ -25,8 +25,8 @@ export default class FoodForFish extends IndexedItem {
     private mouth!: SceneObject3D;
     private logo!: SceneObject3D;
 
-    private logoIn = new Vector3(0.23, 0.11+0.012 , 0)
-    private logoOut = new Vector3(0.1, 0.13+0.012, 0)
+    private logoIn = new Vector3(0.23, 0.11 + 0.012, 0)
+    private logoOut = new Vector3(0.1, 0.13 + 0.012, 0)
     private logoHalf: Vector3 = this.logoIn.clone().add(this.logoOut).scale(0.5)
     private boxIndex = 0;
     private numShootBoxes = 0
@@ -35,9 +35,10 @@ export default class FoodForFish extends IndexedItem {
     private shootVec!: PhysX.PxVec3;
     private enabled: boolean = false;
     private enabledPhysics: boolean = false;
-private isSucking:boolean =true
-    private suckTime: number =0
-    private suckSpeed: number=1;
+    private isSucking: boolean = true
+    private suckTime: number = 0
+    private suckSpeed: number = 1;
+
     constructor() {
         super()
         PhysX().then((PhysX) => {
@@ -120,17 +121,26 @@ private isSucking:boolean =true
 
         });
     }
-    setInteractionHandler(fish: MouseInteractionWrapper) {
-fish.onClick=()=>{
-    if (this.isSucking) this.shoot()
-}
-        fish.onRollOver=()=>{
-            this.suckSpeed =4
+
+    setInteractionHandler(fish: MouseInteractionWrapper, playFish: MouseInteractionWrapper) {
+        fish.onClick = () => {
+            if (this.isSucking) this.shoot()
         }
-        fish.onRollOut=()=>{
-            this.suckSpeed =1
+        fish.onRollOver = () => {
+            this.suckSpeed = 4
+        }
+        fish.onRollOut = () => {
+            this.suckSpeed = 1
+        }
+
+
+        playFish.onClick = () => {
+
+            let w = window.open("https://foodforfish.org", "_blank")
+
         }
     }
+
     setCurrentIndex(index: number) {
 
         if (index == 1) {
@@ -158,14 +168,7 @@ fish.onClick=()=>{
         let mesh = new Box(GameModel.renderer, {width: this.sx / 5, height: this.sy / 5, depth: this.sz / 5})
         for (let i = 0; i < this.numBoxes; i++) {
 
-            /* let b =new Model(GameModel.renderer,"box")
-             b.material = mat
-             b.setMaterial("shadow",matShadow)
-             b.mesh =mesh*:
-
-           //  GameModel.gameRenderer.addModel(b)
-            // GameModel.gameRenderer.shadowMapPass.modelRenderer.addModel(b)
-             this.boxModels.push(b)
+          
  */
             if (logo.model) {
 
@@ -176,8 +179,7 @@ fish.onClick=()=>{
                 this.boxModels2.push(b2)
 
 
-                // GameModel.gameRenderer.addModel(b2)
-                // GameModel.gameRenderer.shadowMapPass.modelRenderer.addModel(b2)
+
             }
 
 
@@ -190,11 +192,11 @@ fish.onClick=()=>{
         this.scene.simulate(Timer.delta);
         this.scene.fetchResults(true);
 
-        if(this.isSucking){
-                this.suckTime -= Timer.delta*this.suckSpeed;
-                let sPos = Math.sin(this.suckTime)*0.5+0.5
-            this.logo.x  =lerp(this.logoOut.x,this.logoHalf.x,sPos)
-            this.logo.y  =lerp(this.logoOut.y,this.logoHalf.y,sPos)
+        if (this.isSucking) {
+            this.suckTime -= Timer.delta * this.suckSpeed;
+            let sPos = Math.sin(this.suckTime) * 0.5 + 0.5
+            this.logo.x = lerp(this.logoOut.x, this.logoHalf.x, sPos)
+            this.logo.y = lerp(this.logoOut.y, this.logoHalf.y, sPos)
         }
 
         for (let i = 0; i < this.numShootBoxes; i++) {
@@ -220,13 +222,12 @@ fish.onClick=()=>{
 
 
     private shoot() {
-        this.isSucking =false;
+        this.isSucking = false;
 
         this.numShootBoxes++;
-        this.numShootBoxes =Math.min(   this.numShootBoxes,this.numBoxes)
+        this.numShootBoxes = Math.min(this.numShootBoxes, this.numBoxes)
         let b = this.boxModels2[this.boxIndex]
         this.root.addChild(b);
-
 
 
         GameModel.gameRenderer.addModel(b)
@@ -239,7 +240,7 @@ fish.onClick=()=>{
         box.setGlobalPose(this.tmpPose)
         this.shootVec.z = 0//(Math.random() - 0.5) * 0.1
         this.shootVec.x = (Math.random() * 1 + 4) * -1
-        this.shootVec.y =  -  this.shootVec.x/2
+        this.shootVec.y = -this.shootVec.x / 2
         box.setLinearVelocity(this.shootVec)
         this.shootVec.z = (Math.random() - 0.5) * 0.1
         this.shootVec.x = (Math.random() - 0.5) * 0.15
@@ -257,11 +258,11 @@ fish.onClick=()=>{
 
 
         this.burpTL.to(this.logo, {x: this.logoOut.x, y: this.logoOut.y, ease: "power2.inOut", duration: 1}, 2.5)
-        this.burpTL.call(()=>{
-            this.suckTime =Math.PI
-            this.isSucking =true
+        this.burpTL.call(() => {
+            this.suckTime = Math.PI
+            this.isSucking = true
 
-        },null,3.5)
+        }, [], 3.5)
         this.boxIndex++;
         this.boxIndex %= this.boxModels2.length
     }

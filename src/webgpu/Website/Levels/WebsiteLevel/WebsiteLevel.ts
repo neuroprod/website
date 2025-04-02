@@ -21,6 +21,7 @@ import ArduinoGame from "./arduinoGame/ArduinoGame.ts";
 import FoodForFish from "./foodforfish/FoodForFish.ts";
 import IndexedItem from "./IndexedItem.ts";
 import DripTest from "./drip/DripTest.ts";
+import SceneObject3D from "../../../data/SceneObject3D.ts";
 
 export class WebsiteLevel extends BaseLevel {
 
@@ -42,6 +43,7 @@ export class WebsiteLevel extends BaseLevel {
     private heightMS!: number;
     private currentViewIndex: number = -1;
     private driptest: DripTest;
+    private sky!: SceneObject3D;
 
     constructor() {
 
@@ -141,7 +143,7 @@ export class WebsiteLevel extends BaseLevel {
             this.krisWebsite.stopWave()
 
         }
-
+        this.sky = SceneHandler.getSceneObject("skyMain")
 //food for fish video
         let fv = SceneHandler.getSceneObject("videoHolder")
         let m = new Model(GameModel.renderer, "video1")
@@ -157,7 +159,8 @@ export class WebsiteLevel extends BaseLevel {
 
 
         let fish = this.mouseInteractionMap.get("fish") as MouseInteractionWrapper
-this.foodForFish.setInteractionHandler(fish)
+        let playFish = this.mouseInteractionMap.get("playFish") as MouseInteractionWrapper
+this.foodForFish.setInteractionHandler(fish,playFish)
         GameModel.gameRenderer.addModel(m)
 
         this.meatHandler.init(SceneHandler.getSceneObject("meat1"), SceneHandler.getSceneObject("meat2"), SceneHandler.getSceneObject("editBtn"), this.mouseInteractionMap.get("edit") as MouseInteractionWrapper)
@@ -230,6 +233,7 @@ this.foodForFish.setInteractionHandler(fish)
         if (window.scrollY > this.height - 1) {
             window.scroll(0, 1); // reset the scroll position to the top left of the document.
         }
+        if(this.sky) this.sky.x = xPos;
         GameModel.gameCamera.setLockedView(new Vector3(xPos, 0.25, 0), new Vector3(xPos, 0.25, 0.65));
         this.krisWebsite.update()
         this.meatHandler.update()
