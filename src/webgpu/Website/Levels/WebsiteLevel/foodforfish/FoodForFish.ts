@@ -169,7 +169,7 @@ export default class FoodForFish extends IndexedItem {
         for (let i = 0; i < this.numBoxes; i++) {
 
 
- 
+
             if (logo.model) {
 
                 let b2 = new Model(GameModel.renderer, "box")
