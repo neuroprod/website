@@ -18,6 +18,7 @@ import DebugDraw from "../DebugDraw.ts";
 import {drawCircle} from "../../lib/path/Shapes.ts";
 import ProjectData from "../../data/ProjectData.ts";
 import GameModel from "../GameModel.ts";
+import SoundHandler from "../SoundHandler.ts";
 
 export default class TextBalloonHandler {
 
@@ -70,6 +71,10 @@ export default class TextBalloonHandler {
     private newChoice: boolean = false;
     private dotHolder: Object3D;
     private tLine!: gsap.core.Timeline;
+
+    private charPosOld=0;
+    private charCount =0;
+
 
     constructor(renderer: Renderer, gameCamera: Camera) {
         this.gameCamera = gameCamera;
@@ -215,6 +220,15 @@ export default class TextBalloonHandler {
             w.transform(this.gameCamera.viewProjection)
             this.holder.x = w.x * 100 * this.renderer.ratio;
             this.holder.y = w.y * 100;
+
+            let charPosR =Math.round(this.charPos)
+            if(charPosR!= this.charPosOld){
+
+                this.charCount++
+                this.charCount%=2+Math.round(Math.random()*1)
+                if(this.charCount==0) SoundHandler.playTalking()
+            }
+            this.charPosOld = charPosR
 
             this.textModel.material.setUniform("charPos", this.charPos)
             this.balloonModel.visible =true

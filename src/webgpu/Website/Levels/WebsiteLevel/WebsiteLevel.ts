@@ -95,7 +95,7 @@ export class WebsiteLevel extends BaseLevel {
             SceneHandler.addScene(SceneHandler.getSceneIDByName("youtube")).then(() => {
                 LoadHandler.stopLoading()
             });
-            SceneHandler.addScene(SceneHandler.getSceneIDByName("rinusCorneel")).then(() => {
+           SceneHandler.addScene(SceneHandler.getSceneIDByName("contact")).then(() => {
                 LoadHandler.stopLoading()
             });
             LoadHandler.stopLoading()

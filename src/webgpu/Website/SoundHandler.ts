@@ -6,12 +6,23 @@ import {Howl} from 'howler';
      private step!: Howl;
      private hitFloor!: Howl;
      private wetHit!: Howl;
+     private talking!: Howl;
     playSound =true;
 
 
     init() {
 
        // this.fishFood = new Howl({src: ['sound/fishfood.mp3']});
+        let talkSound:any={}
+        for(let i=0;i<15;i++){
+            talkSound["s"+i]=[i*100,100]
+        }
+
+
+        this.talking = new Howl({
+            src: ['sound/talking.mp3'],
+            sprite:talkSound
+        });
 
 
         this.coin = new Howl({
@@ -122,5 +133,18 @@ if(!this.playSound) return
          this.hitFloor.play("s" + s)
 
      }
+
+
+
+     playTalking() {
+
+         if(!this.playSound) return
+         let s = Math.floor(Math.random() * 1000) % 4;
+
+         this.talking.volume( this.fxVolume*0.1);
+         this.talking.play("s" + s)
+
+     }
+
 }
 export default new SoundHandler()
