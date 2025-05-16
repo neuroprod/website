@@ -301,7 +301,7 @@ private _distortValue=0;
 
     }
     tweenToBlack() {
-        gsap.to(  this.gradingPass,{blackValue :0,duration:0.5})
+       gsap.to(  this.gradingPass,{blackValue :0,duration:0.5})
 
     }
 }

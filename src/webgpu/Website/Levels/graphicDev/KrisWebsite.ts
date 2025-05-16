@@ -8,7 +8,7 @@ import LevelHandler from "../LevelHandler.ts";
 import ProjectData from "../../../data/ProjectData.ts";
 import GameModel from "../../GameModel.ts";
 import Model from "../../../lib/model/Model.ts";
-import LinkedItem from "./LinkedItem.ts";
+import LinkedItem from "../WebsiteLevel/LinkedItem.ts";
 import {createNoise2D} from "../../../lib/SimplexNoise.ts";
 
 export default class KrisWebsite {
@@ -49,7 +49,7 @@ private friends =["textHolder2","textHolder1","kris","always","starGreen1"]
         this.state = 0;
         this.kris = sceneHandler.getSceneObject("krisRoot")
         this.kris.setScaler(0.5)
-        this.kris.x =this.krisTarget.x;
+        this.kris.x =0;
         this.kris.y = 0
 
         this.kris.z = -0.3
@@ -126,14 +126,14 @@ private friends =["textHolder2","textHolder1","kris","always","starGreen1"]
 
     show() {
         let tl = gsap.timeline()
-        this.kris.x = this.krisTarget.x;
+        this.kris.x = this.krisTarget.x-0.05;
 
         this.armLerp = 0.0
         this.legLerp = 0
         this.kris.y =2
        // this.rootLinked.set()
 
-        tl.to(this.kris, {y: 0,         duration: 2, ease: "back.out(0.3)"}, 0.5)
+        tl.to(this.kris, {y: 0,         duration: 1, ease: "back.out(0.3)"}, 0.5)
       //  tl.to(this, {armLerp: 0, duration: 0.3},3)
        // tl.to(this, {legLerp: 0, duration: 0.3},3-0.3)
     }

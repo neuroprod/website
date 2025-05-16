@@ -1,6 +1,4 @@
 import Renderer from "../../lib/Renderer.ts";
-import CanvasRenderPass from "../../CanvasRenderPass.ts";
-import ModelRenderer from "../../lib/model/ModelRenderer.ts";
 import Camera from "../../lib/Camera.ts";
 import Model from "../../lib/model/Model.ts";
 import TextBalloonFontMaterial from "./TextBalloonFontMaterial.ts";
@@ -14,7 +12,6 @@ import {Vector2, Vector3, Vector4} from "@math.gl/core";
 import SceneObject3D from "../../data/SceneObject3D.ts";
 import Object3D from "../../lib/model/Object3D.ts";
 import gsap from 'gsap'
-import DebugDraw from "../DebugDraw.ts";
 import {drawCircle} from "../../lib/path/Shapes.ts";
 import ProjectData from "../../data/ProjectData.ts";
 import GameModel from "../GameModel.ts";
@@ -72,8 +69,8 @@ export default class TextBalloonHandler {
     private dotHolder: Object3D;
     private tLine!: gsap.core.Timeline;
 
-    private charPosOld=0;
-    private charCount =0;
+    private charPosOld = 0;
+    private charCount = 0;
 
 
     constructor(renderer: Renderer, gameCamera: Camera) {
@@ -111,7 +108,7 @@ export default class TextBalloonHandler {
         this.balloonModel = new Model(renderer, "balloonModel")
         this.balloonModel.mesh = this.extrudeMesh;
         this.balloonModel.material = new TextBalloonMaterial(renderer, "textBalloonMaterial")
-       GameModel.overlay.modelRenderer.addModel(this.balloonModel)
+        GameModel.overlay.modelRenderer.addModel(this.balloonModel)
 
         this.arrowModelPoint = new Model(renderer, "arrowModel")
         this.arrowModelPoint.mesh = this.extrudeMeshArrowPoint;
@@ -215,30 +212,29 @@ export default class TextBalloonHandler {
         if (this.model) {
 
             let w = this.model.getWorldPos().add(this.modelOffset)
-           // DebugDraw.drawCircle(w, 0.01)
+            // DebugDraw.drawCircle(w, 0.01)
 
             w.transform(this.gameCamera.viewProjection)
             this.holder.x = w.x * 100 * this.renderer.ratio;
             this.holder.y = w.y * 100;
 
-            let charPosR =Math.round(this.charPos)
-            if(charPosR!= this.charPosOld){
+            let charPosR = Math.round(this.charPos)
+            if (charPosR != this.charPosOld) {
 
                 this.charCount++
-                this.charCount%=2+Math.round(Math.random()*1)
-                if(this.charCount==0) SoundHandler.playTalking()
+                this.charCount %= 2
+                if (this.charCount == 0) SoundHandler.playTalking()
             }
             this.charPosOld = charPosR
 
             this.textModel.material.setUniform("charPos", this.charPos)
-            this.balloonModel.visible =true
-            this.textModel.visible =true
-            this.arrowModelPoint.visible =true
+            this.balloonModel.visible = true
+            this.textModel.visible = true
+            this.arrowModelPoint.visible = true
 
         }
 
     }
-
 
 
     setText(text: string, numAnswers: number = 0, index: number = 0) {
@@ -255,7 +251,7 @@ export default class TextBalloonHandler {
 
         this.charPos = -4
         this.textMesh.setText(text, ProjectData.font, 0.15)
-        let w = Math.max(this.textMesh.max.x,20);
+        let w = Math.max(this.textMesh.max.x, 20);
 
 
         let h = -this.textMesh.numLines * 7;
@@ -275,16 +271,14 @@ export default class TextBalloonHandler {
             w += 20;
 
 
-            for (let i=0;i< this.numAnswers;i++){
-                if(i==index){
-                    this.dots[i].material.setUniform("color",[0.8,0.8,0.8,1])
-                }
-                else{
-                    this.dots[i].material.setUniform("color",[0.3,0.3,0.3,1])
+            for (let i = 0; i < this.numAnswers; i++) {
+                if (i == index) {
+                    this.dots[i].material.setUniform("color", [0.8, 0.8, 0.8, 1])
+                } else {
+                    this.dots[i].material.setUniform("color", [0.3, 0.3, 0.3, 1])
                 }
 
             }
-
 
 
         }
@@ -316,9 +310,8 @@ export default class TextBalloonHandler {
 
         }
 
-        if (this.tLine)this.tLine.clear()
+        if (this.tLine) this.tLine.clear()
         this.tLine = gsap.timeline()
-
 
 
         let ease = "back.out(1.5)";
@@ -353,21 +346,21 @@ export default class TextBalloonHandler {
 
                 this.arrowRightModel.x = this.trS.x - 7
                 this.arrowLeftModel.x = this.tlS.x + 7;
-                this.arrowLeftModel.y = this.arrowRightModel.y = (this.blS.y - this.tlS.y) / 2 + this.tlS.y+1
+                this.arrowLeftModel.y = this.arrowRightModel.y = (this.blS.y - this.tlS.y) / 2 + this.tlS.y + 1
 
 
-                this.dotHolder.x = (this.tlS.x+this.trS.x)/2
-                this.dotHolder.y = this.blS.y +2
+                this.dotHolder.x = (this.tlS.x + this.trS.x) / 2
+                this.dotHolder.y = this.blS.y + 2
                 this.arrowLeftModel.setScaler(0)
                 this.arrowRightModel.setScaler(0)
-                this.tLine.to( this.arrowLeftModel, {sx: 1, sy: 1, sz: 1, duration: 0.3, ease: "power3.out"}, 0.3)
-                this.tLine.to( this.arrowRightModel, {sx: 1, sy: 1, sz: 1, duration: 0.3, ease: "power3.out"}, 0.3)
+                this.tLine.to(this.arrowLeftModel, {sx: 1, sy: 1, sz: 1, duration: 0.3, ease: "power3.out"}, 0.3)
+                this.tLine.to(this.arrowRightModel, {sx: 1, sy: 1, sz: 1, duration: 0.3, ease: "power3.out"}, 0.3)
 
             } else {
-                let py =  (this.blS.y - this.tlS.y) / 2 + this.tlS.y+1;
-                this.tLine.to( this.arrowLeftModel, {x: this.tlS.x + 7, y: py, duration: 0.3, ease: ease}, 0.0)
-                this.tLine.to( this.arrowRightModel, {x: this.trS.x - 7, y: py, duration: 0.3, ease:ease}, 0.0)
-                this.tLine.to( this.dotHolder, { y:  this.blS.y +2, duration: 0.3, ease:ease}, 0.0)
+                let py = (this.blS.y - this.tlS.y) / 2 + this.tlS.y + 1;
+                this.tLine.to(this.arrowLeftModel, {x: this.tlS.x + 7, y: py, duration: 0.3, ease: ease}, 0.0)
+                this.tLine.to(this.arrowRightModel, {x: this.trS.x - 7, y: py, duration: 0.3, ease: ease}, 0.0)
+                this.tLine.to(this.dotHolder, {y: this.blS.y + 2, duration: 0.3, ease: ease}, 0.0)
 
                 //this.dotHolder.x = (this.tlS.x+this.trS.x)/2
 
@@ -381,9 +374,9 @@ export default class TextBalloonHandler {
 
         this.updatePath()
 
-        this.balloonModel.visible =false
-        this.textModel.visible =true
-        this.arrowModelPoint.visible =false
+        this.balloonModel.visible = false
+        this.textModel.visible = true
+        this.arrowModelPoint.visible = false
         this.newBalloon = false
         this.showText = true;
 
@@ -399,19 +392,19 @@ export default class TextBalloonHandler {
 
     hideText() {
 
-        if(this.tLine)this.tLine.clear()
-        this.charPos =-4
-        this.balloonModel.visible =false
-        this.arrowRightModel.visible =false
-        this.arrowLeftModel.visible =false
-        this.textModel.visible =false
+        if (this.tLine) this.tLine.clear()
+        this.charPos = -4
+        this.balloonModel.visible = false
+        this.arrowRightModel.visible = false
+        this.arrowLeftModel.visible = false
+        this.textModel.visible = false
         this.arrowModelPoint.visible = false
-        for(let d of this.dots){
-            d.visible =false
+        for (let d of this.dots) {
+            d.visible = false
         }
-        this.holder.y =-1000
+        this.holder.y = -1000
         this.textModel.material.setUniform("charPos", this.charPos)
-this.showText =false;
+        this.showText = false;
     }
 
     private makeArrowPoint() {
@@ -444,15 +437,15 @@ this.showText =false;
             for (let d of this.dots) {
                 d.visible = false
             }
-        }else{
+        } else {
             let step = 2.5;
-            let posStart = -((numAnswers-1)* step)/2;
+            let posStart = -((numAnswers - 1) * step) / 2;
 
-            for (let i=0;i< this.numAnswers;i++){
-                 this.dots[i].visible = true;
-                 this.dots[i].x = posStart
+            for (let i = 0; i < this.numAnswers; i++) {
+                this.dots[i].visible = true;
+                this.dots[i].x = posStart
 
-                posStart+=step;
+                posStart += step;
             }
 
         }

@@ -15,8 +15,8 @@ import GBufferMaterial from "../../../render/GBuffer/GBufferMaterial.ts";
 import Plane from "../../../lib/mesh/geometry/Plane.ts";
 
 import {ScrollTrigger} from "gsap/ScrollTrigger";
-import KrisWebsite from "./KrisWebsite.ts";
-import MeatHandler from "./meat/MeatHandler.ts";
+import KrisWebsite from "../graphicDev/KrisWebsite.ts";
+import MeatHandler from "../meat/MeatHandler.ts";
 import ArduinoGame from "./arduinoGame/ArduinoGame.ts";
 import FoodForFish from "./foodforfish/FoodForFish.ts";
 import IndexedItem from "./IndexedItem.ts";
@@ -100,6 +100,7 @@ export class WebsiteLevel extends BaseLevel {
             });
             LoadHandler.stopLoading()
         })
+
 
     }
 
