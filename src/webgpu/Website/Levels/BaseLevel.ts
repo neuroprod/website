@@ -26,7 +26,10 @@ export class BaseLevel {
 
 
     }
+    endAnime(){
 
+        return 0
+    }
     init() {
 
     }

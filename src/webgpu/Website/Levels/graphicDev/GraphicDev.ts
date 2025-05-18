@@ -5,7 +5,7 @@ import sceneHandler from "../../../data/SceneHandler.ts";
 import GameModel from "../../GameModel.ts";
 import {Vector3} from "@math.gl/core";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
-import DripTest from "../WebsiteLevel/drip/DripTest.ts";
+import DripTest from "./drip/DripTest.ts";
 import KrisWebsite from "./KrisWebsite.ts";
 import LevelHandler from "../LevelHandler.ts";
 import NavigationLevel from "../NavigationLevel.ts";

@@ -68,7 +68,7 @@ export class StrawberryLevel extends PlatformLevel {
         this.strawBerry.ry = -0.4
 
         GameModel.gameCamera.setMinMaxX(-0.3, 100)
-
+//
 
     }
 

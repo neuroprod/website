@@ -29,12 +29,19 @@ export class PlatformLevel extends BaseLevel{
         console.log("show")
 
     }
+    endAnime(): number {
+        GameModel.gameRenderer.tweenToBlack()
+        return 0.5;
+    }
+
     configScene(){
 
         this.coinHandler =new CoinGrabber()
        GameModel.conversationHandler.dataCallBack =this.conversationDataCallBack.bind(this)
         this._blockInput =false;
        GameModel.gameRenderer.setLevelType("platform")
+
+        GameModel.gameRenderer.tweenToNonBlack()
     }
     update(){
 

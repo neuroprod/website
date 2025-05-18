@@ -20,7 +20,7 @@ import MeatHandler from "../meat/MeatHandler.ts";
 import ArduinoGame from "./arduinoGame/ArduinoGame.ts";
 import FoodForFish from "./foodforfish/FoodForFish.ts";
 import IndexedItem from "./IndexedItem.ts";
-import DripTest from "./drip/DripTest.ts";
+import DripTest from "../graphicDev/drip/DripTest.ts";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
 
 export class WebsiteLevel extends BaseLevel {

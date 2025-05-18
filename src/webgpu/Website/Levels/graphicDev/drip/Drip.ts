@@ -115,7 +115,7 @@ private isDropping=false;
 
             if(y<0){
                 this.isDropping =false
-                console.log("stopdrop")
+
             }
         }
     }

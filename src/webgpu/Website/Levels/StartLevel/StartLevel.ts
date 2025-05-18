@@ -24,6 +24,7 @@ export class StartLevel extends BaseLevel {
     private camTarget = new Vector3()
 
     private characterController!: CharacterController;
+    private goGraphicDev: boolean =false;
 
 
     init() {
@@ -46,7 +47,11 @@ export class StartLevel extends BaseLevel {
         })
 
     }
-
+    endAnime(): number {
+        if(this.goGraphicDev)return 0
+        GameModel.gameRenderer.tweenToBlack()
+        return 0.5;
+    }
     update() {
         super.update();
         if (this.kris) this.kris.update()
@@ -93,8 +98,10 @@ export class StartLevel extends BaseLevel {
             gsap.to(graphicsDev, {sx: 0, sy: 0, sz: 0, duration: 0.2})
             this.kris.jump()
             this.kris.stopWave()
+            this.goGraphicDev =true;
             gsap.delayedCall(1.5, () => {
                 LevelHandler.setLevel("GraphicDev")
+
             })
             // LevelHandler.setLevel("Website")
         }
@@ -113,6 +120,7 @@ export class StartLevel extends BaseLevel {
             gsap.to(pirate, {sx: 0, sy: 0, sz: 0, duration: 0.2})
             gsap.to(graphicsDev, {sx: 0, sy: 0, sz: 0, duration: 0.2})
             this.characterController.gotoAndIdle(new Vector3(3, 0.1, 0), 1, () => {
+                this.goGraphicDev =false;
                 LevelHandler.setLevel("Intro")
             })
         }
@@ -153,7 +161,7 @@ export class StartLevel extends BaseLevel {
 
                 gsap.to(GameModel.gameRenderer, {distortValue:0, delay: 0.2, duration: 0.5})
             }})
-
+GameModel.gameRenderer.tweenToNonBlack()
     }
 destroy() {
     super.destroy();

@@ -60,8 +60,7 @@ export default class CoinHandler{
     }
 
     hide() {
-        console.log("hide")
-        console.trace()
+
         this.textModel.visible=false
     }
     show() {

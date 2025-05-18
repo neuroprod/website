@@ -1,6 +1,6 @@
 import NavigationLevel from "../NavigationLevel.ts";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
-import DripTest from "../WebsiteLevel/drip/DripTest.ts";
+import DripTest from "../graphicDev/drip/DripTest.ts";
 import KrisWebsite from "../graphicDev/KrisWebsite.ts";
 import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";

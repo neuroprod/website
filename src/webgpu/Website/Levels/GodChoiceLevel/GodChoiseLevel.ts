@@ -43,7 +43,10 @@ export default class GodChoiceLevel extends BaseLevel{
         })
 
     }
-
+    endAnime(): number {
+        GameModel.gameRenderer.tweenToBlack()
+        return 0.5;
+    }
     private configScene() {
 
         LoadHandler.onComplete =()=>{}
@@ -94,6 +97,7 @@ export default class GodChoiceLevel extends BaseLevel{
 
             LevelHandler.setLevel("Cookie")
         }
+        GameModel.gameRenderer.tweenToNonBlack()
     }
     update() {
         super.update();

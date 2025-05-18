@@ -52,12 +52,15 @@ private navigationLevels:Array<string> =["GraphicDev","FoodForFish","Meat"]
     setLevel(key: string) {
         this.currentLevelName = key;
        // history.pushState({urlPath: '/' + key}, "", '/' + key)
-        GameModel.gameRenderer.tweenToBlack()
-        gsap.delayedCall(0.5, () => {
+       // GameModel.gameRenderer.tweenToBlack()
+        let delay =0
+        if(   this.currentLevel)delay=this.currentLevel.endAnime()
+        gsap.delayedCall(delay, () => {
             GameModel.coinHandler.hide()
             if (this.currentLevel) this.currentLevel.destroy()
 
             this.currentLevel = this.levels.get(key) as BaseLevel;
+
             if (this.currentLevel) {
                 AppState.setState("currentLevel", key);
                 this.currentLevel.init()

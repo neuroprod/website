@@ -11,7 +11,8 @@ class LoadHandler{
     update(){
         if(this.loadingCount==0 && this._isLoading){
             this._isLoading =false;
-            GameModel.gameRenderer.tweenToNonBlack()
+            console.log("loadDone")
+           // GameModel.gameRenderer.tweenToNonBlack()
             if(this.onComplete)this.onComplete()
             //console.log("loadingDone")
         }
