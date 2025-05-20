@@ -14,16 +14,16 @@ export default class NavigationLevel extends BaseLevel{
         this.lockNavigation =false
     }
     configScene(){
-        let wh = window.innerHeight *3;
+        let wh = window.innerHeight *2;
         let app = document.getElementById("app")
         if (app) app.style.height = wh + "px"
-        window.scrollTo(0, window.innerHeight);
+        window.scrollTo(0, window.innerHeight/2);
         document.body.style.overflowY = "visible"
         document.body.style.overflowX = "hidden"
     }
     update(){
 
-        if(window.scrollY==window.innerHeight*2 && !this.lockNavigation){
+        if(window.scrollY==(window.innerHeight) && !this.lockNavigation){
             //LevelHandler.setLevel("Start")
             this.lockNavigation=true
             LevelHandler.setNextNavigationLevel()

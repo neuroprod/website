@@ -17,7 +17,7 @@ import Plane from "../../../lib/mesh/geometry/Plane.ts";
 import {ScrollTrigger} from "gsap/ScrollTrigger";
 import KrisWebsite from "../graphicDev/KrisWebsite.ts";
 import MeatHandler from "../meat/MeatHandler.ts";
-import ArduinoGame from "./arduinoGame/ArduinoGame.ts";
+import ArduinoGamePixels from "../arduinoGame/ArduinoGamePixels.ts";
 import FoodForFish from "./foodforfish/FoodForFish.ts";
 import IndexedItem from "./IndexedItem.ts";
 import DripTest from "../graphicDev/drip/DripTest.ts";
@@ -33,7 +33,7 @@ export class WebsiteLevel extends BaseLevel {
     private krisWebsite!: KrisWebsite;
 
     private meatHandler: MeatHandler;
-    private arduinoGame: ArduinoGame;
+    private arduinoGame: ArduinoGamePixels;
     private foodForFish: FoodForFish;
     private websiteItems = ["root1", "root2", "root3", "root4", "root5", 'root6', 'root7']
 
@@ -51,7 +51,7 @@ export class WebsiteLevel extends BaseLevel {
         gsap.registerPlugin(ScrollTrigger)
         this.video1 = new VideoPlayer(GameModel.renderer, "video/foodfish.mp4", new Vector2(1920, 1080))
         this.meatHandler = new MeatHandler()
-        this.arduinoGame = new ArduinoGame()
+        this.arduinoGame = new ArduinoGamePixels()
         this.foodForFish = new FoodForFish()
         this.driptest =new DripTest()
 

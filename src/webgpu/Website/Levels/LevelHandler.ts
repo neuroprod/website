@@ -20,6 +20,8 @@ import {GirlLevel} from "./GirlLevel/GirlLevel.ts";
 import {GraphicDev} from "./graphicDev/GraphicDev.ts";
 import FoodForFish from "./foodforFish/FoodForFish.ts";
 import Meat from "./meat/Meat.ts";
+import ArduinoGame from "./arduinoGame/ArduinoGame.ts";
+import FisTik from "./fistik/FisTik.ts";
 
 class LevelHandler {
     public levelKeys: Array<string> = [];
@@ -27,7 +29,7 @@ class LevelHandler {
 
     public currentLevel!: BaseLevel | null;
 
-private navigationLevels:Array<string> =["GraphicDev","FoodForFish","Meat"]
+private navigationLevels:Array<string> =["GraphicDev","FoodForFish","Meat","ArduinoGame","FisTik"]
     private currentLevelName: string="";
     init() {
 
@@ -35,6 +37,8 @@ private navigationLevels:Array<string> =["GraphicDev","FoodForFish","Meat"]
         this.addLevel("GraphicDev", new GraphicDev())
        this.addLevel("FoodForFish", new FoodForFish())
         this.addLevel("Meat", new Meat())
+        this.addLevel("ArduinoGame", new ArduinoGame())
+        this.addLevel("FisTik", new FisTik())
         this.addLevel("Intro", new IntroLevel())
         this.addLevel("God", new GodLevel())
         this.addLevel("GodChoice", new GodChoiceLevel())
