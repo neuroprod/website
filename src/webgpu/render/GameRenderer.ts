@@ -282,13 +282,7 @@ private _distortValue=0;
     //put in canvas
     drawFinal(pass: CanvasRenderPass) {
 
-        this.blitFinal.draw(pass);
-
-    //   this.transparentModelRenderer.draw(pass)
-
-        if(this.transitionValue !=0){
-            //
-        }
+       this.blitFinal.draw(pass);
 
     }
 

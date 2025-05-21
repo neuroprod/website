@@ -23,6 +23,8 @@ import ConversationHandler from "./conversation/ConversationHandler.ts";
 import AppState from "../AppState.ts";
 import Overlay from "./Overlay.ts";
 import CoinHandler from "./handlers/CoinHandler.ts";
+import Renderer2D from "../lib/twoD/Renderer2D.ts";
+import UI2D from "./UI2D/UI2D.ts";
 
 
 export default class Game {
@@ -61,8 +63,8 @@ export default class Game {
        GameModel.conversationHandler = this.conversationHandler;
        GameModel.mouseListener = this.mouseListener;
         GameModel.coinHandler = new CoinHandler(renderer)
-
-
+        GameModel.renderer2D =new Renderer2D(renderer,mouseListener)
+        GameModel.UI2D =new UI2D(renderer, GameModel.renderer2D)
 
 
         LevelHandler.init()
@@ -82,9 +84,12 @@ export default class Game {
         }
 
         this.gameCamera.update()
+
         GameModel.coinHandler.update()
         this.textBalloonHandler.update()
         this.overlay.update()
+        GameModel.renderer2D.setSize(this.renderer.width,this.renderer.height)
+        GameModel.renderer2D.update()
         DebugDraw.update();
 
     }
@@ -110,11 +115,11 @@ export default class Game {
 
     drawInCanvas(pass: CanvasRenderPass) {
         if (LoadHandler.isLoading()) return
-      this.gameRenderer.drawFinal(pass);
-
-
-      //  DebugDraw.draw(pass);
+       this.gameRenderer.drawFinal(pass);
         this.overlay.draw(pass)
+        GameModel.renderer2D.draw(pass)
+     // DebugDraw.draw(pass);
+
     }
 
 

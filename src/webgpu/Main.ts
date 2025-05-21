@@ -29,6 +29,7 @@ import LoadHandler from "./data/LoadHandler.ts";
 import LevelHandler from "./Website/Levels/LevelHandler.ts";
 import GameModel from "./Website/GameModel.ts";
 import gameModel from "./Website/GameModel.ts";
+import FontPool from "./lib/twoD/FontPool.ts";
 
 
 export enum MainState {
@@ -104,6 +105,9 @@ export default class Main {
         new TextureLoader(this.renderer, Textures.SPACE_ARM)
         new TextureLoader(this.renderer, Textures.SPACE_SHIP)
         new TextureLoader(this.renderer, Textures.SPACE_HEAD)
+
+        FontPool.loadFont(this.renderer,this.preloader,"bold")
+
         // this.modelLoader = new ModelLoader(this.renderer, this.preloader)
         // this.sceneLoader = new JsonLoader("scene1", this.preloader)
         this.preloader.startLoad()

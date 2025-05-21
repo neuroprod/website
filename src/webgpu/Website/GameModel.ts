@@ -6,10 +6,11 @@ import KeyInput from "./KeyInput.ts";
 import TextBalloonHandler from "./conversation/TextBalloonHandler.ts";
 import ConversationHandler from "./conversation/ConversationHandler.ts";
 import MouseListener from "../lib/MouseListener.ts";
-import SoundHandler from "./SoundHandler.ts";
+import UI2D from "./UI2D/UI2D.ts";
 import Overlay from "./Overlay.ts";
 import CoinHandler from "./handlers/CoinHandler.ts";
 import {MainState} from "../Main.ts";
+import Renderer2D from "../lib/twoD/Renderer2D.ts";
 
  class GameModel {
 
@@ -28,6 +29,8 @@ import {MainState} from "../Main.ts";
     presentID=-1;
     setMainState!: OmitThisParameter<(state: MainState) => void>;
     debug: boolean =false;
+     renderer2D!: Renderer2D;
+    UI2D!: UI2D;
 
 
 
