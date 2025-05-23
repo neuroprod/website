@@ -74,20 +74,24 @@ export default class Game {
     update() {
 
 
-        if (LoadHandler.isLoading()) return
+        if (!LoadHandler.isLoading()) {
 
 
-        this.gamepadInput.update();
-        if (LevelHandler.currentLevel) {
-            LevelHandler.currentLevel.updateMouse()
-            LevelHandler.currentLevel.update()
+            this.gamepadInput.update();
+            if (LevelHandler.currentLevel) {
+                LevelHandler.currentLevel.updateMouse()
+                LevelHandler.currentLevel.update()
+            }
+
+            this.gameCamera.update()
+
+            GameModel.coinHandler.update()
+            this.textBalloonHandler.update()
+            this.overlay.update()
+            GameModel.UI2D.updateMouse()
+            GameModel.UI2D.update()
         }
 
-        this.gameCamera.update()
-
-        GameModel.coinHandler.update()
-        this.textBalloonHandler.update()
-        this.overlay.update()
         GameModel.renderer2D.setSize(this.renderer.width,this.renderer.height)
         GameModel.renderer2D.update()
         DebugDraw.update();
@@ -114,9 +118,10 @@ export default class Game {
     }
 
     drawInCanvas(pass: CanvasRenderPass) {
-        if (LoadHandler.isLoading()) return
-       this.gameRenderer.drawFinal(pass);
-        this.overlay.draw(pass)
+        if (!LoadHandler.isLoading()) {
+            this.gameRenderer.drawFinal(pass);
+            this.overlay.draw(pass)
+        }
         GameModel.renderer2D.draw(pass)
      // DebugDraw.draw(pass);
 

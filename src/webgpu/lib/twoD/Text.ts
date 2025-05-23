@@ -6,20 +6,28 @@ import UniformGroup from "../material/UniformGroup.ts";
 import Font from "./Font.ts";
 import TextMesh from "./TextMesh.ts";
 import TextMaterial from "./TextMaterial.ts";
+import {Vector2, Vector4} from "@math.gl/core";
+import Rect from "./Rect.ts";
 
 export default class Text extends Object2D{
     private material: TextMaterial;
     private mesh: TextMesh;
+    width: number=0;
 
-
+    private mousePosLocal:Vector4 =new Vector4()
+    private rect: Rect;
 
     constructor(renderer: Renderer, font:Font,size:number=25,text:string ="testText") {
         super();
 
-
+        this.id = text
 
         this.mesh = new TextMesh(renderer)
         this.mesh.setText(text,font,size)
+        this.rect = new Rect()
+        this.rect.min.set(this.mesh.min.x,this.mesh.min.y)
+        this.rect.max.set(this.mesh.max.x,this.mesh.max.y)
+        this.width = this.mesh.max.x;
         this.material = new TextMaterial(renderer,"text2DMAt")
         this.material.setTexture("texture", font.texture)
 
@@ -85,6 +93,14 @@ export default class Text extends Object2D{
             );
         }
 
+    }
+    checkMouseHit(mousePos:Vector2){
+        this.mousePosLocal.set(mousePos.x,mousePos.y,0,1)
+        this.mousePosLocal.applyMatrix4(this._worldMatrixInv)
+        if(this.rect.contains(this.mousePosLocal)){
+           return this
+        }
+      return null;
     }
 
 }

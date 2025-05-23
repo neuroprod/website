@@ -1,10 +1,10 @@
-import {Matrix4, Quaternion, Vector3} from "@math.gl/core";
+import {Matrix4, Quaternion, Vector2, Vector3} from "@math.gl/core";
 import RenderPass from "../RenderPass.ts";
 
 export default class Object2D {
     public parent: Object2D | null = null;
     public children: Array<Object2D> = []
-    public id = ""
+    public id: string = ""
     public visible: boolean = true;
     protected _position = new Vector3(0, 0, 0);
     private isDirty: boolean = true;
@@ -12,9 +12,10 @@ export default class Object2D {
     private _rotation = new Quaternion(0, 0, 0, 1);
     private tempMatrix = new Matrix4()
     private _localMatrix: Matrix4 = new Matrix4()
-    private _worldMatrixInv: Matrix4 = new Matrix4()
-
+    protected _worldMatrixInv: Matrix4 = new Matrix4()
+    public mouseEnabled =true;
     constructor() {
+        this.id ="" +Math.random()
     }
 
     private _scale = new Vector3(1, 1, 1);
@@ -76,6 +77,7 @@ export default class Object2D {
     }
 
     draw(pass: RenderPass) {
+
         if (!this.visible) return;
         this.drawInt(pass)
 
@@ -119,5 +121,64 @@ export default class Object2D {
         for (let c of this.children) {
             c.setDirty()
         }
+    }
+
+
+    ///mouse
+
+
+    public currentOver: Object2D | null = null;
+    public currentDown: Object2D | null = null;
+    updateMouse(mousePos: Vector2, isDownThisFrame: boolean, isUpThisFrame: boolean) {
+       let mouseObject = this.updateMouseInt(mousePos);
+        if(this.currentOver != mouseObject){
+          if(this.currentOver)this.currentOver.rollOut()
+            this.currentOver = mouseObject
+            if(this.currentOver)this.currentOver.rollOver()
+        }
+        if(isDownThisFrame) {
+            this.currentDown = this.currentOver;
+            if(this.currentDown)this.currentDown.mouseDown()
+        }
+        if(isUpThisFrame){
+            if(this.currentDown){
+                this.currentDown.mouseUp()
+                if(this.currentDown == this.currentOver)this.currentDown.onClick()
+                this.currentDown =null
+            }
+
+        }
+
+    }
+    updateMouseInt(mousePos:Vector2):null|Object2D{
+        if (!this.visible) return null;
+        if (!this.mouseEnabled) return null;
+        //TODO: revers order
+        for (let c of this.children) {
+           let a = c.updateMouseInt(mousePos)
+            if(a) return a;
+        }
+        return this.checkMouseHit(mousePos)
+    }
+    checkMouseHit(mousePos:Vector2):null|Object2D{
+        return null
+    }
+
+    public rollOut() {
+
+    }
+    public rollOver() {
+
+    }
+
+    public mouseDown() {
+
+    }
+    public mouseUp() {
+
+    }
+
+    public onClick() {
+
     }
 }

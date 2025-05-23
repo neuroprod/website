@@ -22,6 +22,7 @@ import FoodForFish from "./foodforFish/FoodForFish.ts";
 import Meat from "./meat/Meat.ts";
 import ArduinoGame from "./arduinoGame/ArduinoGame.ts";
 import FisTik from "./fistik/FisTik.ts";
+import Lab101 from "./lab101/Lab101.ts";
 
 class LevelHandler {
     public levelKeys: Array<string> = [];
@@ -29,16 +30,17 @@ class LevelHandler {
 
     public currentLevel!: BaseLevel | null;
 
-private navigationLevels:Array<string> =["GraphicDev","FoodForFish","Meat","ArduinoGame","FisTik"]
+public  navigationLevels:Array<string> =["About","FoodForFish","Website","Invasion","FisTik","Lab101"]
     private currentLevelName: string="";
     init() {
 
         this.addLevel("Start", new StartLevel())
-        this.addLevel("GraphicDev", new GraphicDev())
+        this.addLevel("About", new GraphicDev())
        this.addLevel("FoodForFish", new FoodForFish())
-        this.addLevel("Meat", new Meat())
-        this.addLevel("ArduinoGame", new ArduinoGame())
+        this.addLevel("Website", new Meat())
+        this.addLevel("Invasion", new ArduinoGame())
         this.addLevel("FisTik", new FisTik())
+        this.addLevel("Lab101", new Lab101())
         this.addLevel("Intro", new IntroLevel())
         this.addLevel("God", new GodLevel())
         this.addLevel("GodChoice", new GodChoiceLevel())
@@ -54,9 +56,11 @@ private navigationLevels:Array<string> =["GraphicDev","FoodForFish","Meat","Ardu
     }
 
     setLevel(key: string) {
+        if( this.currentLevelName == key)return
         this.currentLevelName = key;
        // history.pushState({urlPath: '/' + key}, "", '/' + key)
        // GameModel.gameRenderer.tweenToBlack()
+        GameModel.UI2D.setLevel(key)
         let delay =0
         if(   this.currentLevel)delay=this.currentLevel.endAnime()
         gsap.delayedCall(delay, () => {

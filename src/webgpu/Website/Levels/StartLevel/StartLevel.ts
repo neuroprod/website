@@ -100,7 +100,7 @@ export class StartLevel extends BaseLevel {
             this.kris.stopWave()
             this.goGraphicDev =true;
             gsap.delayedCall(1.5, () => {
-                LevelHandler.setLevel("GraphicDev")
+                LevelHandler.setLevel("About")
 
             })
             // LevelHandler.setLevel("Website")
