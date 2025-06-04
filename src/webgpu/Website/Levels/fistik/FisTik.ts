@@ -39,7 +39,8 @@ export default class FisTik extends NavigationLevel{
 
         GameModel.gameRenderer.setLevelType("website")
 
-
+        let captain = SceneHandler.getSceneObject("captain");
+     
     }
 
     public update() {
