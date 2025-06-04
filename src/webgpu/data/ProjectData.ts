@@ -51,6 +51,7 @@ class ProjectData {
        for(let folder of this.folders){
 
             let file  = "./data/"+folder+"/data.json"
+           console.log(file)
             let p =  fetch( file)
 
 
@@ -68,7 +69,9 @@ class ProjectData {
 
             p.setData(projectData);
             this.addProject(p)
-        })
+        }).catch(()=>{
+            console.log(text)
+           })
        }
        const responseW = await fetch( "./websiteCopy.json")
 
@@ -80,6 +83,7 @@ class ProjectData {
 
     }
     private addProject(p: Project) {
+
         this.projects.push(p)
         this.projectsNameMap.set(p.name, p);
         this.projectsMap.set(p.id, p);
