@@ -46,6 +46,7 @@ export default class SceneObject3D extends Object3D {
 
     posEditor: Vector3 = new Vector3()
     rotEditor: Vector3 = new Vector3()
+    postLight: boolean =false;
 
     constructor(renderer: Renderer, label: string) {
         super(renderer, label);
@@ -186,6 +187,10 @@ export default class SceneObject3D extends Object3D {
                 this.needsTransShading = UI.LBool(this, "needsTransShading");
 
         }
+        if (this.model) {
+            this.postLight = UI.LBool(this, "postLight");
+
+        }
         if (this.isText) {
             let t = UI.LTextInput("text", this.text)
 
@@ -246,6 +251,9 @@ export default class SceneObject3D extends Object3D {
             this.needsTransShading = obj.needsTransShading
 
         }
+        if (obj.postLight  != undefined) {
+            this.postLight=obj.postLight ;
+        }
         if (obj.textSpacing  != undefined) {
              this.textSpacing=obj.textSpacing ;
         }
@@ -283,7 +291,7 @@ export default class SceneObject3D extends Object3D {
         obj.dropShadow = this.dropShadow;
         obj.isTransparent = this.isTransparent;
         obj.needsTransShading = this.needsTransShading;
-
+        obj.postLight = this.postLight;
         obj.textColor = [this.textColor.r, this.textColor.g, this.textColor.b, this.textColor.a]
         if (this.model) {
             obj.model = this.model.label

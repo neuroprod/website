@@ -26,7 +26,10 @@ import InGameFXPass from "./InGameFX/InGameFXPass.ts";
 import MaskRenderPass from "./InGameFX/MaskRenderPass.ts";
 import gsap from "gsap";
 import DripPass from "./drip/DripPass.ts";
+import PostLightRenderPass from "./postLight/PostLightRenderPass.ts";
 export default class GameRenderer {
+    private postLightPass: PostLightRenderPass;
+
     get fxEnabled(): boolean {
         return this._fxEnabled;
     }
@@ -80,6 +83,7 @@ export default class GameRenderer {
     private gradingPass: GradingRenderPass;
     private inGameFXPass: InGameFXPass;
     private maskRenderPass: MaskRenderPass;
+    private postLightModelRenderer: ModelRenderer;
 
    // private dripPass:DripPass
 
@@ -108,7 +112,8 @@ private _distortValue=0;
 
         this.gradingPass = new GradingRenderPass(renderer)
 
-       // this.dripPass =new DripPass(renderer)
+        this.postLightModelRenderer = new ModelRenderer(this.renderer, "postLight", camera)
+        this.postLightPass = new PostLightRenderPass(renderer,camera, this.sunLight,this.postLightModelRenderer)
 
 
 
@@ -165,6 +170,7 @@ private _distortValue=0;
         this.shadowMapPass.modelRenderer.setModels([])
         this.transparentModelRenderer.setModels([])
         this.maskRenderPass.modelRenderer.setModels([])
+        this.postLightModelRenderer.setModels([])
         this.allModels = []
 
 
@@ -179,7 +185,13 @@ private _distortValue=0;
     }
 
     public addModel(m: Model) {
-
+        if(m.parent ){
+            if ((m.parent as SceneObject3D).postLight) {
+                this.postLightModelRenderer.addModel(m)
+                this.allModels.push(m)
+                return
+            }
+        }
         if (m.transparent) {
             this.transparentModelRenderer.addModel(m)
         } else {
@@ -202,7 +214,7 @@ private _distortValue=0;
         this.gBufferPass.modelRenderer.removeModel(m)
         this.shadowMapPass.modelRenderer.removeModel(m)
         this.transparentModelRenderer.removeModel(m)
-
+this.postLightModelRenderer.removeModel(m)
 
         const index = this.allModels.indexOf(m, 0);
         if (index > -1) {
@@ -277,6 +289,8 @@ private _distortValue=0;
            this.inGameFXPass.add()
        }
         this.gradingPass.add()
+        this.postLightPass.add()
+
     }
 
     //put in canvas

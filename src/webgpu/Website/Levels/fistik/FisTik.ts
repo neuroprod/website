@@ -22,7 +22,7 @@ export default class FisTik extends NavigationLevel{
         LoadHandler.onComplete = this.configScene.bind(this)
         LoadHandler.startLoading()
 
-        SceneHandler.setScene(SceneHandler.getSceneIDByName("contact")).then(() => {
+        SceneHandler.setScene(SceneHandler.getSceneIDByName("smullen")).then(() => {
             LoadHandler.stopLoading()
 
         });
@@ -40,7 +40,7 @@ export default class FisTik extends NavigationLevel{
         GameModel.gameRenderer.setLevelType("website")
 
         let captain = SceneHandler.getSceneObject("captain");
-     
+
     }
 
     public update() {

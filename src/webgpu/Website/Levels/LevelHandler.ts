@@ -24,6 +24,8 @@ import ArduinoGame from "./arduinoGame/ArduinoGame.ts";
 import FisTik from "./fistik/FisTik.ts";
 import Lab101 from "./lab101/Lab101.ts";
 import Scroll from "./scroll/Scroll.ts";
+import Contact from "./Contact/Contact.ts";
+import Shaders from "./shaders/Shaders.ts";
 
 class LevelHandler {
     public levelKeys: Array<string> = [];
@@ -31,18 +33,20 @@ class LevelHandler {
 
     public currentLevel!: BaseLevel | null;
 
-public  navigationLevels:Array<string> =["Scroll","About","FoodForFish","Website","Invasion","FisTik","Lab101"]
+public  navigationLevels:Array<string> =["Scroll","About","Shaders","FoodForFish","Websites","Invasion","Smullen","Lab101","Contact"]
     private currentLevelName: string="";
     init() {
 
-        this.addLevel("Start", new StartLevel())
+        this.addLevel("Home", new StartLevel())
         this.addLevel("About", new GraphicDev())
+        this.addLevel("Shaders", new Shaders())
        this.addLevel("FoodForFish", new FoodForFish())
-        this.addLevel("Website", new Meat())
+        this.addLevel("Websites", new Meat())
         this.addLevel("Invasion", new ArduinoGame())
-        this.addLevel("FisTik", new FisTik())
+        this.addLevel("Smullen", new FisTik())
         this.addLevel("Scroll", new Scroll())
         this.addLevel("Lab101", new Lab101())
+        this.addLevel("Contact", new Contact())
         this.addLevel("Intro", new IntroLevel())
         this.addLevel("God", new GodLevel())
         this.addLevel("GodChoice", new GodChoiceLevel())
