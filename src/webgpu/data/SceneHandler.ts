@@ -212,8 +212,9 @@ class SceneHandler {
     }
 
     private parseSceneAnimations(animations: any[]) {
-console.log("animations",animations)
+
         for(let anime of animations){
+
             let animation = new Animation(this.renderer, anime.label, this.sceneObjectsByLoadID.get(anime.rootID) as SceneObject3D)
             animation.frameTime = anime.frameTime;
             animation.numFrames = anime.numFrames;
@@ -236,9 +237,9 @@ console.log("animations",animations)
                 }
                 channel.lastKeyIndex = channel.keys.length-1;
                 animation.channels.push(channel)
-                this.sceneAnimations.push(animation)
-            }
 
+            }
+            this.sceneAnimations.push(animation)
 
            // let animation =new Animation(this.renderer,)
 
@@ -246,9 +247,14 @@ console.log("animations",animations)
     }
     addAnimation(animation:Animation){
      this.sceneAnimations.push(animation)
+
         }
    removeAnimation(animation:Animation){
-     console.log("implementRemove")
+       let i =  this.sceneAnimations.indexOf(animation)
+       if(i>-1){
+           this.sceneAnimations.splice(i,1)
+       }
+
     }
 
 }

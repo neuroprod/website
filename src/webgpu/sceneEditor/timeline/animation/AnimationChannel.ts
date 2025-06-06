@@ -1,6 +1,7 @@
 import SceneObject3D from "../../../data/SceneObject3D.ts";
 import {AnimationType} from "./Animation.ts";
 import {Quaternion, Vector3} from "@math.gl/core";
+import Bezier from "../../../lib/path/Bezier.ts";
 
 
 export class Key {
@@ -110,6 +111,12 @@ export default class AnimationChannel {
                 let k0 = this.keys[i - 1];
                 let k1 = this.keys[i];
                 let lerpVal = (time - k0.frame) / (k1.frame - k0.frame);
+//if(step){
+// lerpVal ==0
+// }
+
+
+
 
                 if (this.type == AnimationType.TRANSLATE) {
                     let v = new Vector3()
@@ -117,13 +124,13 @@ export default class AnimationChannel {
                     v.lerp(k1.data, lerpVal)
                     this.sceneObject3D.setPositionV(v);
                 }
-                if (this.type == AnimationType.SCALE) {
+                else if (this.type == AnimationType.SCALE) {
                     let v = new Vector3()
                     v.from(k0.data)
                     v.lerp(k1.data, lerpVal)
                     this.sceneObject3D.model?.setScaleV(v);
                 }
-                if (this.type == AnimationType.ROTATE) {
+                else if (this.type == AnimationType.ROTATE) {
                     let q = new Quaternion()
                     q.from(k0.data)
                     q.slerp(k1.data, lerpVal)
