@@ -126,9 +126,9 @@ var pFlat = p;
     let d1 = sdSphere(pFlat+vec3f(0.1,0.0,0),0.15+sin(uniforms.time)*0.01);
     let d2 = sdSphere(pFlat+vec3f(-0.1,0.03,0),0.15+cos(uniforms.time)*0.01);
     var d = opSmoothUnion(d1,d2,0.1);
-     var noiseP =p*5.0;
-    noiseP.z +=uniforms.time*0.04;
-    let n =smoothstep(-0.2,1.0,fbm_4(noiseP*2.0+fbm_4(noiseP*2.0)*1.5))*0.01;
+     var noiseP =p*7.0;
+    noiseP.z +=uniforms.time*0.09;
+    let n =smoothstep(-0.2,1.0,fbm_4(noiseP*2.0+fbm_4(noiseP*2.0)*1.5))*0.015;
     d-=n;
     let skin = smoothstep(0.5,1.0,1.0-n*5.0);
     d+=skin*smoothstep(-1.0,1.0,fbm_2(noiseP*50.0)*fbm_2(noiseP*4.0))*0.002;
@@ -138,12 +138,32 @@ var pFlat = p;
 
 
 }
+fn getColor( p:vec3f)->vec4f{
+
+   var noiseP =p*7.0;
+    noiseP.z +=uniforms.time*0.09;
+  let n1=abs(fbm_2(noiseP*1.0));
+ 
+  let n =smoothstep(-0.2,1.0,fbm_4(noiseP*2.0+fbm_4(noiseP*2.0)*1.5));
+  let base1 = mix(vec3f(0.2,0,0.1),vec3f(0.9,0.2,0.3),vec3(n));
+  let lum = vec3f(0.299, 0.587, 0.114);
+  let gray = vec3f(dot(lum, base1));
+
+  var color = mix(base1, gray, vec3(pow(n1,2.0)));
+ 
+ let s = smoothstep(0.2,0.4,n);
+  let w =40.0-s*20.0;
+
+
+  color+=vec3(s)*vec3(0.7,0.7,0.4)*0.5;
+  return vec4(color,w);
+}
 
 
 fn rayMarch(ro:vec3f, rd:vec3f, start:f32, end:f32)->f32 {
  var depth = start;
 
-  for (var i:i32 = 0; i < 100; i++) {
+  for (var i:i32 = 0; i < 50; i++) {
     let p = ro + depth * rd;
     
     let d =map(p);
@@ -166,6 +186,35 @@ fn calcNormal(p:vec3f)->vec3f {
       e.yxy * map(p + e.yxy) +
       e.xxx * map(p + e.xxx));
 }
+
+fn calcSoftshadow( ro:vec3f,  rd:vec3f, mint:f32, tmax:f32 )->f32
+{
+  var res = 1.0;
+    var t = mint;
+   var ph = 1e10; // big, such that y = 0 on the first iteration
+    
+    for( var i=0; i<6; i++ )
+    {
+        let h = map( ro + rd*t );
+
+      
+           let y = h*h/(2.0*ph);
+           let d = sqrt(h*h-y*y);
+            res = min( res, 10.0*d/max(0.0,t-y) );
+            ph = h;
+       
+        
+        t += h;
+        
+        if( res<0.001 || t>tmax ) {break;};
+        
+    }
+    res = clamp( res, 0.0, 1.0 );
+    return res*res*(3.0-2.0*res);
+}
+
+
+
 @vertex
 fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
@@ -189,12 +238,29 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
     let ro =camera.worldPosition.xyz;
     let rd = normalize(worldPos-ro);
    let depth = rayMarch(ro,rd,0.1,1.0);
-   if (depth>1.0){discard;};
+   if (depth>1.0){discard ;};
    
   let  p = ro + rd * depth;
    let N = calcNormal(p);
+   let color = getColor(p);
+   let albedo =color.xyz ;
+   let lightpos =vec3(0.2,0.3,0.3);
+    let L = normalize(lightpos - p);
+    
+    let shadow =calcSoftshadow(p,L, 0.01, 1.0);
+    let irr =vec3(max(0.0,dot(N,L))*2.0)*shadow+vec3(0.1,0.1,0.2);
+    var col =irr*albedo;
+    
+    let  refl = reflect(rd,N);            
+    let fre = clamp(1.0+dot(N,rd),0.0,1.0);
+    let spe = (color.w/15.0)*pow( clamp(dot(refl,L),0.0, 1.0), color.w )*2.0*(0.5+0.5*pow(fre,42.0));
+    col += spe*shadow;
    
-     return vec4(N,1.0) ;
+ col +=vec3(pow(1.0+dot(rd,N),2.0))*vec3(0.2,0.1,0.1)*0.3;
+   
+   
+   
+     return vec4(col,1.0) ;
 }
 ///////////////////////////////////////////////////////////
         `
