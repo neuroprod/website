@@ -212,7 +212,7 @@ class SceneHandler {
     }
 
     private parseSceneAnimations(animations: any[]) {
-
+if(!animations)return
         for(let anime of animations){
 
             let animation = new Animation(this.renderer, anime.label, this.sceneObjectsByLoadID.get(anime.rootID) as SceneObject3D)

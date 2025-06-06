@@ -144,7 +144,7 @@ fn getColor( p:vec3f)->vec4f{
     noiseP.z +=uniforms.time*0.09;
   let n1=abs(fbm_2(noiseP*1.0));
  
-  let n =smoothstep(-0.2,1.0,fbm_4(noiseP*2.0+fbm_4(noiseP*2.0)*1.5));
+  let n =smoothstep(-0.2,1.0,fbm_4(noiseP*2.0+fbm_4(noiseP*2.0)*1.5))*1.0;
   let base1 = mix(vec3f(0.2,0,0.1),vec3f(0.9,0.2,0.3),vec3(n));
   let lum = vec3f(0.299, 0.587, 0.114);
   let gray = vec3f(dot(lum, base1));
