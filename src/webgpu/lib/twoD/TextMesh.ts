@@ -16,7 +16,7 @@ export default class TextMesh extends Mesh{
     public charCount=0;
     setText(text: string,font:Font,fontSize:number=0.003){
         fontSize/=42
-        console.log(font)
+
         this.startX =0;
         this.startY =0;
         this.indicesPos =0;

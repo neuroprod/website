@@ -40,7 +40,7 @@ import SceneHandler from "../data/SceneHandler.ts";
 import sceneHandler from "../data/SceneHandler.ts";
 import LoadHandler from "../data/LoadHandler.ts";
 import loadHandler from "../data/LoadHandler.ts";
-
+import {setAnimePopup} from "../UI/AnimePopup.ts";
 import {setOpenScenePopup} from "../UI/OpenScenePopup.ts";
 import AppState, {AppStates} from "../AppState.ts";
 
@@ -243,23 +243,25 @@ class SceneEditor {
             setNewPopup("+ Add new Anime to " + this.currentModel.label, "new_anime", (name: string) => {
                 if (!this.currentModel) return;
                 let anime = new Animation(this.renderer, name, this.currentModel)
-                //      SceneData.animations.push(anime)
+                     SceneHandler.addAnimation(anime)
+
                 AnimationEditor.setAnimation(anime)
             })
 
         }
         if (addMainMenuButton("RemoveAnime", Icons.REMOVE_ANIME, true)) {
             if (AnimationEditor.currentAnimation) {
-                //  SceneData.removeAnimation(AnimationEditor.currentAnimation)
+                SceneHandler.removeAnimation(AnimationEditor.currentAnimation)
+
                 AnimationEditor.setAnimation(null);
 
             }
         }
         if (addMainMenuButton("open", Icons.FOLDER, true)) {
-            /* setAnimePopup("nenenne",SceneData.animations,(anime:Animation)=>{
+             setAnimePopup("Animations",  SceneHandler.sceneAnimations,(anime:Animation)=>{
                  AnimationEditor.setAnimation(anime);
 
-             })*/
+             })
         }
         if (AnimationEditor.currentAnimation) {
             addMainMenuDivider("mydiv3")

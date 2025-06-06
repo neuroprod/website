@@ -7,6 +7,9 @@ import ProjectData from "./ProjectData.ts";
 import Model from "../lib/model/Model.ts";
 
 import MathUtils from "../lib/MathUtils.ts";
+import Animation from "../sceneEditor/timeline/animation/Animation.ts";
+import AnimationChannel, {Key} from "../sceneEditor/timeline/animation/AnimationChannel.ts";
+import {Quaternion, Vector3} from "@math.gl/core";
 
 class SceneHandler {
     public scenesData: Array<any> = [];
@@ -26,6 +29,8 @@ class SceneHandler {
     hitTestModels: Array<Model> = [];
     triggerModels: Array<SceneObject3D> = [];
     mouseHitModels: Array<Model> = [];
+
+    sceneAnimations:Array<Animation>=[]
 
     async init(renderer: Renderer, preloader: PreLoader) {
         this.renderer = renderer;
@@ -77,6 +82,7 @@ class SceneHandler {
         this.hitTestModels =[];
         this.triggerModels =[];
         this.mouseHitModels =[];
+        this.sceneAnimations=[];
         this.sceneObjectsByLoadID.clear()
         this.sceneObjectsByName.clear()
 
@@ -87,6 +93,7 @@ class SceneHandler {
         if ( this.sceneData ) {
 
             this.parseSceneData( this.sceneData.scene,true)
+            this.parseSceneAnimations( this.sceneData.animations)
         }
 
 
@@ -97,6 +104,7 @@ class SceneHandler {
         if ( this.sceneData ) {
 
             this.parseSceneData( this.sceneData.scene,true)
+            this.parseSceneAnimations( this.sceneData.animations)
         }
     }
     saveCurrentScene() {
@@ -106,6 +114,13 @@ class SceneHandler {
         if(!sceneRoot)return;
         let sData:Array<any> =[]
         sceneRoot.getObjectData(sData);
+
+        this.sceneData.animations =[]
+        for(let a of this.sceneAnimations){
+            a.getAnimationData( this.sceneData.animations)
+        }
+
+
 
         this.sceneData.scene =sData;
     }
@@ -195,6 +210,47 @@ class SceneHandler {
 
         return this.sceneObjectsByName.get(name) as SceneObject3D;
     }
+
+    private parseSceneAnimations(animations: any[]) {
+console.log("animations",animations)
+        for(let anime of animations){
+            let animation = new Animation(this.renderer, anime.label, this.sceneObjectsByLoadID.get(anime.rootID) as SceneObject3D)
+            animation.frameTime = anime.frameTime;
+            animation.numFrames = anime.numFrames;
+
+            for (let channelData of anime.channels) {
+                let channel = new AnimationChannel(this.sceneObjectsByLoadID.get(channelData.id) as SceneObject3D, channelData.type)
+
+                for (let i = 0; i < channelData.frames.length; i++) {
+                    let key = new Key()
+                    key.frame = channelData.frames[i]
+                    let keyData =channelData.values[i]
+                    if(keyData.length==3){
+                        key.data =new Vector3( channelData.values[i]   )
+                    } if(keyData.length==4){
+                        key.data =new Quaternion( channelData.values[i]   )
+                    }
+
+
+                    channel.keys.push(key);
+                }
+                channel.lastKeyIndex = channel.keys.length-1;
+                animation.channels.push(channel)
+                this.sceneAnimations.push(animation)
+            }
+
+
+           // let animation =new Animation(this.renderer,)
+
+        }
+    }
+    addAnimation(animation:Animation){
+     this.sceneAnimations.push(animation)
+        }
+   removeAnimation(animation:Animation){
+     console.log("implementRemove")
+    }
+
 }
 
 export default new SceneHandler()

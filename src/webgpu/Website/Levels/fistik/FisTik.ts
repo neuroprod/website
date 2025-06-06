@@ -4,6 +4,7 @@ import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import GameModel from "../../GameModel.ts";
 import {Vector2, Vector3} from "@math.gl/core";
+import Timer from "../../../lib/Timer.ts";
 
 
 export default class FisTik extends NavigationLevel{
@@ -39,13 +40,13 @@ export default class FisTik extends NavigationLevel{
 
         GameModel.gameRenderer.setLevelType("website")
 
-        let captain = SceneHandler.getSceneObject("captain");
+
 
     }
 
     public update() {
         super.update()
-
+        SceneHandler.sceneAnimations[0].autoPlay(Timer.delta)
 
     }
 
