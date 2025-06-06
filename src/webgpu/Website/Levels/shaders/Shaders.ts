@@ -4,15 +4,20 @@ import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import GameModel from "../../GameModel.ts";
 import {Vector2, Vector3} from "@math.gl/core";
+import MeatMaterial from "./MeatMaterial.ts";
+import Timer from "../../../lib/Timer.ts";
+
+
 
 
 export default class Shaders extends NavigationLevel{
+    private material: MeatMaterial;
 
 
 
     constructor() {
         super();
-
+       this.material =  new MeatMaterial(GameModel.renderer,"meat")
     }
 
 
@@ -26,6 +31,8 @@ export default class Shaders extends NavigationLevel{
             LoadHandler.stopLoading()
 
         });
+
+
     }
 
     configScene() {
@@ -35,17 +42,21 @@ export default class Shaders extends NavigationLevel{
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
-        GameModel.gameCamera.setLockedView(new Vector3(0, 0.25, 0), new Vector3(0, 0.25, 0.65))
+        GameModel.gameCamera.setLockedView(new Vector3(0, 0.0, 0), new Vector3(0, 0.0, 0.65))
 
         GameModel.gameRenderer.setLevelType("website")
 
+        let placeHolder =SceneHandler.getSceneObject("placeHolder")
+        if(placeHolder.model){
+            placeHolder.model.material = this.material
 
+        }
 
     }
 
     public update() {
         super.update()
-
+this.material.setUniform("time", Timer.time)
 
     }
 
