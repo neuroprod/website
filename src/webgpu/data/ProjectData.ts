@@ -36,7 +36,7 @@ class ProjectData {
        this.renderer =renderer;
 
        this.defaultShadowMaterial = new ShadowDepthMaterial(renderer, "shadowDepth");
-        this.defaultMaskMaterial =new MaskMaterial(renderer,"")
+        this.defaultMaskMaterial =new MaskMaterial(renderer,"defaultMask")
        this.defaultFontShadowMaterial = new ShadowFontDepthMaterial(renderer, "fontDepthMaterial");
        this.font = new Font()
 

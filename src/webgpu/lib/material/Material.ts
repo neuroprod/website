@@ -37,7 +37,7 @@ export default class Material extends ObjectGPU {
     private shader!: GPUShaderModule;
      defaultUniformGroup!: UniformGroup;
 
-
+private passUUID =""
     constructor(renderer: Renderer, label: string) {
         super(renderer, label);
         this.setup();
@@ -56,10 +56,15 @@ export default class Material extends ObjectGPU {
         this.defaultUniformGroup.setVideoFrameTexture(name, value)
     }
     makePipeLine(pass: RenderPass) {
-        if (this.pipeLine) return;
+        if(pass.UUID ==this.passUUID){
+            return
+        }
+        if( this.passUUID !=""  ){console.warn("reuse material in diffrent pass?")}
+        this.passUUID =pass.UUID;
+       // if (this.pipeLine) return;
 
         this.makeShader();
-
+        this.colorTargets =[]
         let count = 0;
         for (let a of pass.colorAttachments) {
 

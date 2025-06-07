@@ -426,6 +426,7 @@ class SceneEditor {
         m.setUniqueName(SceneHandler.root.getUniqueName(m.label))
 
         this.currentModel.addChild(m)
+        console.log(m)
         if (m.model) {
             this.gameRenderer.addModel(m.model)
 
