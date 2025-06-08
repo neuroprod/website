@@ -16,6 +16,7 @@ export default class Text extends Object2D{
 
     private mousePosLocal:Vector4 =new Vector4()
     private rect: Rect;
+    height: number=0;
 
     constructor(renderer: Renderer, font:Font,size:number=25,text:string ="testText") {
         super();
@@ -28,6 +29,7 @@ export default class Text extends Object2D{
         this.rect.min.set(this.mesh.min.x,this.mesh.min.y)
         this.rect.max.set(this.mesh.max.x,this.mesh.max.y)
         this.width = this.mesh.max.x;
+        this.height = this.mesh.max.y;
         this.material = new TextMaterial(renderer,"text2DMAt")
         this.material.setTexture("texture", font.texture)
 

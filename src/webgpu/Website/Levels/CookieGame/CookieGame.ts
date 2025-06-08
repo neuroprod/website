@@ -239,6 +239,8 @@ export default class CookieGame extends BaseLevel {
         this.playGame =true
         this.nextStrawBerryTime =2;
         this.hitCount=0;
+
+        GameModel.gameRenderer.tweenToNonBlack()
     }
 
     private endGame() {

@@ -7,9 +7,14 @@ export default class Object2D {
     public id: string = ""
     public visible: boolean = true;
     protected _position = new Vector3(0, 0, 0);
-    private isDirty: boolean = true;
-    private scaleValue = 1;
     private _rotation = new Quaternion(0, 0, 0, 1);
+    private _scale = new Vector3(1, 1, 1);
+
+
+
+
+
+    private isDirty: boolean = true;
     private tempMatrix = new Matrix4()
     private _localMatrix: Matrix4 = new Matrix4()
     protected _worldMatrixInv: Matrix4 = new Matrix4()
@@ -18,18 +23,25 @@ export default class Object2D {
         this.id ="" +Math.random()
     }
 
-    private _scale = new Vector3(1, 1, 1);
 
-    get scale() {
-        return this.scaleValue
+    get sx() {
+        return this._scale.x
     }
 
-    set scale(value: number) {
-        this.scaleValue = value;
-        this._scale.set(value, value, 1)
+    set sx(value: number) {
+
+        this._scale.x =value
         this.setDirty()
     }
+    get sy() {
+        return this._scale.y
+    }
 
+    set sy(value: number) {
+
+        this._scale.y =value
+        this.setDirty()
+    }
     private _worldMatrix: Matrix4 = new Matrix4()
 
     public get worldMatrix() {

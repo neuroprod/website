@@ -28,7 +28,7 @@ export default class Sprite extends Object2D {
         this.mesh = new Plane(renderer, this.width, this.height,1,1,false)
         this.material = new SpriteMaterial(renderer)
         this.material.setTexture("texture", texture)
-this.id = texture.label
+        this.id = texture.label
     }
 
 

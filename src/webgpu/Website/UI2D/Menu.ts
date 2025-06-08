@@ -4,6 +4,8 @@ import FontPool from "../../lib/twoD/FontPool.ts";
 import Font from "../../lib/twoD/Font.ts";
 import Text from "../../lib/twoD/Text.ts";
 import LevelHandler from "../Levels/LevelHandler.ts";
+import Sprite from "../../lib/twoD/Sprite.ts";
+import DefaultTextures from "../../lib/textures/DefaultTextures.ts";
 
 export default class Menu {
     menuRoot = new Object2D()
@@ -12,6 +14,7 @@ export default class Menu {
 
     private items: Array<Text> = []
 private space =10;
+    private line!: Sprite;
     constructor(renderer: Renderer) {
         this.renderer = renderer;
 
@@ -41,8 +44,8 @@ private space =10;
 
         }
         this.width = size;
-
-
+        this.line  =new Sprite(renderer,DefaultTextures.getWhite(renderer))
+        this.menuRoot.addChild(this.line)
     }
 
 
@@ -56,6 +59,12 @@ private space =10;
         for (let i of this.items) {
             if (i.id == key) {
                 ///
+                //i.width
+                //i.x
+                this.line.x = i.x+i.width/2-2;
+                this.line.y = i.y+i.height/2+4
+                this.line.sx =i.width+10
+                this.line.sy =6
                 i.mouseEnabled =false
                 found = true;
             } else {
