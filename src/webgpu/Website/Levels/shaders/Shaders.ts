@@ -105,7 +105,7 @@ updateButton (){
     let pos1 = smoothstep(0,0.5,pos)
     let pos2 = smoothstep(0.25,0.75,pos)
     let pos3 = smoothstep(0.5,1,pos)
-    let pos4 = smoothstep(0.0,0.3,pos)
+    let pos4 = smoothstep(0.0,0.15,pos)
 
     this.material.setUniform("pos1", pos1)
     this.material.setUniform("pos2", pos2)

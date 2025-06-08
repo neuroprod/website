@@ -67,7 +67,7 @@ export default class GameCamera{
 
         this.cameraLookAtTemp.copy(this.cameraLookAt as NumericArray);//target
        this.cameraWorldTemp.copy(this.cameraWorld as NumericArray);//eye
-        let rotationCenter =0.5
+        let rotationCenter =1
          let center =  this.cameraWorldTemp.clone()
          center.lerp(   this.cameraLookAtTemp, rotationCenter );
         let distanceToEye = center.distance( this.cameraWorldTemp);
@@ -81,8 +81,8 @@ export default class GameCamera{
         let phi = Math.atan2(thetaLength, dir.y);
         this.mouseNorm.lerp(GameModel.mouseListener.mouseNorm,0.1)
 
-        theta +=       this.mouseNorm.x*-0.02
-        phi+=       this.mouseNorm.y*-0.01
+        theta +=       this.mouseNorm.x*-0.02*4
+        phi+=       this.mouseNorm.y*-0.01*4
 
 
         let dirNew = new Vector3((Math.sin(phi) * Math.sin(theta)), Math.cos(phi), Math.sin(phi) * Math.cos(theta));

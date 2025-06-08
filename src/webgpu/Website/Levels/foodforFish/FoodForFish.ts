@@ -50,7 +50,7 @@ private video!:VideoPlayer;
         m.material = new GBufferMaterial(GameModel.renderer, "video1")
         m.material.setTexture('colorTexture', this.video.getTexture())
         m.mesh = new Plane(GameModel.renderer, 1920 / 1000, 1080 / 1000)
-        m.setScaler(0.20)
+        m.setScaler(0.27)
         m.z = 0.017
         m.x = 0.00
         m.y = 0.005
