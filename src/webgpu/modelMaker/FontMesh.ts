@@ -18,6 +18,7 @@ export enum VAlign {
 export default class FontMesh extends Mesh{
     private startX: number =0;
     private startY: number =0;
+    private centerArr:Array<number> =[]
     private posTemp:Array<number> =[]
     private uvTemp:Array<number> =[]
     private normalTemp:Array<number> =[]
@@ -49,6 +50,7 @@ export default class FontMesh extends Mesh{
 
         }
         this.setPositions(new Float32Array(this.posTemp))
+        this.setAttribute("aCenter",new Float32Array(this.centerArr))
         this.setNormals(new Float32Array(this.normalTemp))
         this.setUV0(new Float32Array(this.uvTemp))
         this.setIndices(new Uint16Array(this.indexTemp))
@@ -58,6 +60,7 @@ export default class FontMesh extends Mesh{
         this.normalTemp =[];
         this.uvTemp =[];
         this.indexTemp =[];
+        this.centerArr =[];
 
     }
 
@@ -105,6 +108,11 @@ export default class FontMesh extends Mesh{
         //
         //
         // this.startPos.x+=char.
+        this.centerArr.push(posX+char.h*fontSize,-posY,0);
+        this.centerArr.push(posX+char.h*fontSize,-posY,0);
+        this.centerArr.push(posX+char.h*fontSize,-posY,0);
+        this.centerArr.push(posX+char.h*fontSize,-posY,0);
+
         this.posTemp.push(posX,(posY+char.h*fontSize )*-1,0)
         this.posTemp.push(posX+char.w*fontSize,(posY+char.h*fontSize)*-1,0)
         this.posTemp.push(posX,posY*-1,0)

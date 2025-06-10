@@ -48,7 +48,7 @@ private friends =["textHolder2","textHolder1","kris","always","starGreen1"]
     reset() {
         this.state = 0;
         this.kris = sceneHandler.getSceneObject("krisRoot")
-        this.kris.setScaler(0.5)
+        this.kris.setScaler(0.6)
         this.kris.x =0;
         this.kris.y = 0
 

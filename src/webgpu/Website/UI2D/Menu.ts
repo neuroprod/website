@@ -13,7 +13,7 @@ export default class Menu {
     private width: number;
 
     private items: Array<Text> = []
-private space =10;
+private space =5;
     private line!: Sprite;
     constructor(renderer: Renderer) {
         this.renderer = renderer;
@@ -23,7 +23,7 @@ private space =10;
         let size = 0;
         let count = 0;
         for (let item of LevelHandler.navigationLevels) {
-            let text = new Text(renderer, font, 35, item)
+            let text = new Text(renderer, font, 17, item)
             text.x = size
             text.y = 0
             size += text.width + this.space;
@@ -35,7 +35,7 @@ private space =10;
             this.items.push(text)
             count++
             if (count != LevelHandler.navigationLevels.length) {
-                let slash = new Text(renderer, font, 35, "/")
+                let slash = new Text(renderer, font, 17, "/")
                 slash.x = size
                 slash.mouseEnabled =false
                 size += slash.width + this.space;
@@ -50,7 +50,7 @@ private space =10;
 
 
     update() {
-        this.menuRoot.x = this.renderer.width - this.width-this.space*2
+        this.menuRoot.x = this.renderer.htmlWidth - this.width-this.space*4
         this.menuRoot.y = 10
     }
 
@@ -61,10 +61,10 @@ private space =10;
                 ///
                 //i.width
                 //i.x
-                this.line.x = i.x+i.width/2-2;
-                this.line.y = i.y+i.height/2+4
-                this.line.sx =i.width+10
-                this.line.sy =6
+                this.line.x = i.x+i.width/2;
+                this.line.y = i.y+i.height/2+2;
+                this.line.sx =i.width
+                this.line.sy =3
                 i.mouseEnabled =false
                 found = true;
             } else {

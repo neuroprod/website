@@ -43,7 +43,7 @@ export default class GameCamera{
 
 
     private mouseNorm =new Vector2()
-
+private mouseMoveScale =0.04
 
 
     constructor(renderer:Renderer,camera:Camera) {
@@ -81,8 +81,8 @@ export default class GameCamera{
         let phi = Math.atan2(thetaLength, dir.y);
         this.mouseNorm.lerp(GameModel.mouseListener.mouseNorm,0.1)
 
-        theta +=       this.mouseNorm.x*-0.02*4
-        phi+=       this.mouseNorm.y*-0.01*4
+        theta +=       this.mouseNorm.x*-1*this.mouseMoveScale
+        phi+=       this.mouseNorm.y*-0.5*this.mouseMoveScale
 
 
         let dirNew = new Vector3((Math.sin(phi) * Math.sin(theta)), Math.cos(phi), Math.sin(phi) * Math.cos(theta));
@@ -192,5 +192,10 @@ setForCharPos(charPos:Vector3){
 
        if(this.tl)this.tl.clear()
         gsap.killTweensOf(this)
+    }
+
+    setMouseInput(moveScale: number=0.04, moveCenter: number =0.5) {
+       this.mouseMoveScale =moveScale
+
     }
 }

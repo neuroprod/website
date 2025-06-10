@@ -16,6 +16,10 @@ export default class Renderer {
     public ratio: number = 1;
     public width: number = 1;
     public height: number = 1;
+
+    public htmlWidth: number = 1;
+    public htmlHeight: number = 1;
+
     public inverseSizePixelRatio = new Vector2()
     canvas!: HTMLCanvasElement;
     public device!: GPUDevice;
@@ -38,7 +42,7 @@ export default class Renderer {
 
     async setup(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
-      
+
         this.pixelRatio = window.devicePixelRatio;
         this.textureHandler = new TextureHandler();
         Renderer.instance = this;
@@ -47,7 +51,7 @@ export default class Renderer {
         if (adapter) {
 
             for (let a of adapter.features.keys()) {
-                console.log(a)
+
             }
             const requiredFeatures: Array<GPUFeatureName> = [ "float32-filterable"];
             if (this.useTimeStampQuery) {
@@ -58,7 +62,7 @@ export default class Renderer {
             //  console.log(this.device)
             this.context = this.canvas.getContext("webgpu") as GPUCanvasContext;
             this.presentationFormat = navigator.gpu.getPreferredCanvasFormat();
-console.log(this.presentationFormat)
+
             this.context.configure({
                 device: this.device,
                 format: this.presentationFormat,
@@ -134,7 +138,8 @@ console.log(this.presentationFormat)
             this.width = this.canvas.width;
             this.height = this.canvas.height;
             this.ratio = this.width / this.height;
-
+            this.htmlWidth = this.canvas.width/this.pixelRatio;
+            this.htmlHeight = this.canvas.height/this.pixelRatio;
 
             this.inverseSizePixelRatio.set(this.pixelRatio / this.width, this.pixelRatio / this.height)
             //   this.size.x =this.width;

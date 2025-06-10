@@ -26,6 +26,7 @@ import Lab101 from "./lab101/Lab101.ts";
 import Scroll from "./scroll/Scroll.ts";
 import Contact from "./Contact/Contact.ts";
 import Shaders from "./shaders/Shaders.ts";
+import Clients from "../clients/Clients.ts";
 
 class LevelHandler {
     public levelKeys: Array<string> = [];
@@ -33,7 +34,7 @@ class LevelHandler {
 
     public currentLevel!: BaseLevel | null;
 
-public  navigationLevels:Array<string> =["Scroll","About","Shaders","FoodForFish","Websites","Invasion","Smullen","Lab101","Contact"]
+public  navigationLevels:Array<string> =["Scroll","About","Shaders","FoodForFish","This","Clients","Invasion","Smullen","Lab101","Contact"]
     private currentLevelName: string="";
     init() {
 
@@ -41,7 +42,8 @@ public  navigationLevels:Array<string> =["Scroll","About","Shaders","FoodForFish
         this.addLevel("About", new GraphicDev())
         this.addLevel("Shaders", new Shaders())
        this.addLevel("FoodForFish", new FoodForFish())
-        this.addLevel("Websites", new Meat())
+        this.addLevel("This", new Meat())
+        this.addLevel("Clients", new Clients())
         this.addLevel("Invasion", new ArduinoGame())
         this.addLevel("Smullen", new FisTik())
         this.addLevel("Scroll", new Scroll())
@@ -80,6 +82,10 @@ public  navigationLevels:Array<string> =["Scroll","About","Shaders","FoodForFish
                 this.currentLevel.init()
             } else {
                 console.log("level doesnt exist ->", key)
+                key ="Home"
+                this.currentLevel = this.levels.get(key) as BaseLevel;
+                AppState.setState("currentLevel", key);
+                this.currentLevel.init()
             }
             GameModel.gameRenderer.fxEnabled = false
 

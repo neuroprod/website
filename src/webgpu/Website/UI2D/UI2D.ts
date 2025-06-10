@@ -23,6 +23,7 @@ export default class UI2D {
 
         this.menu = new Menu(renderer)
         this.root.addChild(this.menu.menuRoot)
+        this.root.sx =   this.root.sy =renderer.pixelRatio
         //LevelHandler.
     }
 

@@ -46,7 +46,7 @@ export class GraphicDev extends NavigationLevel {
 
         GameModel.gameRenderer.setLevelType("website")
         this.kris = sceneHandler.getSceneObject("krisRoot")
-        this.kris.setScaler(0.5)
+        this.kris.setScaler(0.7)
         this.kris.x = 0;
         this.kris.y = 0
 
