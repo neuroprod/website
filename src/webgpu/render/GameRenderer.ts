@@ -59,7 +59,7 @@ export default class GameRenderer {
     }
     public allModels: Array<Model> = []
     private renderer: Renderer;
-    private gBufferPass: GBufferRenderPass;
+    gBufferPass: GBufferRenderPass;
     private debugTextureMaterial: DebugTextureMaterial;
     private blitFinal: Blit;
     private currentValue = {texture: "kka", type: 0}
@@ -262,8 +262,11 @@ this.postLightModelRenderer.removeModel(m)
         if (LoadHandler.isLoading()) return;
 
        // this.dripPass.add()
-
-        this.shadowMapPass.add();
+        let needShadow =true;
+        if(  this.shadowMapPass.modelRenderer.models.length==0){
+            needShadow =false
+        }
+        if(needShadow)this.shadowMapPass.add();
 
         this.gBufferPass.add(this.renderer.timeStamps.getSet(0, 1));
 
@@ -277,9 +280,10 @@ this.postLightModelRenderer.removeModel(m)
         /// this.gtoaDenoisePass.add();
 
 
-        this.shadowPass.add();
+        if(needShadow) this.shadowPass.add();
         this.aoDenoise.add()
-        this.shadowDenoise.add()
+        this.shadowDenoise.enabled =needShadow
+      this.shadowDenoise.add()
         //this.shadowBlurPass.add();
 
         this.lightPass.add(this.renderer.timeStamps.getSet(2, 3));
@@ -289,7 +293,7 @@ this.postLightModelRenderer.removeModel(m)
            this.inGameFXPass.add()
        }
         this.gradingPass.add()
-        this.postLightPass.add()
+        if(this.postLightPass.modelRenderer.models.length) this.postLightPass.add()
 
     }
 

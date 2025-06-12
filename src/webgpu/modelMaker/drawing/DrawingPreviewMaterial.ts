@@ -30,7 +30,7 @@ export default class DrawingPreviewMaterial extends Material{
         this.cullMode =CullMode.None;
         this.depthCompare = CompareFunction.Always;
         this.depthWrite =false;
-        this.blendModes=[Blend.preMultAlpha()]
+       this.blendModes=[Blend.alpha()]
         //this.logShader =true;
     }
     getShader(): string {

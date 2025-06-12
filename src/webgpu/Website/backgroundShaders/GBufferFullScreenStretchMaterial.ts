@@ -3,11 +3,10 @@ import {ShaderType} from "../../lib/material/ShaderTypes.ts";
 import DefaultUniformGroups from "../../lib/material/DefaultUniformGroups.ts";
 import UniformGroup from "../../lib/material/UniformGroup.ts";
 import DefaultTextures from "../../lib/textures/DefaultTextures.ts";
-import {CullMode} from "../../lib/WebGPUConstants.ts";
-import Blend from "../../lib/material/Blend.ts";
+import {AddressMode, FilterMode} from "../../lib/WebGPUConstants.ts";
 
 
-export default class TransparentMaterial extends Material{
+export default class GBufferFullScreenStretchMaterial extends Material{
 
     setup(){
         this.addAttribute("aPos", ShaderType.vec3);
@@ -17,22 +16,24 @@ export default class TransparentMaterial extends Material{
 
         this.addVertexOutput("uv", ShaderType.vec2 );
 
-        this.addUniformGroup(DefaultUniformGroups.getCamera(this.renderer));
-        this.addUniformGroup(DefaultUniformGroups.getModelTransform(this.renderer));
 
 
         let uniforms =new UniformGroup(this.renderer,"uniforms");
         this.addUniformGroup(uniforms,true);
 
         uniforms.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
-        uniforms.addSampler("mySampler")
-        this.cullMode =CullMode.None;
-       this.blendModes =[Blend.alpha()]
+        uniforms.addSampler("mySampler",  GPUShaderStage.FRAGMENT,  FilterMode.Linear,  AddressMode.ClampToEdge, 4)
+
+        //this.logShader =true;
     }
     getShader(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////   
-
+struct GBufferOutput {
+  @location(0) color : vec4f,
+  @location(1) normal : vec4f,
+   
+}
 ${this.getVertexOutputStruct()}   
 
 
@@ -41,24 +42,23 @@ ${this.getShaderUniforms()}
 fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
     var output : VertexOutput;
-    output.position =camera.viewProjectionMatrix*model.modelMatrix* vec4( aPos,1.0);
-
+    output.position =vec4( aPos,1.0);
+    output.position.z =0.9;
     output.uv =aUV0;
     return output;
 }
 
 
 @fragment
-fn mainFragment(${this.getFragmentInput()}) ->  @location(0) vec4f
+fn mainFragment(${this.getFragmentInput()}) ->  GBufferOutput
 {
+    var output : GBufferOutput;
+    var color =textureSample(colorTexture, mySampler,  uv);
+     color =color+ vec4(1.0,1.0,1.0,1.0)*(1.0-color.a);
+     output.color =color;
+    output.normal =vec4(0,0,1,0);
 
-   let color =textureSample(colorTexture, mySampler,  uv);
-
-
-
-
-
-    return color;
+    return output;
 }
 ///////////////////////////////////////////////////////////
         `

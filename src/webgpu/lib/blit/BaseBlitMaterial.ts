@@ -20,7 +20,7 @@ export default class BaseBlitMaterial extends Material
 
         this.depthWrite = false
         this.depthCompare = CompareFunction.Always
-this.blendModes=[Blend.preMultAlpha()]
+//this.blendModes=[Blend.preMultAlpha()]
     }
     getShader(): string {
         return /* wgsl */ `
@@ -44,9 +44,8 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 fn mainFragment(${this.getFragmentInput()}) ->  @location(0) vec4f
 {
 let c = textureSample(colorTexture, mySampler,  uv);
-var v = c*c.w;
-v.w = c.w;
-    return v;
+
+    return c;
 }
 ///////////////////////////////////////////////////////////
         `

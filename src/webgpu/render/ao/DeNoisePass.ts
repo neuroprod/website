@@ -25,7 +25,7 @@ export default class DeNoisePass extends RenderPass {
 
 
 
-
+public enabled =true
     constructor(renderer: Renderer,target:string,source:string) {
 
         super(renderer, "DeNoisePass");
@@ -39,7 +39,7 @@ export default class DeNoisePass extends RenderPass {
 
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
         });
-        this.aoAttachment = new ColorAttachment(  this.aoDenoiseTarget );
+        this.aoAttachment = new ColorAttachment(  this.aoDenoiseTarget,{clearValue:{r: 1.0, g: 1.0, b: 1.0, a: 1.0}} );
 
 
         this.colorAttachments = [  this.aoAttachment, ];
@@ -52,7 +52,7 @@ export default class DeNoisePass extends RenderPass {
     }
 
     draw() {
-
+if(this.enabled)
         this.blit.draw(this)
 
 

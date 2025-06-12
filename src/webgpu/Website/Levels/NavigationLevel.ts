@@ -46,6 +46,7 @@ export default class NavigationLevel extends BaseLevel{
     }
     destroy() {
         window.scrollTo(0, 0);
+        super.destroy()
     }
 
 }
