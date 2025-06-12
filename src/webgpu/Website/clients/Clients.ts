@@ -66,7 +66,7 @@ private time =0
         this.bgModel.mesh =new Quad(GameModel.renderer)
         this.bgModel.material =new FullScreenStretchMaterial(GameModel.renderer,"bg")
         this.bgModel.material.setTexture("colorTexture",  this.backgroundTexture)
-        GameModel.gameRenderer.postLightModelRenderer.addModel(this.bgModel)
+      //GameModel.gameRenderer.postLightModelRenderer.addModel(this.bgModel)
         this.time=0;
     }
 
