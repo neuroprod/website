@@ -36,5 +36,6 @@ import Renderer2D from "../lib/twoD/Renderer2D.ts";
 
 
 
+
  }
 export default  new GameModel()

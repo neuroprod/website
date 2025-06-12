@@ -52,7 +52,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 fn mainFragment(${this.getFragmentInput()}) ->  @location(0) vec4f
 {
 
-   let color =textureSample(colorTexture, mySampler,  uv);
+  var color =textureSample(colorTexture, mySampler,  uv);
 
 
 

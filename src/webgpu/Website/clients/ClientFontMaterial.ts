@@ -25,7 +25,9 @@ export default class ClientFontMaterial extends Material{
 
         let uniforms =new UniformGroup(this.renderer,"uniforms");
         this.addUniformGroup(uniforms,true);
-        uniforms.addUniform("color",new Vector4(1,0,0,1))
+        uniforms.addUniform("color",new Vector4(255/255,142/255,188/255,1))
+        uniforms.addUniform("time",0)
+        uniforms.addUniform("size",0)
         uniforms.addTexture("colorTexture",this.renderer.getTexture(Textures.MAINFONT))
         uniforms.addSampler("mySampler")
         this.cullMode =CullMode.None;
@@ -48,7 +50,24 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
     var output : VertexOutput;
 
     var pos =  aPos-aCenter;
+    var center = aCenter;
+var p = (uniforms.time+aCenter.x)%uniforms.size;
  
+ if(p<0.5)
+ {
+
+ pos.y = pos.y+p ;
+ }
+ else{
+ p-=0.5;
+  center.x  =p;
+ center.y = sin(p*10)*0.1 +0.5;
+  pos+=center;
+ }
+ 
+
+ 
+
     output.position =camera.viewProjectionMatrix*model.modelMatrix* vec4( pos,1.0);
     output.uv =aUV0;
     return output;

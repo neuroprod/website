@@ -83,7 +83,7 @@ export default class GameRenderer {
     private gradingPass: GradingRenderPass;
     private inGameFXPass: InGameFXPass;
     private maskRenderPass: MaskRenderPass;
-    private postLightModelRenderer: ModelRenderer;
+    postLightModelRenderer: ModelRenderer;
 
    // private dripPass:DripPass
 
@@ -188,6 +188,7 @@ private _distortValue=0;
         if(m.parent ){
             if ((m.parent as SceneObject3D).postLight) {
                 this.postLightModelRenderer.addModel(m)
+                console.log(m.material)
                 this.allModels.push(m)
                 return
             }
