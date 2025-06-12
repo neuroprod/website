@@ -56,7 +56,7 @@ fn mainFragment(${this.getFragmentInput()}) ->  GBufferOutput
     var color =textureSample(colorTexture, mySampler,  uv);
      color =color+ vec4(1.0,1.0,1.0,1.0)*(1.0-color.a);
      output.color =color;
-    output.normal =vec4(0,0,1,0);
+    output.normal =vec4(0.5,0.5,1,0);
 
     return output;
 }
