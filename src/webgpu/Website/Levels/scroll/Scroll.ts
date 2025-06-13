@@ -10,7 +10,7 @@ import TextureLoader from "../../../lib/textures/TextureLoader.ts";
 import Model from "../../../lib/model/Model.ts";
 import Quad from "../../../lib/mesh/geometry/Quad.ts";
 import GBufferFullScreenStretchMaterial from "../../backgroundShaders/GBufferFullScreenStretchMaterial.ts";
-
+import gsap from "gsap";
 export default class Scroll extends NavigationLevel{
     private scroll1!: SceneObject3D;
     private scroll2!: SceneObject3D;
@@ -19,6 +19,12 @@ export default class Scroll extends NavigationLevel{
     private worm2!: SceneObject3D;
     private backgroundTexture!: TextureLoader;
     private bgModel!: Model;
+
+    private worm1Time =0
+    private worm2Time =4
+
+    private worm1Dir =1
+    private worm2Dir =-1
     constructor() {
         super();
 
@@ -41,6 +47,7 @@ export default class Scroll extends NavigationLevel{
         this.backgroundTexture.onComplete =()=>{
             LoadHandler.stopLoading()
         }
+
         //this.setBackground("backgrounds/")
     }
 
@@ -79,6 +86,40 @@ export default class Scroll extends NavigationLevel{
 
         this.scroll3.x+= Timer.delta*0.233;
         if(this.scroll3.x>1)this.scroll3.x =-1
+
+        this.worm1Time-=Timer.delta
+        if(this.worm1Time<0){
+            console.log(this.worm1.x,"worm1")
+            if(this.worm1.x>0.2){
+                this.worm1Dir =-1
+                this.worm1.x -=0.05
+            }
+            if(this.worm1.x<-0.2){
+                this.worm1Dir =1
+                this.worm1.x +=0.05
+            }
+            if(this.worm1Dir==1){
+                this.worm1.ry =0
+            }else{
+                this.worm1.ry =Math.PI
+            }
+            this.moveWorm(this.worm1,this.worm1Dir)
+            this.worm1Time +=3+Math.random()*2
+
+        }
+        this.worm2Time-=Timer.delta
+        if(this.worm2Time<0){
+            console.log(this.worm2.x,"worm2")
+            this.moveWorm(this.worm2,this.worm2Dir)
+            this.worm2Time +=3+Math.random()*2
+        }
+
+    }
+    moveWorm(worm:SceneObject3D,dir:number) {
+        let tl = gsap.timeline()
+        let wx =worm.x;
+        tl.to(worm, {sx: 0.9, sy: 1.05,duration:0.5,ease:"power2.inOut"}, 0)
+        tl.to(worm, {sx: 1, sy: 1,x:wx+0.02*dir,duration:1.5,ease:"power2.inOut"}, 0.5)
     }
 
     destroy() {

@@ -60,7 +60,7 @@ export default class Shaders extends NavigationLevel{
 
         }
         this.button =SceneHandler.getSceneObject("button")
-        this.button.x =-0.2
+        this.button.x =0.4
         this.buttonPos = this.button.getPosition();
         let button = this.mouseInteractionMap.get("button") as MouseInteractionWrapper
         button.onDown =()=>{

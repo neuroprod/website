@@ -90,14 +90,14 @@ private isDropping=false;
         //  this.setPoints()
         // this.mesh.setExtrusion(this.points,MeshType.EXTRUSION,0.1,this.zero)
 
-        this.nextTime =Math.random()*8
+        this.nextTime =Math.random()*2
     }
 
     update() {
 
         if(this.nextTime<0){
             this.startDrip();
-            this.nextTime =Math.random()*3+3
+            this.nextTime =Math.random()*2+2
         }
         if(  this.isDripping){
             this.setDrip();
