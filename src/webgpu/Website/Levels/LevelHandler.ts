@@ -27,6 +27,8 @@ import Scroll from "./scroll/Scroll.ts";
 import Contact from "./Contact/Contact.ts";
 import Shaders from "./shaders/Shaders.ts";
 import Clients from "../clients/Clients.ts";
+import Friends from "./friends/Friends.ts";
+import Social from "./social/Social.ts";
 
 class LevelHandler {
     public levelKeys: Array<string> = [];
@@ -34,7 +36,7 @@ class LevelHandler {
 
     public currentLevel!: BaseLevel | null;
 
-public  navigationLevels:Array<string> =["Scroll","About","Shaders","FoodForFish","This","Clients","Invasion","Smullen","Lab101","Contact"]
+public  navigationLevels:Array<string> =["Scroll","About","Shaders","FoodForFish","Friends","This","Clients","Invasion","Smullen","Lab101","Social","Contact"]
     private currentLevelName: string="";
     init() {
 
@@ -42,10 +44,12 @@ public  navigationLevels:Array<string> =["Scroll","About","Shaders","FoodForFish
         this.addLevel("About", new GraphicDev())
         this.addLevel("Shaders", new Shaders())
        this.addLevel("FoodForFish", new FoodForFish())
+        this.addLevel("Friends", new Friends())
         this.addLevel("This", new Meat())
         this.addLevel("Clients", new Clients())
         this.addLevel("Invasion", new ArduinoGame())
         this.addLevel("Smullen", new FisTik())
+        this.addLevel("Social", new Social())
         this.addLevel("Scroll", new Scroll())
         this.addLevel("Lab101", new Lab101())
         this.addLevel("Contact", new Contact())

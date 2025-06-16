@@ -30,6 +30,7 @@ import LevelHandler from "./Website/Levels/LevelHandler.ts";
 import GameModel from "./Website/GameModel.ts";
 import gameModel from "./Website/GameModel.ts";
 import FontPool from "./lib/twoD/FontPool.ts";
+import GLFTLoader from "./lib/GLFTLoader.ts";
 
 
 export enum MainState {
@@ -121,7 +122,7 @@ export default class Main {
             this.preloader.stopLoad()
         });
 
-
+GameModel.glft = new GLFTLoader(this.renderer,"ross",this.preloader)
     }
 
 

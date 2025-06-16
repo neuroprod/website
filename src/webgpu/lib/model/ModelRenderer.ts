@@ -155,7 +155,10 @@ export default class ModelRenderer {
 
         this.models.push(model);
     }
+    public addModelToFront(model: Model) {
 
+        this.models.unshift(model);
+    }
     public removeModel(model: Model) {
         const index = this.models.indexOf(model, 0);
         if (index > -1) {

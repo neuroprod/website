@@ -11,6 +11,7 @@ import Overlay from "./Overlay.ts";
 import CoinHandler from "./handlers/CoinHandler.ts";
 import {MainState} from "../Main.ts";
 import Renderer2D from "../lib/twoD/Renderer2D.ts";
+import GLFTLoader from "../lib/GLFTLoader.ts";
 
  class GameModel {
 
@@ -31,6 +32,7 @@ import Renderer2D from "../lib/twoD/Renderer2D.ts";
     debug: boolean =false;
      renderer2D!: Renderer2D;
     UI2D!: UI2D;
+     glft!: GLFTLoader;
 
 
 

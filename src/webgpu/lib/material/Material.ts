@@ -59,7 +59,7 @@ private passUUID =""
         if(pass.UUID ==this.passUUID){
             return
         }
-        if( this.passUUID !=""  ){console.warn("reuse material in diffrent pass?")}
+        if( this.passUUID !=""  ){console.warn("reuse material in diffrent pass?"),console.trace()}
         this.passUUID =pass.UUID;
        // if (this.pipeLine) return;
 

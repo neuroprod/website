@@ -185,12 +185,13 @@ private _distortValue=0;
     }
 
     public addModel(m: Model) {
+console.log(m.label)
         if(m.parent ){
             if ((m.parent as SceneObject3D).postLight) {
                 this.postLightModelRenderer.addModel(m)
-                console.log(m.material)
+
                 this.allModels.push(m)
-                return
+                return;
             }
         }
         if (m.transparent) {
@@ -200,6 +201,7 @@ private _distortValue=0;
             this.gBufferPass.modelRenderer.addModel(m)
 
         }
+
         if(m.parent ){
         if ((m.parent as SceneObject3D).dropShadow) {
 

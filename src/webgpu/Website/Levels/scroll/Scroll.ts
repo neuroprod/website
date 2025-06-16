@@ -15,6 +15,7 @@ export default class Scroll extends NavigationLevel{
     private scroll1!: SceneObject3D;
     private scroll2!: SceneObject3D;
     private scroll3!: SceneObject3D;
+    private scroll4!: SceneObject3D;
     private worm1!: SceneObject3D;
     private worm2!: SceneObject3D;
     private backgroundTexture!: TextureLoader;
@@ -25,6 +26,7 @@ export default class Scroll extends NavigationLevel{
 
     private worm1Dir =1
     private worm2Dir =-1
+    private scrollArr:Array<SceneObject3D>=[]
     constructor() {
         super();
 
@@ -64,6 +66,13 @@ export default class Scroll extends NavigationLevel{
        this.scroll1 =SceneHandler.getSceneObject("scroll1")
         this.scroll2 =SceneHandler.getSceneObject("scroll2")
         this.scroll3 =SceneHandler.getSceneObject("scroll3")
+        this.scroll4 =SceneHandler.getSceneObject("scroll4")
+
+        this.scrollArr.push(this.scroll1)
+        this.scrollArr.push(this.scroll2)
+        this.scrollArr.push(this.scroll3)
+        this.scrollArr.push(this.scroll4)
+
         this.worm1 =SceneHandler.getSceneObject("worm1")
         this.worm2 =SceneHandler.getSceneObject("worm2")
 
@@ -77,15 +86,19 @@ export default class Scroll extends NavigationLevel{
 
     public update() {
         super.update()
-        this.scroll1.x+= Timer.delta*0.3;
-        if(this.scroll1.x>1)this.scroll1.x =-1
+        for(let s of this.scrollArr){
 
-        this.scroll2.x-= Timer.delta*0.2;
-        if(this.scroll2.x<-1)this.scroll2.x =1
+          s.y-= Timer.delta*0.3;
+            if(s.y<-0.5){
+               s.y =0.5
+                s.x=Math.random()-0.5
+            }
+
+        }
 
 
-        this.scroll3.x+= Timer.delta*0.233;
-        if(this.scroll3.x>1)this.scroll3.x =-1
+
+
 
         this.worm1Time-=Timer.delta
         if(this.worm1Time<0){
@@ -126,6 +139,7 @@ export default class Scroll extends NavigationLevel{
         super.destroy()
         this.backgroundTexture.destroy()
         this.bgModel.mesh.destroy()
+        this.scrollArr =[]
 
     }
 
