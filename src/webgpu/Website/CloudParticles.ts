@@ -162,10 +162,11 @@ init(){
         let matrices3:Array<number> =[];
 
         for(let p of this.particles) {
-            matrices0 =matrices0.concat(p.getMatrix().getColumn(0));
-            matrices1 =matrices1.concat(p.getMatrix().getColumn(1));
-            matrices2 =matrices2.concat(p.getMatrix().getColumn(2));
-            matrices3 =matrices3.concat(p.getMatrix().getColumn(3));
+            let  m = p.getMatrix()
+            matrices0 =matrices0.concat(m.getColumn(0));
+            matrices1 =matrices1.concat(m.getColumn(1));
+            matrices2 =matrices2.concat(m.getColumn(2));
+            matrices3 =matrices3.concat(m.getColumn(3));
         }
 
 
