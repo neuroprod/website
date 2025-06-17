@@ -27,7 +27,7 @@ export default class TransparentMaterial extends Material{
         uniforms.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
         uniforms.addSampler("mySampler")
         this.cullMode =CullMode.None;
-       this.blendModes =[Blend.alpha()]
+       this.blendModes =[Blend.preMultAlpha()]
     }
     getShader(): string {
         return /* wgsl */ `

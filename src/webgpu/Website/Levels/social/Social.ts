@@ -13,10 +13,10 @@ import MouseInteractionWrapper from "../../MouseInteractionWrapper.ts";
 
 import gsap from "gsap";
 
-export default class Social extends NavigationLevel{
+export default class Social extends NavigationLevel {
     private bgModel!: Model;
 
-private links :Array<Array<string>> =[["linkedin","https://www.linkedin.com/in/neuroproductions/"],["youtube","https://www.youtube.com/channel/UCUdunfSS-4CyZsIhICtgr6A"],["bluesky","https://bsky.app/profile/kristemmerman.bsky.social"],["twitter","https://twitter.com/NeuroProd"],["instagram","https://www.instagram.com/kris.temmerman/"],["github","https://github.com/neuroprod"]]
+    private links: Array<Array<string>> = [["linkedin", "https://www.linkedin.com/in/neuroproductions/"], ["youtube", "https://www.youtube.com/channel/UCUdunfSS-4CyZsIhICtgr6A"], ["bluesky", "https://bsky.app/profile/kristemmerman.bsky.social"], ["twitter", "https://twitter.com/NeuroProd"], ["instagram", "https://www.instagram.com/kris.temmerman/"], ["github", "https://github.com/neuroprod"]]
 
     constructor() {
         super();
@@ -43,13 +43,12 @@ private links :Array<Array<string>> =[["linkedin","https://www.linkedin.com/in/n
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
 
-        this.bgModel = new Model(GameModel.renderer,"background")
-        this.bgModel.mesh =new Quad(GameModel.renderer)
-        this.bgModel.material =new SpiralMaterial(GameModel.renderer,"bg")
+        this.bgModel = new Model(GameModel.renderer, "background")
+        this.bgModel.mesh = new Quad(GameModel.renderer)
+        this.bgModel.material = new SpiralMaterial(GameModel.renderer, "bg")
 
 
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
-
 
 
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
@@ -60,20 +59,28 @@ private links :Array<Array<string>> =[["linkedin","https://www.linkedin.com/in/n
         GameModel.gameRenderer.setLevelType("website")
 
 
-        for(let l of this.links){
+        for (let l of this.links) {
             let link = this.mouseInteractionMap.get(l[0]) as MouseInteractionWrapper
             link.onClick = () => {
-                console.log(l[1])
+
+                // @ts-ignore
+                window.open(l[1], '_blank').focus();
             }
-            link.onRollOver =()=>{
+            link.onRollOver = () => {
                 gsap.killTweensOf(link.sceneObject)
-gsap.to(link.sceneObject,{sx:1.1,sy:1.1,rz:(Math.random()-0.5)*0.2,ease:"elastic.out",duration:0.5})
+                gsap.to(link.sceneObject, {
+                    sx: 1.1,
+                    sy: 1.1,
+                    rz: (Math.random() - 0.5) * 0.2,
+                    ease: "elastic.out",
+                    duration: 0.5
+                })
 
             }
-            link.onRollOut =()=>{
+            link.onRollOut = () => {
 
                 gsap.killTweensOf(link.sceneObject)
-                gsap.to(link.sceneObject,{sx:1.0,sy:1.0,rz:0,ease:"back.out",duration:0.1})
+                gsap.to(link.sceneObject, {sx: 1.0, sy: 1.0, rz: 0, ease: "back.out", duration: 0.1})
 
             }
 
@@ -84,8 +91,8 @@ gsap.to(link.sceneObject,{sx:1.1,sy:1.1,rz:(Math.random()-0.5)*0.2,ease:"elastic
 
     public update() {
         super.update()
-        this.bgModel.material.setUniform("ratio",GameModel.renderer.ratio)
-        this.bgModel.material.setUniform("time",Timer.time)
+        this.bgModel.material.setUniform("ratio", GameModel.renderer.ratio)
+        this.bgModel.material.setUniform("time", Timer.time)
     }
 
     destroy() {

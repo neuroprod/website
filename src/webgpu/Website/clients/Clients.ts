@@ -49,24 +49,31 @@ private time =0
         super.configScene()
         LoadHandler.onComplete = () => {
         }
+
+        this.bgModel = new Model(GameModel.renderer,"background")
+        this.bgModel.mesh =new Quad(GameModel.renderer)
+        this.bgModel.material =new FullScreenStretchMaterial(GameModel.renderer,"bg")
+        this.bgModel.material.setTexture("colorTexture",  this.backgroundTexture)
+
+
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
+        GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
         GameModel.gameCamera.setLockedView(new Vector3(0, 0.25, 0), new Vector3(0, 0.25, 0.65))
-        GameModel.gameCamera.setMouseInput(0,0)
+
         GameModel.gameRenderer.setLevelType("website")
         let text = SceneHandler.getSceneObject("text")
         if(text.model){
             this.size =text.model.mesh.max.x
             if(!this.fontMaterial ) this.fontMaterial = new ClientFontMaterial(GameModel.renderer,"clientFontMaterial")
             text.model.material =this.fontMaterial
+            GameModel.gameRenderer.postLightModelRenderer.addModel(text.model)
+text.z =-0.005
+            text.setScaler(0.8)
         }
 
-        this.bgModel = new Model(GameModel.renderer,"background")
-        this.bgModel.mesh =new Quad(GameModel.renderer)
-        this.bgModel.material =new FullScreenStretchMaterial(GameModel.renderer,"bg")
-        this.bgModel.material.setTexture("colorTexture",  this.backgroundTexture)
-      //GameModel.gameRenderer.postLightModelRenderer.addModel(this.bgModel)
+
         this.time=0;
     }
 
