@@ -41,6 +41,7 @@ export class BaseLevel {
     destroy() {
       GameModel.gameCamera.destroyTweens()
        GameModel.textBalloonHandler.hideText()
+        this.mouseInteractionMap.clear()
     }
     onUI(){
 
@@ -53,7 +54,7 @@ export class BaseLevel {
             let mhObject = mhModel.parent as SceneObject3D;
             let id = mhObject.mouseHitID;
             if (!this.mouseInteractionMap.has(id)) {
-                let mi = new MouseInteractionWrapper(id)
+                let mi = new MouseInteractionWrapper(id,mhObject)
                 this.mouseInteractionMap.set(id, mi);
             }
 

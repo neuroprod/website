@@ -45,7 +45,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 fn mainFragment(${this.getFragmentInput()})  ->  @location(0) vec4f
 {
 var uvP = (uv-0.5)*7.0;
-uvP.x = uvP.x*uniforms.ratio;
+uvP.x = uvP.x*uniforms.ratio+1.5;
 let dis=.5;
 let width=0.0;
 let blur=.5;
@@ -55,7 +55,7 @@ let blur=.5;
         let circles=(offset-uniforms.time)%dis;
         var col=(smoothstep(circles-blur,circles,width)-smoothstep(circles,circles+blur,width));
         col =step(col,0.5);
-    let color =mix(vec4(1.0,0.847,0.0,1.0),vec4(0.223,0.709,0.290,1.0),col);
+    let color =mix(vec4(1.0,0.847,0.0,1.0),vec4(0.1,0.8,0.2,1.0),col);
  
 
     return color;

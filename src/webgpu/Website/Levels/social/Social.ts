@@ -3,18 +3,20 @@ import NavigationLevel from "../NavigationLevel.ts";
 import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import GameModel from "../../GameModel.ts";
-import {Vector2, Vector3} from "@math.gl/core";
+import {Vector3} from "@math.gl/core";
 import Model from "../../../lib/model/Model.ts";
 import Quad from "../../../lib/mesh/geometry/Quad.ts";
-import GBufferFullScreenStretchMaterial from "../../backgroundShaders/GBufferFullScreenStretchMaterial.ts";
+
 import SpiralMaterial from "./SpiralMaterial.ts";
 import Timer from "../../../lib/Timer.ts";
+import MouseInteractionWrapper from "../../MouseInteractionWrapper.ts";
 
+import gsap from "gsap";
 
 export default class Social extends NavigationLevel{
     private bgModel!: Model;
 
-
+private links :Array<Array<string>> =[["linkedin","https://www.linkedin.com/in/neuroproductions/"],["youtube","https://www.youtube.com/channel/UCUdunfSS-4CyZsIhICtgr6A"],["bluesky","https://bsky.app/profile/kristemmerman.bsky.social"],["twitter","https://twitter.com/NeuroProd"],["instagram","https://www.instagram.com/kris.temmerman/"],["github","https://github.com/neuroprod"]]
 
     constructor() {
         super();
@@ -38,6 +40,8 @@ export default class Social extends NavigationLevel{
         super.configScene()
         LoadHandler.onComplete = () => {
         }
+        this.setMouseHitObjects(SceneHandler.mouseHitModels);
+
 
         this.bgModel = new Model(GameModel.renderer,"background")
         this.bgModel.mesh =new Quad(GameModel.renderer)
@@ -45,6 +49,9 @@ export default class Social extends NavigationLevel{
 
 
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
+
+
+
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
@@ -52,6 +59,25 @@ export default class Social extends NavigationLevel{
 
         GameModel.gameRenderer.setLevelType("website")
 
+
+        for(let l of this.links){
+            let link = this.mouseInteractionMap.get(l[0]) as MouseInteractionWrapper
+            link.onClick = () => {
+                console.log(l[1])
+            }
+            link.onRollOver =()=>{
+                gsap.killTweensOf(link.sceneObject)
+gsap.to(link.sceneObject,{sx:1.1,sy:1.1,rz:(Math.random()-0.5)*0.2,ease:"elastic.out",duration:0.5})
+
+            }
+            link.onRollOut =()=>{
+
+                gsap.killTweensOf(link.sceneObject)
+                gsap.to(link.sceneObject,{sx:1.0,sy:1.0,rz:0,ease:"back.out",duration:0.1})
+
+            }
+
+        }
 
 
     }
