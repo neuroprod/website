@@ -322,6 +322,7 @@ export default class GameRenderer {
         this.gradingPass.add()
 
         if (this.postLightPass.modelRenderer.models.length)
+            this.postLightPass.modelRenderer.sort()
             this.postLightPass.add()
 
     }

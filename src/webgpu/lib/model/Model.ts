@@ -5,6 +5,7 @@ import Object3D from "./Object3D.ts";
 import Material from "../material/Material.ts";
 import Mesh from "../mesh/Mesh.ts";
 import ModelTransform from "./ModelTransform.ts";
+import {Vector3} from "@math.gl/core";
 
 
 export default class Model extends Object3D {
@@ -22,6 +23,9 @@ public markedDelete =false;
     private materialMap: Map<string, Material> = new Map<string, Material>();
     needCulling: boolean =true;
     transparent: boolean =false
+     camDistSquared: number =0;
+
+
     constructor(renderer: Renderer, label: string) {
         super(renderer, label);
         this.modelTransform = new ModelTransform(renderer)
@@ -86,4 +90,7 @@ public markedDelete =false;
 
     }
 
+    setCamDistance(cam:Vector3) {
+        this.camDistSquared =this.getWorldPos().distanceSquared(cam)
+    }
 }

@@ -11,6 +11,7 @@ import Model from "../../../lib/model/Model.ts";
 import Quad from "../../../lib/mesh/geometry/Quad.ts";
 import GBufferFullScreenStretchMaterial from "../../backgroundShaders/GBufferFullScreenStretchMaterial.ts";
 import gsap from "gsap";
+import FullScreenStretchMaterial from "../../backgroundShaders/FullscreenStretchMaterial.ts";
 export default class Scroll extends NavigationLevel{
     private scroll1!: SceneObject3D;
     private scroll2!: SceneObject3D;
@@ -79,9 +80,10 @@ export default class Scroll extends NavigationLevel{
 
         this.bgModel = new Model(GameModel.renderer,"background")
         this.bgModel.mesh =new Quad(GameModel.renderer)
-        this.bgModel.material =new GBufferFullScreenStretchMaterial(GameModel.renderer,"bg")
+        this.bgModel.material =new FullScreenStretchMaterial(GameModel.renderer,"bg")
         this.bgModel.material.setTexture("colorTexture",  this.backgroundTexture)
-        GameModel.gameRenderer.gBufferPass.modelRenderer.addModel(this.bgModel)
+        this.bgModel.z =-100
+        GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
     }
 
     public update() {

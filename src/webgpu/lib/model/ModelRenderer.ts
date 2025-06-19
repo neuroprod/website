@@ -33,8 +33,23 @@ export default class ModelRenderer {
         this.singleMaterial = true;
         this.material = material;
     }
+    sort(){
+        for (let model of this.models) {
+            model.setCamDistance(this.camera.cameraWorld)
+        }
+        this.models.sort((a,b)=>{
+            if(a.camDistSquared>b.camDistSquared)return -1
+            return 1;
+        })
 
+    }
     draw(pass: RenderPass) {
+
+
+
+
+
+
 
         const passEncoder = pass.passEncoder;
 
