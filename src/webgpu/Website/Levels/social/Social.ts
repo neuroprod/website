@@ -50,7 +50,7 @@ export default class Social extends NavigationLevel {
 
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
 
-
+        this.bgModel.z =-100;
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 

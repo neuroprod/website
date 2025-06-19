@@ -1,10 +1,10 @@
-import Material from "../../lib/material/Material.ts";
-import {ShaderType} from "../../lib/material/ShaderTypes.ts";
-import DefaultUniformGroups from "../../lib/material/DefaultUniformGroups.ts";
-import UniformGroup from "../../lib/material/UniformGroup.ts";
-import {Textures} from "../../data/Textures.ts";
-import {CullMode} from "../../lib/WebGPUConstants.ts";
-import Blend from "../../lib/material/Blend.ts";
+import Material from "../../../lib/material/Material.ts";
+import {ShaderType} from "../../../lib/material/ShaderTypes.ts";
+import DefaultUniformGroups from "../../../lib/material/DefaultUniformGroups.ts";
+import UniformGroup from "../../../lib/material/UniformGroup.ts";
+import {Textures} from "../../../data/Textures.ts";
+import {CullMode} from "../../../lib/WebGPUConstants.ts";
+import Blend from "../../../lib/material/Blend.ts";
 import {Vector4} from "@math.gl/core";
 
 
@@ -53,15 +53,15 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
     var center = aCenter;
 var p = (uniforms.time+aCenter.x)%uniforms.size;
  
- if(p<0.5)
+ if(p<0.6)
  {
 
  pos.y = pos.y+p ;
  }
  else{
- p-=0.5;
+ p-=0.6;
   center.x  =p;
- center.y = sin(p*10)*0.1 +0.5;
+ center.y = sin(p*10)*0.1 +0.6;
   pos+=center;
  }
  

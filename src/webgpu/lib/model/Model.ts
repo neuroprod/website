@@ -24,6 +24,7 @@ public markedDelete =false;
     needCulling: boolean =true;
     transparent: boolean =false
      camDistSquared: number =0;
+    zDistance: number=0;
 
 
     constructor(renderer: Renderer, label: string) {
@@ -92,5 +93,8 @@ public markedDelete =false;
 
     setCamDistance(cam:Vector3) {
         this.camDistSquared =this.getWorldPos().distanceSquared(cam)
+    }
+    setZDistance() {
+        this.zDistance =this.getWorldPos().z
     }
 }

@@ -12,6 +12,7 @@ import Quad from "../../../lib/mesh/geometry/Quad.ts";
 import GBufferFullScreenStretchMaterial from "../../backgroundShaders/GBufferFullScreenStretchMaterial.ts";
 import gsap from "gsap";
 import FullScreenStretchMaterial from "../../backgroundShaders/FullscreenStretchMaterial.ts";
+import SoundHandler from "../../SoundHandler.ts";
 export default class Scroll extends NavigationLevel{
     private scroll1!: SceneObject3D;
     private scroll2!: SceneObject3D;
@@ -28,6 +29,8 @@ export default class Scroll extends NavigationLevel{
     private worm1Dir =1
     private worm2Dir =-1
     private scrollArr:Array<SceneObject3D>=[]
+    private head1!: SceneObject3D;
+    private head2!: SceneObject3D;
     constructor() {
         super();
 
@@ -76,7 +79,8 @@ export default class Scroll extends NavigationLevel{
 
         this.worm1 =SceneHandler.getSceneObject("worm1")
         this.worm2 =SceneHandler.getSceneObject("worm2")
-
+        this.head1 =SceneHandler.getSceneObject("head1")
+        this.head2 =SceneHandler.getSceneObject("head2")
 
         this.bgModel = new Model(GameModel.renderer,"background")
         this.bgModel.mesh =new Quad(GameModel.renderer)
@@ -104,37 +108,54 @@ export default class Scroll extends NavigationLevel{
 
         this.worm1Time-=Timer.delta
         if(this.worm1Time<0){
-            console.log(this.worm1.x,"worm1")
-            if(this.worm1.x>0.2){
+
+            if(this.worm1.x>0.1){
                 this.worm1Dir =-1
                 this.worm1.x -=0.05
             }
-            if(this.worm1.x<-0.2){
+            if(this.worm1.x<-0.1){
                 this.worm1Dir =1
                 this.worm1.x +=0.05
             }
             if(this.worm1Dir==1){
                 this.worm1.ry =0
+                this.head1.z =0.01
             }else{
                 this.worm1.ry =Math.PI
+                this.head1.z =-0.01
             }
-            this.moveWorm(this.worm1,this.worm1Dir)
-            this.worm1Time +=3+Math.random()*2
+            this.moveWorm(this.worm1,this.worm1Dir,1)
+            this.worm1Time +=3+Math.random()*8
 
         }
         this.worm2Time-=Timer.delta
         if(this.worm2Time<0){
-            console.log(this.worm2.x,"worm2")
-            this.moveWorm(this.worm2,this.worm2Dir)
-            this.worm2Time +=3+Math.random()*2
+            if(this.worm2.x>0.1){
+                this.worm2Dir =-1
+                this.worm2.x -=0.05
+            }
+            if(this.worm2.x<-0.1){
+                this.worm2Dir =1
+                this.worm2.x +=0.05
+            }
+            if(this.worm2Dir==1){
+                this.worm2.ry =Math.PI
+                this.head2.z =-0.01
+            }else{
+                this.worm2.ry =0
+                this.head2.z =0.01
+            }
+            this.moveWorm(this.worm2,this.worm2Dir,0.5)
+            this.worm2Time +=6+Math.random()*9
         }
 
     }
-    moveWorm(worm:SceneObject3D,dir:number) {
+    moveWorm(worm:SceneObject3D,dir:number,vol:number) {
         let tl = gsap.timeline()
         let wx =worm.x;
-        tl.to(worm, {sx: 0.9, sy: 1.05,duration:0.5,ease:"power2.inOut"}, 0)
-        tl.to(worm, {sx: 1, sy: 1,x:wx+0.02*dir,duration:1.5,ease:"power2.inOut"}, 0.5)
+        SoundHandler.playScroll(wx,vol)
+        tl.to(worm, {sx: 0.9, sy: 1.05,duration:0.6,ease:"power2.inOut"}, 0)
+        tl.to(worm, {sx: 1, sy: 1,x:wx+0.02*dir,duration:1.5,ease:"power2.inOut"}, 1.1)
     }
 
     destroy() {

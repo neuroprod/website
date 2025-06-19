@@ -8,6 +8,7 @@ import {Howl} from 'howler';
      private wetHit!: Howl;
      private talking!: Howl;
     playSound =true;
+     private scroll!: Howl;
 
 
     init() {
@@ -86,6 +87,19 @@ import {Howl} from 'howler';
             }
         });
 
+
+        this.scroll = new Howl({
+            src: ['sound/scroll.mp3'],
+            sprite: {
+                s0: [0, 3000],
+                s1: [3000, 3000],
+                s2: [6000, 3000],
+                s3: [9000, 3000],
+
+
+            }
+        });
+
     }
 
 
@@ -143,6 +157,18 @@ if(!this.playSound) return
 
          this.talking.volume( this.fxVolume*0.1);
          this.talking.play("s" + s)
+
+     }
+
+
+     playScroll(xPos:number,vol:number) {
+
+         if(!this.playSound) return
+         let s = Math.floor(Math.random() * 1000) % 4;
+         this.scroll.pos(xPos, 0, -0.5);
+
+         this.scroll.volume( this.fxVolume*vol);
+         this.scroll.play("s" + s)
 
      }
 

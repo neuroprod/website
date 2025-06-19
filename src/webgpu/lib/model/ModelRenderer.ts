@@ -43,6 +43,15 @@ export default class ModelRenderer {
         })
 
     }
+    sortZ() {
+        for (let model of this.models) {
+            model.setZDistance()
+        }
+        this.models.sort((a,b)=>{
+            if(a.zDistance<b.zDistance)return -1
+            return 1;
+        })
+    }
     draw(pass: RenderPass) {
 
 
@@ -180,4 +189,6 @@ export default class ModelRenderer {
             this.models.splice(index, 1);
         }
     }
+
+
 }

@@ -1,16 +1,16 @@
 
 import {Vector2, Vector3} from "@math.gl/core";
-import NavigationLevel from "../Levels/NavigationLevel.ts";
-import LoadHandler from "../../data/LoadHandler.ts";
-import SceneHandler from "../../data/SceneHandler.ts";
-import GameModel from "../GameModel.ts";
+import NavigationLevel from "../NavigationLevel.ts";
+import LoadHandler from "../../../data/LoadHandler.ts";
+import SceneHandler from "../../../data/SceneHandler.ts";
+import GameModel from "../../GameModel.ts";
 import ClientFontMaterial from "./ClientFontMaterial.ts";
-import Model from "../../lib/model/Model.ts";
-import Quad from "../../lib/mesh/geometry/Quad.ts";
-import GBufferFullScreenStretchMaterial from "../backgroundShaders/GBufferFullScreenStretchMaterial.ts";
-import TextureLoader from "../../lib/textures/TextureLoader.ts";
-import FullScreenStretchMaterial from "../backgroundShaders/FullscreenStretchMaterial.ts";
-import Timer from "../../lib/Timer.ts";
+import Model from "../../../lib/model/Model.ts";
+import Quad from "../../../lib/mesh/geometry/Quad.ts";
+import GBufferFullScreenStretchMaterial from "../../backgroundShaders/GBufferFullScreenStretchMaterial.ts";
+import TextureLoader from "../../../lib/textures/TextureLoader.ts";
+import FullScreenStretchMaterial from "../../backgroundShaders/FullscreenStretchMaterial.ts";
+import Timer from "../../../lib/Timer.ts";
 
 
 export default class Clients extends NavigationLevel{
@@ -55,7 +55,7 @@ private time =0
         this.bgModel.material =new FullScreenStretchMaterial(GameModel.renderer,"bg")
         this.bgModel.material.setTexture("colorTexture",  this.backgroundTexture)
 
-
+        this.bgModel.z =-100
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
         this.setMouseHitObjects(SceneHandler.mouseHitModels);

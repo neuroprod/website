@@ -26,7 +26,7 @@ import Lab101 from "./lab101/Lab101.ts";
 import Scroll from "./scroll/Scroll.ts";
 import Contact from "./Contact/Contact.ts";
 import Shaders from "./shaders/Shaders.ts";
-import Clients from "../clients/Clients.ts";
+import Clients from "./clients/Clients.ts";
 import Friends from "./friends/Friends.ts";
 import Social from "./social/Social.ts";
 
