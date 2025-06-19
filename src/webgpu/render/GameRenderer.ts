@@ -25,69 +25,43 @@ import GradingRenderPass from "./grading/GradingPass.ts";
 import InGameFXPass from "./InGameFX/InGameFXPass.ts";
 import MaskRenderPass from "./InGameFX/MaskRenderPass.ts";
 import gsap from "gsap";
-import DripPass from "./drip/DripPass.ts";
 import PostLightRenderPass from "./postLight/PostLightRenderPass.ts";
+import Timer from "../lib/Timer.ts";
+
 export default class GameRenderer {
-    private postLightPass: PostLightRenderPass;
-
-    get fxEnabled(): boolean {
-        return this._fxEnabled;
-    }
-
-    set fxEnabled(value: boolean) {
-        if( this._fxEnabled == value)return;
-        this._fxEnabled = value;
-        if(this._fxEnabled){
-            this.gradingPass.setBaseTexture(this.renderer.getTexture(Textures.INGAMEFX))
-        }else{
-            this.gradingPass.setBaseTexture(this.renderer.getTexture(Textures.LIGHT))
-        }
-
-    }
-    private _fxEnabled: boolean = false;
-    get distortValue(): number {
-        return this._distortValue;
-    }
-
-    set distortValue(value: number) {
-        if(value==0){this.fxEnabled =false}else
-        {
-            this.fxEnabled =true;
-        }
-        this._distortValue = value;
-        this.inGameFXPass.distortValue =this._distortValue
-    }
+    public needsAO: boolean = true;
     public allModels: Array<Model> = []
-    private renderer: Renderer;
     gBufferPass: GBufferRenderPass;
+    shadowMapPass: ShadowMapRenderPass;
+    postLightModelRenderer: ModelRenderer;
+    private postLightPass: PostLightRenderPass;
+    private needsAOInt: boolean = false;
+    private needsShadowInt: boolean = false;
+    private needsShadow: boolean = true;
+    private renderer: Renderer;
     private debugTextureMaterial: DebugTextureMaterial;
     private blitFinal: Blit;
     private currentValue = {texture: "kka", type: 0}
     private passSelect: Array<SelectItem> = []
     private lightPass: LightRenderPass;
     private sunLight: DirectionalLight;
-    shadowMapPass: ShadowMapRenderPass;
-    //preProcessDepth: PreProcessDepth;
     // private gtoaPass: GTAORenderPass;
     private shadowBlurPass: ShadowBlurRenderPass;
     //private gtoaDenoisePass: GTAODenoisePass;
     private shadowPass: ShadowRenderPass;
     private preDept: AOPreprocessDepth;
     private ao: GTAO;
+    //preProcessDepth: PreProcessDepth;
     private preProcessDepth: PreProcessDepth;
     private aoDenoise: DeNoisePass;
     private shadowDenoise: DeNoisePass;
     private transparentModelRenderer: ModelRenderer;
-    private transitionValue: number =0;
+    private transitionValue: number = 0;
     private transparentPass: TransRenderPass;
     private gradingPass: GradingRenderPass;
     private inGameFXPass: InGameFXPass;
     private maskRenderPass: MaskRenderPass;
-    postLightModelRenderer: ModelRenderer;
 
-   // private dripPass:DripPass
-
-private _distortValue=0;
     constructor(renderer: Renderer, camera: Camera) {
         this.renderer = renderer;
         this.sunLight = new DirectionalLight(renderer, camera)
@@ -106,20 +80,19 @@ private _distortValue=0;
 
         this.lightPass = new LightRenderPass(renderer, camera, this.sunLight)
         this.transparentModelRenderer = new ModelRenderer(this.renderer, "transparent", camera)
-        this.transparentPass = new TransRenderPass(renderer, camera, this.sunLight,this.transparentModelRenderer)
-        this.maskRenderPass = new MaskRenderPass(renderer,camera)
+        this.transparentPass = new TransRenderPass(renderer, camera, this.sunLight, this.transparentModelRenderer)
+        this.maskRenderPass = new MaskRenderPass(renderer, camera)
         this.inGameFXPass = new InGameFXPass(renderer)
 
         this.gradingPass = new GradingRenderPass(renderer)
 
         this.postLightModelRenderer = new ModelRenderer(this.renderer, "postLight", camera)
-        this.postLightPass = new PostLightRenderPass(renderer,camera, this.sunLight,this.postLightModelRenderer)
-
+        this.postLightPass = new PostLightRenderPass(renderer, camera, this.sunLight, this.postLightModelRenderer)
 
 
         this.debugTextureMaterial = new DebugTextureMaterial(this.renderer, "debugTextureMaterial")
         this.blitFinal = new Blit(renderer, "blitFinal", this.debugTextureMaterial)
-       // this.passSelect.push(new SelectItem(Textures.DRIP, {texture: Textures.DRIP, type: 0}));
+        // this.passSelect.push(new SelectItem(Textures.DRIP, {texture: Textures.DRIP, type: 0}));
         this.passSelect.push(new SelectItem(Textures.GRADING, {texture: Textures.GRADING, type: 0}));
         this.passSelect.push(new SelectItem(Textures.MASK, {texture: Textures.MASK, type: 0}));
         this.passSelect.push(new SelectItem(Textures.LIGHT, {texture: Textures.LIGHT, type: 0}));
@@ -149,9 +122,41 @@ private _distortValue=0;
         this.debugTextureMaterial.setUniform("renderType", this.currentValue.type)
 
 
+    }
 
+    private _fxEnabled: boolean = false;
 
+    get fxEnabled(): boolean {
+        return this._fxEnabled;
+    }
 
+    set fxEnabled(value: boolean) {
+        if (this._fxEnabled == value) return;
+        this._fxEnabled = value;
+        if (this._fxEnabled) {
+            this.gradingPass.setBaseTexture(this.renderer.getTexture(Textures.INGAMEFX))
+        } else {
+            this.gradingPass.setBaseTexture(this.renderer.getTexture(Textures.LIGHT))
+        }
+
+    }
+
+    private _distortValue = 0;
+
+    // private dripPass:DripPass
+
+    get distortValue(): number {
+        return this._distortValue;
+    }
+
+    set distortValue(value: number) {
+        if (value == 0) {
+            this.fxEnabled = false
+        } else {
+            this.fxEnabled = true;
+        }
+        this._distortValue = value;
+        this.inGameFXPass.distortValue = this._distortValue
     }
 
     public setLevelType(type: string) {
@@ -185,8 +190,8 @@ private _distortValue=0;
     }
 
     public addModel(m: Model) {
-console.log(m.label)
-        if(m.parent ){
+
+        if (m.parent) {
             if ((m.parent as SceneObject3D).postLight) {
                 this.postLightModelRenderer.addModel(m)
 
@@ -202,11 +207,12 @@ console.log(m.label)
 
         }
 
-        if(m.parent ){
-        if ((m.parent as SceneObject3D).dropShadow) {
+        if (m.parent) {
+            if ((m.parent as SceneObject3D).dropShadow) {
 
-            this.shadowMapPass.modelRenderer.addModel(m)
-        }}
+                this.shadowMapPass.modelRenderer.addModel(m)
+            }
+        }
 
         this.allModels.push(m)
 
@@ -217,7 +223,7 @@ console.log(m.label)
         this.gBufferPass.modelRenderer.removeModel(m)
         this.shadowMapPass.modelRenderer.removeModel(m)
         this.transparentModelRenderer.removeModel(m)
-this.postLightModelRenderer.removeModel(m)
+        this.postLightModelRenderer.removeModel(m)
 
         const index = this.allModels.indexOf(m, 0);
         if (index > -1) {
@@ -234,21 +240,45 @@ this.postLightModelRenderer.removeModel(m)
 
 
     update() {
+
+        if (!this.needsAO) {
+            this.needsAOInt = false
+        } else {
+            this.needsAOInt = true
+        }
+        if (this.gBufferPass.modelRenderer.models.length == 0) {
+            this.needsAOInt = false// do i want ao in trans pass?
+        }
+        if (this.shadowMapPass.modelRenderer.models.length == 0) {
+            this.needsShadowInt = false;
+        } else {
+            this.needsShadowInt = true;
+        }
+        if (!this.needsShadow) {
+            this.needsShadowInt = false;
+        }
+
+
         this.sunLight.update();
+
         this.shadowMapPass.update()
         this.shadowPass.update();
-        this.lightPass.update();
+        this.lightPass.update(this.needsAOInt, this.needsShadowInt);
         this.transparentPass.update();
         this.inGameFXPass.update()
         this.gradingPass.update();
-       // this.dripPass.update();
-        if(this.transitionValue !=0){
+        // this.dripPass.update();
+        if (this.transitionValue != 0) {
             //
         }
     }
 
     onUI() {
-
+        UI.LText("fps:" + Timer.fps)
+        this.needsAO = UI.LBool(this, "needsAO")
+        UI.LText("ao:" + this.needsAOInt)
+        this.needsShadow = UI.LBool(this, "needsShadow")
+        UI.LText("shadow:" + this.needsShadowInt)
         let value = UI.LSelect("Render Pass", this.passSelect)
         if (value != this.currentValue) {
             this.currentValue = value;
@@ -257,66 +287,64 @@ this.postLightModelRenderer.removeModel(m)
             this.debugTextureMaterial.setUniform("renderType", this.currentValue.type)
 
         }
-       // this.dripPass.unUI();
+        // this.dripPass.unUI();
     }
 
     //doPasses
     draw() {
         if (LoadHandler.isLoading()) return;
 
-       // this.dripPass.add()
-        let needShadow =true;
-        if(  this.shadowMapPass.modelRenderer.models.length==0){
-            needShadow =false
-        }
-        if(needShadow)this.shadowMapPass.add();
+        // this.dripPass.add()
+
+        if (this.needsShadowInt) this.shadowMapPass.add();
+
 
         this.gBufferPass.add(this.renderer.timeStamps.getSet(0, 1));
+        if (this.needsAOInt) {
+            this.preProcessDepth.add();
 
-        this.preProcessDepth.add();
-
-///this.preDept.add()
-        this.ao.add()
-
-        //this.preProcessDepth.add();
-        // this.gtoaPass.add()
-        /// this.gtoaDenoisePass.add();
+            this.ao.add()
+        }
 
 
-        if(needShadow) this.shadowPass.add();
-        this.aoDenoise.add()
-        this.shadowDenoise.enabled =needShadow
-      this.shadowDenoise.add()
+        if (this.needsShadowInt) this.shadowPass.add();
+        if (this.needsAOInt) this.aoDenoise.add()
+
+        if (this.needsShadowInt) this.shadowDenoise.add()
         //this.shadowBlurPass.add();
 
         this.lightPass.add(this.renderer.timeStamps.getSet(2, 3));
-       this.transparentPass.add();
-       if(this._fxEnabled) {
-           this.maskRenderPass.add()
-           this.inGameFXPass.add()
-       }
+        this.transparentPass.add();
+        if (this._fxEnabled) {
+            this.maskRenderPass.add()
+            this.inGameFXPass.add()
+        }
         this.gradingPass.add()
-        if(this.postLightPass.modelRenderer.models.length) this.postLightPass.add()
+
+        if (this.postLightPass.modelRenderer.models.length)
+            this.postLightPass.add()
 
     }
 
     //put in canvas
     drawFinal(pass: CanvasRenderPass) {
 
-       this.blitFinal.draw(pass);
+        this.blitFinal.draw(pass);
 
     }
 
     addToMask(model: Array<Model>) {
         this.maskRenderPass.modelRenderer.setModels(model)
     }
+
     tweenToNonBlack() {
 
-        gsap.to(  this.gradingPass,{blackValue :1,duration:3})
+        gsap.to(this.gradingPass, {blackValue: 1, duration: 3})
 
     }
+
     tweenToBlack() {
-       gsap.to(  this.gradingPass,{blackValue :0,duration:0.5})
+        gsap.to(this.gradingPass, {blackValue: 0, duration: 0.5})
 
     }
 }

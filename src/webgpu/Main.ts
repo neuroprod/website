@@ -80,7 +80,7 @@ export default class Main {
         });
 
         if (location.hostname === "localhost") {
-             GameModel.debug =true;
+            GameModel.debug = true;
         }
         console.log(location.pathname)
     }
@@ -107,7 +107,7 @@ export default class Main {
         new TextureLoader(this.renderer, Textures.SPACE_SHIP)
         new TextureLoader(this.renderer, Textures.SPACE_HEAD)
 
-        FontPool.loadFont(this.renderer,this.preloader,"bold")
+        FontPool.loadFont(this.renderer, this.preloader, "bold")
 
         // this.modelLoader = new ModelLoader(this.renderer, this.preloader)
         // this.sceneLoader = new JsonLoader("scene1", this.preloader)
@@ -118,16 +118,15 @@ export default class Main {
         });
         this.preloader.startLoad()
         SceneHandler.init(this.renderer, this.preloader).then(() => {
-            console.log("initScenesDone")
+
             this.preloader.stopLoad()
         });
 
-GameModel.glft = new GLFTLoader(this.renderer,"ross",this.preloader)
+        GameModel.glft = new GLFTLoader(this.renderer, "ross", this.preloader)
     }
 
 
     private init() {
-        console.log("init")
 
 
         //   SceneData.parseSceneData();
@@ -225,6 +224,7 @@ GameModel.glft = new GLFTLoader(this.renderer,"ross",this.preloader)
     }
 
     private onUI() {
+
         if (this.currentMainState == MainState.game) {
 
             if (gameModel.debug) {
