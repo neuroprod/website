@@ -46,7 +46,7 @@ export default class FisTik extends NavigationLevel{
 
     public update() {
         super.update()
-        SceneHandler.sceneAnimations[0].autoPlay(Timer.delta)
+     SceneHandler.sceneAnimations[0].autoPlay(Timer.delta)
 
     }
 

@@ -52,7 +52,10 @@ export default class AnimationChannel {
         } else if (this.type == AnimationType.SCALE) {
             let d = new Vector3()
             // @ts-ignore
-            d.from(this.sceneObject3D.model.getScale())
+            if(this.sceneObject3D.model){
+            d.from(this.sceneObject3D.model.getScale())}
+            else if(this.sceneObject3D){
+                d.from(this.sceneObject3D.getScale())}
             return d;
         }
     }

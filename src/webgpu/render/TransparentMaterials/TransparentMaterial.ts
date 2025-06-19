@@ -58,7 +58,7 @@ fn mainFragment(${this.getFragmentInput()}) ->  @location(0) vec4f
 
 
 
-    return color;
+    return vec4(color.xyz*color.w,color.w);
 }
 ///////////////////////////////////////////////////////////
         `

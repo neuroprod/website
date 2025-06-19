@@ -226,6 +226,7 @@ if(!animations)return
                     let key = new Key()
                     key.frame = channelData.frames[i]
                     let keyData =channelData.values[i]
+                    if(keyData){
                     if(keyData.length==3){
                         key.data =new Vector3( channelData.values[i]   )
                     } if(keyData.length==4){
@@ -233,7 +234,7 @@ if(!animations)return
                     }
 
 
-                    channel.keys.push(key);
+                    channel.keys.push(key);}
                 }
                 channel.lastKeyIndex = channel.keys.length-1;
                 animation.channels.push(channel)
