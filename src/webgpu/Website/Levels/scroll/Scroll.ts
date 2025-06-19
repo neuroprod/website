@@ -47,7 +47,7 @@ export default class Scroll extends NavigationLevel{
             LoadHandler.stopLoading()
 
         });
-        this.backgroundTexture = new TextureLoader(GameModel.renderer,"backgrounds/scrollBG.png")
+        this.backgroundTexture = new TextureLoader(GameModel.renderer,"backgrounds/scrollBG.jpg")
 
         LoadHandler.startLoading()
         this.backgroundTexture.onComplete =()=>{
