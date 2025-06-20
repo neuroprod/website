@@ -36,21 +36,21 @@ class LevelHandler {
 
     public currentLevel!: BaseLevel | null;
 
-public  navigationLevels:Array<string> =["Scroll","About","Shaders","FoodForFish","Friends","This","Clients","Invasion","Smullen","Lab101","Social","Contact"]
+public  navigationLevels:Array<string> =["Worries","Me","Food","Friends","Shaders","This","Clients","Invasion","Smullen","Lab101","Social","Contact"]
     private currentLevelName: string="";
     init() {
 
         this.addLevel("Home", new StartLevel())
-        this.addLevel("About", new GraphicDev())
+        this.addLevel("Me", new GraphicDev())
         this.addLevel("Shaders", new Shaders())
-       this.addLevel("FoodForFish", new FoodForFish())
+       this.addLevel("Food", new FoodForFish())
         this.addLevel("Friends", new Friends())
         this.addLevel("This", new Meat())
         this.addLevel("Clients", new Clients())
         this.addLevel("Invasion", new ArduinoGame())
         this.addLevel("Smullen", new FisTik())
         this.addLevel("Social", new Social())
-        this.addLevel("Scroll", new Scroll())
+        this.addLevel("Worries", new Scroll())
         this.addLevel("Lab101", new Lab101())
         this.addLevel("Contact", new Contact())
         this.addLevel("Intro", new IntroLevel())

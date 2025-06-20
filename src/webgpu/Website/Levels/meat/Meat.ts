@@ -6,10 +6,12 @@ import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import MeatHandler from "./MeatHandler.ts";
 import MouseInteractionWrapper from "../../MouseInteractionWrapper.ts";
+import {Howl} from "howler";
 
 
 export default class Meat extends NavigationLevel{
     private meatHandler: MeatHandler;
+
 
 
 
@@ -29,6 +31,7 @@ export default class Meat extends NavigationLevel{
             LoadHandler.stopLoading()
 
         });
+
     }
 
     configScene() {
@@ -57,6 +60,7 @@ export default class Meat extends NavigationLevel{
         super.destroy()
         this.meatHandler.destroy()
         this.meatHandler.enabled =false;
+
     }
 
 

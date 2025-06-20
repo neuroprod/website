@@ -9,6 +9,7 @@ import {Howl} from 'howler';
      private talking!: Howl;
     playSound =true;
      private scroll!: Howl;
+     private drip!: Howl;
 
 
     init() {
@@ -100,6 +101,25 @@ import {Howl} from 'howler';
             }
         });
 
+        this.drip = new Howl({
+            src: ['sound/waterdrops.mp3'],
+            sprite: {
+                s0: [0, 500],
+                s1: [500, 500],
+                s2: [1000, 500],
+                s3: [1500, 500],
+                s4: [2000, 500],
+                s5: [2500, 500],
+                s6: [3000, 500],
+                s7: [3500, 500],
+                s8: [4000, 500],
+                s9: [4500, 500],
+            }
+        });
+
+
+
+
     }
 
 
@@ -172,5 +192,12 @@ if(!this.playSound) return
 
      }
 
-}
+     playDrip(xPos:number) {
+         if(!this.playSound) return
+         let s = Math.floor(Math.random() * 1000) % 9;
+         this.drip.pos(xPos, 0, -0.5);
+         this.drip.volume( this.fxVolume);
+         this.drip.play("s" + s)
+     }
+ }
 export default new SoundHandler()

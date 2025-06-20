@@ -13,6 +13,7 @@ import GBufferFullScreenStretchMaterial from "../../backgroundShaders/GBufferFul
 import gsap from "gsap";
 import FullScreenStretchMaterial from "../../backgroundShaders/FullscreenStretchMaterial.ts";
 import SoundHandler from "../../SoundHandler.ts";
+import {Howl} from "howler";
 export default class Scroll extends NavigationLevel{
     private scroll1!: SceneObject3D;
     private scroll2!: SceneObject3D;
@@ -31,6 +32,7 @@ export default class Scroll extends NavigationLevel{
     private scrollArr:Array<SceneObject3D>=[]
     private head1!: SceneObject3D;
     private head2!: SceneObject3D;
+    private bgSound!: Howl;
     constructor() {
         super();
 
@@ -53,7 +55,15 @@ export default class Scroll extends NavigationLevel{
         this.backgroundTexture.onComplete =()=>{
             LoadHandler.stopLoading()
         }
+        this.bgSound = new Howl({
+            src: ['sound/meatLoop.mp3'],
+            loop:true,
+            autoplay:true,
+            onload: ()=>{
 
+                this.bgSound.fade(0, 1, 2000);
+            }
+        });
         //this.setBackground("backgrounds/")
     }
 
@@ -92,6 +102,7 @@ export default class Scroll extends NavigationLevel{
 
     public update() {
         super.update()
+
         for(let s of this.scrollArr){
 
           s.y-= Timer.delta*0.3;
@@ -163,7 +174,7 @@ export default class Scroll extends NavigationLevel{
         this.backgroundTexture.destroy()
         this.bgModel.mesh.destroy()
         this.scrollArr =[]
-
+        this.bgSound.unload()
     }
 
 

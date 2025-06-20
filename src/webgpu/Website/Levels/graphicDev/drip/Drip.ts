@@ -10,6 +10,7 @@ import Timer from "../../../../lib/Timer.ts";
 import gsap from "gsap";
 import GBufferColorMaterial from "../../../../render/GBuffer/GbufferColorMaterial.ts";
 import ShadowDepthMaterial from "../../../../render/shadow/ShadowDepthMaterial.ts";
+import SoundHandler from "../../../SoundHandler.ts";
 export default class Drip {
     model: Model;
     modelDrop: Model;
@@ -115,6 +116,7 @@ private isDropping=false;
 
             if(y<0){
                 this.isDropping =false
+                SoundHandler.playDrip(this.model.x)
 
             }
         }

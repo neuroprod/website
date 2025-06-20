@@ -99,8 +99,10 @@ export class StartLevel extends BaseLevel {
             this.kris.jump()
             this.kris.stopWave()
             this.goGraphicDev =true;
+
             gsap.delayedCall(1.5, () => {
-                LevelHandler.setLevel("Scroll")
+
+                LevelHandler.setLevel(LevelHandler.navigationLevels[0])
 
             })
             // LevelHandler.setLevel("Website")

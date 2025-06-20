@@ -11,6 +11,8 @@ import GBufferFullScreenStretchMaterial from "../../backgroundShaders/GBufferFul
 import TextureLoader from "../../../lib/textures/TextureLoader.ts";
 import FullScreenStretchMaterial from "../../backgroundShaders/FullscreenStretchMaterial.ts";
 import Timer from "../../../lib/Timer.ts";
+import {Howl} from "howler";
+import SceneObject3D from "../../../data/SceneObject3D.ts";
 
 
 export default class Clients extends NavigationLevel{
@@ -19,6 +21,8 @@ export default class Clients extends NavigationLevel{
     private bgModel!: Model;
     private size: number=0;
 private time =0
+    private bgSound!: Howl;
+    private chin!: SceneObject3D;
 
 
     constructor() {
@@ -43,6 +47,12 @@ private time =0
         this.backgroundTexture.onComplete =()=>{
             LoadHandler.stopLoading()
         }
+        this.bgSound = new Howl({
+            src: ['sound/clients.mp3'],
+            loop:true,
+            autoplay:true,
+
+        });
     }
 
     configScene() {
@@ -72,7 +82,7 @@ private time =0
 text.z =-0.005
             text.setScaler(0.8)
         }
-
+            this.chin =SceneHandler.getSceneObject("chin");
 
         this.time=0;
     }
@@ -82,10 +92,13 @@ text.z =-0.005
         this.time +=Timer.delta*0.2
         this.fontMaterial.setUniform("time",this.time)
         this.fontMaterial.setUniform("size",this.size)
+
+        this.chin.y =0.2065-((Timer.time*5)%1)*0.01
     }
 
     destroy() {
         super.destroy()
+        this.bgSound.unload()
         GameModel.gameCamera.setMouseInput()
     }
 
