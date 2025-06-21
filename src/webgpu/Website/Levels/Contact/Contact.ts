@@ -4,7 +4,6 @@ import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import GameModel from "../../GameModel.ts";
 import {Vector3} from "@math.gl/core";
-import {Howl} from "howler";
 import Model from "../../../lib/model/Model.ts";
 import Quad from "../../../lib/mesh/geometry/Quad.ts";
 import FullScreenStretchMaterial from "../../backgroundShaders/FullscreenStretchMaterial.ts";
@@ -13,9 +12,10 @@ import gsap from "gsap";
 import TextureLoader from "../../../lib/textures/TextureLoader.ts";
 import FontMesh from "../../../modelMaker/FontMesh.ts";
 import ProjectData from "../../../data/ProjectData.ts";
+import SoundHandler from "../../SoundHandler.ts";
 
 export default class Contact extends NavigationLevel {
-    private bgSound!: Howl;
+
 
     private prevBeat = 0
     private beatCount = 0
@@ -39,6 +39,8 @@ export default class Contact extends NavigationLevel {
     private mee!: SceneObject3D;
     private meeMesh!: FontMesh;
     private eCount = 0
+    private line1!: SceneObject3D;
+    private mouth!: SceneObject3D;
 
     constructor() {
         super();
@@ -56,16 +58,8 @@ export default class Contact extends NavigationLevel {
             LoadHandler.stopLoading()
 
         });
+        SoundHandler.setBackgroundSounds(["sound/ritmo-loop-bunciac-313953.mp3"])
 
-        this.bgSound = new Howl({
-            src: ['sound/ritmo-loop-bunciac-313953.mp3'],
-            loop: true,
-            autoplay: true,
-            onload: () => {
-                this.beatCount = 0
-                this.bgSound.fade(0, 0.5, 2000);
-            }
-        });
         this.backgroundTexture = new TextureLoader(GameModel.renderer, "backgrounds/contact.png")
 
         LoadHandler.startLoading()
@@ -73,7 +67,7 @@ export default class Contact extends NavigationLevel {
             LoadHandler.stopLoading()
         }
 
-        this.eCount =0
+        this.eCount = 0
     }
 
     configScene() {
@@ -83,7 +77,7 @@ export default class Contact extends NavigationLevel {
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
-        GameModel.gameCamera.setLockedView(new Vector3(0, 0.25, 0), new Vector3(0, 0.25, 0.65))
+        GameModel.gameCamera.setLockedView(new Vector3(0, 0.25, 0), new Vector3(0, 0.25, 0.60))
 
         GameModel.gameRenderer.setLevelType("website")
 
@@ -110,12 +104,16 @@ export default class Contact extends NavigationLevel {
 
         this.mee = SceneHandler.getSceneObject("mee")
         this.meeMesh = this.mee.model?.mesh as FontMesh
+        this.line1 = SceneHandler.getSceneObject("line1")
+
+
+        this.mouth = SceneHandler.getSceneObject("mouth")
 
     }
 
     public update() {
         super.update()
-        let s = Math.round(this.bgSound.seek() * 1000)
+        let s = Math.round(SoundHandler.bgSounds[0].seek() * 1000) + 200
         s %= 462;
         s /= 462;
         if (s < this.prevBeat) {
@@ -131,12 +129,15 @@ export default class Contact extends NavigationLevel {
 
     destroy() {
         super.destroy()
-        this.bgSound.unload()
+        SoundHandler.killBackgroundSounds()
         this.backgroundTexture.destroy()
     }
 
 
     private beat() {
+
+        this.line1.rz -= 0.2
+
         this.arms.y = this.armsY + 0.01
         gsap.to(this.arms, {y: this.armsY, duration: 0.4})
 
@@ -161,16 +162,16 @@ export default class Contact extends NavigationLevel {
             }
         }
 
-this.eCount ++
-let s ="M"
-        for(let i=0;i<this.eCount;i++){
-            s+="e"
-            if(i%20==19)s+="\n  "
+        this.eCount++
+        let s = "M"
+        for (let i = 0; i < this.eCount; i++) {
+            s += "E"
+            //if(i%20==19)s+="\n "
 
         }
-        s+="!"
+        s += "!"
         this.meeMesh.setText(s, ProjectData.font)
-        if(this.eCount >100)this.eCount=1
+        if (this.eCount > 16) this.eCount = 0
 
     }
 }

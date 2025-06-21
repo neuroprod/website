@@ -9,6 +9,7 @@ import VideoPlayer from "../../../lib/video/VideoPlayer.ts";
 import Model from "../../../lib/model/Model.ts";
 import GBufferMaterial from "../../../render/GBuffer/GBufferMaterial.ts";
 import Plane from "../../../lib/mesh/geometry/Plane.ts";
+import SoundHandler from "../../SoundHandler.ts";
 
 export default class FoodForFish extends NavigationLevel{
 
@@ -31,6 +32,7 @@ private video!:VideoPlayer;
             LoadHandler.stopLoading()
 
         });
+        SoundHandler.setBackgroundSounds(["sound/Goldberg.mp3"])
     }
 
     configScene() {
@@ -68,6 +70,7 @@ private video!:VideoPlayer;
     destroy() {
         super.destroy()
         this.video.pauze()
+        SoundHandler.killBackgroundSounds()
     }
 
 

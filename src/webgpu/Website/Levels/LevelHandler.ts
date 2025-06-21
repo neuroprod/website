@@ -29,6 +29,7 @@ import Shaders from "./shaders/Shaders.ts";
 import Clients from "./clients/Clients.ts";
 import Friends from "./friends/Friends.ts";
 import Social from "./social/Social.ts";
+import Robots from "./robots/Robots.ts";
 
 class LevelHandler {
     public levelKeys: Array<string> = [];
@@ -36,7 +37,7 @@ class LevelHandler {
 
     public currentLevel!: BaseLevel | null;
 
-public  navigationLevels:Array<string> =["Worries","Me","Food","Friends","Shaders","This","Clients","Invasion","Smullen","Lab101","Social","Contact"]
+public  navigationLevels:Array<string> =["Worries","Me","Food","Friends","Shaders","This","Clients","Invasion","Smullen","Robot","Lab101","Social","Contact"]
     private currentLevelName: string="";
     init() {
 
@@ -49,6 +50,7 @@ public  navigationLevels:Array<string> =["Worries","Me","Food","Friends","Shader
         this.addLevel("Clients", new Clients())
         this.addLevel("Invasion", new ArduinoGame())
         this.addLevel("Smullen", new FisTik())
+        this.addLevel("Robot", new Robots())
         this.addLevel("Social", new Social())
         this.addLevel("Worries", new Scroll())
         this.addLevel("Lab101", new Lab101())

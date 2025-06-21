@@ -1,5 +1,4 @@
-
-import {Vector2, Vector3} from "@math.gl/core";
+import {Vector3} from "@math.gl/core";
 import NavigationLevel from "../NavigationLevel.ts";
 import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
@@ -7,21 +6,20 @@ import GameModel from "../../GameModel.ts";
 import ClientFontMaterial from "./ClientFontMaterial.ts";
 import Model from "../../../lib/model/Model.ts";
 import Quad from "../../../lib/mesh/geometry/Quad.ts";
-import GBufferFullScreenStretchMaterial from "../../backgroundShaders/GBufferFullScreenStretchMaterial.ts";
 import TextureLoader from "../../../lib/textures/TextureLoader.ts";
 import FullScreenStretchMaterial from "../../backgroundShaders/FullscreenStretchMaterial.ts";
 import Timer from "../../../lib/Timer.ts";
-import {Howl} from "howler";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
+import SoundHandler from "../../SoundHandler.ts";
 
 
-export default class Clients extends NavigationLevel{
+export default class Clients extends NavigationLevel {
     private fontMaterial!: ClientFontMaterial;
     private backgroundTexture!: TextureLoader;
     private bgModel!: Model;
-    private size: number=0;
-private time =0
-    private bgSound!: Howl;
+    private size: number = 0;
+    private time = 0
+
     private chin!: SceneObject3D;
 
 
@@ -41,18 +39,14 @@ private time =0
             LoadHandler.stopLoading()
 
         });
-        this.backgroundTexture = new TextureLoader(GameModel.renderer,"backgrounds/paper.jpg")
+        this.backgroundTexture = new TextureLoader(GameModel.renderer, "backgrounds/paper.jpg")
 
         LoadHandler.startLoading()
-        this.backgroundTexture.onComplete =()=>{
+        this.backgroundTexture.onComplete = () => {
             LoadHandler.stopLoading()
         }
-        this.bgSound = new Howl({
-            src: ['sound/clients.mp3'],
-            loop:true,
-            autoplay:true,
+        SoundHandler.setBackgroundSounds(["sound/clients.mp3"]);
 
-        });
     }
 
     configScene() {
@@ -60,12 +54,12 @@ private time =0
         LoadHandler.onComplete = () => {
         }
 
-        this.bgModel = new Model(GameModel.renderer,"background")
-        this.bgModel.mesh =new Quad(GameModel.renderer)
-        this.bgModel.material =new FullScreenStretchMaterial(GameModel.renderer,"bg")
-        this.bgModel.material.setTexture("colorTexture",  this.backgroundTexture)
+        this.bgModel = new Model(GameModel.renderer, "background")
+        this.bgModel.mesh = new Quad(GameModel.renderer)
+        this.bgModel.material = new FullScreenStretchMaterial(GameModel.renderer, "bg")
+        this.bgModel.material.setTexture("colorTexture", this.backgroundTexture)
 
-        this.bgModel.z =-100
+        this.bgModel.z = -100
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
@@ -74,31 +68,31 @@ private time =0
 
         GameModel.gameRenderer.setLevelType("website")
         let text = SceneHandler.getSceneObject("text")
-        if(text.model){
-            this.size =text.model.mesh.max.x
-            if(!this.fontMaterial ) this.fontMaterial = new ClientFontMaterial(GameModel.renderer,"clientFontMaterial")
-            text.model.material =this.fontMaterial
+        if (text.model) {
+            this.size = text.model.mesh.max.x
+            if (!this.fontMaterial) this.fontMaterial = new ClientFontMaterial(GameModel.renderer, "clientFontMaterial")
+            text.model.material = this.fontMaterial
             GameModel.gameRenderer.postLightModelRenderer.addModel(text.model)
-text.z =-0.005
+            text.z = -0.005
             text.setScaler(0.8)
         }
-            this.chin =SceneHandler.getSceneObject("chin");
+        this.chin = SceneHandler.getSceneObject("chin");
 
-        this.time=0;
+        this.time = 0;
     }
 
     public update() {
         super.update()
-        this.time +=Timer.delta*0.2
-        this.fontMaterial.setUniform("time",this.time)
-        this.fontMaterial.setUniform("size",this.size)
+        this.time += Timer.delta * 0.2
+        this.fontMaterial.setUniform("time", this.time)
+        this.fontMaterial.setUniform("size", this.size)
 
-        this.chin.y =0.2065-((Timer.time*5)%1)*0.01
+        this.chin.y = 0.2065 - ((Timer.time * 5) % 1) * 0.01
     }
 
     destroy() {
         super.destroy()
-        this.bgSound.unload()
+        SoundHandler.killBackgroundSounds()
         GameModel.gameCamera.setMouseInput()
     }
 

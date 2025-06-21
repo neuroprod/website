@@ -9,6 +9,7 @@ import DripTest from "./drip/DripTest.ts";
 import KrisWebsite from "./KrisWebsite.ts";
 import LevelHandler from "../LevelHandler.ts";
 import NavigationLevel from "../NavigationLevel.ts";
+import SoundHandler from "../../SoundHandler.ts";
 
 export class GraphicDev extends NavigationLevel {
     private kris!: SceneObject3D;
@@ -33,6 +34,7 @@ export class GraphicDev extends NavigationLevel {
                 LoadHandler.stopLoading()
             });
         });
+        SoundHandler.setBackgroundSounds(["sound/a-music-box-with-a-tense-atmosphere-166472.mp3"])
     }
 
     configScene() {
@@ -73,6 +75,7 @@ export class GraphicDev extends NavigationLevel {
 
     destroy() {
       super.destroy()
+        SoundHandler.killBackgroundSounds()
     }
 
 }

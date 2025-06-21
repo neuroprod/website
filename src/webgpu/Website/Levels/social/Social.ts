@@ -12,6 +12,7 @@ import Timer from "../../../lib/Timer.ts";
 import MouseInteractionWrapper from "../../MouseInteractionWrapper.ts";
 
 import gsap from "gsap";
+import SoundHandler from "../../SoundHandler.ts";
 
 export default class Social extends NavigationLevel {
     private bgModel!: Model;
@@ -34,6 +35,7 @@ export default class Social extends NavigationLevel {
             LoadHandler.stopLoading()
 
         });
+
     }
 
     configScene() {
@@ -75,7 +77,7 @@ export default class Social extends NavigationLevel {
                     ease: "elastic.out",
                     duration: 0.5
                 })
-
+                SoundHandler.playFart()
             }
             link.onRollOut = () => {
 
@@ -98,6 +100,7 @@ export default class Social extends NavigationLevel {
     destroy() {
         super.destroy()
         this.bgModel.destroy()
+        SoundHandler.killBackgroundSounds()
     }
 
 

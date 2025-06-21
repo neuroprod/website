@@ -10,6 +10,9 @@ import {Howl} from 'howler';
     playSound =true;
      private scroll!: Howl;
      private drip!: Howl;
+     bgSounds: Array<Howl>=[];
+     private fart: Howl;
+     private fartCount: number=-1;
 
 
     init() {
@@ -88,6 +91,23 @@ import {Howl} from 'howler';
             }
         });
 
+        this.fart = new Howl({
+            src: ['sound/fart-noises-83359.mp3'],
+            sprite: {
+                s0: [0, 300],
+                s1: [500, 300],
+                s2: [1000,300],
+                s3: [1500, 300],
+                s4: [2000, 600],
+                s5: [2820, 600],
+                s6: [3500, 600],
+                s7: [4200, 800],
+
+
+
+
+            }
+        });
 
         this.scroll = new Howl({
             src: ['sound/scroll.mp3'],
@@ -198,6 +218,38 @@ if(!this.playSound) return
          this.drip.pos(xPos, 0, -0.5);
          this.drip.volume( this.fxVolume);
          this.drip.play("s" + s)
+     }
+
+     playFart() {
+         if(!this.playSound) return
+         this.fartCount++;
+         this.fartCount%=8;
+         this.fart.volume( this.fxVolume*0.5);
+
+         this.fart.play("s" +this.fartCount)
+     }
+
+     setBackgroundSounds(sounds: string[]) {
+         this.killBackgroundSounds()
+         for(let  s of sounds){
+             let bgSound= new Howl({
+                 src: [s],
+                 loop:true,
+                 autoplay:true,
+                 onload: ()=>{
+
+                     bgSound.fade(0, 1, 2000);
+                 }
+             });
+             this.bgSounds.push(bgSound);
+         }
+     }
+
+     killBackgroundSounds(){
+        for(let s of this.bgSounds){
+            s.unload()
+        }
+        this.bgSounds=[]
      }
  }
 export default new SoundHandler()

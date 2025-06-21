@@ -5,9 +5,11 @@ import SceneHandler from "../../../data/SceneHandler.ts";
 import GameModel from "../../GameModel.ts";
 import {Vector2, Vector3} from "@math.gl/core";
 import Timer from "../../../lib/Timer.ts";
+import {Howl} from "howler";
 
 
 export default class FisTik extends NavigationLevel{
+    private bgSound!: Howl;
 
 
 
@@ -26,6 +28,15 @@ export default class FisTik extends NavigationLevel{
         SceneHandler.setScene(SceneHandler.getSceneIDByName("smullen")).then(() => {
             LoadHandler.stopLoading()
 
+        });
+        this.bgSound = new Howl({
+            src: ['sound/barn-job-81726.mp3'],
+            loop:true,
+            autoplay:true,
+            onload: ()=>{
+
+                this.bgSound.fade(0, 1, 2000);
+            }
         });
     }
 
@@ -52,7 +63,7 @@ export default class FisTik extends NavigationLevel{
 
     destroy() {
         super.destroy()
-
+        this.bgSound.unload()
     }
 
 
