@@ -34,7 +34,7 @@ export class GraphicDev extends NavigationLevel {
                 LoadHandler.stopLoading()
             });
         });
-        SoundHandler.setBackgroundSounds(["sound/a-music-box-with-a-tense-atmosphere-166472.mp3"])
+        SoundHandler.setBackgroundSounds(["sound/happy-bird-2-flute-and-strings-loop-e-minor-120-bpm-202819.mp3"])
     }
 
     configScene() {

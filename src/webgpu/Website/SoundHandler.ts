@@ -11,7 +11,7 @@ import {Howl} from 'howler';
      private scroll!: Howl;
      private drip!: Howl;
      bgSounds: Array<Howl>=[];
-     private fart: Howl;
+     private fart!: Howl;
      private fartCount: number=-1;
 
 
