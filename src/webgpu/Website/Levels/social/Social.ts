@@ -77,7 +77,7 @@ export default class Social extends NavigationLevel {
                     ease: "elastic.out",
                     duration: 0.5
                 })
-                SoundHandler.playFart()
+               // SoundHandler.playFart()
             }
             link.onRollOut = () => {
 

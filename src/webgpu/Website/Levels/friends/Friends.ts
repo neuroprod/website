@@ -12,6 +12,7 @@ import GBufferMaterial from "../../../render/GBuffer/GBufferMaterial.ts";
 import Timer from "../../../lib/Timer.ts";
 import Mesh from "../../../lib/mesh/Mesh.ts";
 import LineMaterial from "./LineMaterial.ts";
+import SoundHandler from "../../SoundHandler.ts";
 
 class LineParticle{
 
@@ -82,7 +83,7 @@ export default class Friends extends NavigationLevel{
         this.rossTexture.onComplete =()=>{
             LoadHandler.stopLoading()
         }
-
+        SoundHandler.setBackgroundSounds(["sound/looperman-l-2470216-0396423-extraterrestrial-alarm.mp3"])
     }
 
     configScene() {
@@ -164,7 +165,7 @@ let t =[0.8,Math.random()*Math.PI*2,Math.random()*Math.PI*2]
         this.bgModel.mesh.destroy()
         GameModel.gameCamera.setMouseInput(0.04)
         this.rossTexture.destroy()
-
+        SoundHandler.killBackgroundSounds()
     }
 
 

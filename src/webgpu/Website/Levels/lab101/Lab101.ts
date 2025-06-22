@@ -7,10 +7,13 @@ import VideoPlayer from "../../../lib/video/VideoPlayer.ts";
 import Model from "../../../lib/model/Model.ts";
 import GBufferMaterial from "../../../render/GBuffer/GBufferMaterial.ts";
 import Plane from "../../../lib/mesh/geometry/Plane.ts";
+import Quad from "../../../lib/mesh/geometry/Quad.ts";
+import FullScreenStretchMaterial from "../../backgroundShaders/FullscreenStretchMaterial.ts";
 
 export default class Lab101 extends NavigationLevel{
 
     private video!:VideoPlayer;
+    private bgModel!: Model;
 
     constructor() {
         super();
@@ -45,18 +48,12 @@ export default class Lab101 extends NavigationLevel{
 
         this.video.play()
 
-        let m = new Model(GameModel.renderer, "videoLab")
-        m.material = new GBufferMaterial(GameModel.renderer, "videoLab")
-        m.material.setTexture('colorTexture', this.video.getTexture())
-        m.mesh = new Plane(GameModel.renderer, 1920 / 1000, 1080 / 1000)
-
-        m.z =-0.3
-        m.x = 0.20
-        m.y = 0.25
-        m.setScaler(0.4)
-        m.rx = Math.PI / 2
-m.transparent =false
-        GameModel.gameRenderer.addModel(m)
+        this.bgModel = new Model(GameModel.renderer,"background")
+        this.bgModel.mesh =new Quad(GameModel.renderer)
+        this.bgModel.material =new FullScreenStretchMaterial(GameModel.renderer,"bg")
+        this.bgModel.material.setTexture("colorTexture",  this.video.getTexture())
+        this.bgModel.z =-100
+        GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
 
     }
 
