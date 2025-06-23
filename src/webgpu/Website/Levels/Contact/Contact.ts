@@ -10,10 +10,10 @@ import FullScreenStretchMaterial from "../../backgroundShaders/FullscreenStretch
 import SceneObject3D from "../../../data/SceneObject3D.ts";
 import gsap from "gsap";
 import TextureLoader from "../../../lib/textures/TextureLoader.ts";
-import FontMesh from "../../../modelMaker/FontMesh.ts";
 import ProjectData from "../../../data/ProjectData.ts";
 import SoundHandler from "../../SoundHandler.ts";
 import MouthMaterial from "./MouthMaterial.ts";
+import Ray from "../../../lib/Ray.ts";
 
 export default class Contact extends NavigationLevel {
 
@@ -37,14 +37,16 @@ export default class Contact extends NavigationLevel {
     private lightArray: Array<SceneObject3D> = [];
     private isLeftLeg: boolean = false
     private backgroundTexture!: TextureLoader;
-    private mee!: SceneObject3D;
-    private meeMesh!: FontMesh;
+    private contactText!: SceneObject3D;
+
     private eCount = 0
     private line1!: SceneObject3D;
     private mouth!: SceneObject3D;
     private mouthMaterial!: MouthMaterial;
     private overTexture!: TextureLoader;
     private overModel!: Model;
+    private ray2 = new Ray()
+    private prevSeek: number=100000;
 
     constructor() {
         super();
@@ -70,7 +72,6 @@ export default class Contact extends NavigationLevel {
         this.backgroundTexture.onComplete = () => {
             LoadHandler.stopLoading()
         }
-
 
 
         this.overTexture = new TextureLoader(GameModel.renderer, "backgrounds/overlay.png")
@@ -113,46 +114,66 @@ export default class Contact extends NavigationLevel {
         this.bgModel.z = -100
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
 
-        this.mee = SceneHandler.getSceneObject("mee")
-        this.meeMesh = this.mee.model?.mesh as FontMesh
+        this.contactText = SceneHandler.getSceneObject("contact")
+
         this.line1 = SceneHandler.getSceneObject("line1")
 
 
         this.mouth = SceneHandler.getSceneObject("mouth")
-        if(!this.mouthMaterial)this.mouthMaterial =new MouthMaterial(GameModel.renderer,"mouth")
-        if(   this.mouth.model)   this.mouth.model.material=this.mouthMaterial
+        if (!this.mouthMaterial) this.mouthMaterial = new MouthMaterial(GameModel.renderer, "mouth")
+        if (this.mouth.model) this.mouth.model.material = this.mouthMaterial
 
         let charProj = ProjectData.projectsNameMap.get("Contact")
-        if(charProj){
+        if (charProj) {
 
-            this.mouthMaterial.setTexture("colorTexture",   charProj.getBaseTexture())
+            this.mouthMaterial.setTexture("colorTexture", charProj.getBaseTexture())
         }
-        this.beatCount =0
+        this.beatCount = 0
 
         this.overModel = new Model(GameModel.renderer, "over");
         this.overModel.mesh = new Quad(GameModel.renderer)
         this.overModel.material = new FullScreenStretchMaterial(GameModel.renderer, "over")
         this.overModel.material.setTexture("colorTexture", this.overTexture)
-        this.overModel.z =100
+        this.overModel.z = 100
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.overModel)
+        if (this.contactText.model) {
+            this.contactText.model.x = -0.035;
+            this.contactText.model.y = +0.01;
+        }
     }
 
     public update() {
         super.update()
+        let seek =SoundHandler.bgSounds[0].seek()
+        if(seek<this.prevSeek){
+            this.beatCount =0
+            console.log("reset")
+        }
+        this.prevSeek =seek;
         let s = Math.round(SoundHandler.bgSounds[0].seek() * 1000) + 200
         s %= 462;
         s /= 462;
         if (s < this.prevBeat) {
 
             this.beatCount++
-            this.beatCount %= 8
+            this.beatCount%=8
             this.beat()
         }
         this.prevBeat = s;
-        if(  this.beatCount<5){
-        let sF = Math.sin(s*Math.PI*2)*0.01;
-        this.mouthMaterial.setUniform("topOffset",-sF)
-        this.mouthMaterial.setUniform("bottomOffset",sF)}
+        if (this.beatCount < 5) {
+            let sF = Math.sin(s * Math.PI * 2) * 0.01;
+            this.mouthMaterial.setUniform("topOffset", -sF)
+            this.mouthMaterial.setUniform("bottomOffset", sF)
+        }
+
+        this.ray2.setFromCamera(GameModel.gameCamera.camera, GameModel.mouseListener.mouseNorm);
+        let int = this.ray2.intersectPlaneCor(new Vector3(0, 0, 0.25), new Vector3(0, 0, -1))
+
+        if (int) {
+
+
+            this.contactText.setPositionV(int)
+        }
 
     }
 
@@ -180,7 +201,10 @@ export default class Contact extends NavigationLevel {
             gsap.to(this.leg2, {y: this.leg2Y + 0.01, duration: 0.2})
         }
         this.isLeftLeg = !this.isLeftLeg;
+        this.contactText.rz = Math.random() - 0.5
+        this.contactText.sx = this.contactText.sy = 2
 
+        gsap.to(this.contactText, {sy: 1, sx: 1, duration: 0.2})
 
         let beat4 = this.beatCount % 4
         for (let i = 0; i < 4; i++) {
@@ -192,16 +216,6 @@ export default class Contact extends NavigationLevel {
             }
         }
 
-        this.eCount++
-        let s = "M"
-        for (let i = 0; i < this.eCount; i++) {
-            s += "E"
-            //if(i%20==19)s+="\n "
-
-        }
-        s += "!"
-        this.meeMesh.setText(s, ProjectData.font)
-        if (this.eCount > 16) this.eCount = 0
 
     }
 }

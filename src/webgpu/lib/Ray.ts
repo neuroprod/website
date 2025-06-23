@@ -58,7 +58,7 @@ private _temp: Vector3 = new Vector3();
         pos.transform(camera.viewProjectionInv as NumericArray);
         this.rayStart.from(camera.cameraWorld)
         this.rayDir = new Vector3(pos.x - this.rayStart.x, pos.y - this.rayStart.y, pos.z - this.rayStart.z).normalize()
-
+        this.rayDir.normalize()
     }
 
     transform(invModel: Matrix4) {
@@ -152,14 +152,40 @@ private _temp: Vector3 = new Vector3();
             return null;
         }
         const c =-point.dot(normal as NumericArray);
-        const t = - ( this._rayStart.dot( normal as NumericArray ) + c ) / d;
+        const t =  -( this._rayStart.dot( normal as NumericArray ) + c ) / d;///????-
 
         let p = this.rayDir.clone()
         p.scale(t)
         p.add(this.rayStart as NumericArray);
         return p
     }
+    intersectPlaneCor(point: Vector3, normal: Vector3, invModel:Matrix4|null=null) {
 
+
+        this._rayStart.from(this.rayStart as NumericArray);
+        this._rayDir.from(this.rayDir as NumericArray);
+        if( invModel) {
+            this._rayDir.add(this._rayStart as NumericArray);
+            this._rayDir.transform(invModel as NumericArray);
+            this._rayStart.transform(invModel as NumericArray);
+            this._rayDir.subtract(this._rayStart as NumericArray);
+        }
+
+
+
+        const d  = -normal.dot( this._rayDir as NumericArray )
+
+        if ( d < 0.0001 && d > -0.0001) {
+            return null;
+        }
+        const c =-point.dot(normal as NumericArray);
+        const t =  ( this._rayStart.dot( normal as NumericArray ) + c ) / d;///????-
+
+        let p = this.rayDir.clone()
+        p.scale(t)
+        p.add(this.rayStart as NumericArray);
+        return p
+    }
     intersectSphere(position: Vector3, radius: number, invModel:Matrix4|null=null) {
 
         this._rayStart.from(this.rayStart);

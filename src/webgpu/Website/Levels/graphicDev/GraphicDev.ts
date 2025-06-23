@@ -71,6 +71,7 @@ export class GraphicDev extends NavigationLevel {
         super.update()
         this.driptest.update()
 
+
     }
 
     destroy() {
