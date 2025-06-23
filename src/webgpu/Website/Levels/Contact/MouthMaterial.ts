@@ -3,23 +3,19 @@ import {ShaderType} from "../../../lib/material/ShaderTypes.ts";
 import DefaultUniformGroups from "../../../lib/material/DefaultUniformGroups.ts";
 import UniformGroup from "../../../lib/material/UniformGroup.ts";
 import DefaultTextures from "../../../lib/textures/DefaultTextures.ts";
-import {AddressMode, FilterMode, VertexStepMode} from "../../../lib/WebGPUConstants.ts";
+import {CullMode} from "../../../lib/WebGPUConstants.ts";
+import Blend from "../../../lib/material/Blend.ts";
 
 
-export default class LineMaterial extends Material{
+export default class MouthMaterial extends Material{
 
     setup(){
         this.addAttribute("aPos", ShaderType.vec3);
-        this.addAttribute("aNormal", ShaderType.vec3);
+
         this.addAttribute("aUV0", ShaderType.vec2);
 
-        this.addAttribute("instancesMatrix0", ShaderType.vec4,1,VertexStepMode.Instance);
-        this.addAttribute("instancesMatrix1", ShaderType.vec4,1,VertexStepMode.Instance);
-        this.addAttribute("instancesMatrix2", ShaderType.vec4,1,VertexStepMode.Instance);
-        this.addAttribute("instancesMatrix3", ShaderType.vec4,1,VertexStepMode.Instance);
 
-
-
+        this.addVertexOutput("uv", ShaderType.vec2 );
 
         this.addUniformGroup(DefaultUniformGroups.getCamera(this.renderer));
         this.addUniformGroup(DefaultUniformGroups.getModelTransform(this.renderer));
@@ -27,41 +23,28 @@ export default class LineMaterial extends Material{
 
         let uniforms =new UniformGroup(this.renderer,"uniforms");
         this.addUniformGroup(uniforms,true);
-        uniforms.addUniform("time",0)
-
-      this.logShader =true;
+        uniforms.addUniform("topOffset",-0.01)
+        uniforms.addUniform("bottomOffset",0.01)
+        uniforms.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
+        uniforms.addSampler("mySampler")
+        this.cullMode =CullMode.None;
+       //this.blendModes =[Blend.preMultAlpha()]
     }
     getShader(): string {
         return /* wgsl */ `
 ///////////////////////////////////////////////////////////   
-struct GBufferOutput {
-  @location(0) color : vec4f,
-  @location(1) normal : vec4f,
-   
-}
+
 ${this.getVertexOutputStruct()}   
 
 
 ${this.getShaderUniforms()}
-
-
-
-
 @vertex
 fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
     var output : VertexOutput;
-    
-    var p = aPos;
+    output.position =camera.viewProjectionMatrix*model.modelMatrix* vec4( aPos,1.0);
 
-     p.z *=0.01;
-     p.y =sin((p.x+uniforms.time*5)*20.0)*0.04 +aPos.y*0.01;
-     p.x*=0.5;
-  let modelM= mat4x4<f32>(instancesMatrix0,instancesMatrix1,instancesMatrix2,instancesMatrix3);
-    
-     
-    output.position =camera.viewProjectionMatrix*model.modelMatrix*modelM * vec4( p,1.0);
-  
+    output.uv =aUV0;
     return output;
 }
 
@@ -70,7 +53,17 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 fn mainFragment(${this.getFragmentInput()}) ->  @location(0) vec4f
 {
 
-    return vec4(1.0,1.0,1.0,1.0,);
+    let mask =step(0.5,textureSample(colorTexture, mySampler,  uv).x);
+
+    let  uvTop =uv+ vec2(0,uniforms.topOffset);  
+    let top =step(0.5,1.0-textureSample(colorTexture, mySampler,  uvTop).y);
+
+    let  uvBottom=uv+ vec2(0,uniforms.bottomOffset);  
+    let bottom =step(0.5,1.0-textureSample(colorTexture, mySampler,  uvBottom).z);
+
+    let c = (top+bottom)*mask;
+
+    return vec4(c,c,c,1.0);
 }
 ///////////////////////////////////////////////////////////
         `

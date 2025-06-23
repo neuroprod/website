@@ -13,6 +13,7 @@ import Timer from "../../../lib/Timer.ts";
 import Mesh from "../../../lib/mesh/Mesh.ts";
 import LineMaterial from "./LineMaterial.ts";
 import SoundHandler from "../../SoundHandler.ts";
+import FullScreenStretchMaterial from "../../backgroundShaders/FullscreenStretchMaterial.ts";
 
 class LineParticle{
 
@@ -53,7 +54,7 @@ export default class Friends extends NavigationLevel{
     private particles:Array<LineParticle> =[]
     constructor() {
         super();
-        for(let l = 0;l<20;l++){
+        for(let l = 0;l<10;l++){
             let p = new LineParticle()
             this.particles.push(p)
         }
@@ -99,9 +100,10 @@ export default class Friends extends NavigationLevel{
 
         this.bgModel = new Model(GameModel.renderer,"background")
         this.bgModel.mesh =new Quad(GameModel.renderer)
-        this.bgModel.material =new GBufferFullScreenStretchMaterial(GameModel.renderer,"bg")
+        this.bgModel.material =new FullScreenStretchMaterial(GameModel.renderer,"bg")
         this.bgModel.material.setTexture("colorTexture",  this.backgroundTexture)
-        GameModel.gameRenderer.gBufferPass.modelRenderer.addModel(this.bgModel)
+        this.bgModel.z = -100
+        GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
 
 
 
@@ -118,7 +120,7 @@ export default class Friends extends NavigationLevel{
         this.lineModel =new Model(GameModel.renderer,"lines");
         this.lineModel.material =new LineMaterial(GameModel.renderer,"line")
         this.lineModel.mesh =this.getLineMesh()
-        GameModel.gameRenderer.gBufferPass.modelRenderer.addModel(this.lineModel)
+        GameModel.gameRenderer.postLightModelRenderer.addModel(this.lineModel)
         this.lineModel.setPosition(0,0.3,-2)
 let t =[0.8,Math.random()*Math.PI*2,Math.random()*Math.PI*2]
        let d = new Float32Array(t)

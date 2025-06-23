@@ -13,6 +13,7 @@ import TextureLoader from "../../../lib/textures/TextureLoader.ts";
 import FontMesh from "../../../modelMaker/FontMesh.ts";
 import ProjectData from "../../../data/ProjectData.ts";
 import SoundHandler from "../../SoundHandler.ts";
+import MouthMaterial from "./MouthMaterial.ts";
 
 export default class Contact extends NavigationLevel {
 
@@ -41,6 +42,7 @@ export default class Contact extends NavigationLevel {
     private eCount = 0
     private line1!: SceneObject3D;
     private mouth!: SceneObject3D;
+    private mouthMaterial!: MouthMaterial;
 
     constructor() {
         super();
@@ -68,6 +70,8 @@ export default class Contact extends NavigationLevel {
         }
 
         this.eCount = 0
+
+
     }
 
     configScene() {
@@ -108,7 +112,15 @@ export default class Contact extends NavigationLevel {
 
 
         this.mouth = SceneHandler.getSceneObject("mouth")
+        if(!this.mouthMaterial)this.mouthMaterial =new MouthMaterial(GameModel.renderer,"mouth")
+        if(   this.mouth.model)   this.mouth.model.material=this.mouthMaterial
 
+        let charProj = ProjectData.projectsNameMap.get("Contact")
+        if(charProj){
+
+            this.mouthMaterial.setTexture("colorTexture",   charProj.getBaseTexture())
+        }
+        this.beatCount =0
     }
 
     public update() {
@@ -117,13 +129,16 @@ export default class Contact extends NavigationLevel {
         s %= 462;
         s /= 462;
         if (s < this.prevBeat) {
-            console.log(this.beatCount)
+
             this.beatCount++
             this.beatCount %= 8
             this.beat()
         }
         this.prevBeat = s;
-
+        if(  this.beatCount<5){
+        let sF = Math.sin(s*Math.PI*2)*0.01;
+        this.mouthMaterial.setUniform("topOffset",-sF)
+        this.mouthMaterial.setUniform("bottomOffset",sF)}
 
     }
 
