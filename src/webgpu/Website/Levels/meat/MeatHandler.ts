@@ -28,13 +28,13 @@ export default class MeatHandler extends IndexedItem{
         this.meat1 =meat1;
         this.meat2 =meat2;
         this.copy =[]
-        this.copy.push("What the fuck is this?")
+        this.copy.push("What the fuck is up with this website?")
         this.copy.push("Yea, this website sucks!")
-        this.copy.push("Where is the minimal design?")
-        this.copy.push("And the scrolling\nthing that they do?")
+        //this.copy.push("Where is the minimal design?")
+        //this.copy.push("And the scrolling\nthing that they do?")
 
-        this.copy.push("I want some white space!")
-        this.copy.push("I want a fancy font!")
+        //this.copy.push("I want some white space!")
+        //this.copy.push("I want a fancy font!")
 
         this.copy.push("Hey You!")
 

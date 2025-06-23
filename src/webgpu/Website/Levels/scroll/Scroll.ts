@@ -33,6 +33,8 @@ export default class Scroll extends NavigationLevel{
     private head1!: SceneObject3D;
     private head2!: SceneObject3D;
     private bgSound!: Howl;
+    private overTexture!: TextureLoader;
+    private overModel!: Model;
     constructor() {
         super();
 
@@ -53,6 +55,12 @@ export default class Scroll extends NavigationLevel{
 
         LoadHandler.startLoading()
         this.backgroundTexture.onComplete =()=>{
+            LoadHandler.stopLoading()
+        }
+
+        this.overTexture = new TextureLoader(GameModel.renderer, "backgrounds/overlay.png")
+        LoadHandler.startLoading()
+        this.overTexture.onComplete = () => {
             LoadHandler.stopLoading()
         }
         this.bgSound = new Howl({
@@ -98,6 +106,14 @@ export default class Scroll extends NavigationLevel{
         this.bgModel.material.setTexture("colorTexture",  this.backgroundTexture)
         this.bgModel.z =-100
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
+
+        this.overModel = new Model(GameModel.renderer, "over");
+        this.overModel.mesh = new Quad(GameModel.renderer)
+        this.overModel.material = new FullScreenStretchMaterial(GameModel.renderer, "over")
+        this.overModel.material.setTexture("colorTexture", this.overTexture)
+        this.overModel.z =100
+        GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.overModel)
+
     }
 
     public update() {
@@ -172,6 +188,8 @@ export default class Scroll extends NavigationLevel{
     destroy() {
         super.destroy()
         this.backgroundTexture.destroy()
+        this.overTexture.destroy()
+
         this.bgModel.mesh.destroy()
         this.scrollArr =[]
         this.bgSound.unload()

@@ -43,6 +43,8 @@ export default class Contact extends NavigationLevel {
     private line1!: SceneObject3D;
     private mouth!: SceneObject3D;
     private mouthMaterial!: MouthMaterial;
+    private overTexture!: TextureLoader;
+    private overModel!: Model;
 
     constructor() {
         super();
@@ -69,13 +71,18 @@ export default class Contact extends NavigationLevel {
             LoadHandler.stopLoading()
         }
 
-        this.eCount = 0
 
 
+        this.overTexture = new TextureLoader(GameModel.renderer, "backgrounds/overlay.png")
+        LoadHandler.startLoading()
+        this.overTexture.onComplete = () => {
+            LoadHandler.stopLoading()
+        }
     }
 
     configScene() {
         super.configScene()
+        this.eCount = 0
         LoadHandler.onComplete = () => {
         }
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
@@ -121,6 +128,13 @@ export default class Contact extends NavigationLevel {
             this.mouthMaterial.setTexture("colorTexture",   charProj.getBaseTexture())
         }
         this.beatCount =0
+
+        this.overModel = new Model(GameModel.renderer, "over");
+        this.overModel.mesh = new Quad(GameModel.renderer)
+        this.overModel.material = new FullScreenStretchMaterial(GameModel.renderer, "over")
+        this.overModel.material.setTexture("colorTexture", this.overTexture)
+        this.overModel.z =100
+        GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.overModel)
     }
 
     public update() {
@@ -146,6 +160,7 @@ export default class Contact extends NavigationLevel {
         super.destroy()
         SoundHandler.killBackgroundSounds()
         this.backgroundTexture.destroy()
+        this.overTexture.destroy()
     }
 
 

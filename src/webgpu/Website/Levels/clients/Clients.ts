@@ -21,6 +21,8 @@ export default class Clients extends NavigationLevel {
     private time = 0
 
     private chin!: SceneObject3D;
+    private overTexture!: TextureLoader;
+    private overModel!: Model;
 
 
     constructor() {
@@ -45,6 +47,14 @@ export default class Clients extends NavigationLevel {
         this.backgroundTexture.onComplete = () => {
             LoadHandler.stopLoading()
         }
+
+
+        this.overTexture = new TextureLoader(GameModel.renderer, "backgrounds/overlay.png")
+
+        LoadHandler.startLoading()
+        this.overTexture.onComplete = () => {
+            LoadHandler.stopLoading()
+        }
         SoundHandler.setBackgroundSounds(["sound/clients.mp3"]);
 
     }
@@ -54,14 +64,24 @@ export default class Clients extends NavigationLevel {
         LoadHandler.onComplete = () => {
         }
 
+
+        GameModel.gameRenderer.setModels(SceneHandler.allModels)
+
         this.bgModel = new Model(GameModel.renderer, "background")
         this.bgModel.mesh = new Quad(GameModel.renderer)
         this.bgModel.material = new FullScreenStretchMaterial(GameModel.renderer, "bg")
         this.bgModel.material.setTexture("colorTexture", this.backgroundTexture)
-
         this.bgModel.z = -100
-        GameModel.gameRenderer.setModels(SceneHandler.allModels)
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
+
+
+        this.overModel = new Model(GameModel.renderer, "over");
+        this.overModel.mesh = new Quad(GameModel.renderer)
+        this.overModel.material = new FullScreenStretchMaterial(GameModel.renderer, "over")
+        this.overModel.material.setTexture("colorTexture", this.overTexture)
+        this.overModel.z =-0.01
+        GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.overModel)
+
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
         GameModel.gameCamera.setLockedView(new Vector3(0, 0.25, 0), new Vector3(0, 0.25, 0.65))
@@ -74,6 +94,7 @@ export default class Clients extends NavigationLevel {
             text.model.material = this.fontMaterial
             GameModel.gameRenderer.postLightModelRenderer.addModel(text.model)
             text.z = -0.005
+
             text.setScaler(0.8)
         }
         this.chin = SceneHandler.getSceneObject("chin");
@@ -94,6 +115,8 @@ export default class Clients extends NavigationLevel {
         super.destroy()
         SoundHandler.killBackgroundSounds()
         GameModel.gameCamera.setMouseInput()
+        this.overTexture.destroy()
+        this.backgroundTexture.destroy()
     }
 
 
