@@ -4,6 +4,7 @@ import UniformGroup from "../../../lib/material/UniformGroup.ts";
 import DefaultTextures from "../../../lib/textures/DefaultTextures.ts";
 import {TextureSampleType} from "../../../lib/WebGPUConstants.ts";
 import DefaultUniformGroups from "../../../lib/material/DefaultUniformGroups.ts";
+import Blend from "../../../lib/material/Blend.ts";
 
 
 export default class MeatMaterial extends Material {
@@ -21,7 +22,7 @@ this.addVertexOutput("worldPos",ShaderType.vec3)
         uniforms.addUniform("pos2",1.0)
         uniforms.addUniform("pos3",1.0)
         uniforms.addUniform("pos4",1.0)
-        this.logShader =true;
+this.blendModes=[Blend.preMultAlpha()]
     }
     getShader(): string {
         return /* wgsl */ `
@@ -262,8 +263,8 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
  col +=vec3(pow(1.0+dot(rd,N),2.0))*vec3(0.2,0.1,0.1)*0.3;
    
    col = mix(vec3f(0.9,0.2,0.3)*0.3,col,uniforms.pos4);
-   
-     return vec4(col,1.0) ;
+   let a = (uniforms.pos1-0.5)*2.0;
+     return vec4(col*a,a) ;
 }
 ///////////////////////////////////////////////////////////
         `

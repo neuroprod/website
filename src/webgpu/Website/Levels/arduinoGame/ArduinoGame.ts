@@ -6,6 +6,7 @@ import GameModel from "../../GameModel.ts";
 import { Vector3} from "@math.gl/core";
 import ArduinoGamePixels from "./ArduinoGamePixels.ts";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
+import SoundHandler from "../../SoundHandler.ts";
 
 
 
@@ -30,6 +31,7 @@ export default class ArduinoGame extends NavigationLevel{
             LoadHandler.stopLoading()
 
         });
+        SoundHandler.setBackgroundSounds(["sound/neighbourhood.mp3"])
     }
 
     configScene() {
@@ -56,6 +58,7 @@ export default class ArduinoGame extends NavigationLevel{
     destroy() {
         super.destroy()
         this.arduinoGame.setEnabled(false)
+        SoundHandler.killBackgroundSounds()
     }
 
 

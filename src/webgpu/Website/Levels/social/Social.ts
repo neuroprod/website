@@ -13,11 +13,13 @@ import MouseInteractionWrapper from "../../MouseInteractionWrapper.ts";
 
 import gsap from "gsap";
 import SoundHandler from "../../SoundHandler.ts";
+import SceneObject3D from "../../../data/SceneObject3D.ts";
 
 export default class Social extends NavigationLevel {
     private bgModel!: Model;
 
     private links: Array<Array<string>> = [["linkedin", "https://www.linkedin.com/in/neuroproductions/"], ["youtube", "https://www.youtube.com/channel/UCUdunfSS-4CyZsIhICtgr6A"], ["bluesky", "https://bsky.app/profile/kristemmerman.bsky.social"], ["twitter", "https://twitter.com/NeuroProd"], ["instagram", "https://www.instagram.com/kris.temmerman/"], ["github", "https://github.com/neuroprod"]]
+    private eye!: SceneObject3D;
 
     constructor() {
         super();
@@ -35,7 +37,7 @@ export default class Social extends NavigationLevel {
             LoadHandler.stopLoading()
 
         });
-
+SoundHandler.setBackgroundSounds(["sound/looperman-l-2921269-0145176-delayed-mallet-riff-1.mp3"])
     }
 
     configScene() {
@@ -87,7 +89,7 @@ export default class Social extends NavigationLevel {
             }
 
         }
-
+this.eye =SceneHandler.getSceneObject("eye")
 
     }
 
@@ -95,6 +97,7 @@ export default class Social extends NavigationLevel {
         super.update()
         this.bgModel.material.setUniform("ratio", GameModel.renderer.ratio)
         this.bgModel.material.setUniform("time", Timer.time)
+        this.eye.rz =0.2+Math.sin(Timer.time)*0.3;
     }
 
     destroy() {
