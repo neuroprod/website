@@ -29,7 +29,7 @@ class FlowerParticle{
         this.position.y =(Math.random()-0.5)*2
         this.position.z =-Math.random()*0.3
         this.rotation = Math.random()*7
-        this.type =0
+        this.type =Math.random()
 
     }
     update(delta:number , type:number=0){
@@ -38,8 +38,8 @@ class FlowerParticle{
 
         if(this.position.y<-1){
             this.position.y =1;
-            this.type =0;
-            if(Math.random()<type)this.type =0.5;
+
+
         }
 
 
@@ -71,7 +71,8 @@ private numParticles =40
     private posArr: Float32Array =new Float32Array(this.numParticles*3);
     private dataArr: Float32Array =new Float32Array(this.numParticles*2);
     private slidePos: number=0;
-
+    private armR!: SceneObject3D;
+    private armL!: SceneObject3D;
     constructor() {
         super();
         this.material = new MeatMaterial(GameModel.renderer, "meat")
@@ -152,6 +153,10 @@ private numParticles =40
         }
         this.updateButton()
 
+        this.armR = SceneHandler.getSceneObject("armR")
+        this.armL = SceneHandler.getSceneObject("armL")
+
+
         this.makeFlowers()
 this.makeParticles()
 
@@ -198,8 +203,11 @@ this.makeParticles()
         //  let d1 = sdSphere(pFlat+vec3f(0.1,0.0,0)*uniforms.pos1,0.15+sin(uniforms.time)*0.005*uniforms.pos1);
         // let d2 = sdSphere(pFlat+vec3f(-0.1,0.03,0)*uniforms.pos1,0.15+cos(uniforms.time)*0.01*uniforms.pos1);
 
-        this.material.setUniform("time", time)
-
+        this.material.setUniform("time", time*1.5)
+        this.armR.ry=0
+        this.armL.ry=0
+this.armR.rz = -this.slidePos*3+0.3+Math.sin(time)*0.1
+        this.armL.rz= +this.slidePos*3-0.3+Math.sin(time)*0.1
         this.updateParticles()
     }
 
@@ -211,7 +219,7 @@ this.makeParticles()
 
 
         if (this.potato.model) {
-            this.potato.model.material.setUniform("alpha", 1 - smoothstep(0, 0.5, pos))
+            this.potato.model.material.setUniform("alpha", 1-Math.pow( smoothstep(0, 0.5, pos),8))
         }
         this.pos1 = smoothstep(0.0, 0.5, pos);
 
@@ -284,6 +292,7 @@ this.makeParticles()
             this.dataArr[i*2+1] =p.type;
 
         }
+        this.flowerModel.material.setUniform("progress", this.slidePos)
         this.flowerModel.createBuffer(this.posArr,"instancePos")
         this.flowerModel.createBuffer(this.dataArr,"instanceData")
 

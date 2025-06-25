@@ -18,14 +18,14 @@ export default class FlowerMaterial extends Material{
         this.addAttribute("instanceData", ShaderType.vec2,1 ,VertexStepMode.Instance);
 
         this.addVertexOutput("uv", ShaderType.vec2 );
-
+        this.addVertexOutput("edge", ShaderType.vec2 );
         this.addUniformGroup(DefaultUniformGroups.getCamera(this.renderer));
         this.addUniformGroup(DefaultUniformGroups.getModelTransform(this.renderer));
 
 
         let uniforms =new UniformGroup(this.renderer,"uniforms");
         this.addUniformGroup(uniforms,true);
-
+uniforms.addUniform("progress",0)
         uniforms.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
         uniforms.addSampler("mySampler")
         this.cullMode =CullMode.None;
@@ -53,11 +53,12 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
     var output : VertexOutput;
     let V = rotate(vec2(aPos.x,aPos.y),instanceData.x);
     
-    let p = vec3(V.x, V.y,aPos.z)*0.1 +instancePos;
+    let p = vec3(V.x, V.y,aPos.z)*0.1*(uniforms.progress*0.5+0.5) +instancePos;
     
     output.position =camera.viewProjectionMatrix*model.modelMatrix* vec4( p,1.0);
-    let uv = vec2(aUV0.x*0.5+instanceData.y,aUV0.y);
+    let uv = vec2(aUV0.x*0.5+0.5,aUV0.y);
     output.uv =uv;
+    output.edge.x = instanceData.y;
     return output;
 }
 
@@ -66,13 +67,18 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 fn mainFragment(${this.getFragmentInput()}) ->  @location(0) vec4f
 {
 
-  var color =textureSample(colorTexture, mySampler,  uv);
-
-
+ let color =textureSample(colorTexture, mySampler,  uv);
+let  W = vec3(0.2125, 0.7154, 0.0721);
+    let intensity = vec3(dot(color.xyz, vec3(0.2125, 0.7154, 0.0721)));
+    
+    let p =smoothstep(edge.x,edge.x+0.3 ,uniforms.progress*1.3);
+    
+    let gray = mix(intensity, color.xyz, p);
+//uniforms.progress
 
 
 let alpha =color.w;
-    return vec4(color.xyz*alpha,alpha);
+    return vec4(gray*alpha,alpha);
 }
 ///////////////////////////////////////////////////////////
         `

@@ -82,9 +82,12 @@ private letters:Array<SceneObject3D> =[]
 
     private beat() {
         this.beatCount++;
-        this.beatCount%=this.letters.length;
-        this.letters[this.beatCount].ry =this.rotArray[this.beatCount]
-        gsap.to(this.letters[this.beatCount],{ry:this.rotArray[this.beatCount]+Math.PI*2,duration:1,ease:"power3.inOut" })
+        let beatCountL=this.beatCount%this.letters.length;
+        this.letters[beatCountL].ry =this.rotArray[beatCountL]
+
+            this.letters[beatCountL].sx= this.letters[beatCountL].sy =1.2
+            gsap.to(this.letters[beatCountL],{sx:1,sy:1,duration:1,ease:"power3.Out" })
+
         console.log("beat")
     }
 }
