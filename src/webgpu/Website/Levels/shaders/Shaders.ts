@@ -12,8 +12,40 @@ import {smoothstep} from "../../../lib/MathUtils.ts";
 import PotatoMaterial from "./PotatoMaterial.ts";
 import ProjectData from "../../../data/ProjectData.ts";
 import SoundHandler from "../../SoundHandler.ts";
+import TextureLoader from "../../../lib/textures/TextureLoader.ts";
+import Model from "../../../lib/model/Model.ts";
+import FlowerMaterial from "./FlowerMaterial.ts";
+import Plane from "../../../lib/mesh/geometry/Plane.ts";
+
+class FlowerParticle{
+    position:Vector3 =new Vector3()
+     rotation: number=0;
+   type: number=0;
+
+    private rotSpeed =(Math.random()-0.5)*3;
+    private fallSpeed =0.1+Math.random()*0.3
+    constructor() {
+        this.position.x =(Math.random()-0.5)*4
+        this.position.y =(Math.random()-0.5)*2
+        this.position.z =-Math.random()*0.3
+        this.rotation = Math.random()*7
+        this.type =0
+
+    }
+    update(delta:number , type:number=0){
+        this.rotation+=this.rotSpeed*delta;
+        this.position.y-=this.fallSpeed*delta;
+
+        if(this.position.y<-1){
+            this.position.y =1;
+            this.type =0;
+            if(Math.random()<type)this.type =0.5;
+        }
 
 
+    }
+
+}
 export default class Shaders extends NavigationLevel {
     private material: MeatMaterial;
     private button!: SceneObject3D;
@@ -32,6 +64,13 @@ export default class Shaders extends NavigationLevel {
     private smile!: SceneObject3D;
     private lerpPos: number = 0;
     private time: number = 0;
+    private flowerTexture!: TextureLoader;
+private flowerModel!:Model
+private particles:Array<FlowerParticle>=[]
+private numParticles =40
+    private posArr: Float32Array =new Float32Array(this.numParticles*3);
+    private dataArr: Float32Array =new Float32Array(this.numParticles*2);
+    private slidePos: number=0;
 
     constructor() {
         super();
@@ -51,6 +90,15 @@ export default class Shaders extends NavigationLevel {
         });
         SoundHandler.setBackgroundSounds(["sound/looperman-l-4499538-0400053-chill-cloudy-vapor-loop.mp3"])
         //looperman-l-4499538-0400053-chill-cloudy-vapor-loop.mp3
+
+
+        this.flowerTexture = new TextureLoader(GameModel.renderer,"flower.png")
+
+        LoadHandler.startLoading()
+        this.flowerTexture.onComplete =()=>{
+            LoadHandler.stopLoading()
+        }
+
         this.time = 0
     }
 
@@ -103,6 +151,10 @@ export default class Shaders extends NavigationLevel {
             this.isDragging = false;
         }
         this.updateButton()
+
+        this.makeFlowers()
+this.makeParticles()
+
     }
 
     public update() {
@@ -147,10 +199,13 @@ export default class Shaders extends NavigationLevel {
         // let d2 = sdSphere(pFlat+vec3f(-0.1,0.03,0)*uniforms.pos1,0.15+cos(uniforms.time)*0.01*uniforms.pos1);
 
         this.material.setUniform("time", time)
+
+        this.updateParticles()
     }
 
     updateButton() {
         let pos = (this.button.x - this.min) / (this.max - this.min)
+       this.slidePos =pos;
         pos *= 0.9
         let pos1 = 1;
 
@@ -178,9 +233,59 @@ export default class Shaders extends NavigationLevel {
 
     destroy() {
         super.destroy()
-
+        this.flowerTexture.destroy()
         SoundHandler.killBackgroundSounds()
+
     }
 
 
+    private makeFlowers() {
+    if(this.flowerModel){
+        this.flowerModel.material.setTexture("colorTexture",this.flowerTexture)
+       GameModel.gameRenderer.postLightModelRenderer.addModel( this.flowerModel)
+        return;
+    }
+        this.flowerModel =new Model(GameModel.renderer,"flower")
+        this.flowerModel.material =new FlowerMaterial(GameModel.renderer,"flowerMat")
+        this.flowerModel.mesh =new Plane(GameModel.renderer,1,1,1,1,false)
+        GameModel.gameRenderer.postLightModelRenderer.addModel( this.flowerModel)
+        this.flowerModel.material.setTexture("colorTexture",this.flowerTexture)
+    }
+
+    private makeParticles() {
+        this.particles=[]
+        for(let i=0;i<this.numParticles;i++){
+            let p =new FlowerParticle()
+            this.particles.push(p)
+        }
+        this.flowerModel.numInstances =this.numParticles;
+        this.flowerModel.z =-0.2
+        this.particles.sort((a,b)=>{
+
+            if(a.position.z>b.position.z)return 1;
+            return -1
+
+        })
+    }
+
+    private updateParticles() {
+        let delta =Timer.delta
+
+
+        for(let i=0;i<this.numParticles;i++){
+
+            let  p= this.particles[i]
+            p.update( delta,this.slidePos)
+            this.posArr[i*3] =p.position.x
+            this.posArr[i*3+1] =p.position.y
+            this.posArr[i*3+2] =p.position.z
+
+            this.dataArr[i*2] =p.rotation;
+            this.dataArr[i*2+1] =p.type;
+
+        }
+        this.flowerModel.createBuffer(this.posArr,"instancePos")
+        this.flowerModel.createBuffer(this.dataArr,"instanceData")
+
+    }
 }

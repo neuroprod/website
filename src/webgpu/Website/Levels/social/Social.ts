@@ -14,13 +14,19 @@ import MouseInteractionWrapper from "../../MouseInteractionWrapper.ts";
 import gsap from "gsap";
 import SoundHandler from "../../SoundHandler.ts";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
+import LevelHandler from "../LevelHandler.ts";
 
 export default class Social extends NavigationLevel {
     private bgModel!: Model;
 
     private links: Array<Array<string>> = [["linkedin", "https://www.linkedin.com/in/neuroproductions/"], ["youtube", "https://www.youtube.com/channel/UCUdunfSS-4CyZsIhICtgr6A"], ["bluesky", "https://bsky.app/profile/kristemmerman.bsky.social"], ["twitter", "https://twitter.com/NeuroProd"], ["instagram", "https://www.instagram.com/kris.temmerman/"], ["github", "https://github.com/neuroprod"]]
-    private eye!: SceneObject3D;
 
+    private pupilLeft!: SceneObject3D;
+    private pupilRight!: SceneObject3D;
+    lx =0.01074893674930702;
+    ly =0.06351309939657937;
+    rx= 0.13538324159630588;
+    ry =0.08235943682215295;
     constructor() {
         super();
 
@@ -89,15 +95,22 @@ SoundHandler.setBackgroundSounds(["sound/looperman-l-2921269-0145176-delayed-mal
             }
 
         }
-this.eye =SceneHandler.getSceneObject("eye")
+        this.pupilLeft = SceneHandler.getSceneObject("pupilLeft")
+        this.pupilRight = SceneHandler.getSceneObject("pupilRight")
+
 
     }
 
     public update() {
         super.update()
+        let t = Timer.time;
         this.bgModel.material.setUniform("ratio", GameModel.renderer.ratio)
-        this.bgModel.material.setUniform("time", Timer.time)
-        this.eye.rz =0.2+Math.sin(Timer.time)*0.3;
+        this.bgModel.material.setUniform("time", t)
+        this.pupilLeft.x = this.lx +Math.cos(t)*0.01
+        this.pupilRight.x = this.rx +Math.sin(t+1)*0.01
+        this.pupilLeft.y = this.ly +Math.cos(t+3)*0.005
+        this.pupilRight.y = this.ry +Math.sin(t+2)*0.005
+
     }
 
     destroy() {

@@ -37,7 +37,7 @@ class LevelHandler {
 
     public currentLevel!: BaseLevel | null;
 
-public  navigationLevels:Array<string> =["Worries","Me","Smullen","Food","Clients","Robot","This","Invasion","Shaders","Lab101","Friends","Social","Contact"]
+public  navigationLevels:Array<string> =["Worries","Me","Smullen","Food","Clients","Shaders","Robot","This","Invasion","Lab101","Friends","Social","Contact"]
     private currentLevelName: string="";
     init() {
 

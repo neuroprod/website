@@ -5,14 +5,19 @@ import SceneHandler from "../../../data/SceneHandler.ts";
 import GameModel from "../../GameModel.ts";
 import {Vector2, Vector3} from "@math.gl/core";
 import Timer from "../../../lib/Timer.ts";
-import {Howl} from "howler";
 
+import SoundHandler from "../../SoundHandler.ts";
+
+import SceneObject3D from "../../../data/SceneObject3D.ts";
+import gsap from "gsap";
 
 export default class FisTik extends NavigationLevel{
-    private bgSound!: Howl;
+    private prevBeat: number =0;
 
 
-
+private letters:Array<SceneObject3D> =[]
+    private rotArray =[0.39792657416513594,0.1388963861591357,-0.11954889437539933,0,0,-0.23804373608426369]
+    private beatCount: number=-1;
     constructor() {
         super();
 
@@ -29,15 +34,8 @@ export default class FisTik extends NavigationLevel{
             LoadHandler.stopLoading()
 
         });
-        this.bgSound = new Howl({
-            src: ['sound/barn-job-81726.mp3'],
-            loop:true,
-            autoplay:true,
-            onload: ()=>{
-
-                this.bgSound.fade(0, 1, 2000);
-            }
-        });
+        SoundHandler.setBackgroundSounds(["sound/barn-job-81726.mp3"])
+        this.beatCount =0
     }
 
     configScene() {
@@ -50,21 +48,43 @@ export default class FisTik extends NavigationLevel{
         GameModel.gameCamera.setLockedView(new Vector3(0, 0.25, 0), new Vector3(0, 0.25, 0.65))
 
         GameModel.gameRenderer.setLevelType("website")
+        this.prevBeat =-1
+        let t = ""
+        for(let i=1;i<7;i++){
+           this.letters.push( SceneHandler.getSceneObject("l"+i))
 
-
+        }
 
     }
 
     public update() {
         super.update()
-     SceneHandler.sceneAnimations[0].autoPlay(Timer.delta)
+        SceneHandler.sceneAnimations[0].autoPlay(Timer.delta)
+        let beat =(SoundHandler.bgSounds[0].seek()*1000)%753;
+        if(beat<this.prevBeat){
+            this.beat()
+
+        }
+        this.prevBeat =beat
 
     }
 
     destroy() {
         super.destroy()
-        this.bgSound.unload()
+        SoundHandler.killBackgroundSounds()
+        for(let i=0;i<6;i++){
+            this.letters[i].ry =this.rotArray[i]
+
+        }
+        this.letters=[]
     }
 
 
+    private beat() {
+        this.beatCount++;
+        this.beatCount%=this.letters.length;
+        this.letters[this.beatCount].ry =this.rotArray[this.beatCount]
+        gsap.to(this.letters[this.beatCount],{ry:this.rotArray[this.beatCount]+Math.PI*2,duration:1,ease:"power3.inOut" })
+        console.log("beat")
+    }
 }

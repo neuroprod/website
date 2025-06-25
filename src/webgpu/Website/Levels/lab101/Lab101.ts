@@ -9,6 +9,7 @@ import GBufferMaterial from "../../../render/GBuffer/GBufferMaterial.ts";
 import Plane from "../../../lib/mesh/geometry/Plane.ts";
 import Quad from "../../../lib/mesh/geometry/Quad.ts";
 import FullScreenStretchMaterial from "../../backgroundShaders/FullscreenStretchMaterial.ts";
+import SoundHandler from "../../SoundHandler.ts";
 
 export default class Lab101 extends NavigationLevel{
 
@@ -23,7 +24,7 @@ export default class Lab101 extends NavigationLevel{
 
     init() {
         super.init();
-        if(!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/lab101.mp4", new Vector2(1920, 1080))
+        if(!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/overview1.mp4", new Vector2(1920, 1080))
 
         LoadHandler.onComplete = this.configScene.bind(this)
         LoadHandler.startLoading()
@@ -32,6 +33,7 @@ export default class Lab101 extends NavigationLevel{
             LoadHandler.stopLoading()
 
         });
+        SoundHandler.setBackgroundSounds(["sound/somnium-female-choir-vocalise-319176.mp3"])
     }
 
     configScene() {
@@ -66,6 +68,7 @@ public update() {
     destroy() {
         super.destroy()
 this.video.pauze()
+        SoundHandler.killBackgroundSounds()
     }
 
 
