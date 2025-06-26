@@ -271,8 +271,8 @@ let rRot = this.rossRot;
         if(this.textCount>-1 && this.textCount<3)this.texts[this.textCount].hide()
         this.textCount++
         if(this.textCount<4) this.texts[this.textCount].show()
-        if(this.textCount==4){
-            gsap.to(this ,{deform:0.8,duration:14,ease:"power2.inOut",onUpdate:()=>{
+        if(this.textCount==3){
+            gsap.to(this ,{deform:1,duration:20,ease:"power2.inOut",delay:5,onUpdate:()=>{
 
                     this.rossModel.material.setUniform("mix",this.deform)
                 }})
