@@ -84,10 +84,10 @@ let N =normalize(normal);
     let  NdotV = max(0.0, dot(N, V));
     
     var F0 = vec3(0.04); 
-    F0 = mix(F0,color.xyz, 0.1);
+    F0 = mix(F0,color.xyz, 0.5);
 
 
-    let F = modifiedFresnel(NdotV, F0, 0.1);
+    let F = modifiedFresnel(NdotV, F0, 0.03);
 
 
     var uvN = vec2(atan2(R.z, R.x), -asin(R.y));
