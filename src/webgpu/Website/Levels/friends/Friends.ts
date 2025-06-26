@@ -14,6 +14,9 @@ import Mesh from "../../../lib/mesh/Mesh.ts";
 import LineMaterial from "./LineMaterial.ts";
 import SoundHandler from "../../SoundHandler.ts";
 import FullScreenStretchMaterial from "../../backgroundShaders/FullscreenStretchMaterial.ts";
+import RossMaterial from "./RossMaterial.ts";
+import LevelHandler from "../LevelHandler.ts";
+import TextMesh from "../../../lib/twoD/TextMesh.ts";
 
 class LineParticle{
 
@@ -37,8 +40,8 @@ class LineParticle{
        this.position.x+=delta;
        if(this.position.x >5){
            this.position.x=0
-      this.rotationY=(Math.random()-0.5)*2;
-           this.rotationX=Math.random()*7;
+      this.rotationY=(Math.random()-0.5)*100;
+           this.rotationX=Math.random()*100;
        }
 
     }
@@ -46,12 +49,14 @@ class LineParticle{
 }
 export default class Friends extends NavigationLevel{
 
-    private backgroundTexture!: TextureLoader;
-    private bgModel!: Model;
+
     private rossTexture!: TextureLoader;
     private rossModel!: Model;
     private lineModel!: Model;
     private particles:Array<LineParticle> =[]
+    private rossRot: number=-1;
+    private textMesh: TextMesh;
+
     constructor() {
         super();
         for(let l = 0;l<10;l++){
@@ -71,12 +76,9 @@ export default class Friends extends NavigationLevel{
             LoadHandler.stopLoading()
 
         });
-        this.backgroundTexture = new TextureLoader(GameModel.renderer,"backgrounds/friendsBG.png")
 
-        LoadHandler.startLoading()
-        this.backgroundTexture.onComplete =()=>{
-            LoadHandler.stopLoading()
-        }
+
+
 
         this.rossTexture = new TextureLoader(GameModel.renderer,"ross.jpg")
 
@@ -84,6 +86,9 @@ export default class Friends extends NavigationLevel{
         this.rossTexture.onComplete =()=>{
             LoadHandler.stopLoading()
         }
+
+
+
         SoundHandler.setBackgroundSounds(["sound/looperman-l-2470216-0396423-extraterrestrial-alarm.mp3"])
     }
 
@@ -95,27 +100,26 @@ export default class Friends extends NavigationLevel{
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
         GameModel.gameCamera.setLockedView(new Vector3(0, 0.0, 0), new Vector3(0, 0.0, 0.65))
-        GameModel.gameCamera.setMouseInput(0.01)
+        GameModel.gameCamera.setMouseInput(0.001)
         GameModel.gameRenderer.setLevelType("website")
 
-        this.bgModel = new Model(GameModel.renderer,"background")
-        this.bgModel.mesh =new Quad(GameModel.renderer)
-        this.bgModel.material =new FullScreenStretchMaterial(GameModel.renderer,"bg")
-        this.bgModel.material.setTexture("colorTexture",  this.backgroundTexture)
-        this.bgModel.z = -100
-        GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
-
+let tso  =SceneHandler.getSceneObject("text1")
+        if(tso.model){
+            this.textMesh =tso.model.mesh as TextMesh;
+           // this.textMesh.setText()
+        }
 
 
         this.rossModel = new Model(GameModel.renderer,"ross")
         this.rossModel.mesh =GameModel.glft.meshes[0]
-        this.rossModel.material =new GBufferMaterial(GameModel.renderer,"ross")
+        this.rossModel.material =new RossMaterial(GameModel.renderer,"ross")
         this.rossModel.material.setTexture("colorTexture",  this.rossTexture)
-        GameModel.gameRenderer.gBufferPass.modelRenderer.addModel(this.rossModel)
+        this.rossModel.material.setTexture("specular",  GameModel.renderer.getTexture("je_gray_02_1k.hdr"))
+        GameModel.gameRenderer.postLightModelRenderer.addModel(this.rossModel)
         this.rossModel.rx =Math.PI/2
         this.rossModel.setPosition(0,0,-2)
         this.rossModel.setScaler(0.8)
-
+        this.rossModel.ry=-1
 
         this.lineModel =new Model(GameModel.renderer,"lines");
         this.lineModel.material =new LineMaterial(GameModel.renderer,"line")
@@ -125,13 +129,18 @@ export default class Friends extends NavigationLevel{
 let t =[0.8,Math.random()*Math.PI*2,Math.random()*Math.PI*2]
        let d = new Float32Array(t)
         this.lineModel.createBuffer(d,"aTrans")
+        this.rossRot =Math.PI*2-1;
 
     }
 
     public update() {
         super.update()
 
-        this.rossModel.ry+=Timer.delta*0.5
+        this.rossRot += Timer.delta*0.5;
+
+
+        this.rossModel.ry =this.rossRot
+
         this.lineModel.material.setUniform("time",Timer.time*0.2)
 
 
@@ -163,11 +172,14 @@ let t =[0.8,Math.random()*Math.PI*2,Math.random()*Math.PI*2]
 
     destroy() {
         super.destroy()
-        this.backgroundTexture.destroy()
-        this.bgModel.mesh.destroy()
+
         GameModel.gameCamera.setMouseInput(0.04)
         this.rossTexture.destroy()
         SoundHandler.killBackgroundSounds()
+
+
+
+
     }
 
 

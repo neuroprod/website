@@ -189,7 +189,7 @@ export default class Scroll extends NavigationLevel{
         super.destroy()
         this.backgroundTexture.destroy()
         this.overTexture.destroy()
-
+this.overModel.mesh.destroy()
         this.bgModel.mesh.destroy()
         this.scrollArr =[]
         this.bgSound.unload()

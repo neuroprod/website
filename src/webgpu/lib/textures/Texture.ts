@@ -79,7 +79,7 @@ export default class Texture extends ObjectGPU {
         this.renderer.device.queue.writeTexture(
             {texture: this.textureGPU},
             f,
-            {bytesPerRow: bytesPerRow},
+            {bytesPerRow: bytesPerRow,rowsPerImage:height},
             [width, height, depthOrArrayLayers]
         );
     }

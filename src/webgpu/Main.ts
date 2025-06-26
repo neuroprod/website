@@ -31,6 +31,7 @@ import GameModel from "./Website/GameModel.ts";
 import gameModel from "./Website/GameModel.ts";
 import FontPool from "./lib/twoD/FontPool.ts";
 import GLFTLoader from "./lib/GLFTLoader.ts";
+import HDRTextureLoader from "./lib/HDRTextureLoader.ts";
 
 
 export enum MainState {
@@ -106,7 +107,8 @@ export default class Main {
         new TextureLoader(this.renderer, Textures.SPACE_ARM)
         new TextureLoader(this.renderer, Textures.SPACE_SHIP)
         new TextureLoader(this.renderer, Textures.SPACE_HEAD)
-
+let tl =new HDRTextureLoader()
+        tl.loadURL(this.renderer,"je_gray_02_1k.hdr").then()
         FontPool.loadFont(this.renderer, this.preloader, "bold")
 
         // this.modelLoader = new ModelLoader(this.renderer, this.preloader)
