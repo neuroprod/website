@@ -55,7 +55,7 @@ export default class Friends extends NavigationLevel{
     private lineModel!: Model;
     private particles:Array<LineParticle> =[]
     private rossRot: number=-1;
-    private textMesh: TextMesh;
+    private textMesh!: TextMesh;
 
     constructor() {
         super();
@@ -114,7 +114,8 @@ let tso  =SceneHandler.getSceneObject("text1")
         this.rossModel.mesh =GameModel.glft.meshes[0]
         this.rossModel.material =new RossMaterial(GameModel.renderer,"ross")
         this.rossModel.material.setTexture("colorTexture",  this.rossTexture)
-        this.rossModel.material.setTexture("specular",  GameModel.renderer.getTexture("je_gray_02_1k.hdr"))
+        this.rossModel.material.setTexture("irradiance",  GameModel.renderer.getTexture("irradiance.hdr"))
+        this.rossModel.material.setTexture("specular",  GameModel.renderer.getTexture("specular.hdr"))
         GameModel.gameRenderer.postLightModelRenderer.addModel(this.rossModel)
         this.rossModel.rx =Math.PI/2
         this.rossModel.setPosition(0,0,-2)

@@ -107,8 +107,11 @@ export default class Main {
         new TextureLoader(this.renderer, Textures.SPACE_ARM)
         new TextureLoader(this.renderer, Textures.SPACE_SHIP)
         new TextureLoader(this.renderer, Textures.SPACE_HEAD)
-let tl =new HDRTextureLoader()
-        tl.loadURL(this.renderer,"je_gray_02_1k.hdr").then()
+        let tl =new HDRTextureLoader()
+        tl.loadURL(this.renderer,"specular.hdr").then()
+
+        let tl2 =new HDRTextureLoader()
+        tl2.loadURL(this.renderer,"irradiance.hdr").then()
         FontPool.loadFont(this.renderer, this.preloader, "bold")
 
         // this.modelLoader = new ModelLoader(this.renderer, this.preloader)
