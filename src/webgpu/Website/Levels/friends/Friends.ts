@@ -17,7 +17,8 @@ import FullScreenStretchMaterial from "../../backgroundShaders/FullscreenStretch
 import RossMaterial from "./RossMaterial.ts";
 import LevelHandler from "../LevelHandler.ts";
 import TextMesh from "../../../lib/twoD/TextMesh.ts";
-
+import SceneObject3D from "../../../data/SceneObject3D.ts";
+import gsap from "gsap";
 class LineParticle{
 
     private position: Vector3 =new Vector3();
@@ -56,7 +57,9 @@ export default class Friends extends NavigationLevel{
     private particles:Array<LineParticle> =[]
     private rossRot: number=-1;
     private textMesh!: TextMesh;
-
+    private texts: Array<SceneObject3D> =[];
+    private textCount: number=0;
+private deform:number =0;
     constructor() {
         super();
         for(let l = 0;l<10;l++){
@@ -80,7 +83,7 @@ export default class Friends extends NavigationLevel{
 
 
 
-        this.rossTexture = new TextureLoader(GameModel.renderer,"ross.jpg")
+        this.rossTexture = new TextureLoader(GameModel.renderer,"ross2.jpg")
 
         LoadHandler.startLoading()
         this.rossTexture.onComplete =()=>{
@@ -131,14 +134,29 @@ let t =[0.8,Math.random()*Math.PI*2,Math.random()*Math.PI*2]
        let d = new Float32Array(t)
         this.lineModel.createBuffer(d,"aTrans")
         this.rossRot =Math.PI*2-1;
+        for(let i=1;i<5;i++){
+            let so =  SceneHandler.getSceneObject("text"+i)
+            if(i!=1)so.hide()
+            this.texts.push( SceneHandler.getSceneObject("text"+i))
+
+
+        }
+
+        this.textCount =-1;
+        this.deform =0
 
     }
 
     public update() {
         super.update()
-
+let rRot = this.rossRot;
         this.rossRot += Timer.delta*0.5;
+        this.rossRot%=Math.PI*2
 
+        if(this.rossRot<rRot){
+
+            this.switchText()
+        }
 
         this.rossModel.ry =this.rossRot
 
@@ -178,7 +196,7 @@ let t =[0.8,Math.random()*Math.PI*2,Math.random()*Math.PI*2]
         this.rossTexture.destroy()
         SoundHandler.killBackgroundSounds()
 
-
+        this.texts =[]
 
 
     }
@@ -246,5 +264,20 @@ let t =[0.8,Math.random()*Math.PI*2,Math.random()*Math.PI*2]
         m.setNormals(new Float32Array(normals));
         m.setUV0(new Float32Array(uvs));
         return m;
+    }
+
+    private switchText() {
+
+        if(this.textCount>-1 && this.textCount<3)this.texts[this.textCount].hide()
+        this.textCount++
+        if(this.textCount<4) this.texts[this.textCount].show()
+        if(this.textCount==4){
+            gsap.to(this ,{deform:0.8,duration:14,ease:"power2.inOut",onUpdate:()=>{
+
+                    this.rossModel.material.setUniform("mix",this.deform)
+                }})
+
+
+        }
     }
 }

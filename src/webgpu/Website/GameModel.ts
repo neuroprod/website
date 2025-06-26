@@ -33,6 +33,7 @@ import GLFTLoader from "../lib/GLFTLoader.ts";
      renderer2D!: Renderer2D;
     UI2D!: UI2D;
      glft!: GLFTLoader;
+     glft2!: GLFTLoader;
 
 
 

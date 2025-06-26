@@ -12,6 +12,8 @@ export default class RossMaterial extends Material{
     setup(){
         this.addAttribute("aPos", ShaderType.vec3);
         this.addAttribute("aNormal", ShaderType.vec3);
+        this.addAttribute("aPos2", ShaderType.vec3);
+        this.addAttribute("aNormal2", ShaderType.vec3);
         this.addAttribute("aUV0", ShaderType.vec2);
         this.addVertexOutput("world", ShaderType.vec3 );
         this.addVertexOutput("normal", ShaderType.vec3 );
@@ -23,6 +25,7 @@ export default class RossMaterial extends Material{
 
         let uniforms =new UniformGroup(this.renderer,"uniforms");
         this.addUniformGroup(uniforms,true);
+        uniforms.addUniform("mix",0)
         uniforms.addTexture("irradiance",DefaultTextures.getWhite(this.renderer))
         uniforms.addTexture("specular",DefaultTextures.getWhite(this.renderer))
         uniforms.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
@@ -66,9 +69,12 @@ return F0 + (max(vec3(1.-roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
 fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
     var output : VertexOutput;
-    output.position =camera.viewProjectionMatrix*model.modelMatrix* vec4( aPos,1.0);
-    output.world=(model.modelMatrix* vec4( aPos,1.0)).xyz;
-    output.normal = model.normalMatrix*aNormal;
+    
+    let  p =mix(aPos,aPos2,uniforms.mix);
+    let  n =mix(aNormal,aNormal2,0.5);
+    output.position =camera.viewProjectionMatrix*model.modelMatrix* vec4( p,1.0);
+    output.world=(model.modelMatrix* vec4( p,1.0)).xyz;
+    output.normal = model.normalMatrix*n;
     output.uv =aUV0;
     return output;
 }

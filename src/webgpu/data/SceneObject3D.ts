@@ -408,7 +408,7 @@ export default class SceneObject3D extends Object3D {
         target.triggerIsEnabled = this.triggerIsEnabled
         target.hitTriggerItem = this.hitTriggerItem
         target.triggerRadius = this.triggerRadius
-
+        target.textColor =this.textColor
 
     }
 

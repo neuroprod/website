@@ -26,6 +26,7 @@ export default class Mesh extends ObjectGPU {
     private buffers: Array<GPUBuffer> = [];
     private bufferMap: Map<string, GPUBuffer> = new Map<string, GPUBuffer>();
     private destroyed: boolean = false;
+    normals!: Float32Array;
 
     constructor(renderer: Renderer, label = "") {
         super(renderer, label);
@@ -61,6 +62,7 @@ export default class Mesh extends ObjectGPU {
 
     setNormals(normals: Float32Array) {
         this.createBuffer(normals, "aNormal");
+        this.normals =normals;
     }
 
     setTangents(tangents: Float32Array) {

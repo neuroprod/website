@@ -122,19 +122,21 @@ export default class Main {
             this.preloader.stopLoad()
         });
         this.preloader.startLoad()
+        GameModel.glft = new GLFTLoader(this.renderer, "ross", this.preloader)
+        GameModel.glft2 = new GLFTLoader(this.renderer, "ross2", this.preloader)
+
         SceneHandler.init(this.renderer, this.preloader).then(() => {
 
             this.preloader.stopLoad()
         });
 
-        GameModel.glft = new GLFTLoader(this.renderer, "ross", this.preloader)
+
     }
 
 
     private init() {
 
-
-        //   SceneData.parseSceneData();
+   //   SceneData.parseSceneData();
 
         this.camera = new Camera(this.renderer);
         this.camera.cameraWorld.set(0.5, 0.3, 2)
@@ -168,6 +170,13 @@ export default class Main {
 
         //  gsap.ticker.remove(gsap.updateRoot);
         GameModel.setMainState = this.setMainState.bind(this)
+
+
+        GameModel.glft.meshes[0].setAttribute("aPos2",GameModel.glft2.meshes[0].positions)
+        GameModel.glft.meshes[0].setAttribute("aNormal2",GameModel.glft2.meshes[0].normals)
+
+
+
         this.tick();
 
     }
