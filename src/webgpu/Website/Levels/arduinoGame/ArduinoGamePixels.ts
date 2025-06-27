@@ -57,8 +57,9 @@ export default class ArduinoGamePixels extends IndexedItem {
         this.arm1 = this.add(new PixelObject(GameModel.renderer, Textures.SPACE_ARM).pixelModel, this.head);
         this.arm2 = this.add(new PixelObject(GameModel.renderer, Textures.SPACE_ARM).pixelModel, this.head);
         this.title.x = -40 * 0.01
+
         this.shipHolder.y = 2
-        this.shipHolder.x = -10 * 0.01
+        this.shipHolder.x = -0.05
 
         this.head.x = 0.01 * 7
         this.head.y = 0.02

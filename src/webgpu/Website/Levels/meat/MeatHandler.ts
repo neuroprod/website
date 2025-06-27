@@ -19,6 +19,7 @@ export default class MeatHandler extends IndexedItem{
     private m1pR!: SceneObject3D;
     private m2pL!: SceneObject3D;
     private m2pR!: SceneObject3D;
+    private button!: SceneObject3D;
     constructor() {
         super()
     }
@@ -30,7 +31,7 @@ export default class MeatHandler extends IndexedItem{
         this.copy =[]
         this.copy.push("What the fuck is up with this website?")
         this.copy.push("Yea, this website sucks!")
-        //this.copy.push("Where is the minimal design?")
+      this.copy.push("I can't believe someone spend time on this crap.")
         //this.copy.push("And the scrolling\nthing that they do?")
 
         //this.copy.push("I want some white space!")
@@ -68,7 +69,8 @@ export default class MeatHandler extends IndexedItem{
 
         }
         this.indexCount =0;
-
+        this.button=editBtn
+        this.button.setScaler(0.0)
         this.m1pL=SceneHandler.getSceneObject("m1pL")
 
 
@@ -78,10 +80,10 @@ export default class MeatHandler extends IndexedItem{
 
         this.m2pL =SceneHandler.getSceneObject("m2pL")
 
-        console.log(this.m2pL.getPosition())
+
         this.m2pR =SceneHandler.getSceneObject("m2pR")
 
-        console.log(this.m2pR.getPosition())
+
     }
 
     update(){
@@ -95,14 +97,18 @@ export default class MeatHandler extends IndexedItem{
                 GameModel.textBalloonHandler.setModel(this.meat2,[0.05,0.1,0])
             }
             GameModel.textBalloonHandler.setText(this.copy[this.indexCount])
-            if(this.indexCount==6){
+            if(this.indexCount==4){
 
                 this.m2pL.setPosition(-0.0009767480974801892-0.001, 0.000004354680553351337, 0.00007301144147933702)
                 this.m2pR.setPosition(0.000571303997929512-0.001, 0.000139665003704742, 0.0018431549561302996)
             }
-            if(this.indexCount==6){
+            if(this.indexCount==3){
             this.m1pR.setPosition(    -0.00810517918170008, -0.00033073023909241384, 0.00016850744404123263)
                 this.m1pL.setPosition(    -0.012850655509481876, 0.00045434851853159985, 0.003405766999831278)
+            }
+            if(this.indexCount==5){
+gsap.to(this.button,{sx:1,sy:1,sz:1,ease:"elastic.out"})
+
             }
             this.time =2.5;
             this.indexCount++

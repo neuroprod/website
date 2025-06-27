@@ -59,8 +59,8 @@ export default class Shaders extends NavigationLevel {
     private eye1!: SceneObject3D;
     private eye2!: SceneObject3D;
     private potato!: SceneObject3D;
-    private e1Pos = new Vector3(0.05, 0.01 - 0.02, 0.14)
-    private e2Pos = new Vector3(-0.08, 0.02 - 0.02, 0.14)
+    private e1Pos = new Vector3(0.05, -0.01, 0.14)
+    private e2Pos = new Vector3(-0.08, 0, 0.14)
     private smile!: SceneObject3D;
     private lerpPos: number = 0;
     private time: number = 0;
@@ -185,7 +185,7 @@ this.makeParticles()
         v1.normalize()
         v1.scale(r)
         p1.add(v1)
-        this.e1Pos.y =0.01+Math.cos(time/3)*0.005
+        this.e1Pos.y =Math.sin(time/3.33)*0.01-0.03 +this.slidePos*0.1
         p1.lerp(this.e1Pos, 1 - this.lerpPos)
 
         let p2 = new Vector3(-0.1 * this.pos1, 0.03 * this.pos1, 0)
@@ -194,8 +194,9 @@ this.makeParticles()
         v1.normalize()
         v1.scale(r)
         p2.add(v1)
+        this.e2Pos.y =Math.cos(time/4)*0.01-0.03+this.slidePos*0.1
         p2.lerp(this.e2Pos, 1 - this.lerpPos)
-        this.e2Pos.y =0.02+Math.sin(time/2)*0.005
+
         this.eye2.setPositionV(p2)
         this.eye1.setPositionV(p1)
 
@@ -215,9 +216,9 @@ this.armR.rz = -this.slidePos*3+0.3+Math.sin(time)*0.1
         let pos = (this.button.x - this.min) / (this.max - this.min)
        this.slidePos =pos;
         pos *= 0.9
-        let pos1 = 1;
 
 
+        this.eye2.sx = this.eye2.sy=this.eye1.sx = this.eye1.sy=(1-Math.pow(1- this.slidePos,6))*0.6+0.4;
         if (this.potato.model) {
             this.potato.model.material.setUniform("alpha", 1-Math.pow( smoothstep(0, 0.5, pos),8))
         }
@@ -225,7 +226,7 @@ this.armR.rz = -this.slidePos*3+0.3+Math.sin(time)*0.1
 
         let pos2 = smoothstep(0.25, 0.75, pos)
         let pos3 = smoothstep(0.5, 1, pos)
-        this.lerpPos = pos2;
+        this.lerpPos =  pos2;
         let pos4 = smoothstep(0.0, 0.15, pos)
 
 

@@ -53,7 +53,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
     var output : VertexOutput;
     let V = rotate(vec2(aPos.x,aPos.y),instanceData.x);
     
-    let p = vec3(V.x, V.y,aPos.z)*0.1*(uniforms.progress*0.5+0.5) +instancePos;
+    let p = vec3(V.x, V.y,aPos.z)*0.07 +instancePos;
     
     output.position =camera.viewProjectionMatrix*model.modelMatrix* vec4( p,1.0);
     let uv = vec2(aUV0.x*0.5+0.5,aUV0.y);

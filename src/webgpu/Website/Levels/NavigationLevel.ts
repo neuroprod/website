@@ -11,15 +11,20 @@ export default class NavigationLevel extends BaseLevel{
     init() {
 
         super.init();
-        this.lockNavigation =false
+        this.lockNavigation =true
     }
     configScene(){
+
+
+        setTimeout(()=>{
         let wh = window.innerHeight *2;
         let app = document.getElementById("app")
         if (app) app.style.height = wh + "px"
         window.scrollTo(0, window.innerHeight/2);
         document.body.style.overflowY = "visible"
         document.body.style.overflowX = "hidden"
+            this.lockNavigation =false
+        },1000)
     }
     update(){
 

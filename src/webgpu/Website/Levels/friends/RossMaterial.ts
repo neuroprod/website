@@ -90,10 +90,10 @@ let N =normalize(normal);
     let  NdotV = max(0.0, dot(N, V));
     
     var F0 = vec3(0.04); 
-    F0 = mix(F0,color.xyz, 0.5);
+    F0 = mix(F0,color.xyz, 0.0);
 
 
-    let F = modifiedFresnel(NdotV, F0, 0.03);
+    let F = modifiedFresnel(NdotV, F0, 0.01);
 
 
     var uvN = vec2(atan2(R.z, R.x), -asin(R.y));
@@ -104,12 +104,12 @@ let N =normalize(normal);
 var uvI = vec2(atan2(N.z, N.x), -asin(N.y));
     uvI *= vec2(0.1591,0.3183);
     uvI += 0.5;
-var ir =textureSample(irradiance, mySampler,  uvI)*0.1;
+var ir =textureSample(irradiance, mySampler,  uvI);
 
-var color2 =textureSample(specular, mySampler,  uvN)*0.1;
-let c = (F*color2.xyz+(color.xyz*ir.xyz*(vec3f(1.0)-F)+color.xyz*0.5));
+var color2 =textureSample(specular, mySampler,  uvN)*0.5;
+let c = (F*color2.xyz+(color.xyz*ir.xyz*(vec3f(1.0)-F)));
 
- return vec4(c,color.w);
+ return vec4(c*0.8,color.w);
 
 
 }
