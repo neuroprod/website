@@ -84,7 +84,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 fn mainFragment(${this.getFragmentInput()}) ->  @location(0) vec4f
 {
 let N =normalize(normal);
-    var color =textureSample(colorTexture, mySampler,  uv);
+    var color =pow(textureSample(colorTexture, mySampler,  uv).xyz,vec3(2.2));
     let V      = normalize(camera.worldPosition.xyz - world); // vector to eye in world space
     let R      = reflect(-V, N);
     let  NdotV = max(0.0, dot(N, V));
@@ -93,7 +93,7 @@ let N =normalize(normal);
     F0 = mix(F0,color.xyz, 0.0);
 
 
-    let F = modifiedFresnel(NdotV, F0, 0.01);
+    let F = modifiedFresnel(NdotV, F0, 0.3);
 
 
     var uvN = vec2(atan2(R.z, R.x), -asin(R.y));
@@ -106,10 +106,10 @@ var uvI = vec2(atan2(N.z, N.x), -asin(N.y));
     uvI += 0.5;
 var ir =textureSample(irradiance, mySampler,  uvI);
 
-var color2 =textureSample(specular, mySampler,  uvN)*0.5;
+var color2 =textureSample(specular, mySampler,  uvN);
 let c = (F*color2.xyz+(color.xyz*ir.xyz*(vec3f(1.0)-F)));
 
- return vec4(c*0.8,color.w);
+ return vec4(acestonemap(c),1.0);
 
 
 }

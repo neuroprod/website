@@ -123,7 +123,7 @@ export default class Main {
         });
         this.preloader.startLoad()
         GameModel.glft = new GLFTLoader(this.renderer, "ross", this.preloader)
-        GameModel.glft2 = new GLFTLoader(this.renderer, "ross2", this.preloader)
+        GameModel.glft2 = new GLFTLoader(this.renderer, "ross3", this.preloader)
 
         SceneHandler.init(this.renderer, this.preloader).then(() => {
 

@@ -138,7 +138,19 @@ import {Howl} from 'howler';
         });
 
 
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
 
+             for (let  s of this.bgSounds){
+                 s.fade(1,0,1000)
+             }
+            } else  {
+                // Resume playing if audio was "playing on hide"
+                for (let  s of this.bgSounds){
+                    s.fade(0,1,1000)
+                }
+            }
+        });
 
     }
 
