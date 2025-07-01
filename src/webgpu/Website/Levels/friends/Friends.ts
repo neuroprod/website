@@ -60,6 +60,8 @@ export default class Friends extends NavigationLevel{
     private texts: Array<SceneObject3D> =[];
     private textCount: number=0;
 private deform:number =0;
+    private backgroundTexture!: TextureLoader;
+    private bgModel!: Model;
     constructor() {
         super();
         for(let l = 0;l<10;l++){
@@ -90,7 +92,12 @@ private deform:number =0;
             LoadHandler.stopLoading()
         }
 
+        this.backgroundTexture = new TextureLoader(GameModel.renderer, "backgrounds/friends.jpg")
 
+        LoadHandler.startLoading()
+        this.backgroundTexture.onComplete = () => {
+            LoadHandler.stopLoading()
+        }
 
         SoundHandler.setBackgroundSounds(["sound/looperman-l-2470216-0396423-extraterrestrial-alarm.mp3"])
     }
@@ -105,6 +112,15 @@ private deform:number =0;
         GameModel.gameCamera.setLockedView(new Vector3(0, 0.0, 0), new Vector3(0, 0.0, 0.65))
         GameModel.gameCamera.setMouseInput(0.001)
         GameModel.gameRenderer.setLevelType("website")
+
+
+        this.bgModel = new Model(GameModel.renderer, "background")
+        this.bgModel.mesh = new Quad(GameModel.renderer)
+        this.bgModel.material = new FullScreenStretchMaterial(GameModel.renderer, "bg")
+        this.bgModel.material.setTexture("colorTexture", this.backgroundTexture)
+        this.bgModel.z = -100
+        GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
+
 
 let tso  =SceneHandler.getSceneObject("text1")
         if(tso.model){

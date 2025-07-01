@@ -194,7 +194,7 @@ private numParticles =40
         v1.normalize()
         v1.scale(r)
         p2.add(v1)
-        this.e2Pos.y =Math.cos(time/4)*0.01-0.03+this.slidePos*0.1
+        this.e2Pos.y =Math.cos(time/4)*0.01-0.02+this.slidePos*0.1
         p2.lerp(this.e2Pos, 1 - this.lerpPos)
 
         this.eye2.setPositionV(p2)
@@ -218,7 +218,7 @@ this.armR.rz = -this.slidePos*3+0.3+Math.sin(time)*0.1
         pos *= 0.9
 
 
-        this.eye2.sx = this.eye2.sy=this.eye1.sx = this.eye1.sy=(1-Math.pow(1- this.slidePos,6))*0.6+0.4;
+        this.eye2.sx = this.eye2.sy=this.eye1.sx = this.eye1.sy=(1-Math.pow(1- this.slidePos,6))*0.2+0.8;
         if (this.potato.model) {
             this.potato.model.material.setUniform("alpha", 1-Math.pow( smoothstep(0, 0.5, pos),8))
         }
