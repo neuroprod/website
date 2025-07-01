@@ -24,6 +24,19 @@
 			]
 		}
 	],
+	"materials":[
+		{
+			"doubleSided":true,
+			"name":"Material.001",
+			"pbrMetallicRoughness":{
+				"baseColorTexture":{
+					"index":0
+				},
+				"metallicFactor":0,
+				"roughnessFactor":0.050802141427993774
+			}
+		}
+	],
 	"meshes":[
 		{
 			"name":"Model.002",
@@ -34,9 +47,23 @@
 						"NORMAL":1,
 						"TEXCOORD_0":2
 					},
-					"indices":3
+					"indices":3,
+					"material":0
 				}
 			]
+		}
+	],
+	"textures":[
+		{
+			"sampler":0,
+			"source":0
+		}
+	],
+	"images":[
+		{
+			"mimeType":"image/jpeg",
+			"name":"ross2",
+			"uri":"ross2.jpg"
 		}
 	],
 	"accessors":[
@@ -45,14 +72,14 @@
 			"componentType":5126,
 			"count":45327,
 			"max":[
-				0.6088628768920898,
-				0.8263142704963684,
-				0.8563898801803589
+				0.6088768243789673,
+				0.8247915506362915,
+				0.8565895557403564
 			],
 			"min":[
-				-0.6088026762008667,
-				-0.8399479985237122,
-				-1.095535159111023
+				-0.6088219285011292,
+				-0.8399485349655151,
+				-1.0955973863601685
 			],
 			"type":"VEC3"
 		},
@@ -101,10 +128,16 @@
 			"target":34963
 		}
 	],
+	"samplers":[
+		{
+			"magFilter":9729,
+			"minFilter":9987
+		}
+	],
 	"buffers":[
 		{
 			"byteLength":1989528,
-			"uri":"ross2.bin"
+			"uri":"ross5.bin"
 		}
 	]
 }

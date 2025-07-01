@@ -29,6 +29,7 @@ export default class RossMaterial extends Material{
         uniforms.addTexture("irradiance",DefaultTextures.getWhite(this.renderer))
         uniforms.addTexture("specular",DefaultTextures.getWhite(this.renderer))
         uniforms.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
+        uniforms.addTexture("colorTexture2",DefaultTextures.getWhite(this.renderer))
         uniforms.addSampler("mySampler")
         //this.cullMode =CullMode.None;
         this.blendModes =[Blend.preMultAlpha()]
@@ -71,7 +72,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
     var output : VertexOutput;
     
     let  p =mix(aPos,aPos2,uniforms.mix);
-    let  n =mix(aNormal,aNormal2,0.5);
+    let  n =mix(aNormal,aNormal2,uniforms.mix);
     output.position =camera.viewProjectionMatrix*model.modelMatrix* vec4( p,1.0);
     output.world=(model.modelMatrix* vec4( p,1.0)).xyz;
     output.normal = model.normalMatrix*n;
@@ -84,7 +85,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 fn mainFragment(${this.getFragmentInput()}) ->  @location(0) vec4f
 {
 let N =normalize(normal);
-    var color =pow(textureSample(colorTexture, mySampler,  uv).xyz,vec3(2.2));
+    var color =mix(pow(textureSample(colorTexture, mySampler,  uv).xyz,vec3(2.2)),pow(textureSample(colorTexture2, mySampler,  uv).xyz,vec3(2.2)),uniforms.mix);
     let V      = normalize(camera.worldPosition.xyz - world); // vector to eye in world space
     let R      = reflect(-V, N);
     let  NdotV = max(0.0, dot(N, V));

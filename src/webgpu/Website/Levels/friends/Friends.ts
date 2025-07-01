@@ -62,6 +62,7 @@ export default class Friends extends NavigationLevel{
 private deform:number =0;
     private backgroundTexture!: TextureLoader;
     private bgModel!: Model;
+    private rossTexture2!: TextureLoader;
     constructor() {
         super();
         for(let l = 0;l<10;l++){
@@ -85,8 +86,8 @@ private deform:number =0;
 
 
 
-        this.rossTexture = new TextureLoader(GameModel.renderer,"ross2.jpg")
-
+        this.rossTexture = new TextureLoader(GameModel.renderer,"ross.jpg")
+        this.rossTexture2 = new TextureLoader(GameModel.renderer,"ross2.jpg")
         LoadHandler.startLoading()
         this.rossTexture.onComplete =()=>{
             LoadHandler.stopLoading()
@@ -133,6 +134,7 @@ let tso  =SceneHandler.getSceneObject("text1")
         this.rossModel.mesh =GameModel.glft.meshes[0]
         this.rossModel.material =new RossMaterial(GameModel.renderer,"ross")
         this.rossModel.material.setTexture("colorTexture",  this.rossTexture)
+        this.rossModel.material.setTexture("colorTexture2",  this.rossTexture2)
         this.rossModel.material.setTexture("irradiance",  GameModel.renderer.getTexture("irradiance.hdr"))
         this.rossModel.material.setTexture("specular",  GameModel.renderer.getTexture("specular.hdr"))
         GameModel.gameRenderer.postLightModelRenderer.addModel(this.rossModel)
@@ -175,7 +177,7 @@ let rRot = this.rossRot;
         }
 
         this.rossModel.ry =this.rossRot
-
+        this.rossModel.material.setUniform("mix",this.deform)
         this.lineModel.material.setUniform("time",Timer.time*0.2)
 
 
@@ -210,6 +212,7 @@ let rRot = this.rossRot;
 
         GameModel.gameCamera.setMouseInput(0.04)
         this.rossTexture.destroy()
+        this.rossTexture2.destroy()
         SoundHandler.killBackgroundSounds()
 
         this.texts =[]
@@ -288,8 +291,8 @@ let rRot = this.rossRot;
         this.textCount++
         if(this.textCount<4) this.texts[this.textCount].show()
         if(this.textCount==3){
-            gsap.to(this ,{deform:0.9,duration:10,ease:"power2.inOut",delay:5,onUpdate:()=>{
-                    this.rossModel.setScaler(0.8+this.deform*0.2)
+            gsap.to(this ,{deform:1,duration:60,ease:"power2.inOut",delay:0,onUpdate:()=>{
+
                     this.rossModel.material.setUniform("mix",this.deform)
                 }})
 
