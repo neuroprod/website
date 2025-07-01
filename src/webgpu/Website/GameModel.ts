@@ -34,6 +34,7 @@ import GLFTLoader from "../lib/GLFTLoader.ts";
     UI2D!: UI2D;
      glft!: GLFTLoader;
      glft2!: GLFTLoader;
+     gameCopy!: any;
 
 
 

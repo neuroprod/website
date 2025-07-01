@@ -1,8 +1,9 @@
 import TextBalloonHandler from "./TextBalloonHandler.ts";
-import copy from "./copy.json"
+
 
 import Renderer from "../../lib/Renderer.ts";
 import SceneHandler from "../../data/SceneHandler.ts";
+import GameModel from "../GameModel.ts";
 
 export default class ConversationHandler {
     textReady: boolean = false;
@@ -18,9 +19,11 @@ export default class ConversationHandler {
     isDone: boolean =false;
     doneCallBack!:()=>void;
     dataCallBack!:(data:string)=>void;
+    private data: any;
     constructor(renderer: Renderer, textBalloonHandler: TextBalloonHandler) {
         this.renderer = renderer;
         this.textBalloonHandler = textBalloonHandler;
+        this.data =GameModel.gameCopy
     }
 
     startConversation(id: string) {
@@ -81,7 +84,7 @@ export default class ConversationHandler {
 
     getCopyData(id: string) {
 
-        for (let data of copy) {
+        for (let data of this.data) {
             if (data && data.name == id) return data.data
         }
 

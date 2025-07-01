@@ -129,8 +129,10 @@
       {"char":"cookieRoot","pos":[0.3, 1.0, 0],"text": "I don't know?\nMy mom told me\nI was a happy baby."},
       {"text": "But then I had to go to\nschool and stuff."},
       {"text": "Now I just want to smash things."},
-      {"text": "You should try it.\nIt helps with the pain!"},
-      {"char":"charRoot","pos":[0.01, 0.8, 0],"text": "Euhm... Ok!"}
+      {"text": "You should try it.\nIt makes you feel better for a short moment."},
+      {"char":"charRoot","pos":[0.01, 0.8, 0],"text": "I don't know Cookie, seems "},
+      {"char":"cookieRoot","pos":[0.3, 1.0, 0],"text": "Com on man, They are just fruit and vegetables."},
+      {"char":"charRoot","pos":[0.01, 0.8, 0],"text": "Ok... If you put it that way."}
     ]
   },
   {
@@ -143,7 +145,7 @@
       {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "How much do you need?"},
       {"char":"strawberryRoot","pos":[-0.2, 0.8, 0],"text": "Just #numCoins coins..."},
       {"char":"charRoot","pos":[0.1, 0.8, 0],"choice": [
-        {"text": "Those are all my coins Strawberry,\nI can't do that.", "callBack": "coinsNo" },
+        {"text": "Those are all my coins Strawberry,\nMr Loathsome needs those.", "callBack": "coinsNo" },
         {"text": "Here you go! #numCoins coins.\nI know it's a tough world out there!","callBack": "coinsYes" }
       ]}
 
@@ -156,39 +158,25 @@
       {"char":"rootHand","pos":[-0.2, 0.8, 0],"text": "Hi pirate, want to have some fun?"},
       {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "I'm broke Candy. Maybe some other time..."},
       {"char":"rootHand","pos":[-0.2, 0.8, 0],"text": "Yea, everyone seems broke these days."},
-      {"text": "Maybe you can help me get my fingers back?\nYou being a pirate and such."},
-      {"text": "Some of my clients really miss them"},
+      {"text": "Maybe you can help me get my fingers back?\nMr Loathsome, took them. He says I dont make him enough money"},
+      {"text": "Some of my clients really miss them."},
+      {"text": "And you being a pirate and such..."},
       {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "You know Candy, I'm actually not a real pirate."},
       {"text": "Sure, I download a movie every know and then."},
-      {"text": "But mostly, It's just me trying to pretend I'm free."},
+      {"text": "But mostly, It's just me pretending I'm free."},
       {"text": "I don't even own a sword, or a ship..."},
       {"char":"rootHand","pos":[0.01, 0.8, 0],"text": "ow...  "},
       {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "...   "},
-      {"char":"rootHand","pos":[0.01, 0.8, 0],"text": "The gnomes down the road sell swords. Maybe they can help?"},
-      {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "Ow Candy, I'll see what I can do."},
-      {"text": "What happend with your fingers anyway?"},
-      {"char":"rootHand","pos":[0.01, 0.8, 0],"text": "Mr Loathsome took them.\nHe says I don't bring in enough money."},
-      {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "... I'm gonna look out for those gnomes Candy!"}
+      {"char":"rootHand","pos":[0.01, 0.8, 0],"text": "Its not sword, You can give you my patato pealer if you want."},
+      {"text": "I have 2 of them for some reason"},
+      {"text": "It's sharp, I used it on some guy last nignt."},
+      {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "Nice!\nIt's a PEELER 2000!\nThat's PREMIUM STABBING device!"},
+      {"text": "Thanks Candy!"}
     ]
-  }
+  },
 
 
-, {
-  "name": "gnome",
-  "data": [
 
-    {"char":"charRoot","pos":[0.1, 0.8, 0],"text": "Wie zijn jullie?"},
-    {"char":"gnome1","pos":[0.01, 0.7, 0],"text": "Ik ben corneel"},
-    {"char":"gnome2","pos":[0.01, 0.5, 0],"text": "Ik rinus"},
-    {"char":"gnome2","pos":[0.01, 0.5, 0],"text": "Ik moet kaka doen"},
-    {"char":"gnome1","pos":[0.01, 0.7, 0],"text": "Ik ook"},
-    {"char":"charRoot","pos":[0.1, 0.8, 0],"text": "euhm..."},
-    {"char":"gnome2","pos":[0.01, 0.7, 0],"text": "in mijn broek"},
-    {"char":"gnome2","pos":[0.01, 0.7, 0],"text": "hahahahaaa"},
-    {"char":"gnome1","pos":[0.01, 0.5, 0],"text": "hahahaha"},
-    {"char":"charRoot","pos":[0.1, 0.8, 0],"text": "hahahaha"}
-  ]
-},
   {
     "name": "girlStrawberry",
     "data": [

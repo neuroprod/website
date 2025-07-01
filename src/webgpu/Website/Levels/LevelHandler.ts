@@ -30,6 +30,7 @@ import Clients from "./clients/Clients.ts";
 import Friends from "./friends/Friends.ts";
 import Social from "./social/Social.ts";
 import Robots from "./robots/Robots.ts";
+import Peeler from "./peeler/Peeler.ts";
 
 class LevelHandler {
     public levelKeys: Array<string> = [];
@@ -37,12 +38,13 @@ class LevelHandler {
 
     public currentLevel!: BaseLevel | null;
 
-public  navigationLevels:Array<string> =["Worries","Me","Smullen","Food","Clients","Shaders","Robot","This","Invasion","Lab101","Friends","Social","Contact"]
+public  navigationLevels:Array<string> =["Worries","Me","Smullen","Food","Clients","Shaders","Peeler","Robot","This","Invasion","Lab101","Friends","Social","Contact"]
     private currentLevelName: string="";
     init() {
 
         this.addLevel("Home", new StartLevel())
         this.addLevel("Me", new GraphicDev())
+        this.addLevel("Peeler", new Peeler())
         this.addLevel("Shaders", new Shaders())
        this.addLevel("Food", new FoodForFish())
         this.addLevel("Friends", new Friends())

@@ -32,6 +32,7 @@ import gameModel from "./Website/GameModel.ts";
 import FontPool from "./lib/twoD/FontPool.ts";
 import GLFTLoader from "./lib/GLFTLoader.ts";
 import HDRTextureLoader from "./lib/HDRTextureLoader.ts";
+import JsonLoader from "./lib/JsonLoader.ts";
 
 
 export enum MainState {
@@ -62,6 +63,7 @@ export default class Main {
     private camera!: Camera;
     private gameRenderer!: GameRenderer;
     private game!: Game;
+    private gameCopy!: JsonLoader;
 
 
     constructor() {
@@ -130,6 +132,8 @@ export default class Main {
             this.preloader.stopLoad()
         });
 
+        this.gameCopy = new JsonLoader("copy",this.preloader)
+
 
     }
 
@@ -137,6 +141,8 @@ export default class Main {
     private init() {
 
    //   SceneData.parseSceneData();
+        GameModel.gameCopy= this.gameCopy.data
+
 
         this.camera = new Camera(this.renderer);
         this.camera.cameraWorld.set(0.5, 0.3, 2)
@@ -169,6 +175,7 @@ export default class Main {
         }
 
         //  gsap.ticker.remove(gsap.updateRoot);
+
         GameModel.setMainState = this.setMainState.bind(this)
 
 

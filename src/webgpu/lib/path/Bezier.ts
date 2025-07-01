@@ -53,7 +53,8 @@ export default class Bezier extends Curve {
         if (dist < 0.05) {
             numDivisions *= 1 / (0.05 / dist);
             numDivisions = Math.round(numDivisions)
-            numDivisions = Math.max(numDivisions, 2)
+            numDivisions = Math.max(numDivisions, 4)
+            numDivisions = Math.min(numDivisions, 12)
         }
 
 

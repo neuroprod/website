@@ -157,8 +157,8 @@ private numParticles =40
         this.armL = SceneHandler.getSceneObject("armL")
 
 
-        this.makeFlowers()
-this.makeParticles()
+      //  this.makeFlowers()
+//this.makeParticles()
 
     }
 
@@ -209,7 +209,7 @@ this.makeParticles()
         this.armL.ry=0
 this.armR.rz = -this.slidePos*3+0.3+Math.sin(time)*0.1
         this.armL.rz= +this.slidePos*3-0.3+Math.sin(time)*0.1
-        this.updateParticles()
+      //  this.updateParticles()
     }
 
     updateButton() {
@@ -242,7 +242,7 @@ this.armR.rz = -this.slidePos*3+0.3+Math.sin(time)*0.1
 
     destroy() {
         super.destroy()
-        this.flowerTexture.destroy()
+    //    this.flowerTexture.destroy()
         SoundHandler.killBackgroundSounds()
 
     }
@@ -262,6 +262,7 @@ this.armR.rz = -this.slidePos*3+0.3+Math.sin(time)*0.1
     }
 
     private makeParticles() {
+        return;
         this.particles=[]
         for(let i=0;i<this.numParticles;i++){
             let p =new FlowerParticle()
