@@ -14,6 +14,9 @@ import ProjectData from "../../../data/ProjectData.ts";
 import SoundHandler from "../../SoundHandler.ts";
 import MouthMaterial from "./MouthMaterial.ts";
 import Ray from "../../../lib/Ray.ts";
+import TextMesh from "../../../lib/twoD/TextMesh.ts";
+import FontPool from "../../../lib/twoD/FontPool.ts";
+import FontMesh from "../../../modelMaker/FontMesh.ts";
 
 export default class Contact extends NavigationLevel {
 
@@ -47,7 +50,10 @@ export default class Contact extends NavigationLevel {
     private overModel!: Model;
     private ray2 = new Ray()
     private prevSeek: number=100000;
+    private contactTextMesh!: FontMesh;
 
+    private contactTextArr=["Contact me!","For great\nprojects!","cool visuals!","Happy CLients!","Many awards!"]
+    private contactTextArrCount =0
     constructor() {
         super();
 
@@ -89,7 +95,7 @@ export default class Contact extends NavigationLevel {
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
-        GameModel.gameCamera.setLockedView(new Vector3(0, 0.25, 0), new Vector3(0, 0.25, 0.60))
+        GameModel.gameCamera.setLockedView(new Vector3(0.05, 0.25, 0), new Vector3(0.05, 0.25, 0.60))
 
         GameModel.gameRenderer.setLevelType("website")
 
@@ -115,7 +121,9 @@ export default class Contact extends NavigationLevel {
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
 
         this.contactText = SceneHandler.getSceneObject("contact")
-
+if(this.contactText.model){
+    this.contactTextMesh = this.contactText.model.mesh as FontMesh
+}
         this.line1 = SceneHandler.getSceneObject("line1")
 
 
@@ -134,12 +142,14 @@ export default class Contact extends NavigationLevel {
         this.overModel.mesh = new Quad(GameModel.renderer)
         this.overModel.material = new FullScreenStretchMaterial(GameModel.renderer, "over")
         this.overModel.material.setTexture("colorTexture", this.overTexture)
-        this.overModel.z = 100
+        this.overModel.z = 0.25
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.overModel)
         if (this.contactText.model) {
             this.contactText.model.x = -0.035;
             this.contactText.model.y = +0.01;
         }
+       this.prevSeek =10000
+        this.contactTextArrCount =0;
     }
 
     public update() {
@@ -147,7 +157,9 @@ export default class Contact extends NavigationLevel {
         let seek =SoundHandler.bgSounds[0].seek()
         if(seek<this.prevSeek){
             this.beatCount =0
-            console.log("reset")
+
+
+
         }
         this.prevSeek =seek;
         let s = Math.round(SoundHandler.bgSounds[0].seek() * 1000) + 200
@@ -157,7 +169,12 @@ export default class Contact extends NavigationLevel {
 
             this.beatCount++
             this.beatCount%=8
-            this.beat()
+            if (this.beatCount ==0){
+                this.contactTextArrCount++
+                this.contactTextArrCount %=this.contactTextArr.length
+                this.contactTextMesh.setText(this.contactTextArr[this.contactTextArrCount].toUpperCase(),  ProjectData.font)
+            }
+                this.beat()
         }
         this.prevBeat = s;
         if (this.beatCount < 5) {

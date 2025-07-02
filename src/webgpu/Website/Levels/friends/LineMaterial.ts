@@ -29,7 +29,7 @@ export default class LineMaterial extends Material{
         this.addUniformGroup(uniforms,true);
         uniforms.addUniform("time",0)
 
-    
+
     }
     getShader(): string {
         return /* wgsl */ `
