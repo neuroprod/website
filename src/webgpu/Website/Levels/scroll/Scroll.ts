@@ -63,16 +63,11 @@ export default class Scroll extends NavigationLevel{
         this.overTexture.onComplete = () => {
             LoadHandler.stopLoading()
         }
-        this.bgSound = new Howl({
-            src: ['sound/meatLoop.mp3'],
-            loop:true,
-            autoplay:true,
-            onload: ()=>{
 
-                this.bgSound.fade(0, 1, 2000);
-            }
-        });
-        //this.setBackground("backgrounds/")
+
+SoundHandler.setBackgroundSounds(["sound/meatLoop.mp3"])
+
+       
     }
 
     configScene() {
@@ -192,7 +187,7 @@ export default class Scroll extends NavigationLevel{
 this.overModel.mesh.destroy()
         this.bgModel.mesh.destroy()
         this.scrollArr =[]
-        this.bgSound.unload()
+        SoundHandler.killBackgroundSounds();
     }
 
 

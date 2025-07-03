@@ -85,7 +85,7 @@ export default class Main {
         if (location.hostname === "localhost") {
             GameModel.debug = true;
         }
-        console.log(location.pathname)
+      
     }
 
     public preload() {

@@ -3,18 +3,22 @@ import NavigationLevel from "../NavigationLevel.ts";
 import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import GameModel from "../../GameModel.ts";
-import {Vector2, Vector3} from "@math.gl/core";
+import { Vector2, Vector3 } from "@math.gl/core";
 
 import VideoPlayer from "../../../lib/video/VideoPlayer.ts";
 import Model from "../../../lib/model/Model.ts";
 import GBufferMaterial from "../../../render/GBuffer/GBufferMaterial.ts";
 import Plane from "../../../lib/mesh/geometry/Plane.ts";
 import SoundHandler from "../../SoundHandler.ts";
+import gsap from "gsap";
+import MouseInteractionWrapper from "../../MouseInteractionWrapper.ts";
 
-export default class FoodForFish extends NavigationLevel{
+export default class FoodForFish extends NavigationLevel {
 
 
-private video!:VideoPlayer;
+    private video!: VideoPlayer;
+    fwa!: Model
+    fishMouth!: Model;
     constructor() {
         super();
 
@@ -23,7 +27,7 @@ private video!:VideoPlayer;
 
     init() {
         super.init();
-        if(!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/foodfish.mp4", new Vector2(1920, 1080))
+        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/foodfish.mp4", new Vector2(1920, 1080))
 
         LoadHandler.onComplete = this.configScene.bind(this)
         LoadHandler.startLoading()
@@ -59,10 +63,67 @@ private video!:VideoPlayer;
         m.rx = Math.PI / 2
         fv.addChild(m)
         GameModel.gameRenderer.addModel(m)
+
+
+        let link = this.mouseInteractionMap.get("playFish") as MouseInteractionWrapper
+
+        link.onClick = () => {
+
+            // @ts-ignore
+            window.open("https://foodforfish.org", '_blank').focus();
+        }
+        link.onRollOver = () => {
+            GameModel.renderer.setCursor(true)
+            gsap.killTweensOf(link.sceneObject)
+            gsap.to(link.sceneObject, {
+                sx: 1.1,
+                sy: 1.1,
+              
+                ease: "elastic.out",
+                duration: 0.5
+            })
+           
+        }
+        link.onRollOut = () => {
+            GameModel.renderer.setCursor(false)
+            gsap.killTweensOf(link.sceneObject)
+            gsap.to(link.sceneObject, { sx: 1.0, sy: 1.0, ease: "back.out", duration: 0.1 })
+
+        }
+
+
+
+        this.fwa = SceneHandler.getSceneObject("fwaLogo").model as Model
+        this.fwa.sx = 0.65
+        this.fwa.x = -0.2
+
+
+        this.fishMouth = SceneHandler.getSceneObject("FishMouth").model as Model
+
+        let tl = gsap.timeline({
+            repeat: -1,
+            repeatDelay: 3
+        })
+
+
+        this.fishMouth.rz = -1
+
+        tl.to(this.fishMouth, { rz: 0, ease: "power2.inout", duration: 1.5 })
+        tl.to(this.fwa, { x: 0, sx: 1, ease: "power2.inout", duration: 2 })
+
+        for (let i = 0; i < 2; i++) {
+            tl.to(this.fwa, { x: -0.1, ease: "power2.inout", duration: 2 })
+            tl.to(this.fwa, { x: -0, ease: "power2.inout", duration: 2 })
+
+        }
+        tl.to(this.fwa, { x: -0.2, sx: 0.65, ease: "power2.in", duration: 2 })
+        tl.to(this.fishMouth, { rz: -1, ease: "power2.inout", duration: 1 })
     }
 
     public update() {
         super.update()
+
+
 
 
     }

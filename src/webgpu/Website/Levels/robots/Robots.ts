@@ -10,6 +10,7 @@ import Plane from "../../../lib/mesh/geometry/Plane.ts";
 import Quad from "../../../lib/mesh/geometry/Quad.ts";
 import FullScreenStretchMaterial from "../../backgroundShaders/FullscreenStretchMaterial.ts";
 import {Howl} from "howler";
+import MouseInteractionWrapper from "../../MouseInteractionWrapper.ts";
 
 export default class Robots extends NavigationLevel{
 
@@ -78,6 +79,27 @@ export default class Robots extends NavigationLevel{
         this.bgModel.material.setTexture("colorTexture",  this.video.getTexture())
         this.bgModel.z =-100
       GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
+
+
+
+
+           let link = this.mouseInteractionMap.get("youtube") as MouseInteractionWrapper
+
+        link.onClick = () => {
+
+            // @ts-ignore
+            window.open("https://www.youtube.com/channel/UCUdunfSS-4CyZsIhICtgr6A", '_blank').focus();
+        }
+        link.onRollOver = () => {
+            GameModel.renderer.setCursor(true)
+           
+           
+        }
+        link.onRollOut = () => {
+            GameModel.renderer.setCursor(false)
+          
+
+        }
 
     }
 

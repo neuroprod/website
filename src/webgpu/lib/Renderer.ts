@@ -167,5 +167,14 @@ export default class Renderer {
         let i =this.models.indexOf(m)
         if(i>-1) this.models.splice(i, 1);
     }
+
+    setCursor(isPointer:boolean=false){
+        if(isPointer){
+        this.canvas.style.cursor="pointer"
+    }
+        else{
+               this.canvas.style.cursor="auto"
+        }
+    }
 }
 

@@ -11,4 +11,5 @@ body {
 canvas {
   position: sticky;
   top: 0px;
+
 } /* To remove the scrollbars */

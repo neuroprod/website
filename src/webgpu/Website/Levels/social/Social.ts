@@ -77,6 +77,7 @@ SoundHandler.setBackgroundSounds(["sound/looperman-l-2921269-0145176-delayed-mal
                 window.open(l[1], '_blank').focus();
             }
             link.onRollOver = () => {
+                GameModel.renderer.setCursor(true)
                 gsap.killTweensOf(link.sceneObject)
                 gsap.to(link.sceneObject, {
                     sx: 1.1,
@@ -88,7 +89,7 @@ SoundHandler.setBackgroundSounds(["sound/looperman-l-2921269-0145176-delayed-mal
                // SoundHandler.playFart()
             }
             link.onRollOut = () => {
-
+GameModel.renderer.setCursor(false)
                 gsap.killTweensOf(link.sceneObject)
                 gsap.to(link.sceneObject, {sx: 1.0, sy: 1.0, rz: 0, ease: "back.out", duration: 0.1})
 

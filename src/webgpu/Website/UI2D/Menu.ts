@@ -6,6 +6,7 @@ import Text from "../../lib/twoD/Text.ts";
 import LevelHandler from "../Levels/LevelHandler.ts";
 import Sprite from "../../lib/twoD/Sprite.ts";
 import DefaultTextures from "../../lib/textures/DefaultTextures.ts";
+import GameModel from "../GameModel.ts";
 
 export default class Menu {
     menuRoot = new Object2D()
@@ -31,6 +32,14 @@ private space =5;
             text.onClick = () => {
 
                 LevelHandler.setLevel(item)
+            }
+            text.rollOver=()=>{
+                GameModel.renderer.setCursor(true)
+                
+            }
+                text.rollOut=()=>{
+                GameModel.renderer.setCursor(false)
+                
             }
             this.items.push(text)
             count++
