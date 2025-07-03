@@ -10,6 +10,7 @@ import Plane from "../../../lib/mesh/geometry/Plane.ts";
 import Quad from "../../../lib/mesh/geometry/Quad.ts";
 import FullScreenStretchMaterial from "../../backgroundShaders/FullscreenStretchMaterial.ts";
 import SoundHandler from "../../SoundHandler.ts";
+import MouseInteractionWrapper from "../../MouseInteractionWrapper.ts";
 
 export default class Lab101 extends NavigationLevel{
 
@@ -56,7 +57,23 @@ export default class Lab101 extends NavigationLevel{
         this.bgModel.material.setTexture("colorTexture",  this.video.getTexture())
         this.bgModel.z =-100
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
+        let link = this.mouseInteractionMap.get("lab101") as MouseInteractionWrapper
 
+        link.onClick = () => {
+
+            // @ts-ignore
+            window.open("https://lab101.be", '_blank').focus();
+        }
+        link.onRollOver = () => {
+            GameModel.renderer.setCursor(true)
+           
+           
+        }
+        link.onRollOut = () => {
+            GameModel.renderer.setCursor(false)
+          
+
+        }
     }
 
 public update() {

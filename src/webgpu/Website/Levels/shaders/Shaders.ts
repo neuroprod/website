@@ -16,6 +16,9 @@ import TextureLoader from "../../../lib/textures/TextureLoader.ts";
 import Model from "../../../lib/model/Model.ts";
 import FlowerMaterial from "./FlowerMaterial.ts";
 import Plane from "../../../lib/mesh/geometry/Plane.ts";
+import GradingMaterial from "../../../render/grading/GradingMaterial.ts";
+import Quad from "../../../lib/mesh/geometry/Quad.ts";
+import GridMaterial from "./GridMaterial.ts";
 
 class FlowerParticle{
     position:Vector3 =new Vector3()
@@ -73,6 +76,7 @@ private numParticles =40
     private slidePos: number=0;
     private armR!: SceneObject3D;
     private armL!: SceneObject3D;
+    bgModel!: Model;
     constructor() {
         super();
         this.material = new MeatMaterial(GameModel.renderer, "meat")
@@ -108,6 +112,17 @@ private numParticles =40
         LoadHandler.onComplete = () => {
         }
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
+
+
+     this.bgModel = new Model(GameModel.renderer, "background")
+        this.bgModel.mesh = new Quad(GameModel.renderer)
+        this.bgModel.material = new GridMaterial(GameModel.renderer, "bg")
+
+  GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
+
+
+
+
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
         GameModel.gameCamera.setLockedView(new Vector3(0, 0.0, 0), new Vector3(0, 0.0, 1))
@@ -164,6 +179,7 @@ private numParticles =40
 
     public update() {
         super.update()
+          this.bgModel.material.setUniform("ratio", GameModel.renderer.ratio)
         this.time += Timer.delta;
         if (this.isDragging) {
             this.ray.setFromCamera(GameModel.gameCamera.camera, GameModel.mouseListener.getMouseNorm())
@@ -244,6 +260,7 @@ this.armR.rz = -this.slidePos*3+0.3+Math.sin(time)*0.1
         super.destroy()
     //    this.flowerTexture.destroy()
         SoundHandler.killBackgroundSounds()
+          this.bgModel.destroy()
 
     }
 
