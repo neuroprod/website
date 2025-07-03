@@ -3,12 +3,12 @@ import NavigationLevel from "../NavigationLevel.ts";
 import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import GameModel from "../../GameModel.ts";
-import {Vector3} from "@math.gl/core";
+import { Vector3 } from "@math.gl/core";
 import MeatMaterial from "./MeatMaterial.ts";
 import Timer from "../../../lib/Timer.ts";
 import MouseInteractionWrapper from "../../MouseInteractionWrapper.ts";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
-import {smoothstep} from "../../../lib/MathUtils.ts";
+import { smoothstep } from "../../../lib/MathUtils.ts";
 import PotatoMaterial from "./PotatoMaterial.ts";
 import ProjectData from "../../../data/ProjectData.ts";
 import SoundHandler from "../../SoundHandler.ts";
@@ -20,27 +20,27 @@ import GradingMaterial from "../../../render/grading/GradingMaterial.ts";
 import Quad from "../../../lib/mesh/geometry/Quad.ts";
 import GridMaterial from "./GridMaterial.ts";
 
-class FlowerParticle{
-    position:Vector3 =new Vector3()
-     rotation: number=0;
-   type: number=0;
+class FlowerParticle {
+    position: Vector3 = new Vector3()
+    rotation: number = 0;
+    type: number = 0;
 
-    private rotSpeed =(Math.random()-0.5)*3;
-    private fallSpeed =0.1+Math.random()*0.3
+    private rotSpeed = (Math.random() - 0.5) * 3;
+    private fallSpeed = 0.1 + Math.random() * 0.3
     constructor() {
-        this.position.x =(Math.random()-0.5)*4
-        this.position.y =(Math.random()-0.5)*2
-        this.position.z =-Math.random()*0.3
-        this.rotation = Math.random()*7
-        this.type =Math.random()
+        this.position.x = (Math.random() - 0.5) * 4
+        this.position.y = (Math.random() - 0.5) * 2
+        this.position.z = -Math.random() * 0.3
+        this.rotation = Math.random() * 7
+        this.type = Math.random()
 
     }
-    update(delta:number , type:number=0){
-        this.rotation+=this.rotSpeed*delta;
-        this.position.y-=this.fallSpeed*delta;
+    update(delta: number, type: number = 0) {
+        this.rotation += this.rotSpeed * delta;
+        this.position.y -= this.fallSpeed * delta;
 
-        if(this.position.y<-1){
-            this.position.y =1;
+        if (this.position.y < -1) {
+            this.position.y = 1;
 
 
         }
@@ -68,12 +68,12 @@ export default class Shaders extends NavigationLevel {
     private lerpPos: number = 0;
     private time: number = 0;
     private flowerTexture!: TextureLoader;
-private flowerModel!:Model
-private particles:Array<FlowerParticle>=[]
-private numParticles =40
-    private posArr: Float32Array =new Float32Array(this.numParticles*3);
-    private dataArr: Float32Array =new Float32Array(this.numParticles*2);
-    private slidePos: number=0;
+    private flowerModel!: Model
+    private particles: Array<FlowerParticle> = []
+    private numParticles = 40
+    private posArr: Float32Array = new Float32Array(this.numParticles * 3);
+    private dataArr: Float32Array = new Float32Array(this.numParticles * 2);
+    private slidePos: number = 0;
     private armR!: SceneObject3D;
     private armL!: SceneObject3D;
     bgModel!: Model;
@@ -97,10 +97,10 @@ private numParticles =40
         //looperman-l-4499538-0400053-chill-cloudy-vapor-loop.mp3
 
 
-        this.flowerTexture = new TextureLoader(GameModel.renderer,"flower.png")
+        this.flowerTexture = new TextureLoader(GameModel.renderer, "flower.png")
 
         LoadHandler.startLoading()
-        this.flowerTexture.onComplete =()=>{
+        this.flowerTexture.onComplete = () => {
             LoadHandler.stopLoading()
         }
 
@@ -114,11 +114,11 @@ private numParticles =40
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
 
 
-     this.bgModel = new Model(GameModel.renderer, "background")
+        this.bgModel = new Model(GameModel.renderer, "background")
         this.bgModel.mesh = new Quad(GameModel.renderer)
         this.bgModel.material = new GridMaterial(GameModel.renderer, "bg")
 
-  GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
+        GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
 
 
 
@@ -149,7 +149,7 @@ private numParticles =40
         this.eye2 = SceneHandler.getSceneObject("eye2")
 
         this.button = SceneHandler.getSceneObject("button")
-        this.button.x = this.min
+        this.button.x = this.min + 0.1
         this.buttonPos = this.button.getPosition();
         let button = this.mouseInteractionMap.get("button") as MouseInteractionWrapper
         button.onDown = () => {
@@ -172,14 +172,14 @@ private numParticles =40
         this.armL = SceneHandler.getSceneObject("armL")
 
 
-      //  this.makeFlowers()
-//this.makeParticles()
+        //  this.makeFlowers()
+        //this.makeParticles()
 
     }
 
     public update() {
         super.update()
-          this.bgModel.material.setUniform("ratio", GameModel.renderer.ratio)
+        this.bgModel.material.setUniform("ratio", GameModel.renderer.ratio)
         this.time += Timer.delta;
         if (this.isDragging) {
             this.ray.setFromCamera(GameModel.gameCamera.camera, GameModel.mouseListener.getMouseNorm())
@@ -201,7 +201,7 @@ private numParticles =40
         v1.normalize()
         v1.scale(r)
         p1.add(v1)
-        this.e1Pos.y =Math.sin(time/3.33)*0.01-0.03 +this.slidePos*0.1
+        this.e1Pos.y = Math.sin(time / 3.33) * 0.01 - 0.03 + this.slidePos * 0.1
         p1.lerp(this.e1Pos, 1 - this.lerpPos)
 
         let p2 = new Vector3(-0.1 * this.pos1, 0.03 * this.pos1, 0)
@@ -210,7 +210,7 @@ private numParticles =40
         v1.normalize()
         v1.scale(r)
         p2.add(v1)
-        this.e2Pos.y =Math.cos(time/4)*0.01-0.02+this.slidePos*0.1
+        this.e2Pos.y = Math.cos(time / 4) * 0.01 - 0.02 + this.slidePos * 0.1
         p2.lerp(this.e2Pos, 1 - this.lerpPos)
 
         this.eye2.setPositionV(p2)
@@ -220,35 +220,35 @@ private numParticles =40
         //  let d1 = sdSphere(pFlat+vec3f(0.1,0.0,0)*uniforms.pos1,0.15+sin(uniforms.time)*0.005*uniforms.pos1);
         // let d2 = sdSphere(pFlat+vec3f(-0.1,0.03,0)*uniforms.pos1,0.15+cos(uniforms.time)*0.01*uniforms.pos1);
 
-        this.material.setUniform("time", time*1.5)
-        this.armR.ry=0
-        this.armL.ry=0
-this.armR.rz = -this.slidePos*3+0.3+Math.sin(time)*0.1
-        this.armL.rz= +this.slidePos*3-0.3+Math.sin(time)*0.1
-      //  this.updateParticles()
+        this.material.setUniform("time", time * 1.5)
+        this.armR.ry = 0
+        this.armL.ry = 0
+        this.armR.rz = -this.slidePos * 2.5 + 0.3 + Math.sin(time) * 0.1
+        this.armL.rz = +this.slidePos * 2.5 - 0.3 + Math.sin(time) * 0.1
+        //  this.updateParticles()
     }
 
     updateButton() {
         let pos = (this.button.x - this.min) / (this.max - this.min)
-       this.slidePos =pos;
+        this.slidePos = pos;
         pos *= 0.9
 
 
-        this.eye2.sx = this.eye2.sy=this.eye1.sx = this.eye1.sy=(1-Math.pow(1- this.slidePos,6))*0.2+0.8;
+        this.eye2.sx = this.eye2.sy = this.eye1.sx = this.eye1.sy = (1 - Math.pow(1 - this.slidePos, 6)) * 0.2 + 0.8;
         if (this.potato.model) {
-            this.potato.model.material.setUniform("alpha", 1-Math.pow( smoothstep(0, 0.5, pos),8))
+            this.potato.model.material.setUniform("alpha", 1 - Math.pow(smoothstep(0, 0.5, pos), 8))
         }
         this.pos1 = smoothstep(0.0, 0.5, pos);
 
         let pos2 = smoothstep(0.25, 0.75, pos)
         let pos3 = smoothstep(0.5, 1, pos)
-        this.lerpPos =  pos2;
+        this.lerpPos = pos2;
         let pos4 = smoothstep(0.0, 0.15, pos)
 
 
         let smileS = smoothstep(0.8, 1.0, pos)
         this.smile.y = -100
-        if (smileS > 0) this.smile.y = (-0.03 - 0.03 + smileS * 0.03) +0.01
+        if (smileS > 0) this.smile.y = (-0.03 - 0.03 + smileS * 0.03) + 0.01
 
         this.material.setUniform("pos1", this.pos1 * 0.5 + 0.5)
         this.material.setUniform("pos2", pos2)
@@ -258,62 +258,62 @@ this.armR.rz = -this.slidePos*3+0.3+Math.sin(time)*0.1
 
     destroy() {
         super.destroy()
-    //    this.flowerTexture.destroy()
+        //    this.flowerTexture.destroy()
         SoundHandler.killBackgroundSounds()
-          this.bgModel.destroy()
+        this.bgModel.destroy()
 
     }
 
 
     private makeFlowers() {
-    if(this.flowerModel){
-        this.flowerModel.material.setTexture("colorTexture",this.flowerTexture)
-       GameModel.gameRenderer.postLightModelRenderer.addModel( this.flowerModel)
-        return;
-    }
-        this.flowerModel =new Model(GameModel.renderer,"flower")
-        this.flowerModel.material =new FlowerMaterial(GameModel.renderer,"flowerMat")
-        this.flowerModel.mesh =new Plane(GameModel.renderer,1,1,1,1,false)
-        GameModel.gameRenderer.postLightModelRenderer.addModel( this.flowerModel)
-        this.flowerModel.material.setTexture("colorTexture",this.flowerTexture)
+        if (this.flowerModel) {
+            this.flowerModel.material.setTexture("colorTexture", this.flowerTexture)
+            GameModel.gameRenderer.postLightModelRenderer.addModel(this.flowerModel)
+            return;
+        }
+        this.flowerModel = new Model(GameModel.renderer, "flower")
+        this.flowerModel.material = new FlowerMaterial(GameModel.renderer, "flowerMat")
+        this.flowerModel.mesh = new Plane(GameModel.renderer, 1, 1, 1, 1, false)
+        GameModel.gameRenderer.postLightModelRenderer.addModel(this.flowerModel)
+        this.flowerModel.material.setTexture("colorTexture", this.flowerTexture)
     }
 
     private makeParticles() {
         return;
-        this.particles=[]
-        for(let i=0;i<this.numParticles;i++){
-            let p =new FlowerParticle()
+        this.particles = []
+        for (let i = 0; i < this.numParticles; i++) {
+            let p = new FlowerParticle()
             this.particles.push(p)
         }
-        this.flowerModel.numInstances =this.numParticles;
-        this.flowerModel.z =-0.2
-        this.particles.sort((a,b)=>{
+        this.flowerModel.numInstances = this.numParticles;
+        this.flowerModel.z = -0.2
+        this.particles.sort((a, b) => {
 
-            if(a.position.z>b.position.z)return 1;
+            if (a.position.z > b.position.z) return 1;
             return -1
 
         })
     }
 
     private updateParticles() {
-        let delta =Timer.delta
+        let delta = Timer.delta
 
 
-        for(let i=0;i<this.numParticles;i++){
+        for (let i = 0; i < this.numParticles; i++) {
 
-            let  p= this.particles[i]
-            p.update( delta,this.slidePos)
-            this.posArr[i*3] =p.position.x
-            this.posArr[i*3+1] =p.position.y
-            this.posArr[i*3+2] =p.position.z
+            let p = this.particles[i]
+            p.update(delta, this.slidePos)
+            this.posArr[i * 3] = p.position.x
+            this.posArr[i * 3 + 1] = p.position.y
+            this.posArr[i * 3 + 2] = p.position.z
 
-            this.dataArr[i*2] =p.rotation;
-            this.dataArr[i*2+1] =p.type;
+            this.dataArr[i * 2] = p.rotation;
+            this.dataArr[i * 2 + 1] = p.type;
 
         }
         this.flowerModel.material.setUniform("progress", this.slidePos)
-        this.flowerModel.createBuffer(this.posArr,"instancePos")
-        this.flowerModel.createBuffer(this.dataArr,"instanceData")
+        this.flowerModel.createBuffer(this.posArr, "instancePos")
+        this.flowerModel.createBuffer(this.dataArr, "instanceData")
 
     }
 }

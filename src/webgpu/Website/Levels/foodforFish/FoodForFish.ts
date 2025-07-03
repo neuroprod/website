@@ -101,8 +101,7 @@ export default class FoodForFish extends NavigationLevel {
         this.fishMouth = SceneHandler.getSceneObject("FishMouth").model as Model
 
         let tl = gsap.timeline({
-            repeat: -1,
-            repeatDelay: 3
+            delay:5
         })
 
 

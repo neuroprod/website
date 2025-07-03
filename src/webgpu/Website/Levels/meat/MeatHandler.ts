@@ -31,22 +31,19 @@ export default class MeatHandler extends IndexedItem{
         this.copy =[]
         this.copy.push("What the fuck is up with this website?")
         this.copy.push("Yea, this website sucks!")
-      this.copy.push("I can't believe someone spend time on this crap.")
+      this.copy.push("I can't believe someone wasted\nhis time on this crap.")
         //this.copy.push("And the scrolling\nthing that they do?")
 
         //this.copy.push("I want some white space!")
         //this.copy.push("I want a fancy font!")
 
         this.copy.push("Hey You!")
-
+ this.copy.push("Yes, You!")
         this.copy.push("You should edit it!")
         this.copy.push("You can make it better!")
         this.copy.push("Much better!")
         this.copy.push(" Do it!")
-        this.copy.push("Yea, you should do it!")
         this.copy.push(" Fix it!")
-        this.copy.push(" Do it!")
-        this.copy.push("Do it now!")
         this.copy.push("Push the button!")
         this.copy.push("Destroy it all!")
 
@@ -113,7 +110,7 @@ gsap.to(this.button,{sx:1,sy:1,sz:1,ease:"elastic.out"})
             this.time =2.5;
             this.indexCount++
             if(this.indexCount==this.copy.length){
-                this.indexCount-=10
+                this.indexCount-=6
             }
 
         }
