@@ -125,7 +125,7 @@ private numParticles =40
 
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
-        GameModel.gameCamera.setLockedView(new Vector3(0, 0.0, 0), new Vector3(0, 0.0, 1))
+        GameModel.gameCamera.setLockedView(new Vector3(0, 0.05, 0), new Vector3(0, 0.05, 1))
 
         GameModel.gameRenderer.setLevelType("website")
 
