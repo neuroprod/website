@@ -3,7 +3,7 @@ import NavigationLevel from "../NavigationLevel.ts";
 import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import GameModel from "../../GameModel.ts";
-import {Vector2, Vector3} from "@math.gl/core";
+import { Vector2, Vector3 } from "@math.gl/core";
 import ArduinoGamePixels from "./ArduinoGamePixels.ts";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
 import SoundHandler from "../../SoundHandler.ts";
@@ -15,7 +15,7 @@ import Timer from "../../../lib/Timer.ts";
 
 
 
-export default class ArduinoGame extends NavigationLevel{
+export default class ArduinoGame extends NavigationLevel {
     private arduinoGame: ArduinoGamePixels;
     private video!: VideoPlayer;
     private arduino!: SceneObject3D;
@@ -39,7 +39,7 @@ export default class ArduinoGame extends NavigationLevel{
 
         });
         SoundHandler.setBackgroundSounds(["sound/neighbourhood.mp3"])
-        if(!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/game.mp4", new Vector2(1920, 1080))
+        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/game.mp4", new Vector2(1920, 1080))
 
     }
 
@@ -50,7 +50,7 @@ export default class ArduinoGame extends NavigationLevel{
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
-        GameModel.gameCamera.setLockedView(new Vector3(0, 0.25, 0), new Vector3(0, 0.25, 0.65))
+        GameModel.gameCamera.setLockedViewZoom(new Vector3(0, 0.25, 0), new Vector3(0, 0.25, 0.65))
 
         GameModel.gameRenderer.setLevelType("website")
 
@@ -68,7 +68,7 @@ export default class ArduinoGame extends NavigationLevel{
         m.x = 0.01
         m.y = 0.04
         m.rx = Math.PI / 2
-        m.rz =0.01
+        m.rz = 0.01
         fv.addChild(m)
         GameModel.gameRenderer.addModel(m)
         this.arduino = SceneHandler.getSceneObject("arduino")
@@ -77,8 +77,8 @@ export default class ArduinoGame extends NavigationLevel{
     public update() {
         super.update()
         this.arduinoGame.update()
-        if(this.arduino.model)
-        this.arduino.model.rz +=Timer.delta
+        if (this.arduino.model)
+            this.arduino.model.rz += Timer.delta
 
     }
 

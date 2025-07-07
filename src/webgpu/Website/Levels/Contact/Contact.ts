@@ -3,7 +3,7 @@ import NavigationLevel from "../NavigationLevel.ts";
 import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import GameModel from "../../GameModel.ts";
-import {Vector3} from "@math.gl/core";
+import { Vector3 } from "@math.gl/core";
 import Model from "../../../lib/model/Model.ts";
 import Quad from "../../../lib/mesh/geometry/Quad.ts";
 import FullScreenStretchMaterial from "../../backgroundShaders/FullscreenStretchMaterial.ts";
@@ -49,11 +49,11 @@ export default class Contact extends NavigationLevel {
     private overTexture!: TextureLoader;
     private overModel!: Model;
     private ray2 = new Ray()
-    private prevSeek: number=100000;
+    private prevSeek: number = 100000;
     private contactTextMesh!: FontMesh;
 
-    private contactTextArr=["Contact me!","For great\nprojects!","cool visuals!","Happy CLients!","Macaroni Art!"]
-    private contactTextArrCount =0
+    private contactTextArr = ["Contact me!", "For great\nprojects!", "cool visuals!", "Happy CLients!", "Macaroni Art!"]
+    private contactTextArrCount = 0
     constructor() {
         super();
 
@@ -95,7 +95,7 @@ export default class Contact extends NavigationLevel {
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
-        GameModel.gameCamera.setLockedView(new Vector3(0.05, 0.25, 0), new Vector3(0.05, 0.25, 0.60))
+        GameModel.gameCamera.setLockedViewZoom(new Vector3(0.05, 0.25, 0), new Vector3(0.05, 0.25, 0.60))
 
         GameModel.gameRenderer.setLevelType("website")
 
@@ -121,9 +121,9 @@ export default class Contact extends NavigationLevel {
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
 
         this.contactText = SceneHandler.getSceneObject("contact")
-if(this.contactText.model){
-    this.contactTextMesh = this.contactText.model.mesh as FontMesh
-}
+        if (this.contactText.model) {
+            this.contactTextMesh = this.contactText.model.mesh as FontMesh
+        }
         this.line1 = SceneHandler.getSceneObject("line1")
 
 
@@ -148,33 +148,33 @@ if(this.contactText.model){
             this.contactText.model.x = -0.035;
             this.contactText.model.y = +0.01;
         }
-       this.prevSeek =10000
-        this.contactTextArrCount =0;
+        this.prevSeek = 10000
+        this.contactTextArrCount = 0;
     }
 
     public update() {
         super.update()
-        let seek =SoundHandler.bgSounds[0].seek()
-        if(seek<this.prevSeek){
-            this.beatCount =0
+        let seek = SoundHandler.bgSounds[0].seek()
+        if (seek < this.prevSeek) {
+            this.beatCount = 0
 
 
 
         }
-        this.prevSeek =seek;
+        this.prevSeek = seek;
         let s = Math.round(SoundHandler.bgSounds[0].seek() * 1000) + 200
         s %= 462;
         s /= 462;
         if (s < this.prevBeat) {
 
             this.beatCount++
-            this.beatCount%=8
-            if (this.beatCount ==0){
+            this.beatCount %= 8
+            if (this.beatCount == 0) {
                 this.contactTextArrCount++
-                this.contactTextArrCount %=this.contactTextArr.length
-                this.contactTextMesh.setText(this.contactTextArr[this.contactTextArrCount].toUpperCase(),  ProjectData.font)
+                this.contactTextArrCount %= this.contactTextArr.length
+                this.contactTextMesh.setText(this.contactTextArr[this.contactTextArrCount].toUpperCase(), ProjectData.font)
             }
-                this.beat()
+            this.beat()
         }
         this.prevBeat = s;
         if (this.beatCount < 5) {
@@ -207,21 +207,21 @@ if(this.contactText.model){
         this.line1.rz -= 0.2
 
         this.arms.y = this.armsY + 0.01
-        gsap.to(this.arms, {y: this.armsY, duration: 0.4})
+        gsap.to(this.arms, { y: this.armsY, duration: 0.4 })
 
 
         if (this.isLeftLeg) {
-            gsap.to(this.leg1, {y: this.leg1Y + 0.01, duration: 0.2})
-            gsap.to(this.leg2, {y: this.leg2Y, duration: 0.2})
+            gsap.to(this.leg1, { y: this.leg1Y + 0.01, duration: 0.2 })
+            gsap.to(this.leg2, { y: this.leg2Y, duration: 0.2 })
         } else {
-            gsap.to(this.leg1, {y: this.leg1Y, duration: 0.2})
-            gsap.to(this.leg2, {y: this.leg2Y + 0.01, duration: 0.2})
+            gsap.to(this.leg1, { y: this.leg1Y, duration: 0.2 })
+            gsap.to(this.leg2, { y: this.leg2Y + 0.01, duration: 0.2 })
         }
         this.isLeftLeg = !this.isLeftLeg;
         this.contactText.rz = Math.random() - 0.5
         this.contactText.sx = this.contactText.sy = 2
 
-        gsap.to(this.contactText, {sy: 1, sx: 1, duration: 0.2})
+        gsap.to(this.contactText, { sy: 1, sx: 1, duration: 0.2 })
 
         let beat4 = this.beatCount % 4
         for (let i = 0; i < 4; i++) {

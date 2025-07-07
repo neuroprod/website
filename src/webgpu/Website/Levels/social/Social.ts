@@ -3,7 +3,7 @@ import NavigationLevel from "../NavigationLevel.ts";
 import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import GameModel from "../../GameModel.ts";
-import {Vector3} from "@math.gl/core";
+import { Vector3 } from "@math.gl/core";
 import Model from "../../../lib/model/Model.ts";
 import Quad from "../../../lib/mesh/geometry/Quad.ts";
 
@@ -23,10 +23,10 @@ export default class Social extends NavigationLevel {
 
     private pupilLeft!: SceneObject3D;
     private pupilRight!: SceneObject3D;
-    lx =0.01074893674930702;
-    ly =0.06351309939657937;
-    rx= 0.13538324159630588;
-    ry =0.08235943682215295;
+    lx = 0.01074893674930702;
+    ly = 0.06351309939657937;
+    rx = 0.13538324159630588;
+    ry = 0.08235943682215295;
     constructor() {
         super();
 
@@ -43,7 +43,7 @@ export default class Social extends NavigationLevel {
             LoadHandler.stopLoading()
 
         });
-SoundHandler.setBackgroundSounds(["sound/looperman-l-2921269-0145176-delayed-mallet-riff-1.mp3"])
+        SoundHandler.setBackgroundSounds(["sound/looperman-l-2921269-0145176-delayed-mallet-riff-1.mp3"])
     }
 
     configScene() {
@@ -60,11 +60,11 @@ SoundHandler.setBackgroundSounds(["sound/looperman-l-2921269-0145176-delayed-mal
 
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
 
-        this.bgModel.z =-100;
+        this.bgModel.z = -100;
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
-        GameModel.gameCamera.setLockedView(new Vector3(0, 0.0, 0), new Vector3(0, 0.0, 0.65))
+        GameModel.gameCamera.setLockedViewZoom(new Vector3(0, 0.0, 0), new Vector3(0, 0.0, 0.65))
 
         GameModel.gameRenderer.setLevelType("website")
 
@@ -86,12 +86,12 @@ SoundHandler.setBackgroundSounds(["sound/looperman-l-2921269-0145176-delayed-mal
                     ease: "elastic.out",
                     duration: 0.5
                 })
-               // SoundHandler.playFart()
+                // SoundHandler.playFart()
             }
             link.onRollOut = () => {
-GameModel.renderer.setCursor(false)
+                GameModel.renderer.setCursor(false)
                 gsap.killTweensOf(link.sceneObject)
-                gsap.to(link.sceneObject, {sx: 1.0, sy: 1.0, rz: 0, ease: "back.out", duration: 0.1})
+                gsap.to(link.sceneObject, { sx: 1.0, sy: 1.0, rz: 0, ease: "back.out", duration: 0.1 })
 
             }
 
@@ -107,10 +107,10 @@ GameModel.renderer.setCursor(false)
         let t = Timer.time;
         this.bgModel.material.setUniform("ratio", GameModel.renderer.ratio)
         this.bgModel.material.setUniform("time", t)
-        this.pupilLeft.x = this.lx +Math.cos(t)*0.01
-        this.pupilRight.x = this.rx +Math.sin(t+1)*0.01
-        this.pupilLeft.y = this.ly +Math.cos(t+3)*0.005
-        this.pupilRight.y = this.ry +Math.sin(t+2)*0.005
+        this.pupilLeft.x = this.lx + Math.cos(t) * 0.01
+        this.pupilRight.x = this.rx + Math.sin(t + 1) * 0.01
+        this.pupilLeft.y = this.ly + Math.cos(t + 3) * 0.005
+        this.pupilRight.y = this.ry + Math.sin(t + 2) * 0.005
 
     }
 

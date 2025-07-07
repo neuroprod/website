@@ -3,7 +3,7 @@ import NavigationLevel from "../NavigationLevel.ts";
 import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import GameModel from "../../GameModel.ts";
-import {Matrix4, Vector2, Vector3} from "@math.gl/core";
+import { Matrix4, Vector2, Vector3 } from "@math.gl/core";
 import Model from "../../../lib/model/Model.ts";
 import Quad from "../../../lib/mesh/geometry/Quad.ts";
 import GBufferFullScreenStretchMaterial from "../../backgroundShaders/GBufferFullScreenStretchMaterial.ts";
@@ -19,53 +19,53 @@ import LevelHandler from "../LevelHandler.ts";
 import TextMesh from "../../../lib/twoD/TextMesh.ts";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
 import gsap from "gsap";
-class LineParticle{
+class LineParticle {
 
-    private position: Vector3 =new Vector3();
+    private position: Vector3 = new Vector3();
 
-    private rotationY=Math.random()-0.5;
-    private rotationX=Math.random()*7;
-    private m:Matrix4 =new Matrix4()
+    private rotationY = Math.random() - 0.5;
+    private rotationX = Math.random() * 7;
+    private m: Matrix4 = new Matrix4()
     constructor() {
-        this.position.x =Math.random()*5
+        this.position.x = Math.random() * 5
     }
-    getMatrix(){
+    getMatrix() {
         this.m.identity()
-        this.m.rotateY( this.rotationY)
-        this.m.rotateZ( this.rotationX)
+        this.m.rotateY(this.rotationY)
+        this.m.rotateZ(this.rotationX)
 
         this.m.translate(this.position)
         return this.m;
     }
-    update(delta:number){
-       this.position.x+=delta;
-       if(this.position.x >5){
-           this.position.x=0
-      this.rotationY=(Math.random()-0.5)*100;
-           this.rotationX=Math.random()*100;
-       }
+    update(delta: number) {
+        this.position.x += delta;
+        if (this.position.x > 5) {
+            this.position.x = 0
+            this.rotationY = (Math.random() - 0.5) * 100;
+            this.rotationX = Math.random() * 100;
+        }
 
     }
 
 }
-export default class Friends extends NavigationLevel{
+export default class Friends extends NavigationLevel {
 
 
     private rossTexture!: TextureLoader;
     private rossModel!: Model;
     private lineModel!: Model;
-    private particles:Array<LineParticle> =[]
-    private rossRot: number=-1;
+    private particles: Array<LineParticle> = []
+    private rossRot: number = -1;
     private textMesh!: TextMesh;
-    private texts: Array<SceneObject3D> =[];
-    private textCount: number=0;
-private deform:number =0;
+    private texts: Array<SceneObject3D> = [];
+    private textCount: number = 0;
+    private deform: number = 0;
     private backgroundTexture!: TextureLoader;
     private bgModel!: Model;
     private rossTexture2!: TextureLoader;
     constructor() {
         super();
-        for(let l = 0;l<10;l++){
+        for (let l = 0; l < 10; l++) {
             let p = new LineParticle()
             this.particles.push(p)
         }
@@ -86,10 +86,10 @@ private deform:number =0;
 
 
 
-        this.rossTexture = new TextureLoader(GameModel.renderer,"ross.jpg")
-        this.rossTexture2 = new TextureLoader(GameModel.renderer,"ross2.jpg")
+        this.rossTexture = new TextureLoader(GameModel.renderer, "ross.jpg")
+        this.rossTexture2 = new TextureLoader(GameModel.renderer, "ross2.jpg")
         LoadHandler.startLoading()
-        this.rossTexture.onComplete =()=>{
+        this.rossTexture.onComplete = () => {
             LoadHandler.stopLoading()
         }
 
@@ -110,7 +110,7 @@ private deform:number =0;
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
-        GameModel.gameCamera.setLockedView(new Vector3(0, 0.0, 0), new Vector3(0, 0.0, 0.65))
+        GameModel.gameCamera.setLockedViewZoom(new Vector3(0, 0.0, 0), new Vector3(0, 0.0, 0.65))
         GameModel.gameCamera.setMouseInput(0.001)
         GameModel.gameRenderer.setLevelType("website")
 
@@ -123,84 +123,84 @@ private deform:number =0;
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
 
 
-let tso  =SceneHandler.getSceneObject("text1")
-        if(tso.model){
-            this.textMesh =tso.model.mesh as TextMesh;
-           // this.textMesh.setText()
+        let tso = SceneHandler.getSceneObject("text1")
+        if (tso.model) {
+            this.textMesh = tso.model.mesh as TextMesh;
+            // this.textMesh.setText()
         }
 
 
-        this.rossModel = new Model(GameModel.renderer,"ross")
-        this.rossModel.mesh =GameModel.glft.meshes[0]
-        this.rossModel.material =new RossMaterial(GameModel.renderer,"ross")
-        this.rossModel.material.setTexture("colorTexture",  this.rossTexture)
-        this.rossModel.material.setTexture("colorTexture2",  this.rossTexture2)
-        this.rossModel.material.setTexture("irradiance",  GameModel.renderer.getTexture("irradiance.hdr"))
-        this.rossModel.material.setTexture("specular",  GameModel.renderer.getTexture("specular.hdr"))
+        this.rossModel = new Model(GameModel.renderer, "ross")
+        this.rossModel.mesh = GameModel.glft.meshes[0]
+        this.rossModel.material = new RossMaterial(GameModel.renderer, "ross")
+        this.rossModel.material.setTexture("colorTexture", this.rossTexture)
+        this.rossModel.material.setTexture("colorTexture2", this.rossTexture2)
+        this.rossModel.material.setTexture("irradiance", GameModel.renderer.getTexture("irradiance.hdr"))
+        this.rossModel.material.setTexture("specular", GameModel.renderer.getTexture("specular.hdr"))
         GameModel.gameRenderer.postLightModelRenderer.addModel(this.rossModel)
-        this.rossModel.rx =Math.PI/2
-        this.rossModel.setPosition(0,0,-2)
+        this.rossModel.rx = Math.PI / 2
+        this.rossModel.setPosition(0, 0, -2)
         this.rossModel.setScaler(0.8)
-        this.rossModel.ry=-1
+        this.rossModel.ry = -1
 
-        this.lineModel =new Model(GameModel.renderer,"lines");
-        this.lineModel.material =new LineMaterial(GameModel.renderer,"line")
-        this.lineModel.mesh =this.getLineMesh()
+        this.lineModel = new Model(GameModel.renderer, "lines");
+        this.lineModel.material = new LineMaterial(GameModel.renderer, "line")
+        this.lineModel.mesh = this.getLineMesh()
         GameModel.gameRenderer.postLightModelRenderer.addModel(this.lineModel)
-        this.lineModel.setPosition(0,0.3,-2)
-let t =[0.8,Math.random()*Math.PI*2,Math.random()*Math.PI*2]
-       let d = new Float32Array(t)
-        this.lineModel.createBuffer(d,"aTrans")
-        this.rossRot =Math.PI*2-1;
-        for(let i=1;i<5;i++){
-            let so =  SceneHandler.getSceneObject("text"+i)
-            if(i!=1)so.hide()
-            this.texts.push( SceneHandler.getSceneObject("text"+i))
+        this.lineModel.setPosition(0, 0.3, -2)
+        let t = [0.8, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2]
+        let d = new Float32Array(t)
+        this.lineModel.createBuffer(d, "aTrans")
+        this.rossRot = Math.PI * 2 - 1;
+        for (let i = 1; i < 5; i++) {
+            let so = SceneHandler.getSceneObject("text" + i)
+            if (i != 1) so.hide()
+            this.texts.push(SceneHandler.getSceneObject("text" + i))
 
 
         }
 
-        this.textCount =-1;
-        this.deform =0
+        this.textCount = -1;
+        this.deform = 0
 
     }
 
     public update() {
         super.update()
-let rRot = this.rossRot;
-        this.rossRot += Timer.delta*0.5;
-        this.rossRot%=Math.PI*2
+        let rRot = this.rossRot;
+        this.rossRot += Timer.delta * 0.5;
+        this.rossRot %= Math.PI * 2
 
-        if(this.rossRot<rRot){
+        if (this.rossRot < rRot) {
 
             this.switchText()
         }
 
-        this.rossModel.ry =this.rossRot
-        this.rossModel.material.setUniform("mix",this.deform)
-        this.lineModel.material.setUniform("time",Timer.time*0.2)
+        this.rossModel.ry = this.rossRot
+        this.rossModel.material.setUniform("mix", this.deform)
+        this.lineModel.material.setUniform("time", Timer.time * 0.2)
 
 
-        this.lineModel.numInstances =this.particles.length;
-        let matrices0:Array<number> =[];
-        let matrices1:Array<number> =[];
-        let matrices2:Array<number> =[];
-        let matrices3:Array<number> =[];
+        this.lineModel.numInstances = this.particles.length;
+        let matrices0: Array<number> = [];
+        let matrices1: Array<number> = [];
+        let matrices2: Array<number> = [];
+        let matrices3: Array<number> = [];
 
-        for(let p of this.particles) {
+        for (let p of this.particles) {
             p.update(Timer.delta)
             let m = p.getMatrix();
-            matrices0 =matrices0.concat(m.getColumn(0));
-            matrices1 =matrices1.concat(m.getColumn(1));
-            matrices2 =matrices2.concat(m.getColumn(2));
-            matrices3 =matrices3.concat(m.getColumn(3));
+            matrices0 = matrices0.concat(m.getColumn(0));
+            matrices1 = matrices1.concat(m.getColumn(1));
+            matrices2 = matrices2.concat(m.getColumn(2));
+            matrices3 = matrices3.concat(m.getColumn(3));
         }
 
 
-        this.lineModel.createBuffer(new Float32Array(matrices0),"instancesMatrix0");
-        this.lineModel.createBuffer(new Float32Array(matrices1),"instancesMatrix1");
-        this.lineModel.createBuffer(new Float32Array(matrices2),"instancesMatrix2");
-        this.lineModel.createBuffer(new Float32Array(matrices3),"instancesMatrix3");
+        this.lineModel.createBuffer(new Float32Array(matrices0), "instancesMatrix0");
+        this.lineModel.createBuffer(new Float32Array(matrices1), "instancesMatrix1");
+        this.lineModel.createBuffer(new Float32Array(matrices2), "instancesMatrix2");
+        this.lineModel.createBuffer(new Float32Array(matrices3), "instancesMatrix3");
 
 
 
@@ -215,7 +215,7 @@ let rRot = this.rossRot;
         this.rossTexture2.destroy()
         SoundHandler.killBackgroundSounds()
 
-        this.texts =[]
+        this.texts = []
 
 
     }
@@ -223,10 +223,10 @@ let rRot = this.rossRot;
 
     private getLineMesh() {
 
-        let m =new Mesh(GameModel.renderer)
+        let m = new Mesh(GameModel.renderer)
 
-        let widthSegments =3;
-        let heightSegments =20;
+        let widthSegments = 3;
+        let heightSegments = 20;
 
 
         let index = 0;
@@ -251,13 +251,13 @@ let rRot = this.rossRot;
             for (let ix = 0; ix <= widthSegments; ix++) {
                 const u = ix / widthSegments;
 
-                vertex.x =v ;
-                vertex.y = Math.cos( u*Math.PI*2 );
-                vertex.z = Math.sin( u*Math.PI*2) ;
+                vertex.x = v;
+                vertex.y = Math.cos(u * Math.PI * 2);
+                vertex.z = Math.sin(u * Math.PI * 2);
 
 
                 vertices.push(vertex.x, vertex.y, vertex.z);
-                vertex.y =0
+                vertex.y = 0
                 normal.copy(vertex).normalize();
                 normals.push(normal.x, normal.y, normal.z);
 
@@ -273,7 +273,7 @@ let rRot = this.rossRot;
                 const b = grid[iy][ix];
                 const c = grid[iy + 1][ix];
                 const d = grid[iy + 1][ix + 1];
-                 indices.push(a, d, b);
+                indices.push(a, d, b);
                 indices.push(b, d, c);
             }
         }
@@ -287,14 +287,16 @@ let rRot = this.rossRot;
 
     private switchText() {
 
-        if(this.textCount>-1 && this.textCount<3)this.texts[this.textCount].hide()
+        if (this.textCount > -1 && this.textCount < 3) this.texts[this.textCount].hide()
         this.textCount++
-        if(this.textCount<4) this.texts[this.textCount].show()
-        if(this.textCount==3){
-            gsap.to(this ,{deform:1,duration:60,ease:"power2.inOut",delay:0,onUpdate:()=>{
+        if (this.textCount < 4) this.texts[this.textCount].show()
+        if (this.textCount == 3) {
+            gsap.to(this, {
+                deform: 1, duration: 60, ease: "power2.inOut", delay: 0, onUpdate: () => {
 
-                    this.rossModel.material.setUniform("mix",this.deform)
-                }})
+                    this.rossModel.material.setUniform("mix", this.deform)
+                }
+            })
 
 
         }

@@ -45,7 +45,7 @@ private letters:Array<SceneObject3D> =[]
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
-        GameModel.gameCamera.setLockedView(new Vector3(0.01, 0.25, 0), new Vector3(0.01, 0.25, 0.65))
+        GameModel.gameCamera.setLockedViewZoom(new Vector3(0.01, 0.25, 0), new Vector3(0.01, 0.25, 0.65))
 
         GameModel.gameRenderer.setLevelType("website")
         this.prevBeat =-1

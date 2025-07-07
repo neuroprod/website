@@ -39,12 +39,12 @@ class LevelHandler {
 
     public currentLevel!: BaseLevel | null;
 
-public  navigationLevels:Array<string> =["Worries","Me","Smullen","Food","Clients","Peeler","Shaders","Robot","This","Invasion","Friends","Lab101","Internet","Social","Contact"]
+public  navigationLevels:Array<string> =["Worries","Me","Smullen","Food","Clients","Peeler","Shaders","Robot","This","Invasion","Friends","Lab101","Macaroni","Social","Contact"]
     private currentLevelName: string="";
     init() {
 
         this.addLevel("Home", new StartLevel())
-            this.addLevel("Internet", new Internet())
+            this.addLevel("Macaroni", new Internet())
         this.addLevel("Me", new GraphicDev())
         this.addLevel("Peeler", new Peeler())
         this.addLevel("Shaders", new Shaders())

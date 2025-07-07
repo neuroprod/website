@@ -41,7 +41,7 @@ export default class Meat extends NavigationLevel{
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
-        GameModel.gameCamera.setLockedView(new Vector3(0, 0.23, 0), new Vector3(0, 0.28, 0.65))
+        GameModel.gameCamera.setLockedViewZoom(new Vector3(0, 0.23, 0), new Vector3(0, 0.28, 0.65))
 
         GameModel.gameRenderer.setLevelType("website")
 

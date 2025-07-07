@@ -1,4 +1,4 @@
-import {Vector3} from "@math.gl/core";
+import { Vector3 } from "@math.gl/core";
 import NavigationLevel from "../NavigationLevel.ts";
 import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
@@ -79,12 +79,12 @@ export default class Clients extends NavigationLevel {
         this.overModel.mesh = new Quad(GameModel.renderer)
         this.overModel.material = new FullScreenStretchMaterial(GameModel.renderer, "over")
         this.overModel.material.setTexture("colorTexture", this.overTexture)
-        this.overModel.z =-0.01
+        this.overModel.z = -0.01
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.overModel)
 
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
-        GameModel.gameCamera.setLockedView(new Vector3(0, 0.25, 0), new Vector3(0, 0.25, 0.65))
+        GameModel.gameCamera.setLockedViewZoom(new Vector3(0, 0.25, 0), new Vector3(0, 0.25, 0.65))
 
         GameModel.gameRenderer.setLevelType("website")
         let text = SceneHandler.getSceneObject("text")
