@@ -3,10 +3,10 @@ import RenderPass from "../../lib/RenderPass.ts";
 import RenderTexture from "../../lib/textures/RenderTexture.ts";
 import ColorAttachment from "../../lib/textures/ColorAttachment.ts";
 import Renderer from "../../lib/Renderer.ts";
-import {TextureFormat} from "../../lib/WebGPUConstants.ts";
+import { TextureFormat } from "../../lib/WebGPUConstants.ts";
 import DepthStencilAttachment from "../../lib/textures/DepthStencilAttachment.ts";
 import Camera from "../../lib/Camera.ts";
-import {Textures} from "../../data/Textures.ts";
+import { Textures } from "../../data/Textures.ts";
 
 
 export default class GBufferRenderPass extends RenderPass {
@@ -22,11 +22,11 @@ export default class GBufferRenderPass extends RenderPass {
 
 
 
-    constructor(renderer: Renderer,camera:Camera) {
+    constructor(renderer: Renderer, camera: Camera) {
 
         super(renderer, "GbufferRenderPass");
 
-        this.modelRenderer = new ModelRenderer(renderer,"modelRenderer",camera)
+        this.modelRenderer = new ModelRenderer(renderer, "modelRenderer", camera)
 
         this.colorTarget = new RenderTexture(renderer, Textures.GCOLOR, {
             format: TextureFormat.RGBA8Unorm,
@@ -35,7 +35,7 @@ export default class GBufferRenderPass extends RenderPass {
 
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
         });
-        this.colorAttachment = new ColorAttachment(this.colorTarget);
+        this.colorAttachment = new ColorAttachment(this.colorTarget, { clearValue: { r: 1.0, g: 0.0, b: 0.0, a: 0.0 } });
 
 
         this.normalTarget = new RenderTexture(renderer, Textures.GNORMAL, {

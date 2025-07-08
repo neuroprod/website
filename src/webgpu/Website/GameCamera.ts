@@ -44,7 +44,7 @@ export default class GameCamera {
 
     private mouseNorm = new Vector2()
     private mouseMoveScale = 0.04
-    zoomTL: gsap.core.Timeline;
+    zoomTL!: gsap.core.Timeline;
 
 
     constructor(renderer: Renderer, camera: Camera) {
