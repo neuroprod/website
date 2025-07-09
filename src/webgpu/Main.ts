@@ -8,16 +8,16 @@ import ModelMaker from "./modelMaker/ModelMaker.ts";
 import MouseListener from "./lib/MouseListener.ts";
 import SceneEditor from "./sceneEditor/SceneEditor.ts";
 import SDFFont from "./lib/UI/draw/SDFFont.ts";
-import {popMainMenu, pushMainMenu} from "./UI/MainMenu.ts";
-import AppState, {AppStates} from "./AppState.ts";
-import {Icons} from "./UI/Icons.ts";
-import {addMainMenuToggleButton} from "./UI/MainMenuToggleButton.ts";
+import { popMainMenu, pushMainMenu } from "./UI/MainMenu.ts";
+import AppState, { AppStates } from "./AppState.ts";
+import { Icons } from "./UI/Icons.ts";
+import { addMainMenuToggleButton } from "./UI/MainMenuToggleButton.ts";
 import TextureLoader from "./lib/textures/TextureLoader.ts";
 
-import {addMainMenuTextButton} from "./UI/MainMenuTextButton.ts";
+import { addMainMenuTextButton } from "./UI/MainMenuTextButton.ts";
 import UI_I from "./lib/UI/UI_I.ts";
-import {addMainMenuDivider} from "./UI/MainMenuDivider.ts";
-import {Textures} from "./data/Textures.ts";
+import { addMainMenuDivider } from "./UI/MainMenuDivider.ts";
+import { Textures } from "./data/Textures.ts";
 import Camera from "./lib/Camera.ts";
 import GameRenderer from "./render/GameRenderer.ts";
 import Game from "./Website/Game.ts";
@@ -85,7 +85,7 @@ export default class Main {
         if (location.hostname === "localhost") {
             GameModel.debug = true;
         }
-      
+
     }
 
     public preload() {
@@ -97,10 +97,11 @@ export default class Main {
         this.renderer.setCanvasColorAttachment(this.canvasRenderPass.canvasColorAttachment);
 
         this.preloader = new PreLoader((n) => {
-                //onPreload
-            }, this.init.bind(this)
+            //onPreload
+        }, this.init.bind(this)
         );
         //Todo handle bitmap preload
+        new TextureLoader(this.renderer, "wing.png")
         new TextureLoader(this.renderer, "bezierPoints.png")
         new TextureLoader(this.renderer, Textures.MAINFONT)
         new TextureLoader(this.renderer, Textures.BLUE_NOISE)
@@ -109,11 +110,11 @@ export default class Main {
         new TextureLoader(this.renderer, Textures.SPACE_ARM)
         new TextureLoader(this.renderer, Textures.SPACE_SHIP)
         new TextureLoader(this.renderer, Textures.SPACE_HEAD)
-        let tl =new HDRTextureLoader()
-        tl.loadURL(this.renderer,"specular.hdr").then()
+        let tl = new HDRTextureLoader()
+        tl.loadURL(this.renderer, "specular.hdr").then()
 
-        let tl2 =new HDRTextureLoader()
-        tl2.loadURL(this.renderer,"irradiance.hdr").then()
+        let tl2 = new HDRTextureLoader()
+        tl2.loadURL(this.renderer, "irradiance.hdr").then()
         FontPool.loadFont(this.renderer, this.preloader, "bold")
 
         // this.modelLoader = new ModelLoader(this.renderer, this.preloader)
@@ -132,7 +133,7 @@ export default class Main {
             this.preloader.stopLoad()
         });
 
-        this.gameCopy = new JsonLoader("copy",this.preloader)
+        this.gameCopy = new JsonLoader("copy", this.preloader)
 
 
     }
@@ -140,8 +141,8 @@ export default class Main {
 
     private init() {
 
-   //   SceneData.parseSceneData();
-        GameModel.gameCopy= this.gameCopy.data
+        //   SceneData.parseSceneData();
+        GameModel.gameCopy = this.gameCopy.data
 
 
         this.camera = new Camera(this.renderer);
@@ -179,8 +180,8 @@ export default class Main {
         GameModel.setMainState = this.setMainState.bind(this)
 
 
-        GameModel.glft.meshes[0].setAttribute("aPos2",GameModel.glft2.meshes[0].positions)
-        GameModel.glft.meshes[0].setAttribute("aNormal2",GameModel.glft2.meshes[0].normals)
+        GameModel.glft.meshes[0].setAttribute("aPos2", GameModel.glft2.meshes[0].positions)
+        GameModel.glft.meshes[0].setAttribute("aNormal2", GameModel.glft2.meshes[0].normals)
 
 
 
