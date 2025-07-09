@@ -1,24 +1,33 @@
-import {BaseLevel} from "../BaseLevel.ts";
+import { BaseLevel } from "../BaseLevel.ts";
 import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import sceneHandler from "../../../data/SceneHandler.ts";
 import GameModel from "../../GameModel.ts";
-import {Vector3} from "@math.gl/core";
+import { Vector3 } from "@math.gl/core";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
 import DripTest from "./drip/DripTest.ts";
 import KrisWebsite from "./KrisWebsite.ts";
 import LevelHandler from "../LevelHandler.ts";
 import NavigationLevel from "../NavigationLevel.ts";
 import SoundHandler from "../../SoundHandler.ts";
+import ButterFlie from "./butterflies/ButterFlie.ts";
 
 export class GraphicDev extends NavigationLevel {
     private kris!: SceneObject3D;
     private driptest!: DripTest;
     private krisWebsite!: KrisWebsite;
+    butterFlys: Array<ButterFlie> = [];
 
     constructor() {
         super();
-        this.driptest = new DripTest()
+        this.driptest = new DripTest();
+
+        for (let i = 0; i < 10; i++) {
+            this.butterFlys.push(new ButterFlie());
+
+
+        }
+
     }
 
 
@@ -42,6 +51,11 @@ export class GraphicDev extends NavigationLevel {
         LoadHandler.onComplete = () => {
         }
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
+        for (let b of this.butterFlys) {
+            GameModel.gameRenderer.addModel(b.model)
+            GameModel.gameRenderer.shadowMapPass.modelRenderer.addModel(b.model)
+        }
+
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
         GameModel.gameCamera.setLockedViewZoom(new Vector3(0, 0.25, 0), new Vector3(0, 0.25, 0.65))
@@ -71,11 +85,14 @@ export class GraphicDev extends NavigationLevel {
         super.update()
         this.driptest.update()
 
+        for (let b of this.butterFlys) {
+            b.update()
+        }
 
     }
 
     destroy() {
-      super.destroy()
+        super.destroy()
         SoundHandler.killBackgroundSounds()
     }
 

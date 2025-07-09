@@ -4,7 +4,7 @@ import CanvasRenderPass from "../CanvasRenderPass.ts";
 import GBufferRenderPass from "./GBuffer/GBufferRenderPass.ts";
 import DebugTextureMaterial from "./debug/DebugTextureMaterial.ts";
 import Blit from "../lib/blit/Blit.ts";
-import {Textures} from "../data/Textures.ts";
+import { Textures } from "../data/Textures.ts";
 import SelectItem from "../lib/UI/math/SelectItem.ts";
 import UI from "../lib/UI/UI.ts";
 import LightRenderPass from "./light/LightRenderPass.ts";
@@ -41,7 +41,7 @@ export default class GameRenderer {
     private renderer: Renderer;
     private debugTextureMaterial: DebugTextureMaterial;
     private blitFinal: Blit;
-    private currentValue = {texture: "kka", type: 0}
+    private currentValue = { texture: "kka", type: 0 }
     private passSelect: Array<SelectItem> = []
     private lightPass: LightRenderPass;
     private sunLight: DirectionalLight;
@@ -93,15 +93,15 @@ export default class GameRenderer {
         this.debugTextureMaterial = new DebugTextureMaterial(this.renderer, "debugTextureMaterial")
         this.blitFinal = new Blit(renderer, "blitFinal", this.debugTextureMaterial)
         // this.passSelect.push(new SelectItem(Textures.DRIP, {texture: Textures.DRIP, type: 0}));
-        this.passSelect.push(new SelectItem(Textures.GRADING, {texture: Textures.GRADING, type: 0}));
-        this.passSelect.push(new SelectItem(Textures.MASK, {texture: Textures.MASK, type: 0}));
-        this.passSelect.push(new SelectItem(Textures.LIGHT, {texture: Textures.LIGHT, type: 0}));
-        this.passSelect.push(new SelectItem("video/test.mp4", {texture: "video/test.mp4", type: 0}));
-        this.passSelect.push(new SelectItem(Textures.SHADOW, {texture: Textures.SHADOW, type: 0}));
+        this.passSelect.push(new SelectItem(Textures.GRADING, { texture: Textures.GRADING, type: 0 }));
+        this.passSelect.push(new SelectItem(Textures.MASK, { texture: Textures.MASK, type: 0 }));
+        this.passSelect.push(new SelectItem(Textures.LIGHT, { texture: Textures.LIGHT, type: 0 }));
+        this.passSelect.push(new SelectItem("video/test.mp4", { texture: "video/test.mp4", type: 0 }));
+        this.passSelect.push(new SelectItem(Textures.SHADOW, { texture: Textures.SHADOW, type: 0 }));
         // this.passSelect.push(new SelectItem(Textures.SHADOW_DEPTH_BLUR, {texture: Textures.SHADOW_DEPTH_BLUR, type: 0}));
-        this.passSelect.push(new SelectItem(Textures.SHADOW_DEPTH, {texture: Textures.SHADOW_DEPTH, type: 2}));
+        this.passSelect.push(new SelectItem(Textures.SHADOW_DEPTH, { texture: Textures.SHADOW_DEPTH, type: 2 }));
 
-        this.passSelect.push(new SelectItem(Textures.DEPTH_BLUR, {texture: Textures.DEPTH_BLUR, type: 1}));
+        this.passSelect.push(new SelectItem(Textures.DEPTH_BLUR, { texture: Textures.DEPTH_BLUR, type: 1 }));
         // this.passSelect.push(new SelectItem(Textures.GTAO, {texture: Textures.GTAO, type: 1}));
         // this.passSelect.push(new SelectItem( Textures.GTAO_DENOISE, {texture: Textures.GTAO_DENOISE, type: 1}));
 
@@ -112,9 +112,9 @@ export default class GameRenderer {
         //this.passSelect.push(new SelectItem(Textures.DEPTH_BLUR_MIP0, {texture: Textures.DEPTH_BLUR_MIP0, type: 1}));
 
 
-        this.passSelect.push(new SelectItem(Textures.GCOLOR, {texture: Textures.GCOLOR, type: 0}));
-        this.passSelect.push(new SelectItem(Textures.GNORMAL, {texture: Textures.GNORMAL, type: 0}));
-        this.passSelect.push(new SelectItem(Textures.GDEPTH, {texture: Textures.GDEPTH, type: 0}));
+        this.passSelect.push(new SelectItem(Textures.GCOLOR, { texture: Textures.GCOLOR, type: 0 }));
+        this.passSelect.push(new SelectItem(Textures.GNORMAL, { texture: Textures.GNORMAL, type: 0 }));
+        this.passSelect.push(new SelectItem(Textures.GDEPTH, { texture: Textures.GDEPTH, type: 0 }));
 
 
         this.currentValue = this.passSelect[0].value;
@@ -202,7 +202,7 @@ export default class GameRenderer {
         if (m.transparent) {
             this.transparentModelRenderer.addModel(m)
         } else {
-
+            console.log(m.label)
             this.gBufferPass.modelRenderer.addModel(m)
 
         }
@@ -323,7 +323,7 @@ export default class GameRenderer {
 
         if (this.postLightPass.modelRenderer.models.length)
             this.postLightPass.modelRenderer.sortZ()
-            this.postLightPass.add()
+        this.postLightPass.add()
 
     }
 
@@ -340,12 +340,12 @@ export default class GameRenderer {
 
     tweenToNonBlack() {
 
-        gsap.to(this.gradingPass, {blackValue: 1, duration: 3})
+        gsap.to(this.gradingPass, { blackValue: 1, duration: 3 })
 
     }
 
     tweenToBlack() {
-        gsap.to(this.gradingPass, {blackValue: 0, duration: 0.5})
+        gsap.to(this.gradingPass, { blackValue: 0, duration: 0.5 })
 
     }
 }
