@@ -125,7 +125,7 @@ export default class Shaders extends NavigationLevel {
 
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
-        GameModel.gameCamera.setLockedViewZoom(new Vector3(0, 0.05, 0), new Vector3(0, 0.05, 1))
+        GameModel.gameCamera.setLockedViewZoom(new Vector3(0, 0.08, 0), new Vector3(0, 0.08, 0.9))
 
         GameModel.gameRenderer.setLevelType("website")
 

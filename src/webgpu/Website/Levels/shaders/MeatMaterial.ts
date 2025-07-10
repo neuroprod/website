@@ -1,28 +1,28 @@
 import Material from "../../../lib/material/Material.ts";
-import {ShaderType} from "../../../lib/material/ShaderTypes.ts";
+import { ShaderType } from "../../../lib/material/ShaderTypes.ts";
 import UniformGroup from "../../../lib/material/UniformGroup.ts";
 import DefaultTextures from "../../../lib/textures/DefaultTextures.ts";
-import {TextureSampleType} from "../../../lib/WebGPUConstants.ts";
+import { TextureSampleType } from "../../../lib/WebGPUConstants.ts";
 import DefaultUniformGroups from "../../../lib/material/DefaultUniformGroups.ts";
 import Blend from "../../../lib/material/Blend.ts";
 
 
 export default class MeatMaterial extends Material {
-    setup(){
+    setup() {
         this.addAttribute("aPos", ShaderType.vec3);
 
-this.addVertexOutput("worldPos",ShaderType.vec3)
+        this.addVertexOutput("worldPos", ShaderType.vec3)
         this.addUniformGroup(DefaultUniformGroups.getCamera(this.renderer));
         this.addUniformGroup(DefaultUniformGroups.getModelTransform(this.renderer));
 
-        let uniforms =new UniformGroup(this.renderer,"uniforms");
-        this.addUniformGroup(uniforms,true);
-        uniforms.addUniform("time",1.0)
-        uniforms.addUniform("pos1",1.0)
-        uniforms.addUniform("pos2",1.0)
-        uniforms.addUniform("pos3",1.0)
-        uniforms.addUniform("pos4",1.0)
-this.blendModes=[Blend.preMultAlpha()]
+        let uniforms = new UniformGroup(this.renderer, "uniforms");
+        this.addUniformGroup(uniforms, true);
+        uniforms.addUniform("time", 1.0)
+        uniforms.addUniform("pos1", 1.0)
+        uniforms.addUniform("pos2", 1.0)
+        uniforms.addUniform("pos3", 1.0)
+        uniforms.addUniform("pos4", 1.0)
+        this.blendModes = [Blend.preMultAlpha()]
     }
     getShader(): string {
         return /* wgsl */ `
@@ -132,7 +132,7 @@ var pFlat = p;
     var d = opSmoothUnion(d1,d2,0.1);
      var noiseP =p*7.0;
     noiseP.z +=uniforms.time*0.09;
-    let n =smoothstep(-0.2,1.0,fbm_4(noiseP*2.0+fbm_4(noiseP*2.0)*1.5))*0.010*uniforms.pos3;
+    let n =smoothstep(-0.2,1.0,fbm_4(noiseP*2.0+fbm_4(noiseP*2.0)*1.5))*0.015*uniforms.pos3;
     d-=n;
     let skin = smoothstep(0.5,1.0,1.0-n*5.0);
     d+=skin*smoothstep(-1.0,1.0,fbm_2(noiseP*50.0)*fbm_2(noiseP*4.0))*0.003*uniforms.pos3;
@@ -252,7 +252,7 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
     let L = normalize(lightpos - p);
     
     let shadow =calcSoftshadow(p,L, 0.01, 1.0);
-    let irr =vec3(max(0.0,dot(N,L))*2.0)*shadow+vec3(0.1,0.1,0.2);
+    let irr =vec3(max(0.0,dot(N,L))*2.0)*shadow+vec3(0.1,0.1,0.2)*1.5;
     var col =irr*albedo;
     
     let  refl = reflect(rd,N);            

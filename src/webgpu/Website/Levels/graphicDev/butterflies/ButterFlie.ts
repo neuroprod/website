@@ -95,8 +95,8 @@ export default class ButterFlie {
         let mat = this.model.getMaterial("shadow");
         if (mat) mat.setUniform("angle", new Vector4(Math.cos(angle), Math.sin(angle), Math.cos(this.angle2), Math.sin(this.angle2)))
 
-        let pScale = 10;
-        let nScale = 0.2;
+        let pScale = 3;
+        let nScale = 0.1;
         let vx = this.noise(this.modelPos.y * pScale, this.modelPos.z * pScale, t) * nScale
         let vy = this.noise(this.modelPos.x * pScale, this.modelPos.z * pScale, t) * nScale * 0.8
         let vz = this.noise(this.modelPos.y * pScale, this.modelPos.x * pScale, t) * nScale * 0.2
@@ -114,7 +114,7 @@ export default class ButterFlie {
 
         let dir = this.modelPos.clone()
         dir.subtract(this.center)
-        dir.scale(0.01)
+        dir.scale(0.001)
 
 
         this.modelPos.subtract(dir)
