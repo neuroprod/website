@@ -56,8 +56,8 @@ export default class Shaders extends NavigationLevel {
     private startDraggX: number = 0;
     private startButtonX: number = 0;
     private isDragging: boolean = false;
-    private min = -0.47
-    private max = 0.4
+    private min = -0.4
+    private max = 0.33
     private pos1: number = 0;
     private eye1!: SceneObject3D;
     private eye2!: SceneObject3D;
