@@ -142,7 +142,7 @@ export default class Contact extends NavigationLevel {
         this.overModel.mesh = new Quad(GameModel.renderer)
         this.overModel.material = new FullScreenStretchMaterial(GameModel.renderer, "over")
         this.overModel.material.setTexture("colorTexture", this.overTexture)
-        this.overModel.z = 0.25
+        this.overModel.z = 0.24
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.overModel)
         if (this.contactText.model) {
             this.contactText.model.x = -0.035;

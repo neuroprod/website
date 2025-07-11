@@ -63,6 +63,10 @@ export default class Friends extends NavigationLevel {
     private backgroundTexture!: TextureLoader;
     private bgModel!: Model;
     private rossTexture2!: TextureLoader;
+    rachelHolder!: SceneObject3D;
+    rachel1!: SceneObject3D;
+    rachel2!: SceneObject3D;
+
     constructor() {
         super();
         for (let l = 0; l < 10; l++) {
@@ -128,8 +132,9 @@ export default class Friends extends NavigationLevel {
             this.textMesh = tso.model.mesh as TextMesh;
             // this.textMesh.setText()
         }
-
-
+        this.rachelHolder = SceneHandler.getSceneObject("rachelHolder");
+        this.rachel1 = SceneHandler.getSceneObject("rachel1");
+        this.rachel2 = SceneHandler.getSceneObject("rachel2");
         this.rossModel = new Model(GameModel.renderer, "ross")
         this.rossModel.mesh = GameModel.glft.meshes[0]
         this.rossModel.material = new RossMaterial(GameModel.renderer, "ross")
@@ -162,7 +167,7 @@ export default class Friends extends NavigationLevel {
 
         this.textCount = -1;
         this.deform = 0
-
+        this.rachelHolder.setScaler(0)
     }
 
     public update() {
@@ -202,8 +207,13 @@ export default class Friends extends NavigationLevel {
         this.lineModel.createBuffer(new Float32Array(matrices2), "instancesMatrix2");
         this.lineModel.createBuffer(new Float32Array(matrices3), "instancesMatrix3");
 
+        this.rachelHolder.rz += Timer.delta * 0.3;
+        let s1 = (0.8 + Math.sin(Timer.time * 0.3) * 0.3) * 3;
+        this.rachel1.setScale(s1, s1, 1.0);
 
 
+        let s2 = (0.8 + Math.cos(Timer.time * 0.3) * 0.3) * 3
+        this.rachel2.setScale(s2, s2, 1.0)
 
     }
 
@@ -292,11 +302,18 @@ export default class Friends extends NavigationLevel {
         if (this.textCount < 4) this.texts[this.textCount].show()
         if (this.textCount == 3) {
             gsap.to(this, {
-                deform: 1, duration: 60, ease: "power2.inOut", delay: 0, onUpdate: () => {
+                deform: 1, duration: 20, ease: "power2.inOut", delay: 0, onUpdate: () => {
 
                     this.rossModel.material.setUniform("mix", this.deform)
                 }
             })
+            gsap.to(this.rachelHolder, {
+                sx: 1.5, sy: 1.5, sz: 1.5, duration: 20, ease: "power2.inOut", delay: 0, onUpdate: () => {
+
+                    this.rossModel.material.setUniform("mix", this.deform)
+                }
+            })
+            this.rachelHolder
 
 
         }

@@ -44,7 +44,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 @fragment
 fn mainFragment(${this.getFragmentInput()})  ->  @location(0) vec4f
 {
-    var uvP = (uv)*10.0;
+    var uvP = (uv)*20.0;
     uvP.x = uvP.x*uniforms.ratio;
 uvP=uvP%1.0;
 let l1 =max(0,step(0.5,uvP.x)-step(0.5,uvP.y));
