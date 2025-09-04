@@ -139,7 +139,7 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
        let N=normalize(textureLoad(gNormal,  uvPos ,0).xyz*2.0-1.0); 
        let V = normalize(camera.worldPosition.xyz - world);
        let F0 = mix(vec3(0.04), albedo, metallic);
-       var color =albedo*vec3(0.6,0.6,0.7)*0.9*aoM;
+       var color =albedo*vec3(0.2,0.2,0.2)*0.9*aoM;
        var shadowS =1.0;
        if(uniforms.needsShadow>0.5){
             shadowS=textureLoad(shadow,  uvPos ,0).x;

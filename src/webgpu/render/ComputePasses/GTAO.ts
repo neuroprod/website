@@ -46,14 +46,14 @@ export default class GTAO {
             format: TextureFormat.R32Uint,
         })
 
-        this.uniformGroup.addUniform("aoSettings", new Vector4(3, 2, 0.2, 0));
+        this.uniformGroup.addUniform("aoSettings", new Vector4(6, 2, 0.2, 0));
         this.uniformGroup.addTexture("noise", DefaultTextures.getMagicNoise(renderer), {
             sampleType: "float",
             dimension: TextureDimension.TwoD,
             usage: GPUShaderStage.COMPUTE
         })
         //  this.uniformGroup.addTexture("noise",renderer.texturesByLabel["BlueNoise.png"],"float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
-        this.uniformGroup.addTexture("preprocessed_depth", this.renderer.getTexture(Textures.DEPTH_BLUR), {
+        this.uniformGroup.addTexture("preprocessed_depth", this.renderer.getTexture("AOPreprocessedDepth"), {
             sampleType: "float",
             dimension: TextureDimension.TwoD,
             usage: GPUShaderStage.COMPUTE
@@ -153,7 +153,7 @@ fn calculate_neighboring_depth_differences_(pixel_coordinates: vec2<i32>,texture
     let slope_top_bottom = (edge_info.w - edge_info.z) * 0.5;
     let edge_info_slope_adjusted = edge_info + vec4<f32>(slope_left_right, -slope_left_right, slope_top_bottom, -slope_top_bottom);
     edge_info = min(abs(edge_info), abs(edge_info_slope_adjusted));
-    let bias = 0.25; // Using the bias and then saturating nudges the values a bit
+    let bias = 0.01; // Using the bias and then saturating nudges the values a bit
     let scale = depth_center * 0.011; // Weight the edges by their distance from the camera
     edge_info = saturate((1.0 + bias) - edge_info / scale); // Apply the bias and scale, and invert edge_info so that small values become large, and vice versa
 

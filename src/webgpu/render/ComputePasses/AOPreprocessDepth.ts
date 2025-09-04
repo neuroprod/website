@@ -2,7 +2,7 @@ import UniformGroup from "../../lib/material/UniformGroup.ts";
 import Renderer from "../../lib/Renderer.ts";
 import Texture from "../../lib/textures/Texture.ts";
 import RenderTexture from "../../lib/textures/RenderTexture.ts";
-import { FilterMode, TextureDimension, TextureFormat } from "../../lib/WebGPUConstants.ts";
+import { FilterMode, SamplerBindingType, TextureDimension, TextureFormat } from "../../lib/WebGPUConstants.ts";
 import { Textures } from "../../data/Textures.ts";
 
 
@@ -29,7 +29,7 @@ export default class AOPreprocessDepth {
             width: 1000,
             height: 1000,
             sizeMultiplier: 1,
-            mipLevelCount: 5,
+            mipLevelCount: 4,
             format: TextureFormat.R32Float,
         })
 
@@ -38,13 +38,13 @@ export default class AOPreprocessDepth {
         this.uniformGroup.addStorageTexture("preprocessed_depth_mip1", this.texture, TextureFormat.R32Float, 1);
         this.uniformGroup.addStorageTexture("preprocessed_depth_mip2", this.texture, TextureFormat.R32Float, 2);
         this.uniformGroup.addStorageTexture("preprocessed_depth_mip3", this.texture, TextureFormat.R32Float, 3);
-        this.uniformGroup.addSampler("point_clamp_sampler", { usage: GPUShaderStage.COMPUTE, filter: FilterMode.Linear })
+        this.uniformGroup.addSampler("point_clamp_sampler", { usage: GPUShaderStage.COMPUTE, filter: FilterMode.Nearest, bindingType: SamplerBindingType.NonFiltering })
 
     }
 
 
     public add() {
-
+        console.log("add")
         let descriptor: GPUComputePassDescriptor = {}
         this.passEncoder = this.renderer.commandEncoder.beginComputePass(
             descriptor
