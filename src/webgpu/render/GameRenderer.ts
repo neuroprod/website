@@ -11,11 +11,11 @@ import LightRenderPass from "./light/LightRenderPass.ts";
 import ShadowMapRenderPass from "./shadow/ShadowMapRenderPass.ts";
 import DirectionalLight from "./lights/DirectionalLight.ts";
 import ShadowBlurRenderPass from "./shadow/ShadowBlurRenderPass.ts";
-import PreProcessDepth from "./ao/PreProcessDepth.ts";
-import DeNoisePass from "./ao/DeNoisePass.ts";
+//import PreProcessDepth from "./ao/PreProcessDepth.ts";
+import DeNoisePass from "./GTAO/DeNoisePass.ts";
 import ShadowRenderPass from "./shadow/ShadowRenderPass.ts";
-import AOPreprocessDepth from "./ComputePasses/AOPreprocessDepth.ts";
-import GTAO from "./ComputePasses/GTAO.ts";
+import AOPreprocessDepth from "./GTAO/AOPreprocessDepth.ts";
+import GTAO from "./GTAO/GTAO.ts";
 import LoadHandler from "../data/LoadHandler.ts";
 import ModelRenderer from "../lib/model/ModelRenderer.ts";
 import Model from "../lib/model/Model.ts";
@@ -49,10 +49,10 @@ export default class GameRenderer {
     private shadowBlurPass: ShadowBlurRenderPass;
     //private gtoaDenoisePass: GTAODenoisePass;
     private shadowPass: ShadowRenderPass;
-    private preDept: AOPreprocessDepth;
+    private AOPreDept: AOPreprocessDepth;
     private ao: GTAO;
     //preProcessDepth: PreProcessDepth;
-    private preProcessDepth: PreProcessDepth;
+    // private preProcessDepth: PreProcessDepth;
     private aoDenoise: DeNoisePass;
     private shadowDenoise: DeNoisePass;
     private transparentModelRenderer: ModelRenderer;
@@ -68,11 +68,11 @@ export default class GameRenderer {
         this.shadowMapPass = new ShadowMapRenderPass(renderer, this.sunLight)
         this.shadowBlurPass = new ShadowBlurRenderPass(renderer);
         this.gBufferPass = new GBufferRenderPass(renderer, camera);
-        this.preProcessDepth = new PreProcessDepth(renderer);
+        // this.preProcessDepth = new PreProcessDepth(renderer);
 
         this.shadowPass = new ShadowRenderPass(renderer, camera, this.sunLight)
 
-        this.preDept = new AOPreprocessDepth(renderer)
+        this.AOPreDept = new AOPreprocessDepth(renderer)
         this.ao = new GTAO(renderer, camera)
         this.aoDenoise = new DeNoisePass(renderer, Textures.GTAO_DENOISE, Textures.GTAO)
         this.shadowDenoise = new DeNoisePass(renderer, Textures.SHADOW_DENOISE, Textures.SHADOW)
@@ -310,7 +310,7 @@ export default class GameRenderer {
 
         this.gBufferPass.add();
         if (this.needsAOInt) {
-            this.preDept.add();
+            this.AOPreDept.add();
             // this.preProcessDepth.add();
             this.ao.add()
 

@@ -5,7 +5,7 @@ import ColorAttachment from "../../lib/textures/ColorAttachment.ts";
 import Renderer from "../../lib/Renderer.ts";
 import { TextureFormat } from "../../lib/WebGPUConstants.ts";
 import { Textures } from "../../data/Textures.ts";
-import GTAOMaterial from "./gtao/GTAOMaterial.ts";
+
 import Blit from "../../lib/blit/Blit.ts";
 import Camera from "../../lib/Camera.ts";
 import GTAODenoiseMaterial from "./GTAODenoiseMaterial.ts";
