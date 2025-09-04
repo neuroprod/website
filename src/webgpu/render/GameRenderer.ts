@@ -309,7 +309,7 @@ export default class GameRenderer {
         this.gBufferPass.add();
         if (this.needsAOInt) {
             this.preDept.add();
-            this.preProcessDepth.add();
+            // this.preProcessDepth.add();
             this.ao.add()
 
         }

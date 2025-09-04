@@ -21,7 +21,7 @@ export default class AOPreprocessDepth {
         this.uniformGroup = new UniformGroup(this.renderer, "test")
 
 
-        this.texture = new RenderTexture(renderer, "AOPreprocessedDepth", {
+        this.texture = new RenderTexture(renderer, Textures.AO_PRE_DEPTH, {
             usage: GPUTextureUsage.COPY_DST |
                 GPUTextureUsage.STORAGE_BINDING |
                 GPUTextureUsage.TEXTURE_BINDING,

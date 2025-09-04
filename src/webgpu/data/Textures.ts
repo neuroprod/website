@@ -5,6 +5,7 @@ export const Textures = {
     LIGHT: "Light",
     SHADOW_DEPTH: "ShadowDepth",
     SHADOW_DEPTH_BLUR: "ShadowDepthBlur",
+    AO_PRE_DEPTH: "aoPreDepth",
     DEPTH_BLUR: "DepthBlur",
     DEPTH_BLUR_MIP0: "DepthBlur_mip0",
     DEPTH_BLUR_MIP1: "DepthBlur_mip1",

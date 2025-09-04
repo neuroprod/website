@@ -53,7 +53,7 @@ export default class GTAO {
             usage: GPUShaderStage.COMPUTE
         })
         //  this.uniformGroup.addTexture("noise",renderer.texturesByLabel["BlueNoise.png"],"float", TextureDimension.TwoD, GPUShaderStage.COMPUTE)
-        this.uniformGroup.addTexture("preprocessed_depth", this.renderer.getTexture("AOPreprocessedDepth"), {
+        this.uniformGroup.addTexture("preprocessed_depth", this.renderer.getTexture(Textures.AO_PRE_DEPTH), {
             sampleType: "float",
             dimension: TextureDimension.TwoD,
             usage: GPUShaderStage.COMPUTE
@@ -130,15 +130,15 @@ ${Camera.getShaderText(1)}
 fn load_noise(pixel_coordinates: vec2<i32>) -> vec2<f32> {
  var index = textureLoad(noise, pixel_coordinates%5 , 0).rg*2.0-1.0;
 
-return  index;
+return index;
     // R2 sequence - http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences
-//   return fract(0.5 + index * vec2<f32>(0.75487766624669276005, 0.5698402909980532659114));
+//  return fract(0.5 +  f32(index)  * vec2<f32>(0.75487766624669276005, 0.5698402909980532659114));
 }
 
 // Calculate differences in depth between neighbor pixels (later used by the spatial denoiser pass to preserve object edges)
-fn calculate_neighboring_depth_differences_(pixel_coordinates: vec2<i32>,textureSize :vec2<f32>) -> f32 {
+fn calculate_neighboring_depth_differences(pixel_coordinates: vec2<i32>,textureSize :vec2<f32>) -> f32 {
     // Sample the pixel's depth and 4 depths around it
-    let uv = vec2<f32>(pixel_coordinates) / textureSize;
+    let uv = vec2<f32>(pixel_coordinates) /textureSize;
     let depths_upper_left = textureGather(0, preprocessed_depth, point_clamp_sampler, uv);
     let depths_bottom_right = textureGather(0, preprocessed_depth, point_clamp_sampler, uv, vec2<i32>(1i, 1i));
     let depth_center = depths_upper_left.y;
@@ -153,7 +153,7 @@ fn calculate_neighboring_depth_differences_(pixel_coordinates: vec2<i32>,texture
     let slope_top_bottom = (edge_info.w - edge_info.z) * 0.5;
     let edge_info_slope_adjusted = edge_info + vec4<f32>(slope_left_right, -slope_left_right, slope_top_bottom, -slope_top_bottom);
     edge_info = min(abs(edge_info), abs(edge_info_slope_adjusted));
-    let bias = 0.01; // Using the bias and then saturating nudges the values a bit
+    let bias = 0.25; // Using the bias and then saturating nudges the values a bit
     let scale = depth_center * 0.011; // Weight the edges by their distance from the camera
     edge_info = saturate((1.0 + bias) - edge_info / scale); // Apply the bias and scale, and invert edge_info so that small values become large, and vice versa
 
@@ -163,7 +163,7 @@ fn calculate_neighboring_depth_differences_(pixel_coordinates: vec2<i32>,texture
 
     return depth_center;
 }
-fn calculate_neighboring_depth_differences(pixel_coordinates: vec2<i32>, textureSize :vec2<f32>) -> f32 {
+fn calculate_neighboring_depth_differences_(pixel_coordinates: vec2<i32>, textureSize :vec2<f32>) -> f32 {
     // Sample the pixel's depth and 4 depths around it
     let uv = vec2<f32>(pixel_coordinates) / textureSize;
     let depths_upper_left = textureGather(0, preprocessed_depth, point_clamp_sampler, uv);
