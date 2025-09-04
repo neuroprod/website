@@ -96,10 +96,12 @@ export default class GameRenderer {
 
 
 
+        this.passSelect.push(new SelectItem(Textures.GRADING, { texture: Textures.GRADING, type: 0 }));
+
         this.passSelect.push(new SelectItem(Textures.GTAO, { texture: Textures.GTAO, type: 1 }));
 
         this.passSelect.push(new SelectItem(Textures.GTAO_DENOISE, { texture: Textures.GTAO_DENOISE, type: 1 }));
-        this.passSelect.push(new SelectItem(Textures.GRADING, { texture: Textures.GRADING, type: 0 }));
+
         this.passSelect.push(new SelectItem(Textures.MASK, { texture: Textures.MASK, type: 0 }));
         this.passSelect.push(new SelectItem(Textures.LIGHT, { texture: Textures.LIGHT, type: 0 }));
         this.passSelect.push(new SelectItem("video/test.mp4", { texture: "video/test.mp4", type: 0 }));
