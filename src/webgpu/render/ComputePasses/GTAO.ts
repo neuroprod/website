@@ -2,12 +2,13 @@ import UniformGroup from "../../lib/material/UniformGroup.ts";
 import Renderer from "../../lib/Renderer.ts";
 import Texture from "../../lib/textures/Texture.ts";
 import RenderTexture from "../../lib/textures/RenderTexture.ts";
-import {FilterMode, TextureDimension, TextureFormat} from "../../lib/WebGPUConstants.ts";
-import {Vector4} from "@math.gl/core";
+import { FilterMode, TextureDimension, TextureFormat } from "../../lib/WebGPUConstants.ts";
+import { Vector4 } from "@math.gl/core";
 
 
 import Camera from "../../lib/Camera.ts";
-import {Textures} from "../../data/Textures.ts";
+import { Textures } from "../../data/Textures.ts";
+import DefaultTextures from "../../lib/textures/DefaultTextures.ts";
 
 
 export default class GTAO {
@@ -45,8 +46,8 @@ export default class GTAO {
             format: TextureFormat.R32Uint,
         })
 
-        this.uniformGroup.addUniform("aoSettings", new Vector4(3, 2, 0.2, 0) );
-        this.uniformGroup.addTexture("noise", this.renderer.getTexture(Textures.BLUE_NOISE), {
+        this.uniformGroup.addUniform("aoSettings", new Vector4(3, 2, 0.2, 0));
+        this.uniformGroup.addTexture("noise", DefaultTextures.getMagicNoise(renderer), {
             sampleType: "float",
             dimension: TextureDimension.TwoD,
             usage: GPUShaderStage.COMPUTE
@@ -64,7 +65,7 @@ export default class GTAO {
         })
         this.uniformGroup.addStorageTexture("ambient_occlusion", this.texture, TextureFormat.R32Float);
         this.uniformGroup.addStorageTexture("depth_differences", this.textureDepth, TextureFormat.R32Uint);
-        this.uniformGroup.addSampler("point_clamp_sampler", GPUShaderStage.COMPUTE, FilterMode.Nearest)
+        this.uniformGroup.addSampler("point_clamp_sampler", { usage: GPUShaderStage.COMPUTE, filter: FilterMode.Nearest })
 
     }
 
@@ -127,11 +128,11 @@ ${Camera.getShaderText(1)}
 
 
 fn load_noise(pixel_coordinates: vec2<i32>) -> vec2<f32> {
- var index = textureLoad(noise, pixel_coordinates%64 , 0).rg*2.0-1.0;
+ var index = textureLoad(noise, pixel_coordinates%5 , 0).rg*2.0-1.0;
 
 return  index;
     // R2 sequence - http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences
-   //return fract(0.5 + index * vec2<f32>(0.75487766624669276005, 0.5698402909980532659114));
+//   return fract(0.5 + index * vec2<f32>(0.75487766624669276005, 0.5698402909980532659114));
 }
 
 // Calculate differences in depth between neighbor pixels (later used by the spatial denoiser pass to preserve object edges)
@@ -291,7 +292,7 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
             s *= s; // https://github.com/GameTechDev/XeGTAO#sample-distribution
             let sample = s * sample_mul;
 
-            let sample_mip_level = clamp(log2(length(sample)*100.0) - 3.3+2, 0.0, 4.0); // https://github.com/GameTechDev/XeGTAO#memory-bandwidth-bottleneck
+            let sample_mip_level = clamp(log2(length(sample)*100.0) - 3.3, 0.0, 4.0); // https://github.com/GameTechDev/XeGTAO#memory-bandwidth-bottleneck
             let sample_position_1 = load_and_reconstruct_view_space_position(uv + sample, sample_mip_level);
             let sample_position_2 = load_and_reconstruct_view_space_position(uv - sample, sample_mip_level);
 

@@ -132,7 +132,7 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
        var aoM =1.0;
        if(uniforms.needsAO>0.5){
        let ao=textureLoad(aoTexture,  uvPos ,0).x; 
-       aoM = ao+1.0;
+       aoM = ao;
        }
        let roughness = 0.7;
        let metallic = 0.0;

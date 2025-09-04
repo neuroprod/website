@@ -104,6 +104,8 @@ fn mainFragment(${this.getFragmentInput()}) ->  @location(0) vec4f
     sum_weight += bottom_right_weight;
 
     let denoised_visibility = sum / sum_weight;
+
+    
     return vec4(denoised_visibility,0.0,0.0,0.0);
      
 }

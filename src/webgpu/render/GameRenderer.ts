@@ -93,6 +93,12 @@ export default class GameRenderer {
         this.debugTextureMaterial = new DebugTextureMaterial(this.renderer, "debugTextureMaterial")
         this.blitFinal = new Blit(renderer, "blitFinal", this.debugTextureMaterial)
         // this.passSelect.push(new SelectItem(Textures.DRIP, {texture: Textures.DRIP, type: 0}));
+
+
+
+        this.passSelect.push(new SelectItem(Textures.GTAO, { texture: Textures.GTAO, type: 1 }));
+
+        this.passSelect.push(new SelectItem(Textures.GTAO_DENOISE, { texture: Textures.GTAO_DENOISE, type: 1 }));
         this.passSelect.push(new SelectItem(Textures.GRADING, { texture: Textures.GRADING, type: 0 }));
         this.passSelect.push(new SelectItem(Textures.MASK, { texture: Textures.MASK, type: 0 }));
         this.passSelect.push(new SelectItem(Textures.LIGHT, { texture: Textures.LIGHT, type: 0 }));
@@ -295,17 +301,19 @@ export default class GameRenderer {
         if (LoadHandler.isLoading()) return;
 
         // this.dripPass.add()
-        this.needsAOInt = false;
+        // this.needsAOInt = false;
         // this.needsShadowInt = false;
         if (this.needsShadowInt) this.shadowMapPass.add();
 
 
         this.gBufferPass.add();
         if (this.needsAOInt) {
-            this.preProcessDepth.add();
 
+            this.preProcessDepth.add();
             this.ao.add()
+
         }
+
 
 
         if (this.needsShadowInt) this.shadowPass.add();
