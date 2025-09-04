@@ -14,14 +14,20 @@ export default class CanvasManager {
     }
 
     resize() {
-        console.log("resize")
-        this.canvas.style.width =Math.floor(  window.innerWidth) + "px";
-        this.canvas.style.height = Math.floor( window.innerHeight) + "px";
-        this.canvas.width =Math.floor( window.innerWidth * this.pixelRatio);
+        //1920x1280
+
+        /*this.canvas.style.width = Math.floor(1920) + "px";
+        this.canvas.style.height = Math.floor(1280) + "px";
+        this.canvas.width = Math.floor(1920);
+        this.canvas.height = Math.floor(1280);*/
+        this.canvas.style.width = Math.floor(window.innerWidth) + "px";
+        this.canvas.style.height = Math.floor(window.innerHeight) + "px";
+        this.canvas.width = Math.floor(window.innerWidth * this.pixelRatio);
         this.canvas.height = Math.floor(window.innerHeight * this.pixelRatio);
+
         UI.setSize(this.canvas.width, this.canvas.height)
     }
-//TODO: check no usage anymore for a delayed resize?
+    //TODO: check no usage anymore for a delayed resize?
     delayedResize() {
         clearTimeout(this.resizeTimeOut);
 

@@ -3,6 +3,7 @@ import Renderer from "./Renderer";
 
 import ColorAttachment from "./textures/ColorAttachment";
 import DepthStencilAttachment from "./textures/DepthStencilAttachment";
+import { TimeStampData } from "./TimeStampQuery";
 
 export default class RenderPass extends ObjectGPU {
 
@@ -13,17 +14,25 @@ export default class RenderPass extends ObjectGPU {
 
     protected renderPassDescriptor!: GPURenderPassDescriptor;
     private isDirty: boolean = true;
+    timeStampData!: TimeStampData;
 
-    constructor(renderer: Renderer, label: string) {
+
+    constructor(renderer: Renderer, label: string, useTimeStamp: boolean = false) {
         super(renderer, label);
+        if (useTimeStamp) {
+
+            this.timeStampData = renderer.timeStamps.add(label)
+
+        }
+
     }
 
     public setDirty() {
         this.isDirty = true;
     }
 
-    add(timestamp:GPURenderPassTimestampWrites|null =null) {
-        this.updateDescriptor(timestamp)
+    add() {
+        this.updateDescriptor()
 
         this.passEncoder = this.renderer.commandEncoder.beginRenderPass(
             this.renderPassDescriptor
@@ -32,10 +41,11 @@ export default class RenderPass extends ObjectGPU {
         this.draw()
 
         this.passEncoder.end();
-    }
-    addToCommandEncoder(commandEncoder:GPUCommandEncoder) {
 
-        this.updateDescriptor(null);
+    }
+    addToCommandEncoder(commandEncoder: GPUCommandEncoder) {
+
+        this.updateDescriptor();
         this.passEncoder = commandEncoder.beginRenderPass(
             this.renderPassDescriptor
         );
@@ -50,7 +60,7 @@ export default class RenderPass extends ObjectGPU {
     }
 
 
-    private updateDescriptor(timeStamp:GPURenderPassTimestampWrites|null ) {
+    private updateDescriptor() {
         let dirty = this.isDirty;
 
         //TODO: check if textures are updated when this pass wasn't in use
@@ -78,13 +88,16 @@ export default class RenderPass extends ObjectGPU {
             colorAttachments: attachments,
 
         };
-        if(timeStamp){
-            this.renderPassDescriptor.timestampWrites =timeStamp;
-            console.log(this.renderPassDescriptor)
-        }
+
 
         if (this.depthStencilAttachment)
             this.renderPassDescriptor.depthStencilAttachment = this.depthStencilAttachment.getAttachment()
+
+        if (this.timeStampData && this.timeStampData.timestampWrites) {
+
+            this.renderPassDescriptor.timestampWrites = this.timeStampData.timestampWrites
+
+        }
 
         this.isDirty = false;
 

@@ -2,8 +2,8 @@ import UniformGroup from "../../lib/material/UniformGroup.ts";
 import Renderer from "../../lib/Renderer.ts";
 import Texture from "../../lib/textures/Texture.ts";
 import RenderTexture from "../../lib/textures/RenderTexture.ts";
-import {FilterMode, TextureDimension, TextureFormat} from "../../lib/WebGPUConstants.ts";
-import {Textures} from "../../data/Textures.ts";
+import { FilterMode, TextureDimension, TextureFormat } from "../../lib/WebGPUConstants.ts";
+import { Textures } from "../../data/Textures.ts";
 
 
 export default class AOPreprocessDepth {
@@ -18,7 +18,7 @@ export default class AOPreprocessDepth {
 
     constructor(renderer: Renderer) {
         this.renderer = renderer;
-        this.uniformGroup = new UniformGroup(this.renderer,  "test")
+        this.uniformGroup = new UniformGroup(this.renderer, "test")
 
 
         this.texture = new RenderTexture(renderer, "AOPreprocessedDepth", {
@@ -26,19 +26,19 @@ export default class AOPreprocessDepth {
                 GPUTextureUsage.STORAGE_BINDING |
                 GPUTextureUsage.TEXTURE_BINDING,
             scaleToCanvas: true,
-            width: 1,
-            height: 1,
+            width: 1000,
+            height: 1000,
             sizeMultiplier: 1,
-            mipLevelCount: 4,
+            mipLevelCount: 5,
             format: TextureFormat.R32Float,
         })
 
-        this.uniformGroup.addTexture("input_depth", this.renderer.getTexture(Textures.GDEPTH), {sampleType:"depth",dimension: TextureDimension.TwoD, usage:GPUShaderStage.COMPUTE})
+        this.uniformGroup.addTexture("input_depth", this.renderer.getTexture(Textures.GDEPTH), { sampleType: "depth", dimension: TextureDimension.TwoD, usage: GPUShaderStage.COMPUTE })
         this.uniformGroup.addStorageTexture("preprocessed_depth_mip0", this.texture, TextureFormat.R32Float, 0);
         this.uniformGroup.addStorageTexture("preprocessed_depth_mip1", this.texture, TextureFormat.R32Float, 1);
         this.uniformGroup.addStorageTexture("preprocessed_depth_mip2", this.texture, TextureFormat.R32Float, 2);
         this.uniformGroup.addStorageTexture("preprocessed_depth_mip3", this.texture, TextureFormat.R32Float, 3);
-        this.uniformGroup.addSampler("point_clamp_sampler", GPUShaderStage.COMPUTE, FilterMode.Linear)
+        this.uniformGroup.addSampler("point_clamp_sampler", { usage: GPUShaderStage.COMPUTE, filter: FilterMode.Linear })
 
     }
 

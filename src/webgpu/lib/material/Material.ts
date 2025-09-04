@@ -3,8 +3,8 @@ import Renderer from "../Renderer.ts";
 import RenderPass from "../RenderPass.ts";
 import UniformGroup from "./UniformGroup.ts";
 import Attribute from "./Attribute.ts";
-import {CompareFunction, CullMode, PrimitiveTopology} from "../WebGPUConstants.ts";
-import {getShaderTextForShaderType} from "./ShaderTypes.ts";
+import { CompareFunction, CullMode, PrimitiveTopology } from "../WebGPUConstants.ts";
+import { getShaderTextForShaderType } from "./ShaderTypes.ts";
 import Texture from "../textures/Texture.ts";
 
 class VertexOutput {
@@ -35,9 +35,9 @@ export default class Material extends ObjectGPU {
     private depthStencilState!: GPUDepthStencilState;
     private needsDepth: boolean = true;
     private shader!: GPUShaderModule;
-     defaultUniformGroup!: UniformGroup;
+    defaultUniformGroup!: UniformGroup;
 
-private passUUID =""
+    private passUUID = ""
     constructor(renderer: Renderer, label: string) {
         super(renderer, label);
         this.setup();
@@ -56,19 +56,19 @@ private passUUID =""
         this.defaultUniformGroup.setVideoFrameTexture(name, value)
     }
     makePipeLine(pass: RenderPass) {
-        if(pass.UUID ==this.passUUID){
-            return
-        }
-        if( this.passUUID !=""  ){console.warn("reuse material in diffrent pass?"),console.trace()}
-        this.passUUID =pass.UUID;
-       // if (this.pipeLine) return;
+        /*  if (pass.UUID == this.passUUID) {
+              return
+          }
+          if (this.passUUID != "") { console.warn("reuse material in diffrent pass?"), console.trace() }
+          this.passUUID = pass.UUID;*/
+        if (this.pipeLine) return;
 
         this.makeShader();
-        this.colorTargets =[]
+        this.colorTargets = []
         let count = 0;
         for (let a of pass.colorAttachments) {
 
-            let s: GPUColorTargetState = {format: a.renderTexture.options.format}
+            let s: GPUColorTargetState = { format: a.renderTexture.options.format }
             if (this.blendModes) {
                 s.blend = this.blendModes[count];
             }

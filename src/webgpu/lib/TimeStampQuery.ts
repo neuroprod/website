@@ -1,30 +1,60 @@
 import Renderer from "./Renderer";
+import RenderPass from "./RenderPass";
+import UI from "./UI/UI";
+
+export class TimeStampData {
+
+    index: number = 0;
+    name = "";
+    timestampWrites!: GPURenderPassTimestampWrites | null;
+    time!: number;
+
+}
+
 
 export default class TimeStampQuery {
     public totalTime: number = 0;
-    public timeArray: Array<number>;
+    public timeArray: Array<number> = [];
     public names: Array<string> = []
 
 
-    private capacity: number = 2;
+    private capacity: number = 0;
     private device: GPUDevice;
 
     private renderer: Renderer;
-    private useTimeStampQuery: boolean;
+    private useTimeStampQuery: boolean = false;
 
     private querySet!: GPUQuerySet;
     private resolveBuffer!: GPUBuffer;
     private resultBuffer!: GPUBuffer;
     private bufferSize!: number;
     private done: boolean = true;
+    numStamps: number = 0;
+    private timeStamps: Array<TimeStampData> = []
 
-
-    constructor(renderer: Renderer, numStamps: number) {
+    constructor(renderer: Renderer) {
 
         this.renderer = renderer;
         this.device = this.renderer.device;
-        this.capacity = numStamps;//Max number of timestamps we can store
-        this.timeArray = new Array<number>(numStamps);
+        this.useTimeStampQuery = renderer.useTimeStampQuery;
+
+
+    }
+    add(name: string) {
+        let timeStampData = new TimeStampData()
+        timeStampData.index = this.numStamps;
+        timeStampData.name = name;
+        this.timeStamps.push(timeStampData)
+        this.numStamps += 2;
+        return timeStampData;
+
+    }
+    init() {
+
+        if (this.numStamps == 0) return;
+
+        this.capacity = this.numStamps;//Max number of timestamps we can store
+        this.timeArray = new Array<number>(this.numStamps);
         this.timeArray.fill(0);
         this.useTimeStampQuery = this.renderer.useTimeStampQuery
         if (this.useTimeStampQuery) {
@@ -32,7 +62,7 @@ export default class TimeStampQuery {
                 type: "timestamp",
                 count: this.capacity,
             });
-            this.bufferSize = numStamps * BigInt64Array.BYTES_PER_ELEMENT;
+            this.bufferSize = this.numStamps * BigInt64Array.BYTES_PER_ELEMENT;
             this.resolveBuffer = this.device.createBuffer({
                 size: this.bufferSize,
                 usage: GPUBufferUsage.QUERY_RESOLVE | GPUBufferUsage.COPY_SRC,
@@ -42,11 +72,14 @@ export default class TimeStampQuery {
                 size: this.bufferSize,
                 usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
             });
+            for (let ts of this.timeStamps) {
+                ts.timestampWrites = this.getSet(ts.index, ts.index + 1)
 
+            }
 
         }
-    }
 
+    }
     getSet(start: number, stop: number) {
         if (!this.useTimeStampQuery) return null;
 
@@ -60,14 +93,17 @@ export default class TimeStampQuery {
 
 
     readback() {
+
         if (!this.useTimeStampQuery) return;
+
+
         if (this.done) {
             this.done = false;
             this.read().then(() => {
                 this.done = true
             })
         }
-        // console.log(  this.timeArray)
+
 
 
     }
@@ -76,9 +112,9 @@ export default class TimeStampQuery {
     getData() {
         if (!this.useTimeStampQuery) return;
         if (this.done) {
-            this.renderer.commandEncoder.resolveQuerySet(this.querySet, 0,  this.capacity, this.resolveBuffer, 0);
+            this.renderer.commandEncoder.resolveQuerySet(this.querySet, 0, this.capacity, this.resolveBuffer, 0);
 
-// Read GPUBuffer memory.
+            // Read GPUBuffer memory.
             this.renderer.commandEncoder.copyBufferToBuffer(this.resolveBuffer, 0, this.resultBuffer, 0, this.bufferSize);
         }
 
@@ -88,11 +124,23 @@ export default class TimeStampQuery {
     async read() {
         await this.resultBuffer.mapAsync(GPUMapMode.READ);
         const times = new BigInt64Array(this.resultBuffer.getMappedRange());
-        let t1 = Number(times[1] - times[0]) / 1000000;
-        let t2 = Number(times[3] - times[2]) / 1000000;
-        console.log(`times` ,t1,"---",t2);
+
+        for (let t of this.timeStamps) {
+
+            t.time = Number(times[t.index + 1] - times[t.index]) / 1000000;
+
+        }
+
+
         this.resultBuffer.unmap();
     }
 
+    onUI() {
+        for (let t of this.timeStamps) {
 
+
+            UI.LText(t.time + "", t.name)
+        }
+
+    }
 }

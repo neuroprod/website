@@ -295,11 +295,12 @@ export default class GameRenderer {
         if (LoadHandler.isLoading()) return;
 
         // this.dripPass.add()
-
+        this.needsAOInt = false;
+        // this.needsShadowInt = false;
         if (this.needsShadowInt) this.shadowMapPass.add();
 
 
-        this.gBufferPass.add(this.renderer.timeStamps.getSet(0, 1));
+        this.gBufferPass.add();
         if (this.needsAOInt) {
             this.preProcessDepth.add();
 
@@ -311,9 +312,9 @@ export default class GameRenderer {
         if (this.needsAOInt) this.aoDenoise.add()
 
         if (this.needsShadowInt) this.shadowDenoise.add()
-        //this.shadowBlurPass.add();
+        //   this.shadowBlurPass.add();
 
-        this.lightPass.add(this.renderer.timeStamps.getSet(2, 3));
+        this.lightPass.add();
         this.transparentPass.add();
         if (this._fxEnabled) {
             this.maskRenderPass.add()

@@ -27,7 +27,7 @@ export default class Blit {
             let uniformGroup: UniformGroup;
 
 
-                uniformGroup = this.material.uniformGroups[i];
+            uniformGroup = this.material.uniformGroups[i];
 
             //fix if need extra groups
 

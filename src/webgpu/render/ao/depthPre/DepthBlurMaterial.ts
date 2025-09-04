@@ -1,22 +1,21 @@
 import Material from "../../../lib/material/Material.ts";
-import {ShaderType} from "../../../lib/material/ShaderTypes.ts";
+import { ShaderType } from "../../../lib/material/ShaderTypes.ts";
 import UniformGroup from "../../../lib/material/UniformGroup.ts";
 import DefaultTextures from "../../../lib/textures/DefaultTextures.ts";
-import {CompareFunction, FilterMode, TextureSampleType} from "../../../lib/WebGPUConstants.ts";
+import { CompareFunction, FilterMode, TextureSampleType } from "../../../lib/WebGPUConstants.ts";
 
 
-export default class DepthBlurMaterial extends Material
-{
-    setup(){
+export default class DepthBlurMaterial extends Material {
+    setup() {
         this.addAttribute("aPos", ShaderType.vec3);
         this.addAttribute("aUV0", ShaderType.vec2);
 
-        this.addVertexOutput("uv0", ShaderType.vec2 );
+        this.addVertexOutput("uv0", ShaderType.vec2);
 
-        let uniforms =new UniformGroup(this.renderer,"uniforms");
-        this.addUniformGroup(uniforms,true);
-        uniforms.addTexture("srcTexture",DefaultTextures.getWhite(this.renderer),{sampleType:TextureSampleType.Float });
-        uniforms.addSampler("mySampler",GPUShaderStage.FRAGMENT,FilterMode.Nearest)
+        let uniforms = new UniformGroup(this.renderer, "uniforms");
+        this.addUniformGroup(uniforms, true);
+        uniforms.addTexture("srcTexture", DefaultTextures.getWhite(this.renderer), { sampleType: TextureSampleType.Float });
+        uniforms.addSampler("mySampler", { filter: FilterMode.Nearest })
 
         this.depthWrite = false
         this.depthCompare = CompareFunction.Always

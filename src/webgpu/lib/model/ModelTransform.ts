@@ -1,20 +1,22 @@
 import Renderer from "../Renderer";
 
 import UniformGroup from "../material/UniformGroup.ts";
-import {Matrix3, Matrix4} from "@math.gl/core";
+import { Matrix3, Matrix4 } from "@math.gl/core";
 
 export default class ModelTransform extends UniformGroup {
 
     private modelMatrix: Matrix4 = new Matrix4();
+    private modelMatrixOld: Matrix4 = new Matrix4();
     public normalMatrix: Matrix3 = new Matrix3();
     private normalMatrixTemp: Matrix4 = new Matrix4();
     public instance!: ModelTransform;
 
     constructor(renderer: Renderer) {
-        super(renderer,  "model");
+        super(renderer, "model");
         this.addUniform("modelMatrix", this.modelMatrix)
+        this.addUniform("modelMatrixOld", this.modelMatrix)
         this.addUniform("normalMatrix", this.normalMatrix)
-      //  if (!ModelTransform.instance) ModelTransform.instance = this;
+        //  if (!ModelTransform.instance) ModelTransform.instance = this;
     }
 
 
@@ -27,9 +29,10 @@ export default class ModelTransform extends UniformGroup {
         this.normalMatrixTemp.invert();
         this.normalMatrixTemp.transpose();
 
-
+        this.setUniform("modelMatrixOld", this.modelMatrixOld)
         this.setUniform("modelMatrix", this.modelMatrix)
         this.setUniform("normalMatrix", this.normalMatrixTemp)
+        this.modelMatrixOld.copy(this.modelMatrix)
 
     }
 }

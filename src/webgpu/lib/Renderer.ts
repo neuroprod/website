@@ -3,13 +3,17 @@ import TextureHandler from "./TextureHandler.ts";
 import ColorAttachment from "./textures/ColorAttachment.ts";
 import UniformGroup from "./material/UniformGroup.ts";
 import Model from "./model/Model.ts";
-import {Vector2} from "@math.gl/core";
+import { Vector2 } from "@math.gl/core";
 import TimeStampQuery from "./TimeStampQuery.ts";
 import Texture from "./textures/Texture.ts";
 import MipMapQueue from "./textures/MipMapQueue.ts";
+import UI from "./UI/UI.ts";
 
 
 export default class Renderer {
+
+    useTimeStampQuery: boolean = false;
+
 
     static instance: Renderer;
     public pixelRatio: number = 1;
@@ -28,7 +32,7 @@ export default class Renderer {
     textureHandler!: TextureHandler;
     models: Array<Model> = [];
     modelByLabel: { [label: string]: Model } = {};
-    useTimeStampQuery: boolean = false
+
     timeStamps!: TimeStampQuery;
     private context!: GPUCanvasContext;
     private canvasTextureView!: GPUTexture;
@@ -47,32 +51,39 @@ export default class Renderer {
         this.textureHandler = new TextureHandler();
         Renderer.instance = this;
 
-        const adapter = await navigator.gpu.requestAdapter({powerPreference: "high-performance"});
+        const adapter = await navigator.gpu.requestAdapter({ powerPreference: "high-performance" });
         if (adapter) {
 
             for (let a of adapter.features.keys()) {
 
             }
-            const requiredFeatures: Array<GPUFeatureName> = [ "float32-filterable"];
+            const requiredFeatures: Array<GPUFeatureName> = ["float32-filterable"];
+
             if (this.useTimeStampQuery) {
                 requiredFeatures.push("timestamp-query");
             }
+            const hdrMediaQuery = window.matchMedia('(dynamic-range: high)');
+            if (hdrMediaQuery.matches) {
+                console.log("hdr windown")
 
-            this.device = await adapter.requestDevice({requiredFeatures: requiredFeatures});
+            }
+
+            this.device = await adapter.requestDevice({ requiredFeatures: requiredFeatures });
             //  console.log(this.device)
             this.context = this.canvas.getContext("webgpu") as GPUCanvasContext;
             this.presentationFormat = navigator.gpu.getPreferredCanvasFormat();
-
+            this.presentationFormat = 'rgba16float';
             this.context.configure({
                 device: this.device,
                 format: this.presentationFormat,
+                colorSpace: "display-p3",
                 alphaMode: "premultiplied",
-
+                toneMapping: { mode: "standard" },
             });
-
+            console.log(this.context.getConfiguration())
 
         }
-        this.timeStamps = new TimeStampQuery(this, 4)
+        this.timeStamps = new TimeStampQuery(this)
         this.mipmapQueue = new MipMapQueue(this)
     }
 
@@ -85,26 +96,26 @@ export default class Renderer {
     public update(setCommands: () => void) {
 
         Timer.update();
-
+        this.canvasTextureView = this.context.getCurrentTexture();
+        this.canvasColorAttachment.setTarget(this.canvasTextureView.createView())
         this.updateSize();
         this.updateModels();
         this.updateUniformGroups()
-      //  this.timeStamps.readback()
-        //
-        this.device.queue.onSubmittedWorkDone().then(() => {
-            this.canvasTextureView = this.context.getCurrentTexture();
-            this.canvasColorAttachment.setTarget(this.canvasTextureView.createView())
 
 
-            this.commandEncoder = this.device.createCommandEncoder();
-          this.mipmapQueue.processQue();
-            setCommands();
-           // this.timeStamps.getData()
-            this.device.queue.submit([this.commandEncoder.finish()]);
 
 
-            // this.timeStamps.readback()
-        });
+
+
+        this.commandEncoder = this.device.createCommandEncoder();
+        this.mipmapQueue.processQue();
+        setCommands();
+        this.timeStamps.getData();
+        this.device.queue.submit([this.commandEncoder.finish()]);
+
+
+        this.timeStamps.readback()
+
 
     }
 
@@ -138,8 +149,8 @@ export default class Renderer {
             this.width = this.canvas.width;
             this.height = this.canvas.height;
             this.ratio = this.width / this.height;
-            this.htmlWidth = this.canvas.width/this.pixelRatio;
-            this.htmlHeight = this.canvas.height/this.pixelRatio;
+            this.htmlWidth = this.canvas.width / this.pixelRatio;
+            this.htmlHeight = this.canvas.height / this.pixelRatio;
 
             this.inverseSizePixelRatio.set(this.pixelRatio / this.width, this.pixelRatio / this.height)
             //   this.size.x =this.width;
@@ -159,22 +170,31 @@ export default class Renderer {
     }
 
     removeUniformGroup(u: UniformGroup) {
-        let i =this.uniformGroups.indexOf(u)
-        if(i>-1) this.uniformGroups.splice(i, 1);
+        let i = this.uniformGroups.indexOf(u)
+        if (i > -1) this.uniformGroups.splice(i, 1);
     }
 
     removeModel(m: Model) {
-        let i =this.models.indexOf(m)
-        if(i>-1) this.models.splice(i, 1);
+        let i = this.models.indexOf(m)
+        if (i > -1) this.models.splice(i, 1);
     }
 
-    setCursor(isPointer:boolean=false){
-        if(isPointer){
-        this.canvas.style.cursor="pointer"
-    }
-        else{
-               this.canvas.style.cursor="auto"
+    setCursor(isPointer: boolean = false) {
+        if (isPointer) {
+            this.canvas.style.cursor = "pointer"
         }
+        else {
+            this.canvas.style.cursor = "auto"
+        }
+    }
+
+    performanceUI() {
+        UI.pushWindow("performance")
+        UI.LText(Timer.fps + "", "fps:")
+        UI.separator()
+        this.timeStamps.onUI()
+        UI.popWindow()
+
     }
 }
 

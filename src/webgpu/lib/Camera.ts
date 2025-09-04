@@ -1,17 +1,17 @@
 import Renderer from "./Renderer";
-import {lerp, Matrix3, Matrix4, Vector2, Vector3, Vector4} from "@math.gl/core";
+import { lerp, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "@math.gl/core";
 import UniformGroup from "./material/UniformGroup.ts";
 import Model from "./model/Model.ts";
 
 
 export default class Camera extends UniformGroup {
     public static instance: Camera;
-    public cameraWorld: Vector3 = new Vector3(0, 0, 2);
+    public cameraWorld: Vector3 = new Vector3(0, 1, 4);
     public cameraLookAt: Vector3 = new Vector3(0, 0, 0);
     public cameraUp: Vector3 = new Vector3(0, 1, 0);
-    public fovy = 0.7
-    public near = 2;
-    public far = 20;
+    public fovy = 1
+    public near = 1;
+    public far = 200;
     public ratio = 1;
     public lensShift = new Vector2(0, 0)
     public viewProjectionInv = new Matrix4();
@@ -23,6 +23,7 @@ export default class Camera extends UniformGroup {
     public orthoTop: number = 10;
     public orthoBottom: number = -10;
     viewProjection: Matrix4 = new Matrix4();
+    viewProjectionOld: Matrix4 = new Matrix4();
     private cameraWorldU: Vector4 = new Vector4(0, 0, 10, 1.0);
     view: Matrix4 = new Matrix4();
     private projection: Matrix4 = new Matrix4();
@@ -33,6 +34,7 @@ export default class Camera extends UniformGroup {
         super(renderer, "camera");
 
         this.addUniform("viewProjectionMatrix", this.viewProjection)
+        this.addUniform("viewProjectionMatrixOld", this.viewProjectionOld)
         this.addUniform("inverseViewProjectionMatrix", this.viewProjection)
         this.addUniform("viewMatrix", this.view)
         this.addUniform("inverseViewMatrix", this.viewInv)
@@ -60,24 +62,24 @@ export default class Camera extends UniformGroup {
         return Camera.instance.getShaderText(id);
     }
 
-    setOrtho(right = 1,left = -1, top = 1, bottom = 1) {
-        this.orthoRight =right;
-        this.orthoLeft =left;
-        this.orthoTop =top;
-        this.orthoBottom =bottom;
-       // this.near = near;
-       // this.far =far;
+    setOrtho(right = 1, left = -1, top = 1, bottom = 1) {
+        this.orthoRight = right;
+        this.orthoLeft = left;
+        this.orthoTop = top;
+        this.orthoBottom = bottom;
+        // this.near = near;
+        // this.far =far;
         this.perspective = false
     }
 
     public modelInFrustum(model: Model): boolean {
-console.log("fix culling")
-       /* for (let i: number = 0; i < 6; i++) {
+
+        for (let i: number = 0; i < 6; i++) {
             if (this.dot(this.fplanes[i], model.center.x, model.center.y, model.center.z) < -model.radius) {
 
                 return false;
             }
-        }*/
+        }
         return true;
     }
 
@@ -123,23 +125,26 @@ console.log("fix culling")
 
         this.setUniform("inverseViewProjectionMatrix", this.viewProjectionInv)
         this.setUniform("viewProjectionMatrix", this.viewProjection)
+        this.setUniform("viewProjectionMatrixOld", this.viewProjectionOld)
+
+
         this.cameraWorldU.set(this.cameraWorld.x, this.cameraWorld.y, this.cameraWorld.z, 1)
         this.setUniform("worldPosition", this.cameraWorldU)
         this.setUniform("inverseViewMatrix", this.viewInv)
         this.setUniform("viewMatrix", this.view)
         this.setUniform("inverseProjectionMatrix", this.projectionInv)
         this.setUniform("projectionMatrix", this.projection)
-
+        this.viewProjectionOld.copy(this.viewProjection)
     }
 
     private setProjection() {
 
-        let sin_fov=Math.sin(0.5 * this.fovy);
-        let cos_fov=Math.cos(0.5 * this.fovy);
+        let sin_fov = Math.sin(0.5 * this.fovy);
+        let cos_fov = Math.cos(0.5 * this.fovy);
 
         let h = cos_fov / sin_fov;
         let w = h / this.ratio;
-        let r =this.far / (this.near - this.far);
+        let r = this.far / (this.near - this.far);
 
         this.projection[0] = w;
         this.projection[1] = 0.0;
@@ -153,12 +158,12 @@ console.log("fix culling")
 
         this.projection[8] = 0;
         this.projection[9] = 0;
-        this.projection[10] =r;
+        this.projection[10] = r;
         this.projection[11] = -1.0;
 
         this.projection[12] = 0.0;
         this.projection[13] = 0.0;
-        this.projection[14] = r*this.near ;
+        this.projection[14] = r * this.near;
         this.projection[15] = 0.0;
 
 

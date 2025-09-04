@@ -1,23 +1,25 @@
 import Material from "../material/Material.ts";
-import {ShaderType} from "../material/ShaderTypes.ts";
+import { ShaderType } from "../material/ShaderTypes.ts";
 import DefaultUniformGroups from "../material/DefaultUniformGroups.ts";
-import {PrimitiveTopology} from "../WebGPUConstants.ts";
+import { PrimitiveTopology } from "../WebGPUConstants.ts";
 
 
-export default class DebugLineMaterial extends Material{
+export default class DebugLineMaterial extends Material {
 
-    setup(){
+    setup() {
         this.addAttribute("aPos", ShaderType.vec3);
         this.addAttribute("aColor", ShaderType.vec4);
 
 
-        this.addVertexOutput("color", ShaderType.vec4 );
+        this.addVertexOutput("color", ShaderType.vec4);
 
 
 
         this.addUniformGroup(DefaultUniformGroups.getCamera(this.renderer), true);
-        this.topology =PrimitiveTopology.LineList;
-      //  this.logShader =true;
+        this.topology = PrimitiveTopology.LineList;
+
+        this.depthCompare = "always"
+        this.depthWrite = false;
     }
     getShader(): string {
         return /* wgsl */ `

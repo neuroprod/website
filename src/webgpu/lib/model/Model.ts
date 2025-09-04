@@ -5,14 +5,14 @@ import Object3D from "./Object3D.ts";
 import Material from "../material/Material.ts";
 import Mesh from "../mesh/Mesh.ts";
 import ModelTransform from "./ModelTransform.ts";
-import {Vector3} from "@math.gl/core";
+import { Vector3 } from "@math.gl/core";
 
 
 export default class Model extends Object3D {
 
     material!: Material;
     mesh!: Mesh
-public markedDelete =false;
+    public markedDelete = false;
     public modelTransform: ModelTransform;
     public visible: boolean = true;
 
@@ -21,10 +21,15 @@ public markedDelete =false;
     numInstances: number = 1;
 
     private materialMap: Map<string, Material> = new Map<string, Material>();
-    needCulling: boolean =true;
-    transparent: boolean =false
-     camDistSquared: number =0;
-    zDistance: number=0;
+    needCulling: boolean = true;
+    transparent: boolean = false
+    camDistSquared: number = 0;
+    zDistance: number = 0;
+    min: Vector3 = new Vector3()
+    max: Vector3 = new Vector3()
+    center: Vector3 = new Vector3()
+    radius: number = 1;
+    static: boolean = false;
 
 
     constructor(renderer: Renderer, label: string) {
@@ -33,22 +38,41 @@ public markedDelete =false;
         this.renderer.addModel(this);
     }
 
-    setMaterial(name:string,mat:Material){
+    setMaterial(name: string, mat: Material) {
 
-        this.materialMap.set(name,mat)
+        this.materialMap.set(name, mat)
     }
-    getMaterial(name:string){
+    getMaterial(name: string) {
         return this.materialMap.get(name);
 
     }
 
     public update() {
         if (!this._drawDirty) return;
-        if (!this.visible ) return;
-        this._drawDirty =false;
+        if (!this.visible) return;
+        this._drawDirty = false;
+
+
+
         this.modelTransform.setWorldMatrix(this.worldMatrix);
 
     }
+
+    public setStatic() {
+        if (this.mesh) {
+            this.min.from(this.mesh.min)
+            this.max.from(this.mesh.max)
+            this.min.transform(this.worldMatrix)
+            this.max.transform(this.worldMatrix)
+            this.center.from(this.min)
+            this.center.add(this.max)
+            this.center.scale(0.5);
+
+            this.radius = this.center.distance(this.max);
+        }
+        this.static = true;
+    }
+
     createBuffer(data: Float32Array, name: string) {
 
         let bufferOld = this.getBufferByName(name);
@@ -78,23 +102,23 @@ public markedDelete =false;
         return this.bufferMap.get(name);
     }
 
-    clone(){
+    clone() {
 
     }
     public destroy() {
-        for (let b of this.buffers){
+        for (let b of this.buffers) {
             b.destroy()
         }
         this.modelTransform.destroy()
         this.renderer.removeModel(this);
-        this.markedDelete =true;
+        this.markedDelete = true;
 
     }
 
-    setCamDistance(cam:Vector3) {
-        this.camDistSquared =this.getWorldPos().distanceSquared(cam)
+    setCamDistance(cam: Vector3) {
+        this.camDistSquared = this.getWorldPos().distanceSquared(cam)
     }
     setZDistance() {
-        this.zDistance =this.getWorldPos().z
+        this.zDistance = this.getWorldPos().z
     }
 }

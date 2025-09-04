@@ -1,21 +1,21 @@
-import Texture, {TextureOptions} from "./Texture";
+import Texture, { TextureOptions } from "./Texture";
 import Renderer from "../Renderer";
-import {TextureFormat} from "../WebGPUConstants";
+import { TextureFormat } from "../WebGPUConstants";
 
 export default class TextureLoader extends Texture {
-    public loaded: boolean=false;
+    public loaded: boolean = false;
 
-    onComplete=()=>{}
-    constructor(renderer: Renderer, url: string = "", options: Partial<TextureOptions>={}) {
+    onComplete = () => { }
+    constructor(renderer: Renderer, url: string = "", options: Partial<TextureOptions> = {}) {
         super(renderer, url, options)
 
-        this.options.usage = GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST|GPUTextureUsage.COPY_SRC | GPUTextureUsage.RENDER_ATTACHMENT;
-     //  if(url.includes("_Op."))
-      // this.options.format = TextureFormat.R8Unorm
+        this.options.usage = GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.COPY_SRC | GPUTextureUsage.RENDER_ATTACHMENT;
+        //  if(url.includes("_Op."))
+        // this.options.format = TextureFormat.R8Unorm
 
         this.make();
 
-        if(url=="")return;
+        if (url == "") return;
 
         this.loadURL(url).then(() => {
 
@@ -24,38 +24,39 @@ export default class TextureLoader extends Texture {
 
 
     }
-    reload(url:string){
+    reload(url: string) {
         this.loadURL(url).then(() => {
 
             this.onComplete();
         });
     }
-    async loadURL(url: string) {
+    async loadURL(url: string, needsMipMap: boolean = true) {
         const response = await fetch(url);
 
         const imageBitmap = await createImageBitmap(await response.blob());
         this.options.width = imageBitmap.width;
         this.options.height = imageBitmap.height;
-
-     if (this.options.mipLevelCount > Math.log2(imageBitmap.height) - 2) {
-           this.options.mipLevelCount = Math.max(Math.log2(imageBitmap.height) - 2, 0);
-
+        if (needsMipMap) {
+            this.options.hasMipMap = true
+            this.options.mipLevelCount = Math.floor(Math.log2(Math.max(this.options.width, this.options.height))) + 1
+            this.options.usage = GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.STORAGE_BINDING;
         }
-        this.options.mipLevelCount =Math.max(this.options.mipLevelCount,1)
 
-        //this.options.usage = GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT;
+
+        console.log(url)
+
         this.isDirty = true;
         this.make();
 
 
         this.device.queue.copyExternalImageToTexture(
-            {source: imageBitmap},
-            {texture: this.textureGPU},
+            { source: imageBitmap },
+            { texture: this.textureGPU },
             [imageBitmap.width, imageBitmap.height]
-        );
+        )
+        this.renderer.mipmapQueue.addTexture(this)
+        this.loaded = true;
 
-       this.renderer.mipmapQueue.addTexture(this)
-        this.loaded=true;
     }
 
 }

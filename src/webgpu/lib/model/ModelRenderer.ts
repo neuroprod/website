@@ -12,7 +12,7 @@ export default class ModelRenderer {
     public models: Array<Model> = [];
     private renderer: Renderer;
     private label: string;
-    private camera!: Camera;
+    public camera!: Camera;
     private singleMaterial = false;
     private material!: Material;
     private materialType!: string;
@@ -33,12 +33,12 @@ export default class ModelRenderer {
         this.singleMaterial = true;
         this.material = material;
     }
-    sort(){
+    sort() {
         for (let model of this.models) {
             model.setCamDistance(this.camera.cameraWorld)
         }
-        this.models.sort((a,b)=>{
-            if(a.camDistSquared>b.camDistSquared)return -1
+        this.models.sort((a, b) => {
+            if (a.camDistSquared > b.camDistSquared) return -1
             return 1;
         })
 
@@ -47,8 +47,8 @@ export default class ModelRenderer {
         for (let model of this.models) {
             model.setZDistance()
         }
-        this.models.sort((a,b)=>{
-            if(a.zDistance<b.zDistance)return -1
+        this.models.sort((a, b) => {
+            if (a.zDistance < b.zDistance) return -1
             return 1;
         })
     }
@@ -59,12 +59,11 @@ export default class ModelRenderer {
 
 
 
-
         const passEncoder = pass.passEncoder;
 
         let currentMaterialID = ""
         let uniformGroupsIDS: Array<string> = ["", "", "", ""];
-        let material: Material|undefined
+        let material: Material | undefined
 
         if (this.singleMaterial) {
             material = this.material;
@@ -76,11 +75,15 @@ export default class ModelRenderer {
 
         for (let model of this.models) {
 
-            if(model.markedDelete){
+            if (model.static) {
+                if (!this.camera.modelInFrustum(model)) continue;
+            }
 
-                console.warn("deletedModel",model.mesh.label,this)
+            if (model.markedDelete) {
+
+                console.warn("deletedModel", model.mesh.label, this)
                 let i = this.models.indexOf(model);
-                this.models.splice(i,1)
+                this.models.splice(i, 1)
                 return;
             }
             if (!model.visible) continue
@@ -90,6 +93,7 @@ export default class ModelRenderer {
             if (!this.singleMaterial) {
 
                 if (this.materialType) {
+
                     material = model.getMaterial(this.materialType);
                 } else {
 
@@ -124,7 +128,7 @@ export default class ModelRenderer {
                     // @ts-ignore
                     uniformGroup = material.uniformGroups[i];
                 }
-//console.log( uniformGroup)
+                //console.log( uniformGroup)
                 if (uniformGroupsIDS[i] != uniformGroup.UUID) {
                     uniformGroupsIDS[i] = uniformGroup.UUID
                     passEncoder.setBindGroup(i, uniformGroup.bindGroup);
@@ -137,7 +141,7 @@ export default class ModelRenderer {
             for (let attribute of material.attributes) {
                 let buffer = model.mesh.getBufferByName(attribute.name);
                 if (!buffer) buffer = model.getBufferByName(attribute.name);
-                if (buffer ) {
+                if (buffer) {
                     passEncoder.setVertexBuffer(
                         attribute.slot,
                         buffer,
@@ -168,6 +172,7 @@ export default class ModelRenderer {
             }
 
         }
+
     }
 
     public setModels(models: Array<Model>) {

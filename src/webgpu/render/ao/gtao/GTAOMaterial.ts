@@ -1,36 +1,35 @@
-import {Textures} from "../../../data/Textures.ts";
+import { Textures } from "../../../data/Textures.ts";
 
 
 
 import Material from "../../../lib/material/Material.ts";
-import {ShaderType} from "../../../lib/material/ShaderTypes.ts";
+import { ShaderType } from "../../../lib/material/ShaderTypes.ts";
 import UniformGroup from "../../../lib/material/UniformGroup.ts";
 import DefaultTextures from "../../../lib/textures/DefaultTextures.ts";
-import {CompareFunction, FilterMode, TextureSampleType} from "../../../lib/WebGPUConstants.ts";
+import { CompareFunction, FilterMode, TextureSampleType } from "../../../lib/WebGPUConstants.ts";
 import DefaultUniformGroups from "../../../lib/material/DefaultUniformGroups.ts";
 
 
-export default class GTAOMaterial extends Material
-{
-    setup(){
+export default class GTAOMaterial extends Material {
+    setup() {
         this.addAttribute("aPos", ShaderType.vec3);
         this.addAttribute("aUV0", ShaderType.vec2);
 
-        this.addVertexOutput("uv", ShaderType.vec2 );
+        this.addVertexOutput("uv", ShaderType.vec2);
         this.addUniformGroup(DefaultUniformGroups.getCamera(this.renderer));
 
 
 
-        let uniforms =new UniformGroup(this.renderer,"uniforms");
-        this.addUniformGroup(uniforms,true);
+        let uniforms = new UniformGroup(this.renderer, "uniforms");
+        this.addUniformGroup(uniforms, true);
         uniforms.addTexture("noise", DefaultTextures.getMagicNoise(this.renderer));
         uniforms.addTexture("preprocessed_depth", this.renderer.getTexture(Textures.DEPTH_BLUR_MIP0))
         uniforms.addTexture("normals", this.renderer.getTexture(Textures.GNORMAL))
-        uniforms.addSampler("point_clamp_sampler",GPUShaderStage.FRAGMENT,FilterMode.Linear)
+        uniforms.addSampler("point_clamp_sampler", { filter: FilterMode.Linear })
 
         this.depthWrite = false
         this.depthCompare = CompareFunction.Always
-    //    this.logShader =true
+        //    this.logShader =true
 
     }
     getShader(): string {

@@ -1,36 +1,36 @@
 import Material from "../../lib/material/Material.ts";
-import {ShaderType} from "../../lib/material/ShaderTypes.ts";
+import { ShaderType } from "../../lib/material/ShaderTypes.ts";
 
 import UniformGroup from "../../lib/material/UniformGroup.ts";
-import {TextureSampleType} from "../../lib/WebGPUConstants.ts";
-import {Textures} from "../../data/Textures.ts";
+import { TextureSampleType } from "../../lib/WebGPUConstants.ts";
+import { Textures } from "../../data/Textures.ts";
 import DefaultUniformGroups from "../../lib/material/DefaultUniformGroups.ts";
-import {getWorldFromUVDepth} from "../../lib/material/shaders/DeferedChunks.ts";
-import {Vector4} from "@math.gl/core";
+import { getWorldFromUVDepth } from "../../lib/material/shaders/DeferedChunks.ts";
+import { Vector4 } from "@math.gl/core";
 
 export default class LightMaterial extends Material {
-    setup(){
+    setup() {
         this.addAttribute("aPos", ShaderType.vec3);
         this.addAttribute("aUV0", ShaderType.vec2);
 
-        this.addVertexOutput("uv0", ShaderType.vec2 );
+        this.addVertexOutput("uv0", ShaderType.vec2);
 
         this.addUniformGroup(DefaultUniformGroups.getCamera(this.renderer));
 
 
-        let uniforms =new UniformGroup(this.renderer,"uniforms");
-        this.addUniformGroup(uniforms,true);
-        uniforms.addUniform("shadowMatrix",0,GPUShaderStage.FRAGMENT,ShaderType.mat4);
-        uniforms.addUniform("shadowCameraPosition",new Vector4(0.5, 1, 0.5, 0.0));
+        let uniforms = new UniformGroup(this.renderer, "uniforms");
+        this.addUniformGroup(uniforms, true);
+        uniforms.addUniform("shadowMatrix", 0, GPUShaderStage.FRAGMENT, ShaderType.mat4);
+        uniforms.addUniform("shadowCameraPosition", new Vector4(0.5, 1, 0.5, 0.0));
         uniforms.addUniform("lightDir", new Vector4(0.5, 1, 0.5, 0.0));
         uniforms.addUniform("lightColor", new Vector4(1, 0.7, 0.7, 5));
-        uniforms.addUniform("needsAO",0);
-        uniforms.addUniform("needsShadow",0);
-        uniforms.addTexture("aoTexture",this.renderer.getTexture(Textures.GTAO_DENOISE), {sampleType:TextureSampleType.UnfilterableFloat})
-        uniforms.addTexture("gColor",this.renderer.getTexture(Textures.GCOLOR), {sampleType:TextureSampleType.UnfilterableFloat})
-        uniforms.addTexture("gNormal",this.renderer.getTexture(Textures.GNORMAL), {sampleType:TextureSampleType.UnfilterableFloat})
-        uniforms.addTexture("gDepth",this.renderer.getTexture(Textures.GDEPTH), {sampleType:TextureSampleType.UnfilterableFloat})
-        uniforms.addTexture("shadow",this.renderer.getTexture(Textures.SHADOW_DENOISE), {sampleType:TextureSampleType.UnfilterableFloat})
+        uniforms.addUniform("needsAO", 0);
+        uniforms.addUniform("needsShadow", 0);
+        uniforms.addTexture("aoTexture", this.renderer.getTexture(Textures.GTAO_DENOISE), { sampleType: TextureSampleType.UnfilterableFloat })
+        uniforms.addTexture("gColor", this.renderer.getTexture(Textures.GCOLOR), { sampleType: TextureSampleType.UnfilterableFloat })
+        uniforms.addTexture("gNormal", this.renderer.getTexture(Textures.GNORMAL), { sampleType: TextureSampleType.UnfilterableFloat })
+        uniforms.addTexture("gDepth", this.renderer.getTexture(Textures.GDEPTH), { sampleType: TextureSampleType.UnfilterableFloat })
+        uniforms.addTexture("shadow", this.renderer.getTexture(Textures.SHADOW_DENOISE), { sampleType: TextureSampleType.UnfilterableFloat })
         uniforms.addSampler("mySampler");
 
 
@@ -132,7 +132,7 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
        var aoM =1.0;
        if(uniforms.needsAO>0.5){
        let ao=textureLoad(aoTexture,  uvPos ,0).x; 
-       aoM = ao;
+       aoM = ao+1.0;
        }
        let roughness = 0.7;
        let metallic = 0.0;

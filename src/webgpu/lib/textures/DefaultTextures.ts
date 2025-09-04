@@ -1,12 +1,14 @@
 import Texture from "./Texture";
-import {TextureFormat} from "../WebGPUConstants";
+import { TextureFormat } from "../WebGPUConstants";
 import Renderer from "../Renderer";
-import {Vector3} from "@math.gl/core";
+import { Vector3 } from "@math.gl/core";
 
 
 
 export default class DefaultTextures {
+
     private static white: Texture;
+    private static red: Texture;
     private static black: Texture;
     private static grid: Texture;
     private static normal: Texture;
@@ -68,9 +70,9 @@ export default class DefaultTextures {
     static getTransparent(renderer: Renderer) {
         if (this.transparent) return this.transparent;
 
-        this.transparent= new Texture(renderer, "defaultTransparent", {
+        this.transparent = new Texture(renderer, "defaultTransparent", {
             format: TextureFormat.RGBA8Unorm,
-            usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST| GPUTextureUsage.RENDER_ATTACHMENT,
+            usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT,
         })
         this.transparent.make()
 
@@ -79,7 +81,7 @@ export default class DefaultTextures {
 
         this.transparent.writeTexture(f, 1, 1, 4);
 
-        return  this.transparent;
+        return this.transparent;
     }
     static getCube(render: Renderer) {
         if (this.cube) return this.cube;
@@ -117,6 +119,24 @@ export default class DefaultTextures {
         this.black.writeTexture(f, 1, 1, 4);
 
         return this.black;
+    }
+    static getRed(render: Renderer) {
+        if (this.red) return this.red;
+
+        this.red = new Texture(render, "defaultRed", {
+            format: TextureFormat.RGBA8Unorm,
+            usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
+        })
+        this.red.make()
+
+        let f = new Uint8ClampedArray(4);
+        f[0] = 100;
+        f[1] = 100;
+        f[2] = 100;
+        f[3] = 255;
+        this.red.writeTexture(f, 1, 1, 4);
+
+        return this.red;
     }
 
     static getNormal(render: Renderer) {
@@ -169,11 +189,11 @@ export default class DefaultTextures {
         return this.grid;
     }
 
-    static getMagicNoise(render: Renderer):Texture {
+    static getMagicNoise(render: Renderer): Texture {
         if (this.magicNoise) return this.magicNoise;
 
 
-        let size =64
+        let size = 5
         this.magicNoise = new Texture(render, "magicNoise", {
             width: size,
             height: size,
@@ -181,23 +201,25 @@ export default class DefaultTextures {
             usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
         })
         this.magicNoise.make();
-        const magicSquare = this.generateMagicSquare( size );
+
+
+        const magicSquare = this.generateMagicSquare(size);
         const noiseSquareSize = magicSquare.length;
-        const data = new Uint8Array( noiseSquareSize * 4 );
+        const data = new Uint8Array(noiseSquareSize * 4);
 
-        for ( let inx = 0; inx < noiseSquareSize; ++ inx ) {
+        for (let inx = 0; inx < noiseSquareSize; ++inx) {
 
-            const iAng = magicSquare[ inx ];
-            const angle = ( 2 * Math.PI * iAng ) / noiseSquareSize;
+            const iAng = magicSquare[inx];
+            const angle = (2 * Math.PI * iAng) / noiseSquareSize;
             const randomVec = new Vector3(
-                Math.cos( angle ),
-                Math.sin( angle ),
+                Math.cos(angle),
+                Math.sin(angle),
                 0
             ).normalize();
-            data[ inx * 4 ] = ( randomVec.x * 0.5 + 0.5 ) * 255;
-            data[ inx * 4 + 1 ] = ( randomVec.y * 0.5 + 0.5 ) * 255;
-            data[ inx * 4 + 2 ] = 127;
-            data[ inx * 4 + 3 ] = 255;
+            data[inx * 4] = (randomVec.x * 0.5 + 0.5) * 255;
+            data[inx * 4 + 1] = (randomVec.y * 0.5 + 0.5) * 255;
+            data[inx * 4 + 2] = 127;
+            data[inx * 4 + 3] = 255;
 
         }
         this.magicNoise.writeTexture(data, size, size, 4 * size);
@@ -205,7 +227,7 @@ export default class DefaultTextures {
 
     }
 
-    static generateMagicSquare(size =5) {
+    static generateMagicSquare(size: number) {
 
         const noiseSize = Math.floor(size) % 2 === 0 ? Math.floor(size) + 1 : Math.floor(size);
         const noiseSquareSize = noiseSize * noiseSize;
@@ -215,7 +237,7 @@ export default class DefaultTextures {
 
         for (let num = 1; num <= noiseSquareSize;) {
 
-            if (i === -1 && j === noiseSize) {
+            if (i === - 1 && j === noiseSize) {
 
                 j = noiseSize - 2;
                 i = 0;
@@ -254,6 +276,7 @@ export default class DefaultTextures {
         }
 
         return magicSquare;
+
     }
 
 

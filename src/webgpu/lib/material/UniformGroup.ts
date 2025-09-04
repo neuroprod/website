@@ -1,4 +1,4 @@
-import {getSizeForShaderType, ShaderType} from "./ShaderTypes";
+import { getSizeForShaderType, ShaderType } from "./ShaderTypes";
 
 import Texture from "../textures/Texture.ts";
 import ObjectGPU from "../ObjectGPU.ts";
@@ -30,13 +30,29 @@ export type TextureUniformOptions = {
     dimension: GPUTextureViewDimension,
 
 }
+
 export const TextureUniformOptionsDefault: TextureUniformOptions = {
     usage: GPUShaderStage.FRAGMENT,
     sampleType: TextureSampleType.Float,
     dimension: TextureDimension.TwoD,
 
 }
+export type SamplerUniformOptions = {
+    filter: GPUFilterMode,
+    usage: GPUShaderStageFlags,
+    addressMode: GPUAddressMode,
+    maxAnisotropy: number,
+    bindingType: GPUSamplerBindingType,
 
+}
+export const SamplerUniformOptionsDefault: SamplerUniformOptions = {
+    usage: GPUShaderStage.FRAGMENT,
+    filter: "linear",
+    addressMode: AddressMode.ClampToEdge,
+    maxAnisotropy: 1,
+    bindingType: SamplerBindingType.Filtering
+
+}
 
 type TextureUniform = {
     name: string,
@@ -59,13 +75,13 @@ type SamplerUniform = {
     name: string,
     sampler: GPUSampler,
     usage: GPUShaderStageFlags,
-    bindingType:GPUSamplerBindingType
+    bindingType: GPUSamplerBindingType
 
 }
 type ExternalTexture = {
     name: string,
-    videoFrame:  VideoFrame | null,
-    timestamp:number;
+    videoFrame: VideoFrame | null,
+    timestamp: number;
 }
 
 export default class UniformGroup extends ObjectGPU {
@@ -147,14 +163,14 @@ export default class UniformGroup extends ObjectGPU {
         this.externalTextures.push({
             name: name,
             videoFrame: null,
-            timestamp:0
+            timestamp: 0
         });
 
     }
 
     addTexture(name: string, value: Texture, options: Partial<TextureUniformOptions> = {}) {
 
-        let opt: TextureUniformOptions = {...TextureUniformOptionsDefault, ...options};
+        let opt: TextureUniformOptions = { ...TextureUniformOptionsDefault, ...options };
         this.textureUniforms.push({
             name: name,
             sampleType: opt.sampleType,
@@ -165,22 +181,31 @@ export default class UniformGroup extends ObjectGPU {
         })
 
     }
+    //usage = GPUShaderStage.FRAGMENT, filter: GPUFilterMode = FilterMode.Linear, addressMode = AddressMode.ClampToEdge, maxAnisotropy: number = 1,bindingType=SamplerBindingType.Filtering
+
+    addSampler(name: string, options: Partial<SamplerUniformOptions> = {}) {
+
+        let opt: SamplerUniformOptions = { ...SamplerUniformOptionsDefault, ...options };
 
 
-    addSampler(name: string, usage = GPUShaderStage.FRAGMENT, filter: GPUFilterMode = FilterMode.Linear, addressMode = AddressMode.ClampToEdge, maxAnisotropy: number = 1,bindingType=SamplerBindingType.Filtering) {
-        let sampler = this.renderer.device.createSampler({
-            magFilter: filter,
-            minFilter: filter,
-            mipmapFilter: filter,
-            addressModeU: addressMode,
-            addressModeV: addressMode,
-            maxAnisotropy: maxAnisotropy
-        })
-        this.samplerUniforms.push({name: name, sampler: sampler, usage: usage, bindingType: bindingType})
+        if (opt.bindingType == SamplerBindingType.Comparison) {
+            let sampler = this.renderer.device.createSampler({ compare: "less" })
+            this.samplerUniforms.push({ name: name, sampler: sampler, usage: opt.usage, bindingType: opt.bindingType })
 
 
-        //let sampler =this.renderer.device.createSampler({magFilter:"linear",minFilter:"linear" })
-        //this.samplerUniforms.push({name:name,sampler:sampler,usage:GPUShaderStage.FRAGMENT})
+        } else {
+            let sampler = this.renderer.device.createSampler({
+                magFilter: opt.filter,
+                minFilter: opt.filter,
+                mipmapFilter: opt.filter,
+                addressModeU: opt.addressMode,
+                addressModeV: opt.addressMode,
+                maxAnisotropy: opt.maxAnisotropy,
+            })
+            this.samplerUniforms.push({ name: name, sampler: sampler, usage: opt.usage, bindingType: opt.bindingType })
+
+        }
+
     }
 
     setUniform(name: string, value: Float32Array | Array<number> | number) {
@@ -222,18 +247,18 @@ export default class UniformGroup extends ObjectGPU {
 
     }
 
-    setVideoFrameTexture(name: string, videoFrame:  VideoFrame) {
+    setVideoFrameTexture(name: string, videoFrame: VideoFrame) {
         const found = this.externalTextures.find((element) => element.name == name);
-        if(found){
+        if (found) {
 
             // if(video.timestamp !=found.timestamp){
-            found.videoFrame =videoFrame;
-           found.timestamp =videoFrame.timestamp;
+            found.videoFrame = videoFrame;
+            found.timestamp = videoFrame.timestamp;
 
             //}
             this.isBindGroupDirty = true;
 
-        }else {
+        } else {
             console.log("uniform externalTexture not found", name, this.label)
         }
     }
@@ -248,7 +273,7 @@ export default class UniformGroup extends ObjectGPU {
             }
             if (t.texture.isDirty) this.isBindGroupDirty = true;
         }
-        if(this.externalTextures.length) this.isBindGroupDirty = true;
+        if (this.externalTextures.length) this.isBindGroupDirty = true;
 
         if (this.bindGroup) {
             if (this.isBindGroupDirty) {
@@ -356,11 +381,12 @@ ${this.getUniformStruct()}
         if (this.samplerUniforms.length) {
             for (let s of this.samplerUniforms) {
 
-              //  if (s.compare) {
-                //    textureText += `@group(${id}) @binding(${bindingCount})  var ` + s.name + `:sampler_comparison;` + "\n";
-                //} else {
+                if (s.bindingType == SamplerBindingType.Comparison) {
+                    //addCOmpare
+                    textureText += `@group(${id}) @binding(${bindingCount})  var ` + s.name + `:sampler_comparison;` + "\n";
+                } else {
                     textureText += `@group(${id}) @binding(${bindingCount})  var ` + s.name + `:sampler;` + "\n";
-                //}
+                }
 
                 bindingCount++
             }
@@ -420,13 +446,13 @@ ${this.getUniformStruct()}
             bindingCount++;
         }
         for (let t of this.samplerUniforms) {
-           // let s: GPUSamplerBindingLayout = {type: t.bindingType}
-        -
-            entriesLayout.push({
-                binding: bindingCount,
-                visibility: t.usage,
-                sampler:{type: t.bindingType},
-            })
+            // let s: GPUSamplerBindingLayout = {type: t.bindingType}
+            -
+                entriesLayout.push({
+                    binding: bindingCount,
+                    visibility: t.usage,
+                    sampler: { type: t.bindingType },
+                })
             bindingCount++;
         }
         let bindGroupLayoutDescriptor: GPUBindGroupLayoutDescriptor = {
@@ -518,7 +544,7 @@ ${this.getUniformStruct()}
             entries.push(
                 {
                     binding: bindingCount,
-                    resource: t.texture.textureGPU.createView({dimension: t.dimension}),
+                    resource: t.texture.textureGPU.createView({ dimension: t.dimension }),
 
                 }
             )
