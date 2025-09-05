@@ -46,25 +46,25 @@ export default class Game {
         this.gameRenderer = gameRenderer;
 
         this.gameCamera = new GameCamera(renderer, camera);
-        this.overlay =new Overlay(renderer)
-        GameModel.overlay =   this.overlay;
+        this.overlay = new Overlay(renderer)
+        GameModel.overlay = this.overlay;
         this.textBalloonHandler = new TextBalloonHandler(this.renderer, this.gameCamera.camera)
         this.conversationHandler = new ConversationHandler(this.renderer, this.textBalloonHandler)
         this.keyInput = new KeyInput()
         this.gamepadInput = new GamePadInput()
 
 
-       GameModel.renderer = renderer;
-       GameModel.gameRenderer = this.gameRenderer;
-       GameModel.gameCamera = this.gameCamera
-       GameModel.gamepadInput = this.gamepadInput
-       GameModel.keyInput = this.keyInput
-       GameModel.textBalloonHandler = this.textBalloonHandler
-       GameModel.conversationHandler = this.conversationHandler;
-       GameModel.mouseListener = this.mouseListener;
+        GameModel.renderer = renderer;
+        GameModel.gameRenderer = this.gameRenderer;
+        GameModel.gameCamera = this.gameCamera
+        GameModel.gamepadInput = this.gamepadInput
+        GameModel.keyInput = this.keyInput
+        GameModel.textBalloonHandler = this.textBalloonHandler
+        GameModel.conversationHandler = this.conversationHandler;
+        GameModel.mouseListener = this.mouseListener;
         GameModel.coinHandler = new CoinHandler(renderer)
-        GameModel.renderer2D =new Renderer2D(renderer,mouseListener)
-        GameModel.UI2D =new UI2D(renderer, GameModel.renderer2D)
+        GameModel.renderer2D = new Renderer2D(renderer, mouseListener)
+        GameModel.UI2D = new UI2D(renderer, GameModel.renderer2D)
 
 
         LevelHandler.init()
@@ -92,7 +92,7 @@ export default class Game {
             GameModel.UI2D.update()
         }
 
-        GameModel.renderer2D.setSize(this.renderer.width,this.renderer.height)
+        GameModel.renderer2D.setSize(this.renderer.width, this.renderer.height)
         GameModel.renderer2D.update()
         DebugDraw.update();
 
@@ -102,10 +102,10 @@ export default class Game {
     setActive() {
 
         let newName = AppState.getState("currentLevel");
-        if(!newName || !GameModel.debug) {
+        if (!newName || !GameModel.debug) {
             newName = "Start"
         }
-            LevelHandler.setLevel(newName)
+        LevelHandler.setLevel(newName)
 
 
 
@@ -121,14 +121,16 @@ export default class Game {
         if (!LoadHandler.isLoading()) {
             this.gameRenderer.drawFinal(pass);
             this.overlay.draw(pass)
+
+
         }
         GameModel.renderer2D.draw(pass)
-     // DebugDraw.draw(pass);
+        // DebugDraw.draw(pass);
 
     }
 
 
-     setGUI() {
+    setGUI() {
         UI.pushWindow("Game")
 
         for (let l of LevelHandler.levelKeys) {

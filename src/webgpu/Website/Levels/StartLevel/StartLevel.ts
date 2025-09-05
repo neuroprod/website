@@ -57,11 +57,7 @@ export class StartLevel extends BaseLevel {
         if (this.kris) this.kris.update()
 
         this.characterController.updateIdle(Timer.delta)
-        /*if(this.intro.done && GameModel.keyInput.getJump()){
-            this.intro.done =false;
-            console.log("move")
-            this.moveToStartPos();
-        }*/
+
 
 
     }

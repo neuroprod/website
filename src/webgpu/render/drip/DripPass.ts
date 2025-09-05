@@ -3,8 +3,8 @@ import RenderTexture from "../../lib/textures/RenderTexture.ts";
 import ColorAttachment from "../../lib/textures/ColorAttachment.ts";
 import Renderer from "../../lib/Renderer.ts";
 import Camera from "../../lib/Camera.ts";
-import {Textures} from "../../data/Textures.ts";
-import {LoadOp, TextureFormat} from "../../lib/WebGPUConstants.ts";
+import { Textures } from "../../data/Textures.ts";
+import { LoadOp, TextureFormat } from "../../lib/WebGPUConstants.ts";
 import ModelRenderer from "../../lib/model/ModelRenderer.ts";
 import Model from "../../lib/model/Model.ts";
 import Quad from "../../lib/mesh/geometry/Quad.ts";
@@ -18,7 +18,7 @@ class Particle {
     fx: number = 0;
     fy: number = 0;
     friendCount: number = 0;
-    speed: number =Math.random()*0.1+0.3;
+    speed: number = Math.random() * 0.1 + 0.3;
 
     resolve() {
 
@@ -72,9 +72,9 @@ export default class DripPass extends RenderPass {
     private numVGrids: number = 0;
 
     private attractionDistance = 10;
-    private topAttraction: number=0.5;
-    private surfaceTension: number=0.01;
-    private gravety: number=1;
+    private topAttraction: number = 0.5;
+    private surfaceTension: number = 0.01;
+    private gravety: number = 1;
 
     constructor(renderer: Renderer) {
         super(renderer, "dripRenderPass");
@@ -86,7 +86,7 @@ export default class DripPass extends RenderPass {
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
         });
         this.colorAttachment = new ColorAttachment(this.colorTarget, {
-            clearValue: {r: 0, g: 0.0, b: 0.0, a: 0.0},
+            clearValue: { r: 0, g: 0.0, b: 0.0, a: 0.0 },
             loadOp: LoadOp.Clear
         });
         this.colorAttachments = [this.colorAttachment]
@@ -122,7 +122,7 @@ export default class DripPass extends RenderPass {
 
         this.numHGrids = this.width / this.gridSize
         this.numVGrids = this.height / this.gridSize
-        console.log(this.numVGrids, this.numHGrids)
+
         for (let i = 0; i < this.numVGrids; i++) {
             for (let j = 0; j < this.numHGrids; j++) {
                 let g = new Grid()
@@ -177,9 +177,9 @@ export default class DripPass extends RenderPass {
     }
 
     unUI() {
-this.topAttraction = UI.LFloat(this,"topAttraction","topAttraction")
-        this.surfaceTension = UI.LFloat(this,"surfaceTension","surfaceTension")
-        this.gravety= UI.LFloat(this,"gravety","gravety")
+        this.topAttraction = UI.LFloat(this, "topAttraction", "topAttraction")
+        this.surfaceTension = UI.LFloat(this, "surfaceTension", "surfaceTension")
+        this.gravety = UI.LFloat(this, "gravety", "gravety")
     }
 
     private setParticles() {
@@ -189,27 +189,27 @@ this.topAttraction = UI.LFloat(this,"topAttraction","topAttraction")
 
             if (resetCount < 1) {
                 if (p.y < 10) {
-                    p.y = 100-Math.random()*1
+                    p.y = 100 - Math.random() * 1
                     p.x = Math.random() * 100
                     p.fx = 0;
                     p.fy = 0;
                     resetCount++
                 }
             }
-            if(p.y>80){
+            if (p.y > 80) {
 
-                let atr =Math.pow( (p.y-80)/20,2);
-                p.fy += atr*this.topAttraction
+                let atr = Math.pow((p.y - 80) / 20, 2);
+                p.fy += atr * this.topAttraction
             }
 
-            p.fy -= p.speed*this.gravety
-           // p.fx -= p.speed
+            p.fy -= p.speed * this.gravety
+            // p.fx -= p.speed
             p.resolve()
             this.instanceData[indexCount++] = p.x
             this.instanceData[indexCount++] = p.y
-p.friendCount=0;
-            p.fx *=0.1;
-            p.fy  *=0.1;
+            p.friendCount = 0;
+            p.fx *= 0.1;
+            p.fy *= 0.1;
         }
 
     }
@@ -234,15 +234,15 @@ p.friendCount=0;
                     let distN = Math.pow(1 - (dist / this.attractionDistance), 2);
 
 
-                    let of = (-distN) *this.surfaceTension
+                    let of = (-distN) * this.surfaceTension
                     p1.fx += d1 * of//x
                     p1.fy += d2 * of//y
 
 
                     p2.fx -= d1 * of//x
                     p2.fy -= d2 * of//y
-                    p1.friendCount ++
-                    p2.friendCount ++
+                    p1.friendCount++
+                    p2.friendCount++
                 }
                 if (dist < 1) {
 

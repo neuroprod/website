@@ -43,7 +43,7 @@ export default class TextureLoader extends Texture {
         }
 
 
-        console.log(url)
+
 
         this.isDirty = true;
         this.make();

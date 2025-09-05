@@ -210,7 +210,7 @@ export default class GameRenderer {
         if (m.transparent) {
             this.transparentModelRenderer.addModel(m)
         } else {
-            console.log(m.label)
+
             this.gBufferPass.modelRenderer.addModel(m)
 
         }
@@ -332,9 +332,10 @@ export default class GameRenderer {
         }
         this.gradingPass.add()
 
-        if (this.postLightPass.modelRenderer.models.length)
+        if (this.postLightPass.modelRenderer.models.length) {
             this.postLightPass.modelRenderer.sortZ()
-        this.postLightPass.add()
+            this.postLightPass.add()
+        }
 
     }
 

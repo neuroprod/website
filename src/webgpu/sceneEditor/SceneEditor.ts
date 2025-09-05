@@ -16,33 +16,33 @@ import GameRenderer from "../render/GameRenderer.ts";
 
 import AnimationEditor from "./timeline/AnimationEditor.ts";
 
-import {popSplitPanel, pushSplitPanel} from "../UI/SplitPanel.ts";
+import { popSplitPanel, pushSplitPanel } from "../UI/SplitPanel.ts";
 import SplitNode from "../UI/SplitNode.ts";
-import {DockSplit} from "../lib/UI/docking/DockType.ts";
+import { DockSplit } from "../lib/UI/docking/DockType.ts";
 import UI_I from "../lib/UI/UI_I.ts";
-import {popMainMenu, pushMainMenu} from "../UI/MainMenu.ts";
-import {addMainMenuButton} from "../UI/MainMenuButton.ts";
-import {Icons} from "../UI/Icons.ts";
-import {addMainMenuDivider} from "../UI/MainMenuDivider.ts";
-import {addMainMenuToggleButton} from "../UI/MainMenuToggleButton.ts";
+import { popMainMenu, pushMainMenu } from "../UI/MainMenu.ts";
+import { addMainMenuButton } from "../UI/MainMenuButton.ts";
+import { Icons } from "../UI/Icons.ts";
+import { addMainMenuDivider } from "../UI/MainMenuDivider.ts";
+import { addMainMenuToggleButton } from "../UI/MainMenuToggleButton.ts";
 
-import {popPanelMenu, pushPanelMenu} from "../UI/PanelMenu.ts";
-import {addInputText} from "../UI/InputText.ts";
+import { popPanelMenu, pushPanelMenu } from "../UI/PanelMenu.ts";
+import { addInputText } from "../UI/InputText.ts";
 
-import {addMeshPopup} from "../UI/AddMeshPopup.ts";
-import {addPlayButton, addRecButton} from "../UI/PlayPauzeRecButton.ts";
-import {MainMenuOffset} from "../UI/Style.ts";
-import {saveScene} from "../lib/SaveUtils.ts";
-import {setNewPopup} from "../UI/NewPopup.ts";
+import { addMeshPopup } from "../UI/AddMeshPopup.ts";
+import { addPlayButton, addRecButton } from "../UI/PlayPauzeRecButton.ts";
+import { MainMenuOffset } from "../UI/Style.ts";
+import { saveScene } from "../lib/SaveUtils.ts";
+import { setNewPopup } from "../UI/NewPopup.ts";
 import Animation from "./timeline/animation/Animation.ts";
 import DebugDraw from "../Website/DebugDraw.ts";
 import SceneHandler from "../data/SceneHandler.ts";
 import sceneHandler from "../data/SceneHandler.ts";
 import LoadHandler from "../data/LoadHandler.ts";
 import loadHandler from "../data/LoadHandler.ts";
-import {setAnimePopup} from "../UI/AnimePopup.ts";
-import {setOpenScenePopup} from "../UI/OpenScenePopup.ts";
-import AppState, {AppStates} from "../AppState.ts";
+import { setAnimePopup } from "../UI/AnimePopup.ts";
+import { setOpenScenePopup } from "../UI/OpenScenePopup.ts";
+import AppState, { AppStates } from "../AppState.ts";
 
 export enum ToolState {
 
@@ -243,7 +243,7 @@ class SceneEditor {
             setNewPopup("+ Add new Anime to " + this.currentModel.label, "new_anime", (name: string) => {
                 if (!this.currentModel) return;
                 let anime = new Animation(this.renderer, name, this.currentModel)
-                     SceneHandler.addAnimation(anime)
+                SceneHandler.addAnimation(anime)
 
                 AnimationEditor.setAnimation(anime)
             })
@@ -258,10 +258,10 @@ class SceneEditor {
             }
         }
         if (addMainMenuButton("open", Icons.FOLDER, true)) {
-             setAnimePopup("Animations",  SceneHandler.sceneAnimations,(anime:Animation)=>{
-                 AnimationEditor.setAnimation(anime);
+            setAnimePopup("Animations", SceneHandler.sceneAnimations, (anime: Animation) => {
+                AnimationEditor.setAnimation(anime);
 
-             })
+            })
         }
         if (AnimationEditor.currentAnimation) {
             addMainMenuDivider("mydiv3")
@@ -426,7 +426,7 @@ class SceneEditor {
         m.setUniqueName(SceneHandler.root.getUniqueName(m.label))
 
         this.currentModel.addChild(m)
-        console.log(m)
+
         if (m.model) {
             this.gameRenderer.addModel(m.model)
 
@@ -478,7 +478,7 @@ class SceneEditor {
             }
 
         }
-//this.hitModels = this.hitModels.concat(SceneHandler.usedModels)
+        //this.hitModels = this.hitModels.concat(SceneHandler.usedModels)
 
         SceneHandler.setScene(id).then(() => {
 

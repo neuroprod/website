@@ -1,4 +1,4 @@
-import Component, {ComponentSettings} from "../../lib/UI/components/Component.ts";
+import Component, { ComponentSettings } from "../../lib/UI/components/Component.ts";
 import UI_I from "../../lib/UI/UI_I.ts";
 import Vec2 from "../../lib/UI/math/Vec2.ts";
 import Color from "../../lib/UI/math/Color.ts";
@@ -41,7 +41,7 @@ export default class UIKeyFrameData {
         if (this.channel && this.selectedFrame != -1) {
             let k = this.frames.indexOf(this.selectedFrame)
             this.channel.removeFrame(this.selectedFrame);
-            console.log(this.selectedFrame)
+
             this.frames.splice(k, 1)
             if (k >= 0) {
                 this.frames.splice(k, 1)
@@ -55,7 +55,7 @@ export default class UIKeyFrameData {
             child.deleteSelectFrames()
         }
         this.isDrawDirty = true;
-        this.selectedFrame =-1
+        this.selectedFrame = -1
     }
 
     addChild(child: UIKeyFrameData) {
@@ -113,7 +113,7 @@ export default class UIKeyFrameData {
             this.isDrawDirty = true;
 
         } else {
-            console.log("move", this.startDragFrame, "-->", frame)
+
             if (this.channel) this.channel.moveFrame(this.startDragFrame, frame);
             this.removeKeyChilds(this.startDragFrame)
             this.addKey(frame)

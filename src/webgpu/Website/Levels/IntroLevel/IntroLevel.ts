@@ -5,9 +5,9 @@ import sceneHandler from "../../../data/SceneHandler.ts";
 import CharacterController from "../../CharacterController.ts";
 
 import GameModel from "../../GameModel.ts";
-import {PlatformLevel} from "../PlatformLevel.ts";
+import { PlatformLevel } from "../PlatformLevel.ts";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
-import {Vector3} from "@math.gl/core";
+import { Vector3 } from "@math.gl/core";
 import gsap from "gsap";
 import LevelHandler from "../LevelHandler.ts";
 
@@ -55,7 +55,7 @@ export class IntroLevel extends PlatformLevel {
         this.landlord = sceneHandler.getSceneObject("rootLandlord")
         this.landlord.setScaler(1.2)
         this.landlord.z = 0
-        this.landlord.x = -1.5-2
+        this.landlord.x = -1.5 - 2
         this.landlord.ry = 0
         sceneHandler.getSceneObject("LandlordArmGun").hide()
         this.landlordHand = sceneHandler.getSceneObject("landlordArmPoint")
@@ -92,7 +92,7 @@ export class IntroLevel extends PlatformLevel {
 
     private playIntro() {
 
-        this.landlord.x =-1.5
+        this.landlord.x = -1.5
         let tl = gsap.timeline()
         GameModel.gameCamera.TweenToLockedView(new Vector3(-1.0, 0.5, 0), new Vector3(-1.0, 0.5, 2))
 
@@ -100,22 +100,22 @@ export class IntroLevel extends PlatformLevel {
 
 
         this.characterController.setAngle(-Math.PI)
-        let count=0;
+        let count = 0;
         gsap.delayedCall(1, () => {
             GameModel.conversationHandler.startConversation("mrLoathsome")
             GameModel.conversationHandler.dataCallBack = (data: string) => {
-             if(data=="raiseHand"){
-                 gsap.to(this.landlordHand, {rz: 0, x: 0.1, y: 0.12})
-             }
-               else if(data=="moveHand"){
-                    gsap.to(this.landlordHand, {rz: -0.2, x: 0.1, y: 0.12})
+                if (data == "raiseHand") {
+                    gsap.to(this.landlordHand, { rz: 0, x: 0.1, y: 0.12 })
                 }
-             else if(data=="lowerHand"){
-                 gsap.to(this.landlordHand, {rz: -0.4, duration:3, x: 0.1, y: 0.12})
-             }
+                else if (data == "moveHand") {
+                    gsap.to(this.landlordHand, { rz: -0.2, x: 0.1, y: 0.12 })
+                }
+                else if (data == "lowerHand") {
+                    gsap.to(this.landlordHand, { rz: -0.4, duration: 3, x: 0.1, y: 0.12 })
+                }
                 count++
 
-                console.log(data)
+
 
             }
             GameModel.conversationHandler.doneCallBack = () => {

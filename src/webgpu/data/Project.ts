@@ -21,7 +21,7 @@ export default class Project {
     textureDirty: boolean = false;
     textureSize: number = 1024;
     selectItems: Array<SelectItem> = [];
-    baseTexture: Texture | null=null;
+    baseTexture: Texture | null = null;
     fullTexture!: Texture;
     loadTexture!: TextureLoader;
     public isNew = true;
@@ -104,28 +104,28 @@ export default class Project {
     }
 
     async loadPNGTexture() {
-        this.loadTexture = new TextureLoader(this.renderer,"",{mipLevelCount:1})
-console.log(this.loadTexture)
+        this.loadTexture = new TextureLoader(this.renderer, "", { mipLevelCount: 1 })
+
         await this.loadTexture.loadURL("./data/" + this.id + "/texture.png");
 
 
     }
-    clearBaseTexture(){
-        if(this.baseTexture){
+    clearBaseTexture() {
+        if (this.baseTexture) {
             this.baseTexture.destroy();
-            this.baseTexture =null;
+            this.baseTexture = null;
 
         }
     }
     getBaseTexture() {
 
         if (!this.baseTexture) {
-          //  console.log("startLoadBase",this.name)
+            //  console.log("startLoadBase",this.name)
             LoadHandler.startLoading()
-            this.baseTexture = new TextureLoader(this.renderer, "./data/" + this.id + "/texture.webp",{mipLevelCount:4}) as Texture
+            this.baseTexture = new TextureLoader(this.renderer, "./data/" + this.id + "/texture.webp", { mipLevelCount: 4 }) as Texture
             (this.baseTexture as TextureLoader).onComplete = () => {
 
-             //   console.log("textureLoadComplete")
+                //   console.log("textureLoadComplete")
                 LoadHandler.stopLoading()
             }
 
@@ -167,6 +167,6 @@ console.log(this.loadTexture)
 
         }
         this.transparentMaterial.setTexture("colorTexture", this.getBaseTexture());
-        return    this.transparentMaterial;
+        return this.transparentMaterial;
     }
 }

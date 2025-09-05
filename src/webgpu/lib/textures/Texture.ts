@@ -48,7 +48,6 @@ export default class Texture extends ObjectGPU {
     if (!this.isDirty) return
     if (this.textureGPU) this.textureGPU.destroy();
 
-    console.log(this.options.width, this.options.height, this.options.mipLevelCount)
     if (this.options.width === 1 && this.options.height == 1) this.options.mipLevelCount = 1
     this.textureGPU = this.device.createTexture({
       label: this.label,

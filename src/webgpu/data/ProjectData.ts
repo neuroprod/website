@@ -3,7 +3,7 @@ import Renderer from "../lib/Renderer.ts";
 
 import Project from "./Project.ts";
 import Model from "../lib/model/Model.ts";
-import ProjectMesh, {MeshType} from "./ProjectMesh.ts";
+import ProjectMesh, { MeshType } from "./ProjectMesh.ts";
 
 import SceneObject3D from "./SceneObject3D.ts";
 import ShadowDepthMaterial from "../render/shadow/ShadowDepthMaterial.ts";
@@ -31,52 +31,53 @@ class ProjectData {
     copy: any;
     constructor() {
     }
-   async init(renderer:Renderer,preloader:PreLoader,){
+    async init(renderer: Renderer, preloader: PreLoader,) {
 
-       this.renderer =renderer;
+        this.renderer = renderer;
 
-       this.defaultShadowMaterial = new ShadowDepthMaterial(renderer, "shadowDepth");
-        this.defaultMaskMaterial =new MaskMaterial(renderer,"defaultMask")
-       this.defaultFontShadowMaterial = new ShadowFontDepthMaterial(renderer, "fontDepthMaterial");
-       this.font = new Font()
+        this.defaultShadowMaterial = new ShadowDepthMaterial(renderer, "shadowDepth");
+        this.defaultMaskMaterial = new MaskMaterial(renderer, "defaultMask")
+        this.defaultFontShadowMaterial = new ShadowFontDepthMaterial(renderer, "fontDepthMaterial");
+        this.font = new Font()
 
 
 
-       const response = await fetch( "./data.json")
+        const response = await fetch("./data.json")
 
-       let text = await response.text();
-       this.folders= JSON.parse(text);
-       let pArray:Array<Promise<Response>> =[]
+        let text = await response.text();
+        this.folders = JSON.parse(text);
+        let pArray: Array<Promise<Response>> = []
 
-       for(let folder of this.folders){
+        for (let folder of this.folders) {
 
-            let file  = "./data/"+folder+"/data.json"
-           console.log(file)
-            let p =  fetch( file)
+            let file = "./data/" + folder + "/data.json"
+
+            let p = fetch(file)
 
 
             pArray.push(p);
-       }
-       await Promise.all(pArray);
+        }
+        await Promise.all(pArray);
 
-       for(let pr of pArray){
+        for (let pr of pArray) {
 
-        let text  =(await pr).text()
-        await text.then((value)=>{
-            let projectData = JSON.parse(value)
+            let text = (await pr).text()
+            await text.then((value) => {
+                let projectData = JSON.parse(value)
 
-            let p = new Project(renderer)
+                let p = new Project(renderer)
 
-            p.setData(projectData);
-            this.addProject(p)
-        }).catch(()=>{
-            console.log(text)
-           })
-       }
-       const responseW = await fetch( "./websiteCopy.json")
+                p.setData(projectData);
+                this.addProject(p)
+            }).catch((e) => {
+                console.log(e, pr)
 
-       let textW = await responseW.text();
-       this.copy = JSON.parse(textW);
+            })
+        }
+        const responseW = await fetch("./websiteCopy.json")
+
+        let textW = await responseW.text();
+        this.copy = JSON.parse(textW);
 
 
 
@@ -91,7 +92,7 @@ class ProjectData {
     }
 
     setNewScene() {
-        for(let p of this.projects){
+        for (let p of this.projects) {
             p.clearBaseTexture()
         }
     }
@@ -103,21 +104,20 @@ class ProjectData {
         let projMesh = project.getProjectMeshByID(d.meshId);
         if (!projMesh) return null
 
-        let m = this.makeSceneObjectWithMesh(project, projMesh, d.label, d.id,d.isTransparent);
+        let m = this.makeSceneObjectWithMesh(project, projMesh, d.label, d.id, d.isTransparent);
         return m;
 
 
     }
 
-   public makeSceneObjectWithMesh(project: Project, projMesh: ProjectMesh, label:string, id:string,trans:boolean =false)
-    {
-        let model = new Model(this.renderer,  projMesh.id);
-        model.mesh =  projMesh.getMesh();
-        if ( projMesh.meshType == MeshType.TRANS_PLANE) {
-            if(trans){
-                model.material =    project.getTransparentMaterial();
-            }else{
-                model.material =    project.getGBufferClipMaterial();
+    public makeSceneObjectWithMesh(project: Project, projMesh: ProjectMesh, label: string, id: string, trans: boolean = false) {
+        let model = new Model(this.renderer, projMesh.id);
+        model.mesh = projMesh.getMesh();
+        if (projMesh.meshType == MeshType.TRANS_PLANE) {
+            if (trans) {
+                model.material = project.getTransparentMaterial();
+            } else {
+                model.material = project.getGBufferClipMaterial();
             }
 
             model.setMaterial("shadow", project.getShadowClipMaterial())
@@ -133,12 +133,12 @@ class ProjectData {
         let obj3D = new SceneObject3D(this.renderer, label)
         obj3D.addChild(model)
         obj3D.model = model;
-        obj3D.meshId =  projMesh.id;
+        obj3D.meshId = projMesh.id;
         obj3D.projectId = project.id;
 
-       /* if (m.meshType == MeshType.TRANS_PLANE) {
-            // obj3D.transparent =true;
-        }*/
+        /* if (m.meshType == MeshType.TRANS_PLANE) {
+             // obj3D.transparent =true;
+         }*/
         if (id.length > 1) {
             obj3D.UUID = id;
         }
@@ -161,28 +161,28 @@ class ProjectData {
 
 
     }
-    makeSceneObjectWithText(name: string, text: string,textSpacing:number=-1) {
+    makeSceneObjectWithText(name: string, text: string, textSpacing: number = -1) {
 
         let model = new Model(this.renderer, "textModel")
-        model.transparent =true;
+        model.transparent = true;
         let mesh = new FontMesh(this.renderer, 'fontMesh');
-        let textData =text;
-        if(text.startsWith("#")){
+        let textData = text;
+        if (text.startsWith("#")) {
 
-           let id = text.slice(1)
-            let copy =this.copy[id]
+            let id = text.slice(1)
+            let copy = this.copy[id]
 
 
-            if(copy){
-                text=copy;
+            if (copy) {
+                text = copy;
             }
         }
 
-        if(textSpacing==undefined)textSpacing =-1
-        mesh.setText(text, this.font,textSpacing);
+        if (textSpacing == undefined) textSpacing = -1
+        mesh.setText(text, this.font, textSpacing);
         model.mesh = mesh
 
-        model.material =  new FontMaterial(this.renderer, "fontMaterial");
+        model.material = new FontMaterial(this.renderer, "fontMaterial");
         model.setMaterial("shadow", this.defaultFontShadowMaterial)
 
         let obj3D = new SceneObject3D(this.renderer, name)

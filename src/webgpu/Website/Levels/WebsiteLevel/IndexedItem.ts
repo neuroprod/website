@@ -1,10 +1,10 @@
-export default class IndexedItem{
+export default class IndexedItem {
 
 
-setCurrentIndex(index:number){
+    setCurrentIndex(index: number) {
 
-    console.log(index)
 
-}
+
+    }
 
 }

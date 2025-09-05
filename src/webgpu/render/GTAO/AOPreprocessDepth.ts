@@ -44,7 +44,7 @@ export default class AOPreprocessDepth {
 
 
     public add() {
-        console.log("add")
+
         let descriptor: GPUComputePassDescriptor = {}
         this.passEncoder = this.renderer.commandEncoder.beginComputePass(
             descriptor

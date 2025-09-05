@@ -9,11 +9,12 @@ import MouseListener from "../lib/MouseListener.ts";
 import UI2D from "./UI2D/UI2D.ts";
 import Overlay from "./Overlay.ts";
 import CoinHandler from "./handlers/CoinHandler.ts";
-import {MainState} from "../Main.ts";
+import { MainState } from "../Main.ts";
 import Renderer2D from "../lib/twoD/Renderer2D.ts";
 import GLFTLoader from "../lib/GLFTLoader.ts";
 
- class GameModel {
+
+class GameModel {
 
     renderer!: Renderer;
     gameRenderer!: GameRenderer;
@@ -27,19 +28,19 @@ import GLFTLoader from "../lib/GLFTLoader.ts";
     coinHandler!: CoinHandler;
 
     //godPresent
-    presentID=-1;
+    presentID = -1;
     setMainState!: OmitThisParameter<(state: MainState) => void>;
-    debug: boolean =false;
-     renderer2D!: Renderer2D;
+    debug: boolean = false;
+    renderer2D!: Renderer2D;
     UI2D!: UI2D;
-     glft!: GLFTLoader;
-     glft2!: GLFTLoader;
-     gameCopy!: any;
+    glft!: GLFTLoader;
+    glft2!: GLFTLoader;
+    gameCopy!: any;
 
 
 
 
 
 
- }
-export default  new GameModel()
+}
+export default new GameModel()

@@ -1,26 +1,25 @@
 import Material from "../material/Material.ts";
-import {ShaderType} from "../material/ShaderTypes.ts";
+import { ShaderType } from "../material/ShaderTypes.ts";
 import UniformGroup from "../material/UniformGroup.ts";
 import DefaultTextures from "../textures/DefaultTextures.ts";
-import {CompareFunction, FilterMode} from "../WebGPUConstants.ts";
+import { CompareFunction, FilterMode } from "../WebGPUConstants.ts";
 import Blend from "../material/Blend.ts";
 
-export default class BaseBlitMaterial extends Material
-{
-    setup(){
+export default class BaseBlitMaterial extends Material {
+    setup() {
         this.addAttribute("aPos", ShaderType.vec3);
         this.addAttribute("aUV0", ShaderType.vec2);
 
-        this.addVertexOutput("uv", ShaderType.vec2 );
+        this.addVertexOutput("uv", ShaderType.vec2);
 
-        let uniforms =new UniformGroup(this.renderer,"uniforms");
-        this.addUniformGroup(uniforms,true);
-        uniforms.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer));
-        uniforms.addSampler("mySampler",GPUShaderStage.FRAGMENT,FilterMode.Nearest)
+        let uniforms = new UniformGroup(this.renderer, "uniforms");
+        this.addUniformGroup(uniforms, true);
+        uniforms.addTexture("colorTexture", DefaultTextures.getWhite(this.renderer));
+        uniforms.addSampler("mySampler", { filter: FilterMode.Nearest })
 
         this.depthWrite = false
         this.depthCompare = CompareFunction.Always
-//this.blendModes=[Blend.preMultAlpha()]
+        //this.blendModes=[Blend.preMultAlpha()]
     }
     getShader(): string {
         return /* wgsl */ `

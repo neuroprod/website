@@ -1,32 +1,32 @@
 import Material from "../../lib/material/Material.ts";
-import {ShaderType} from "../../lib/material/ShaderTypes.ts";
+import { ShaderType } from "../../lib/material/ShaderTypes.ts";
 import DefaultUniformGroups from "../../lib/material/DefaultUniformGroups.ts";
 import UniformGroup from "../../lib/material/UniformGroup.ts";
 import DefaultTextures from "../../lib/textures/DefaultTextures.ts";
-import {AddressMode, FilterMode} from "../../lib/WebGPUConstants.ts";
+import { AddressMode, FilterMode } from "../../lib/WebGPUConstants.ts";
 import Blend from "../../lib/material/Blend.ts";
 
 
-export default class FullScreenStretchMaterial extends Material{
+export default class FullScreenStretchMaterial extends Material {
 
-    setup(){
+    setup() {
         this.addAttribute("aPos", ShaderType.vec3);
 
         this.addAttribute("aUV0", ShaderType.vec2);
 
 
-        this.addVertexOutput("uv", ShaderType.vec2 );
+        this.addVertexOutput("uv", ShaderType.vec2);
 
 
 
-        let uniforms =new UniformGroup(this.renderer,"uniforms");
-        this.addUniformGroup(uniforms,true);
+        let uniforms = new UniformGroup(this.renderer, "uniforms");
+        this.addUniformGroup(uniforms, true);
 
-        uniforms.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
-        uniforms.addSampler("mySampler",  GPUShaderStage.FRAGMENT,  FilterMode.Linear,  AddressMode.ClampToEdge, 4)
-this.depthCompare="always"
-        this.depthWrite=false
-        this.blendModes=[Blend.alpha()]
+        uniforms.addTexture("colorTexture", DefaultTextures.getWhite(this.renderer))
+        uniforms.addSampler("mySampler")
+        this.depthCompare = "always"
+        this.depthWrite = false
+        this.blendModes = [Blend.alpha()]
         //this.logShader =true;
     }
     getShader(): string {
