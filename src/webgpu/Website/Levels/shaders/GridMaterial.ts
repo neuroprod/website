@@ -50,7 +50,7 @@ uvP=uvP%1.0;
 let l1 =max(0,step(0.5,uvP.x)-step(0.5,uvP.y));
 let l2 =max(0,step(0.5,1.0-uvP.x)-step(0.5,1.0-uvP.y));
 let c = mix(vec3(1.0,0.83,0.05),vec3(1.0,0.882,0.01),vec3(l1+l2));
-    return vec4(c,1.0);
+    return vec4(c.y,c.y,c.y,1.0);
 }
 ///////////////////////////////////////////////////////////
         `

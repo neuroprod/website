@@ -15,15 +15,15 @@ export default class ConversationHandler {
     private isChoice!: boolean;
     private choiceIndex: number = 0;
     private numChoices = 0;
-    public replaceMap:Map<string,string>=new Map()
-    isDone: boolean =false;
-    doneCallBack!:()=>void;
-    dataCallBack!:(data:string)=>void;
+    public replaceMap: Map<string, string> = new Map()
+    isDone: boolean = false;
+    doneCallBack!: () => void;
+    dataCallBack!: (data: string) => void;
     private data: any;
     constructor(renderer: Renderer, textBalloonHandler: TextBalloonHandler) {
         this.renderer = renderer;
         this.textBalloonHandler = textBalloonHandler;
-        this.data =GameModel.gameCopy
+        this.data = GameModel.gameCopy
     }
 
     startConversation(id: string) {
@@ -33,14 +33,14 @@ export default class ConversationHandler {
 
         this.dataIndex = 0
         this.isChoice = false;
-        this.isDone =false;
+        this.isDone = false;
         this.setText();
 
 
     }
 
     setText() {
-
+        console.log(this.dataArr)
         if (this.dataArr.length == this.dataIndex) {
 
             return true;
@@ -51,9 +51,9 @@ export default class ConversationHandler {
         let data = this.dataArr[this.dataIndex]
 
         if (data.char && data.pos) {
-          let m = SceneHandler.getSceneObject(data.char);
+            let m = SceneHandler.getSceneObject(data.char);
 
-          this.textBalloonHandler.setModel(m, data.pos)
+            this.textBalloonHandler.setModel(m, data.pos)
 
         }
         this.currentData = data;
@@ -72,9 +72,10 @@ export default class ConversationHandler {
 
     }
 
-    displayText(text:string, numAnswers:number, currentAnswer:number){
+    displayText(text: string, numAnswers: number, currentAnswer: number) {
+        console.log(text)
         this.textReady = false
-        this.textBalloonHandler.setText(this.replace(text),  numAnswers, currentAnswer)
+        this.textBalloonHandler.setText(this.replace(text), numAnswers, currentAnswer)
         setTimeout(() => {
             this.textReady = true
         }, 800)
@@ -105,19 +106,19 @@ export default class ConversationHandler {
                 s = -1
             }
 
-            if(s!=0){
+            if (s != 0) {
 
-                this.choiceIndex +=s;
-                this.choiceIndex= (( this.choiceIndex % this.numChoices) + this.numChoices) % this.numChoices;
+                this.choiceIndex += s;
+                this.choiceIndex = ((this.choiceIndex % this.numChoices) + this.numChoices) % this.numChoices;
 
                 let text = this.currentData.choice[this.choiceIndex].text;
-                this.displayText(text,   this.numChoices,   this.choiceIndex)
+                this.displayText(text, this.numChoices, this.choiceIndex)
 
-            }else if(jump) {
+            } else if (jump) {
                 this.setCallBack(this.currentData.choice[this.choiceIndex].callBack)
-                if(this.currentData.choice[this.choiceIndex].callText){
-                    this.startConversation( this.currentData.choice[this.choiceIndex].callText)
-                }else{
+                if (this.currentData.choice[this.choiceIndex].callText) {
+                    this.startConversation(this.currentData.choice[this.choiceIndex].callText)
+                } else {
                     this.setDone();
                 }
 
@@ -129,20 +130,20 @@ export default class ConversationHandler {
 
         if (jump) {
             this.setCallBack(this.currentData.callBack)
-            if(this.setText())     this.setDone()
+            if (this.setText()) this.setDone()
         }
 
 
     }
-replace(input:string){
+    replace(input: string) {
 
-    return input.replace(/#(\w+)/g, (_, $1)=> {
-      return  this.replaceMap.get($1) as string
-       })
-}
-    public setCallBack(data:string|undefined){
+        return input.replace(/#(\w+)/g, (_, $1) => {
+            return this.replaceMap.get($1) as string
+        })
+    }
+    public setCallBack(data: string | undefined) {
 
-        if(this.dataCallBack && data)this.dataCallBack(data)
+        if (this.dataCallBack && data) this.dataCallBack(data)
     }
 
     setChoice() {
@@ -152,14 +153,14 @@ replace(input:string){
         let text = this.currentData.choice[this.choiceIndex].text;
 
 
-        this.displayText(text,   this.numChoices,   this.choiceIndex)
+        this.displayText(text, this.numChoices, this.choiceIndex)
 
     }
 
     private setDone() {
-        this.isDone =true;
-        this.textReady =false;
-       this.textBalloonHandler.hideText()
+        this.isDone = true;
+        this.textReady = false;
+        this.textBalloonHandler.hideText()
         this.doneCallBack()
     }
 }

@@ -1,8 +1,8 @@
 import Mesh from "../lib/mesh/Mesh.ts";
-import {Vector2, Vector3} from "@math.gl/core";
+import { Vector2, Vector3 } from "@math.gl/core";
 import earcut from "earcut";
-import {NumericArray} from "@math.gl/types";
-import {MeshType} from "../data/ProjectMesh.ts";
+import { NumericArray } from "@math.gl/types";
+import { MeshType } from "../data/ProjectMesh.ts";
 
 
 export default class ExtrudeMesh extends Mesh {
@@ -18,14 +18,14 @@ export default class ExtrudeMesh extends Mesh {
     private n2: Vector3 = new Vector3();
 
 
-    setResolve(points: Array<Vector2> ,center = new Vector3()){
+    setResolve(points: Array<Vector2>, center = new Vector3()) {
 
 
 
-        for (let i = 0; i < points.length ; i++) {
+        for (let i = 0; i < points.length; i++) {
 
-             points[i].x = points[i].x -center.x;
-            points[i].y =points[i].y -center.y;
+            points[i].x = points[i].x - center.x;
+            points[i].y = points[i].y - center.y;
 
         }
 
@@ -34,7 +34,7 @@ export default class ExtrudeMesh extends Mesh {
 
         //stolen from Threejs
 
-        let segments =20;
+        let segments = 20;
 
         const indices = [];
         const vertices = [];
@@ -53,43 +53,43 @@ export default class ExtrudeMesh extends Mesh {
 
         // pre-compute normals for initial "meridian"
 
-        for ( let j = 0; j <= ( points.length - 1 ); j ++ ) {
+        for (let j = 0; j <= (points.length - 1); j++) {
 
-            switch ( j ) {
+            switch (j) {
 
                 case 0:				// special handling for 1st vertex on path
 
-                    dx = points[ j + 1 ].x - points[ j ].x;
-                    dy = points[ j + 1 ].y - points[ j ].y;
+                    dx = points[j + 1].x - points[j].x;
+                    dy = points[j + 1].y - points[j].y;
 
                     normal.x = dy * 1.0;
                     normal.y = - dx;
                     normal.z = dy * 0.0;
 
-                    prevNormal.copy( normal as NumericArray);
+                    prevNormal.copy(normal as NumericArray);
 
                     normal.normalize();
 
-                    initNormals.push( normal.x, normal.y, normal.z );
+                    initNormals.push(normal.x, normal.y, normal.z);
 
                     break;
 
-                case ( points.length - 1 ):	// special handling for last Vertex on path
+                case (points.length - 1):	// special handling for last Vertex on path
 
-                    initNormals.push( prevNormal.x, prevNormal.y, prevNormal.z );
+                    initNormals.push(prevNormal.x, prevNormal.y, prevNormal.z);
 
                     break;
 
                 default:			// default handling for all vertices in between
 
-                    dx = points[ j + 1 ].x - points[ j ].x;
-                    dy = points[ j + 1 ].y - points[ j ].y;
+                    dx = points[j + 1].x - points[j].x;
+                    dy = points[j + 1].y - points[j].y;
 
                     normal.x = dy * 1.0;
                     normal.y = - dx;
                     normal.z = dy * 0.0;
 
-                    curNormal.copy( normal as NumericArray );
+                    curNormal.copy(normal as NumericArray);
 
                     normal.x += prevNormal.x;
                     normal.y += prevNormal.y;
@@ -97,9 +97,9 @@ export default class ExtrudeMesh extends Mesh {
 
                     normal.normalize();
 
-                    initNormals.push( normal.x, normal.y, normal.z );
+                    initNormals.push(normal.x, normal.y, normal.z);
 
-                    prevNormal.copy( curNormal  as NumericArray);
+                    prevNormal.copy(curNormal as NumericArray);
 
             }
 
@@ -107,37 +107,37 @@ export default class ExtrudeMesh extends Mesh {
 
         // generate vertices, uvs and normals
 
-        for ( let i = 0; i <= segments; i ++ ) {
+        for (let i = 0; i <= segments; i++) {
 
-            const phi =  i * inverseSegments *Math.PI*2;
+            const phi = i * inverseSegments * Math.PI * 2;
 
-            const sin = Math.sin( phi );
-            const cos = Math.cos( phi );
+            const sin = Math.sin(phi);
+            const cos = Math.cos(phi);
 
-            for ( let j = 0; j <= ( points.length - 1 ); j ++ ) {
+            for (let j = 0; j <= (points.length - 1); j++) {
 
                 // vertex
 
-                vertex.x = points[ j ].x * sin;
-                vertex.y = points[ j ].y ;
-                vertex.z = points[ j ].x * cos;
+                vertex.x = points[j].x * sin;
+                vertex.y = points[j].y;
+                vertex.z = points[j].x * cos;
 
-                vertices.push( vertex.x, vertex.y, vertex.z );
+                vertices.push(vertex.x, vertex.y, vertex.z);
 
                 // uv
 
-                uv.x =(points[ j ].x +center.x);
-                uv.y = 1-(points[ j ].y+center.y);
+                uv.x = (points[j].x + center.x);
+                uv.y = 1 - (points[j].y + center.y);
 
-                uvs.push( uv.x, uv.y );
+                uvs.push(uv.x, uv.y);
 
                 // normal
 
-                const x = initNormals[ 3 * j + 0 ] * sin;
-                const y = initNormals[ 3 * j + 1 ];
-                const z = initNormals[ 3 * j + 0 ] * cos;
+                const x = initNormals[3 * j + 0] * sin;
+                const y = initNormals[3 * j + 1];
+                const z = initNormals[3 * j + 0] * cos;
 
-                normals.push( x, y, z );
+                normals.push(x, y, z);
 
             }
 
@@ -145,9 +145,9 @@ export default class ExtrudeMesh extends Mesh {
 
         // indices
 
-        for ( let i = 0; i < segments; i ++ ) {
+        for (let i = 0; i < segments; i++) {
 
-            for ( let j = 0; j < ( points.length - 1 ); j ++ ) {
+            for (let j = 0; j < (points.length - 1); j++) {
 
                 const base = j + i * points.length;
 
@@ -158,8 +158,8 @@ export default class ExtrudeMesh extends Mesh {
 
                 // faces
 
-                indices.push( a, b, d );
-                indices.push( c, d, b );
+                indices.push(a, b, d);
+                indices.push(c, d, b);
 
             }
 
@@ -167,11 +167,11 @@ export default class ExtrudeMesh extends Mesh {
         this.setPositions(new Float32Array(vertices));
         this.setNormals(new Float32Array(normals));
         this.setUV0(new Float32Array(uvs));
-        this.setIndices(new Uint16Array (indices));
+        this.setIndices(new Uint16Array(indices));
     }
 
 
-    setExtrusion(points: Array<Vector2>,type:MeshType, thickness = 1, center = new Vector3()) {
+    setExtrusion(points: Array<Vector2>, type: MeshType, thickness = 1, center = new Vector3()) {
 
         let edgeSum = 0
         for (let i = 0; i < points.length - 1; i++) {
@@ -187,7 +187,7 @@ export default class ExtrudeMesh extends Mesh {
 
         if (edgeSum < 0) points.reverse()
 
-        if(type==MeshType.REVOLVE){
+        if (type == MeshType.REVOLVE) {
 
 
             return;
@@ -195,19 +195,19 @@ export default class ExtrudeMesh extends Mesh {
 
 
 
-        let numPoints =points.length
+        let numPoints = points.length
 
-        let normals:Array<Vector2>=[]
-let edges:Array<boolean>=[]
-        let N1 =new Vector2()
-        let N2 =new Vector2()
-        for(let i=0;i<numPoints;i++){
+        let normals: Array<Vector2> = []
+        let edges: Array<boolean> = []
+        let N1 = new Vector2()
+        let N2 = new Vector2()
+        for (let i = 0; i < numPoints; i++) {
 
-            let iN =(i+numPoints-1)%numPoints
-            let iP=(i+1)%numPoints;
-            let pN =points[iN];
-            let p =points[i];
-            let pP =points[iP];
+            let iN = (i + numPoints - 1) % numPoints
+            let iP = (i + 1) % numPoints;
+            let pN = points[iN];
+            let p = points[i];
+            let pP = points[iP];
 
             N1.from(pN)
             N1.subtract(p as NumericArray)
@@ -217,11 +217,11 @@ let edges:Array<boolean>=[]
             N2.subtract(pP as NumericArray)
             N2.normalize()
 
-            if(Math.abs(N1.dot(N2))>0.9){
-    //smoothedge edges
+            if (Math.abs(N1.dot(N2)) > 0.9) {
+                //smoothedge edges
 
                 edges.push(false)
-            }else{
+            } else {
                 edges.push(true)
                 //hardEdge
 
@@ -230,7 +230,7 @@ let edges:Array<boolean>=[]
             //N2.normalize()
 
             N1.add(N2 as NumericArray)
-            let N =new Vector2(N1.y,-N1.x)
+            let N = new Vector2(N1.y, -N1.x)
             N.normalize()
             normals.push(N)
 
@@ -270,7 +270,7 @@ let edges:Array<boolean>=[]
 
 
         }
-        if(type==MeshType.EXTRUSION) {
+        if (type == MeshType.EXTRUSION) {
             //back
             for (let i = 0; i < numBasePoints; i++) {
 
@@ -298,20 +298,20 @@ let edges:Array<boolean>=[]
                 this.p2.set(points[i].x, points[i].y, negThick);
                 this.p3.set(points[i + 1].x, points[i + 1].y, thick);
                 this.p4.set(points[i + 1].x, points[i + 1].y, negThick);
-//sharp
+                //sharp
 
-                if(edges[i]){
+                if (edges[i]) {
 
-                    this.n1.set(normals[i].x+normals[i + 1].x, normals[i].y+normals[i + 1].y, 0)
+                    this.n1.set(normals[i].x + normals[i + 1].x, normals[i].y + normals[i + 1].y, 0)
 
-                }else{
+                } else {
                     this.n1.set(normals[i].x, normals[i].y, 0)
                 }
-                if(edges[i+1]){
+                if (edges[i + 1]) {
 
-                    this.n2.set(normals[i].x+normals[i + 1].x, normals[i].y+normals[i + 1].y, 0)
+                    this.n2.set(normals[i].x + normals[i + 1].x, normals[i].y + normals[i + 1].y, 0)
                     this.n2.normalize()
-                }else{
+                } else {
                     this.n2.set(normals[i + 1].x, normals[i + 1].y, 0)
                     this.n2.normalize()
                 }

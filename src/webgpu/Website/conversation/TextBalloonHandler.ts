@@ -6,13 +6,13 @@ import TextBalloonFontMaterial from "./TextBalloonFontMaterial.ts";
 import TextBalloonFontMesh from "./TextBalloonFontMesh.ts";
 import Path from "../../lib/path/Path.ts";
 import ExtrudeMesh from "../../modelMaker/ExtrudeMesh.ts";
-import {MeshType} from "../../data/ProjectMesh.ts";
+import { MeshType } from "../../data/ProjectMesh.ts";
 import TextBalloonMaterial from "./TextBalloonMaterial.ts";
-import {Vector2, Vector3, Vector4} from "@math.gl/core";
+import { Vector2, Vector3, Vector4 } from "@math.gl/core";
 import SceneObject3D from "../../data/SceneObject3D.ts";
 import Object3D from "../../lib/model/Object3D.ts";
 import gsap from 'gsap'
-import {drawCircle} from "../../lib/path/Shapes.ts";
+import { drawCircle } from "../../lib/path/Shapes.ts";
 import ProjectData from "../../data/ProjectData.ts";
 import GameModel from "../GameModel.ts";
 import SoundHandler from "../SoundHandler.ts";
@@ -77,7 +77,7 @@ export default class TextBalloonHandler {
         this.gameCamera = gameCamera;
         this.renderer = renderer;
 
-//text
+        //text
         this.textModel = new Model(renderer, "textModel")
         this.textModel.material = new TextBalloonFontMaterial(renderer, "textBalloonFontMaterial")
 
@@ -87,7 +87,7 @@ export default class TextBalloonHandler {
         this.textModel.mesh = this.textMesh;
         this.textModel.setScaler(1)
 
-///balloon
+        ///balloon
         this.path = new Path()
         let w = this.textMesh.max.x
         let h = this.textMesh.min.y
@@ -144,7 +144,7 @@ export default class TextBalloonHandler {
         GameModel.overlay.modelRenderer.addModel(this.arrowRightModel)
 
 
-//
+        //
 
         GameModel.overlay.modelRenderer.addModel(this.textModel)
         this.holder = new Object3D(renderer, "balloonHolder");
@@ -206,6 +206,7 @@ export default class TextBalloonHandler {
     }
 
     update() {
+
         if (!this.showText) return;
 
 
@@ -320,14 +321,14 @@ export default class TextBalloonHandler {
 
         if (this.newBalloon) {
             this.arrowModelPoint.sx = this.arrowModelPoint.sy = 0;
-            this.tLine.to(this.arrowModelPoint, {sx: 1, sy: 1, duration: 0.2, ease: "power4.out"}, 0)
+            this.tLine.to(this.arrowModelPoint, { sx: 1, sy: 1, duration: 0.2, ease: "power4.out" }, 0)
             this.holder.setScaler(0);
-            this.tLine.to(this.holder, {sx: 1, sy: 1, sz: 1, duration: 0.3, ease: "power4.out"}, 0)
+            this.tLine.to(this.holder, { sx: 1, sy: 1, sz: 1, duration: 0.3, ease: "power4.out" }, 0)
         }
 
-        this.tLine.to(this.tl, {x: this.tlS.x, y: this.tlS.y, duration: time, ease: ease}, 0)
-        this.tLine.to(this.tr, {x: this.trS.x, y: this.trS.y, duration: time, ease: ease}, 0)
-        this.tLine.to(this.bl, {x: this.blS.x, y: this.blS.y, duration: time, ease: ease}, 0)
+        this.tLine.to(this.tl, { x: this.tlS.x, y: this.tlS.y, duration: time, ease: ease }, 0)
+        this.tLine.to(this.tr, { x: this.trS.x, y: this.trS.y, duration: time, ease: ease }, 0)
+        this.tLine.to(this.bl, { x: this.blS.x, y: this.blS.y, duration: time, ease: ease }, 0)
         this.tLine.to(this.br, {
             x: this.brS.x, y: this.brS.y, duration: time, ease: ease, onUpdate: () => {
                 this.updatePath()
@@ -353,14 +354,14 @@ export default class TextBalloonHandler {
                 this.dotHolder.y = this.blS.y + 2
                 this.arrowLeftModel.setScaler(0)
                 this.arrowRightModel.setScaler(0)
-                this.tLine.to(this.arrowLeftModel, {sx: 1, sy: 1, sz: 1, duration: 0.3, ease: "power3.out"}, 0.3)
-                this.tLine.to(this.arrowRightModel, {sx: 1, sy: 1, sz: 1, duration: 0.3, ease: "power3.out"}, 0.3)
+                this.tLine.to(this.arrowLeftModel, { sx: 1, sy: 1, sz: 1, duration: 0.3, ease: "power3.out" }, 0.3)
+                this.tLine.to(this.arrowRightModel, { sx: 1, sy: 1, sz: 1, duration: 0.3, ease: "power3.out" }, 0.3)
 
             } else {
                 let py = (this.blS.y - this.tlS.y) / 2 + this.tlS.y + 1;
-                this.tLine.to(this.arrowLeftModel, {x: this.tlS.x + 7, y: py, duration: 0.3, ease: ease}, 0.0)
-                this.tLine.to(this.arrowRightModel, {x: this.trS.x - 7, y: py, duration: 0.3, ease: ease}, 0.0)
-                this.tLine.to(this.dotHolder, {y: this.blS.y + 2, duration: 0.3, ease: ease}, 0.0)
+                this.tLine.to(this.arrowLeftModel, { x: this.tlS.x + 7, y: py, duration: 0.3, ease: ease }, 0.0)
+                this.tLine.to(this.arrowRightModel, { x: this.trS.x - 7, y: py, duration: 0.3, ease: ease }, 0.0)
+                this.tLine.to(this.dotHolder, { y: this.blS.y + 2, duration: 0.3, ease: ease }, 0.0)
 
                 //this.dotHolder.x = (this.tlS.x+this.trS.x)/2
 

@@ -1,32 +1,32 @@
 
-import {Howl} from 'howler';
- class SoundHandler {
-    public fxVolume =1;
+import { Howl } from 'howler';
+class SoundHandler {
+    public fxVolume = 1;
     private coin!: Howl;
-     private step!: Howl;
-     private hitFloor!: Howl;
-     private wetHit!: Howl;
-     private talking!: Howl;
-    playSound =true;
-     private scroll!: Howl;
-     private drip!: Howl;
-     bgSounds: Array<Howl>=[];
-     private fart!: Howl;
-     private fartCount: number=-1;
+    private step!: Howl;
+    private hitFloor!: Howl;
+    private wetHit!: Howl;
+    private talking!: Howl;
+    playSound = true;
+    private scroll!: Howl;
+    private drip!: Howl;
+    bgSounds: Array<Howl> = [];
+    private fart!: Howl;
+    private fartCount: number = -1;
 
 
     init() {
 
-       // this.fishFood = new Howl({src: ['sound/fishfood.mp3']});
-        let talkSound:any={}
-        for(let i=0;i<15;i++){
-            talkSound["s"+i]=[i*100,100]
+        // this.fishFood = new Howl({src: ['sound/fishfood.mp3']});
+        let talkSound: any = {}
+        for (let i = 0; i < 15; i++) {
+            talkSound["s" + i] = [i * 100, 100]
         }
 
 
         this.talking = new Howl({
             src: ['sound/talking.mp3'],
-            sprite:talkSound
+            sprite: talkSound
         });
 
 
@@ -96,7 +96,7 @@ import {Howl} from 'howler';
             sprite: {
                 s0: [0, 300],
                 s1: [500, 300],
-                s2: [1000,300],
+                s2: [1000, 300],
                 s3: [1500, 300],
                 s4: [2000, 600],
                 s5: [2820, 600],
@@ -141,13 +141,13 @@ import {Howl} from 'howler';
         document.addEventListener("visibilitychange", () => {
             if (document.hidden) {
 
-             for (let  s of this.bgSounds){
-                 s.fade(1,0,1000)
-             }
-            } else  {
+                for (let s of this.bgSounds) {
+                    s.fade(1, 0, 1000)
+                }
+            } else {
                 // Resume playing if audio was "playing on hide"
-                for (let  s of this.bgSounds){
-                    s.fade(0,1,1000)
+                for (let s of this.bgSounds) {
+                    s.fade(0, 1, 1000)
                 }
             }
         });
@@ -159,109 +159,110 @@ import {Howl} from 'howler';
 
 
     playCoin() {
-if(!this.playSound) return
+        if (!this.playSound) return
 
         let s = Math.floor(Math.random() * 1000) % 4;
 
-        this.coin.volume( this.fxVolume);
+        this.coin.volume(this.fxVolume);
         this.coin.play("s" + s)
 
     }
 
-     playWetHit(hit:boolean) {
-         if(!this.playSound) return
+    playWetHit(hit: boolean) {
+        if (!this.playSound) return
 
-         let s = Math.floor(Math.random() * 4) ;
+        let s = Math.floor(Math.random() * 4);
 
-        let vol =0.1
-         if(hit)vol=1;
-         this.wetHit.volume( this.fxVolume*vol);
-         this.wetHit.play("s" + s)
+        let vol = 0.1
+        if (hit) vol = 1;
+        this.wetHit.volume(this.fxVolume * vol);
+        this.wetHit.play("s" + s)
 
-     }
-
-
-     playStep() {
-
-         if(!this.playSound) return
-         let s = Math.floor(Math.random() * 1000) % 9;
-
-         this.step.volume( this.fxVolume*0.1);
-         this.step.play("s" + s)
-
-     }
-     playHitFloor(strength:number) {
-
-         if(!this.playSound) return
-         let s = Math.floor(Math.random() * 1000) % 9;
-
-         this.hitFloor.volume( this.fxVolume);
-         this.hitFloor.play("s" + s)
-
-     }
+    }
 
 
+    playStep() {
 
-     playTalking() {
+        if (!this.playSound) return
+        let s = Math.floor(Math.random() * 1000) % 9;
 
-         if(!this.playSound) return
-         let s = Math.floor(Math.random() * 1000) % 4;
+        this.step.volume(this.fxVolume * 0.1);
+        this.step.play("s" + s)
 
-         this.talking.volume( this.fxVolume*0.1);
-         this.talking.play("s" + s)
+    }
+    playHitFloor(strength: number) {
 
-     }
+        if (!this.playSound) return
+        let s = Math.floor(Math.random() * 1000) % 9;
+
+        this.hitFloor.volume(this.fxVolume);
+        this.hitFloor.play("s" + s)
+
+    }
 
 
-     playScroll(xPos:number,vol:number) {
 
-         if(!this.playSound) return
-         let s = Math.floor(Math.random() * 1000) % 4;
-         this.scroll.pos(xPos, 0, -0.5);
+    playTalking() {
 
-         this.scroll.volume( this.fxVolume*vol);
-         this.scroll.play("s" + s)
+        if (!this.playSound) return
+        let s = Math.floor(Math.random() * 1000) % 4;
 
-     }
+        this.talking.volume(this.fxVolume * 0.1);
+        this.talking.play("s" + s)
 
-     playDrip(xPos:number) {
-         if(!this.playSound) return
-         let s = Math.floor(Math.random() * 1000) % 9;
-         this.drip.pos(xPos, 0, -0.5);
-         this.drip.volume( this.fxVolume);
-         this.drip.play("s" + s)
-     }
+    }
 
-     playFart() {
-         if(!this.playSound) return
-         this.fartCount++;
-         this.fartCount%=8;
-         this.fart.volume( this.fxVolume*0.5);
 
-         this.fart.play("s" +this.fartCount)
-     }
+    playScroll(xPos: number, vol: number) {
 
-     setBackgroundSounds(sounds: string[]) {
-         this.killBackgroundSounds()
-         for(let  s of sounds){
-             let bgSound= new Howl({
-                 src: [s],
-                 loop:true,
-                 autoplay:true,
-                 onload: ()=>{
+        if (!this.playSound) return
+        let s = Math.floor(Math.random() * 1000) % 4;
+        this.scroll.pos(xPos, 0, -0.5);
 
-                     bgSound.fade(0, 1, 2000);
-                 }
-             });
-             this.bgSounds.push(bgSound);
-         }
-     }
+        this.scroll.volume(this.fxVolume * vol);
+        this.scroll.play("s" + s)
 
-     killBackgroundSounds(){
-        for(let s of this.bgSounds){
+    }
+
+    playDrip(xPos: number) {
+        if (!this.playSound) return
+        let s = Math.floor(Math.random() * 1000) % 9;
+        this.drip.pos(xPos, 0, -0.5);
+        this.drip.volume(this.fxVolume);
+        this.drip.play("s" + s)
+    }
+
+    playFart() {
+        if (!this.playSound) return
+        this.fartCount++;
+        this.fartCount %= 8;
+        this.fart.volume(this.fxVolume * 0.5);
+
+        this.fart.play("s" + this.fartCount)
+    }
+
+    setBackgroundSounds(sounds: string[]) {
+        this.killBackgroundSounds()
+        for (let s of sounds) {
+            let bgSound = new Howl({
+                src: [s],
+                loop: true,
+                autoplay: true,
+                onload: () => {
+
+                    bgSound.fade(0, 1, 2000);
+                }
+            });
+            this.bgSounds.push(bgSound);
+            console.log(s)
+        }
+    }
+
+    killBackgroundSounds() {
+        for (let s of this.bgSounds) {
             s.unload()
         }
-        this.bgSounds=[]
-     }
- }
+        this.bgSounds = []
+    }
+}
 export default new SoundHandler()

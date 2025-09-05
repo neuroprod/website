@@ -10,6 +10,7 @@ import SceneObject3D from "../../../data/SceneObject3D.ts";
 import { Vector3 } from "@math.gl/core";
 import gsap from "gsap";
 import LevelHandler from "../LevelHandler.ts";
+import SoundHandler from "../../SoundHandler.ts";
 
 export class IntroLevel extends PlatformLevel {
     private landlord!: SceneObject3D;
@@ -45,7 +46,7 @@ export class IntroLevel extends PlatformLevel {
         LoadHandler.onComplete = () => {
         }
         this.blockInput = true
-
+        SoundHandler.setBackgroundSounds(["sound/JuliaFlorida.mp3"])
         GameModel.gameCamera.setCharacter()
 
         GameModel.gameRenderer.setModels(SceneHandler.allModels)

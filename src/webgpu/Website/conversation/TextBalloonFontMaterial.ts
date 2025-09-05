@@ -1,36 +1,36 @@
 import Material from "../../lib/material/Material.ts";
-import {ShaderType} from "../../lib/material/ShaderTypes.ts";
+import { ShaderType } from "../../lib/material/ShaderTypes.ts";
 import DefaultUniformGroups from "../../lib/material/DefaultUniformGroups.ts";
 import UniformGroup from "../../lib/material/UniformGroup.ts";
-import {Textures} from "../../data/Textures.ts";
-import {CullMode} from "../../lib/WebGPUConstants.ts";
+import { Textures } from "../../data/Textures.ts";
+import { CullMode } from "../../lib/WebGPUConstants.ts";
 import Blend from "../../lib/material/Blend.ts";
 
 
-export default class TextBalloonFontMaterial extends Material{
+export default class TextBalloonFontMaterial extends Material {
 
-    setup(){
+    setup() {
         this.addAttribute("aPos", ShaderType.vec3);
-       this.addAttribute("aNormal", ShaderType.vec3);
+        this.addAttribute("aNormal", ShaderType.vec3);
         this.addAttribute("aUV0", ShaderType.vec2);
 
-       // this.addVertexOutput("normal", ShaderType.vec3 );
-        this.addVertexOutput("uv", ShaderType.vec2 );
-        this.addVertexOutput("alpha", ShaderType.vec2  );
+        // this.addVertexOutput("normal", ShaderType.vec3 );
+        this.addVertexOutput("uv", ShaderType.vec2);
+        this.addVertexOutput("alpha", ShaderType.vec2);
         this.addUniformGroup(DefaultUniformGroups.getCamera(this.renderer));
         this.addUniformGroup(DefaultUniformGroups.getModelTransform(this.renderer));
 
 
-        let uniforms =new UniformGroup(this.renderer,"uniforms");
-        this.addUniformGroup(uniforms,true);
-        uniforms.addUniform("charPos",8.0)
-        uniforms.addTexture("colorTexture",this.renderer.getTexture(Textures.MAINFONT))
+        let uniforms = new UniformGroup(this.renderer, "uniforms");
+        this.addUniformGroup(uniforms, true);
+        uniforms.addUniform("charPos", 8.0)
+        uniforms.addTexture("colorTexture", this.renderer.getTexture(Textures.MAINFONT))
         uniforms.addSampler("mySampler")
-        this.cullMode =CullMode.None;
-        this.depthCompare="always"
-        this.depthWrite =false;
+        this.cullMode = CullMode.None;
+        this.depthCompare = "always"
+        this.depthWrite = false;
 
-        this.blendModes =[Blend.preMultAlpha()]
+        this.blendModes = [Blend.preMultAlpha()]
     }
     getShader(): string {
         return /* wgsl */ `
@@ -52,6 +52,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
      pos.x +=aNormal.x;
     pos.y -=aNormal.y;
     output.position =camera.viewProjectionMatrix*model.modelMatrix* vec4( pos,1.0);
+     output.position =vec4f( output.position.x, output.position.y, 0.0,1.0);
    output.alpha =vec2(s,s);
     output.uv =aUV0;
     return output;

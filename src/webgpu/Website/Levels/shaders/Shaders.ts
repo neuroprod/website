@@ -97,13 +97,6 @@ export default class Shaders extends NavigationLevel {
         //looperman-l-4499538-0400053-chill-cloudy-vapor-loop.mp3
 
 
-        this.flowerTexture = new TextureLoader(GameModel.renderer, "flower.png")
-
-        LoadHandler.startLoading()
-        this.flowerTexture.onComplete = () => {
-            LoadHandler.stopLoading()
-        }
-
         this.time = 0
     }
 
