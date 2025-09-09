@@ -25,3 +25,11 @@ dist-ssr
 *.sw?
 /server/temp/*
 /font/fonts/
+
+*.prin
+
+*.cfa
+
+*.pek
+*.prproj
+

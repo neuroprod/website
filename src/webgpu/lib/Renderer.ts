@@ -78,7 +78,7 @@ export default class Renderer {
                 format: this.presentationFormat,
                 colorSpace: "display-p3",
                 alphaMode: "premultiplied",
-                toneMapping: { mode: "standard" },
+                toneMapping: { mode: "extended" },
             });
             console.log(this.context.getConfiguration())
 

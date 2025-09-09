@@ -19,7 +19,7 @@ export default class Internet extends NavigationLevel {
 
     private bgModel!: Model;
     backgroundTexture!: TextureLoader;
-
+    private video!: VideoPlayer;
     constructor() {
         super();
 
@@ -30,7 +30,7 @@ export default class Internet extends NavigationLevel {
         super.init();
 
         LoadHandler.onComplete = this.configScene.bind(this)
-
+        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/macaroni.mp4", new Vector2(1920, 1080))
         this.backgroundTexture = new TextureLoader(GameModel.renderer, "backgrounds/deadInternet.jpg")
 
         LoadHandler.startLoading()
@@ -54,26 +54,34 @@ export default class Internet extends NavigationLevel {
 
 
 
+        /*   this.bgModel = new Model(GameModel.renderer, "background")
+           this.bgModel.mesh = new Quad(GameModel.renderer)
+           this.bgModel.material = new FullScreenFillMaterial(GameModel.renderer, "bg")
+           this.bgModel.material.setTexture("colorTexture", this.backgroundTexture)
+           this.bgModel.z = -100
+           GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
+   */
+        this.video.play()
+
+
         this.bgModel = new Model(GameModel.renderer, "background")
         this.bgModel.mesh = new Quad(GameModel.renderer)
-        this.bgModel.material = new FullScreenFillMaterial(GameModel.renderer, "bg")
-        this.bgModel.material.setTexture("colorTexture", this.backgroundTexture)
+        this.bgModel.material = new FullScreenStretchMaterial(GameModel.renderer, "bg")
+        this.bgModel.material.setTexture("colorTexture", this.video.getTexture())
         this.bgModel.z = -100
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
-
-
 
     }
 
     public update() {
         super.update();
-        (this.bgModel.material as FullScreenFillMaterial).setRatios(GameModel.renderer.ratio, this.backgroundTexture.options.width / this.backgroundTexture.options.height)
+        // (this.bgModel.material as FullScreenFillMaterial).setRatios(GameModel.renderer.ratio, this.backgroundTexture.options.width / this.backgroundTexture.options.height)
 
     }
 
     destroy() {
         super.destroy()
-
+        this.video.pauze()
         SoundHandler.killBackgroundSounds()
     }
 
