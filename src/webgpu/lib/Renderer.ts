@@ -50,8 +50,9 @@ export default class Renderer {
         this.pixelRatio = window.devicePixelRatio;
         this.textureHandler = new TextureHandler();
         Renderer.instance = this;
-
-        const adapter = await navigator.gpu.requestAdapter({ powerPreference: "high-performance" });
+        console.log("intit")
+        const adapter = await navigator.gpu.requestAdapter({ featureLevel: 'compatibility', powerPreference: "high-performance" });
+        console.log("adapter")
         if (adapter) {
 
             for (let a of adapter.features.keys()) {
@@ -69,7 +70,7 @@ export default class Renderer {
             }
 
             this.device = await adapter.requestDevice({ requiredFeatures: requiredFeatures });
-            //  console.log(this.device)
+            console.log(this.device)
             this.context = this.canvas.getContext("webgpu") as GPUCanvasContext;
             this.presentationFormat = navigator.gpu.getPreferredCanvasFormat();
             this.presentationFormat = 'rgba16float';
