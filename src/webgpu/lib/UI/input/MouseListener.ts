@@ -53,13 +53,7 @@ export default class MouseListener {
         this.mousePosDown = new Vec2(-1, -1);
     }
 
-    touchStartListener(e: TouchEvent) {
-        this.setMousePosition(e.targetTouches[0]);
-        if (this.preventDefault) {
-            e.preventDefault();
-        }
-        this.mouseDown();
-    }
+
 
     mouseDownListener(e: MouseEvent) {
         if (e.button == 0) {

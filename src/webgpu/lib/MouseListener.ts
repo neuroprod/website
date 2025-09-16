@@ -19,7 +19,7 @@ export default class MouseListener {
     private preventDefault = false;
     private renderer: Renderer;
     pressure: number = 0;
-
+    private pointerID: number = -1;
     constructor(renderer: Renderer) {
         this.renderer = renderer;
         this.element = document;
@@ -84,6 +84,11 @@ export default class MouseListener {
     mouseDownListener(e: PointerEvent) {
 
         if (e.button == 0) {
+
+            if (this.pointerID != -1) {
+                if (e.pointerId != this.pointerID) return;
+            }
+            this.pointerID = e.pointerId
             this.setMousePosition(e);
             if (this.preventDefault) {
                 e.preventDefault();
@@ -101,6 +106,8 @@ export default class MouseListener {
     mouseUpListener(e: PointerEvent) {
 
         if (e.button == 0) {
+            if (e.pointerId != this.pointerID) return;
+            this.pointerID = -1;
             this.setMousePosition(e)
             if (this.preventDefault) {
                 e.preventDefault();
@@ -118,21 +125,24 @@ export default class MouseListener {
 
 
     mouseMoveListener(e: PointerEvent) {
-
+        if (e.pointerId != this.pointerID) return;
         this.setMousePosition(e);
         if (this.preventDefault) {
             e.preventDefault();
         }
     }
 
-    cancelListener() {
-
+    cancelListener(e: PointerEvent) {
+        if (e.pointerId != this.pointerID) return;
+        this.pointerID = -1;
         this.isDown = false;
         this.isDownThisFrame = false;
         this.isDirty = 1;
     }
 
-    endListener() {
+    endListener(e: PointerEvent) {
+        if (e.pointerId != this.pointerID) return;
+        this.pointerID = -1;
         this.isDown = false;
         this.isDownThisFrame = false;
         this.isDirty = 1;

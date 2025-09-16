@@ -1,15 +1,27 @@
+* {
+  margin: 0;
+  padding: 0;
+}
 
-* { margin:0; padding:0; } /* to remove the top and left whitespace */
+/* to remove the top and left whitespace */
 
-html, body { width:100%; height:100%;  } /* just to be sure these are full screen*/
+html,
 body {
-  background: #000 ;
- overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+/* just to be sure these are full screen*/
+body {
+  background: #000;
+  overflow: hidden;
   overscroll-behavior-y: none;
 }
 
 canvas {
   position: sticky;
   top: 0px;
+  touch-action: none;
+}
 
-} /* To remove the scrollbars */
+/* To remove the scrollbars */
