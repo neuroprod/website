@@ -63,10 +63,15 @@ export default class Camera extends UniformGroup {
     }
 
     setOrtho(right = 1, left = -1, top = 1, bottom = 1) {
+
+
         this.orthoRight = right;
         this.orthoLeft = left;
         this.orthoTop = top;
         this.orthoBottom = bottom;
+
+
+
         // this.near = near;
         // this.far =far;
         this.perspective = false
@@ -89,14 +94,32 @@ export default class Camera extends UniformGroup {
             this.setProjection();
         } else {
 
-            this.projection.ortho({
-                left: this.orthoLeft,
-                right: this.orthoRight,
-                bottom: this.orthoBottom,
-                top: this.orthoTop,
-                near: this.near,
-                far: this.far,
-            })
+            if (this.ratio < 1) {
+
+                this.projection.ortho({
+                    bottom: this.orthoLeft,
+                    top: this.orthoRight,
+                    left: this.orthoBottom,
+                    right: this.orthoTop,
+                    near: this.near,
+                    far: this.far,
+                })
+                this.projection.rotateZ(Math.PI / 2)
+
+            } else {
+                this.projection.ortho({
+                    left: this.orthoLeft,
+                    right: this.orthoRight,
+                    bottom: this.orthoBottom,
+                    top: this.orthoTop,
+                    near: this.near,
+                    far: this.far,
+                })
+            }
+
+
+
+
         }
 
         this.view.lookAt({
@@ -141,9 +164,18 @@ export default class Camera extends UniformGroup {
 
         let sin_fov = Math.sin(0.5 * this.fovy);
         let cos_fov = Math.cos(0.5 * this.fovy);
-
+        let ratio = this.ratio
         let h = cos_fov / sin_fov;
-        let w = h / this.ratio;
+        let w = h / ratio;
+        if (this.ratio < 1) {
+
+            w = cos_fov / sin_fov;
+            h = w * ratio;
+            // ratio = this.ratio
+            // h = sin_fov / cos_fov;
+            //let w = h / ratio;
+        }
+
         let r = this.far / (this.near - this.far);
 
         this.projection[0] = w;
@@ -210,7 +242,11 @@ export default class Camera extends UniformGroup {
         this.projection[14] = this.far * this.near / dz;
         this.projection[15] = 0.0;*/
 
+        if (this.ratio < 1) {
 
+            this.projection.rotateZ(Math.PI / 2)
+
+        }
     }
 
     private dot(plane: Vector4, x: number, y: number, z: number) {

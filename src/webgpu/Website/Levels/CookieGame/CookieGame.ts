@@ -1,10 +1,10 @@
-import {BaseLevel} from "../BaseLevel.ts";
+import { BaseLevel } from "../BaseLevel.ts";
 import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import sceneHandler from "../../../data/SceneHandler.ts";
 
 
-import {Vector3} from "@math.gl/core";
+import { Vector3 } from "@math.gl/core";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
 import Timer from "../../../lib/Timer.ts";
 import gsap from "gsap";
@@ -84,7 +84,7 @@ class StrawberryData {
         SoundHandler.playWetHit(hit)
         this.hamer.show()
         this.hamer.y = this.hamerY + 0.5
-        this.tl2.to(this.hamer, {y: this.hamerY, duration: 0.1})
+        this.tl2.to(this.hamer, { y: this.hamerY, duration: 0.1 })
         if (hit) {
             this.tl2.call(() => {
                 this.tl.clear()
@@ -96,7 +96,7 @@ class StrawberryData {
                 this.splash.hide()
             }, [], 0.4);
         }
-        this.tl2.to(this.hamer, {y: this.hamerY + 1, duration: 0.1}, 0.4)
+        this.tl2.to(this.hamer, { y: this.hamerY + 1, duration: 0.1 }, 0.4)
         this.tl2.call(() => {
             this.hamer.hide()
             this.isHitting = false
@@ -151,7 +151,7 @@ export default class CookieGame extends BaseLevel {
 
                 if (hInput == 0) hInput = GameModel.gamepadInput.getHdir()
 
-                if (!jump) jump =GameModel.gamepadInput.getJump()
+                if (!jump) jump = GameModel.gamepadInput.getJump()
             }
             this.setHole(hInput == -1, jump, hInput == 1)
         }
@@ -181,21 +181,21 @@ export default class CookieGame extends BaseLevel {
         }
         let text = ""
         if (this.strawBerryData[index].hitHole()) {
-           GameModel.gameCamera.screenShakeCookie(0.1)
+            GameModel.gameCamera.screenShakeCookie(0.1)
             this.points++;
-            if(this.points==1){
-                text ="Nice! First one is the sweetest!"
-            }else{
-                text ="Yea! " + this.points + " kills!"
+            if (this.points == 1) {
+                text = "Nice! First one is the sweetest!"
+            } else {
+                text = "Yea! " + this.points + " kills!"
             }
 
 
-           // this.hat.y = this.hatY + 0.05
-           // gsap.to(this.hat, {y: this.hatY, ease: 'power4.in', delay: 0.1, duration: 0.4})
+            // this.hat.y = this.hatY + 0.05
+            // gsap.to(this.hat, {y: this.hatY, ease: 'power4.in', delay: 0.1, duration: 0.4})
 
         } else {
-           GameModel.gameCamera.screenShakeCookie(0.01)
-            text ="Ow, you missed."
+            GameModel.gameCamera.screenShakeCookie(0.01)
+            text = "Ow, you missed."
         }
         this.hitCount++;
 
@@ -204,7 +204,7 @@ export default class CookieGame extends BaseLevel {
             this.endGame()
             return;
         }
-       GameModel.textBalloonHandler.setText(text)
+        GameModel.textBalloonHandler.setText(text)
     }
 
     destroy() {
@@ -221,32 +221,32 @@ export default class CookieGame extends BaseLevel {
         LoadHandler.onComplete = () => {
         }
 
-       GameModel.gameRenderer.setModels(SceneHandler.allModels)
+        GameModel.gameRenderer.setModels(SceneHandler.allModels)
 
 
-       GameModel.gameCamera.setLockedView(new Vector3(-0, .5, 0), new Vector3(-0.0 - 0.04, .6, 1.6))
+        GameModel.gameCamera.setLockedView(new Vector3(-0, .5, 0), new Vector3(-0.0 - 0.04, .6, 1.6))
 
         let cookie = sceneHandler.getSceneObject("cookieBody")
 
-       GameModel.textBalloonHandler.setModel(cookie, [-0.1, 0.35, 0])
-       GameModel.textBalloonHandler.setText("Smash those bastards!")
+        GameModel.textBalloonHandler.setModel(cookie, [-0.1, 0.35, 0])
+        GameModel.textBalloonHandler.setText("Smash those bastards!")
         this.strawBerryData = []
         for (let i = 0; i < 3; i++) {
             let sbData = new StrawberryData(i)
             this.strawBerryData.push(sbData);
         }
         this.points = 0;
-        this.playGame =true
-        this.nextStrawBerryTime =2;
-        this.hitCount=0;
+        this.playGame = true
+        this.nextStrawBerryTime = 2;
+        this.hitCount = 0;
 
         GameModel.gameRenderer.tweenToNonBlack()
     }
 
     private endGame() {
-       GameModel.textBalloonHandler.setText("Great job! That will teach them!")
+        GameModel.textBalloonHandler.setText("Great job! That will teach them!")
         this.playGame = false
-        gsap.delayedCall(4,()=>{LevelHandler.setLevel("StrawBerry")})
+        gsap.delayedCall(4, () => { LevelHandler.setLevel("Hand") })
 
     }
 

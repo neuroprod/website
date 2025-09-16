@@ -1,10 +1,10 @@
-import {PlatformLevel} from "../PlatformLevel.ts";
+import { PlatformLevel } from "../PlatformLevel.ts";
 import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import sceneHandler from "../../../data/SceneHandler.ts";
 import gsap from "gsap";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
-import {HitTrigger} from "../../../data/HitTriggers.ts";
+import { HitTrigger } from "../../../data/HitTriggers.ts";
 
 
 import Strawberry from "./Strawberry.ts";
@@ -68,7 +68,7 @@ export class StrawberryLevel extends PlatformLevel {
         this.strawBerry.ry = -0.4
 
         GameModel.gameCamera.setMinMaxX(-0.3, 100)
-//
+        //
 
     }
 
@@ -103,7 +103,7 @@ export class StrawberryLevel extends PlatformLevel {
                         GameModel.conversationHandler.startConversation("strawBerry")
 
                         GameModel.conversationHandler.doneCallBack = () => {
-                            LevelHandler.setLevel("Hand");
+                            LevelHandler.setLevel("Girl");
                         }
                     });
 

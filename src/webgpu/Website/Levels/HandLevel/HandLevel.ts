@@ -1,11 +1,11 @@
 
-import {PlatformLevel} from "../PlatformLevel.ts";
+import { PlatformLevel } from "../PlatformLevel.ts";
 import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import sceneHandler from "../../../data/SceneHandler.ts";
 import gsap from "gsap";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
-import {HitTrigger} from "../../../data/HitTriggers.ts";
+import { HitTrigger } from "../../../data/HitTriggers.ts";
 
 
 
@@ -14,7 +14,7 @@ import LevelHandler from "../LevelHandler.ts";
 
 
 
-export class HandLevel extends PlatformLevel{
+export class HandLevel extends PlatformLevel {
     private tl!: gsap.core.Timeline;
     private hand!: SceneObject3D;
 
@@ -27,7 +27,7 @@ export class HandLevel extends PlatformLevel{
         super.init();
 
 
-        LoadHandler.onComplete =this.configScene.bind(this)
+        LoadHandler.onComplete = this.configScene.bind(this)
         LoadHandler.startLoading()
         LoadHandler.startLoading()
 
@@ -46,60 +46,61 @@ export class HandLevel extends PlatformLevel{
     }
     configScene() {
         super.configScene()
-        LoadHandler.onComplete =()=>{}
-        this.blockInput =false
+        LoadHandler.onComplete = () => { }
+        this.blockInput = false
         this.characterController.setCharacter()
         GameModel.gameCamera.setCharacter()
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         GameModel.gameRenderer.addModel(this.characterController.cloudParticles.particlesModel)
 
-        GameModel.gameCamera.camDistance =2.3;
-        GameModel.gameCamera.heightOffset =0.5
+        GameModel.gameCamera.camDistance = 2.3;
+        GameModel.gameCamera.heightOffset = 0.5
 
 
         let char = sceneHandler.getSceneObject("charRoot")
         char.setScaler(1.2)
         char.x = 0
 
-this.hand =   sceneHandler.getSceneObject("rootHand")
+        this.hand = sceneHandler.getSceneObject("rootHand")
 
 
-        GameModel.gameCamera.setMinMaxX(-0.3,100)
+        GameModel.gameCamera.setMinMaxX(-0.3, 100)
 
 
 
     }
-    update(){
+    update() {
         super.update()
 
 
     }
-    conversationDataCallBack(data:string){
+    conversationDataCallBack(data: string) {
         super.conversationDataCallBack(data);
 
 
     }
     resolveHitTrigger(f: SceneObject3D) {
-        if(!super.resolveHitTrigger(f)){
+        if (!super.resolveHitTrigger(f)) {
 
 
 
 
 
-            if(f.hitTriggerItem ==HitTrigger.HAND){
-                f.triggerIsEnabled =false;
+            if (f.hitTriggerItem == HitTrigger.HAND) {
+                f.triggerIsEnabled = false;
 
-                let target = this.hand.getWorldPos().add([-0.5,0.5,0])
-                GameModel.gameCamera.TweenToLockedView( target,target.clone().add([0,0,2]))
-                this.blockInput =true
+                let target = this.hand.getWorldPos().add([-0.5, 0.5, 0])
+                GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 2]))
+                this.blockInput = true
 
-                this.characterController.gotoAndIdle(this.hand.getWorldPos().add([-0.9,0,0]),1,()=>{
-                    gsap.delayedCall(0.5,()=>{
-                     GameModel.conversationHandler.startConversation("hand")
+                this.characterController.gotoAndIdle(this.hand.getWorldPos().add([-0.9, 0, 0]), 1, () => {
+                    gsap.delayedCall(0.5, () => {
+                        GameModel.conversationHandler.startConversation("hand")
 
-                        GameModel.conversationHandler.doneCallBack =()=>{
-LevelHandler.setLevel("Gnome");
-                        }});
+                        GameModel.conversationHandler.doneCallBack = () => {
+                            LevelHandler.setLevel("StrawBerry");
+                        }
+                    });
 
                 });
                 return true;
@@ -111,10 +112,10 @@ LevelHandler.setLevel("Gnome");
     }
 
 
-    destroy(){
+    destroy() {
 
         super.destroy()
-        if(this.tl) this.tl.clear()
+        if (this.tl) this.tl.clear()
 
     }
 }

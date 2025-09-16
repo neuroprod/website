@@ -1,237 +1,782 @@
 [
-
   {
     "name": "mrLoathsome",
     "data": [
-
-      {"char":"charRoot","pos":[-0.2, 0.8, 0],"text": "Hi Mr Loathsome!", "callBack": "raiseHand" },
-      {"char":"rootLandlord","pos":[0.17, 0.72, 0],"text": "Don't \"Mr\" me Pirate!\nI want my money by\nthe end of the day!"  ,"callBack": "moveHand"},
-      {"text": "Or else you can go sleep\non the street with the rest\nof the scum."
-        ,"callBack": "lowerHand"
+      {
+        "char": "charRoot",
+        "pos": [
+          -0.2,
+          0.8,
+          0
+        ],
+        "text": "Hi Mr Loathsome!",
+        "callBack": "raiseHand"
       },
-      {"char":"charRoot","pos":[-0.2, 0.8, 0],"text": "Yes Sir! I won't disapoint you!","callBack": "raiseHand"},
-      {"char":"rootLandlord","pos":[0.17, 0.72, 0],"text": "Types like you always\ndisappoint me Pirate!"  ,"callBack": "moveHand"},
-      {"text": "Now, get me those\n30 coins you own me!"   ,"callBack": "raiseHand"},
-      {"char":"charRoot","pos":[-0.2, 0.8, 0],"text": "I'm on my way!"}
+      {
+        "char": "rootLandlord",
+        "pos": [
+          0.17,
+          0.72,
+          0
+        ],
+        "text": "Don't \"Mr\" me Pirate!\nI want my money by\nthe end of the day!",
+        "callBack": "moveHand"
+      },
+      {
+        "text": "Or else you can go sleep\non the street with the rest\nof the scum.",
+        "callBack": "lowerHand"
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          -0.2,
+          0.8,
+          0
+        ],
+        "text": "Yes Sir! I won't disapoint you!",
+        "callBack": "raiseHand"
+      },
+      {
+        "char": "rootLandlord",
+        "pos": [
+          0.17,
+          0.72,
+          0
+        ],
+        "text": "Types like you always\ndisappoint me Pirate!",
+        "callBack": "moveHand"
+      },
+      {
+        "text": "Now, get me those\n30 coins you own me!",
+        "callBack": "raiseHand"
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          -0.2,
+          0.8,
+          0
+        ],
+        "text": "I'm on my way!"
+      }
     ]
   },
   {
     "name": "start",
     "data": [
-      {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "I better get crackin..."}
- ]
+      {
+        "char": "charRoot",
+        "pos": [
+          0.2,
+          0.8,
+          0
+        ],
+        "text": "I better get crackin..."
+      }
+    ]
   },
   {
     "name": "tree",
     "data": [
-      {"char":"rootTree","pos":[-0.34, 0.9, 0],"text": "Hi pirate. Are you ready to\ngo on an adventure!?"},
-      {"char":"charRoot","pos":[0.1, 0.9, 0],"text": "No, I'm just collecting\nthose free coins that\nare lying around here."},
-      {"text":"I need to pay my rent." },
-      {"char":"rootTree","pos":[-0.34, 0.9, 0],"text": "You know, there is more\nto live then paying rent."},
-      {"text": "Climb my branches,\nand discover what it's all about."},
-      {"char":"charRoot","pos":[0.1, 0.9, 0],"text": "I don't know,\nMr Loathsome looked realy angry this time."},
-      {"char":"rootTree","pos":[-0.34, 0.9, 0],"text": "Sigh... The are also\ncoins in the branches."},
-      {"char":"charRoot","pos":[0.1, 0.9, 0],"text": "Why didn't you tell me that earlier\nI'm on my way!"}
+      {
+        "char": "rootTree",
+        "pos": [
+          -0.34,
+          0.9,
+          0
+        ],
+        "text": "Hi pirate. Are you ready to\ngo on an adventure!?"
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.1,
+          0.9,
+          0
+        ],
+        "text": "No, I'm just collecting\nthose free coins that\nare lying around here."
+      },
+      {
+        "text": "I need to pay my rent."
+      },
+      {
+        "char": "rootTree",
+        "pos": [
+          -0.34,
+          0.9,
+          0
+        ],
+        "text": "You know, there is more\nto live then paying rent."
+      },
+      {
+        "text": "Climb my branches,\nand discover what it's all about."
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.1,
+          0.9,
+          0
+        ],
+        "text": "I don't know,\nMr Loathsome looked realy angry this time."
+      },
+      {
+        "char": "rootTree",
+        "pos": [
+          -0.34,
+          0.9,
+          0
+        ],
+        "text": "Sigh... The are also\ncoins in the branches."
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.1,
+          0.9,
+          0
+        ],
+        "text": "Why didn't you tell me that earlier\nI'm on my way!"
+      }
     ]
   },
   {
     "name": "god",
     "data": [
-      {"char":"godRoot","pos":[-0.3, 0.85, 0],"text": "Goodmorning little child."},
-      {"text": "Those where some nice jumps!"},
-      {"char":"charRoot","pos":[0.1, 0.8, 0],"text": "Hi, Are you..."},
-      {"text": "Are you God?"},
-      {"char":"godRoot","pos":[-0.3, 0.85, 0],"text": "Noooo, my child!"},
-      {"text": "I am the man in the sky!"},
-      {"text": "Every year, I bring presents\nto the children!"},
-      {"text": "If they are good, that is..."},
-      {"text": "Do you want to have a present?"},
-      {"char":"charRoot","pos":[0.1, 0.83, 0],"choice": [
-        {"text": "I'm not a child, but sure,\nI like presents!","callText":"godYes", "callBack": "godYes" },
-        {"text": "No time old man, I'm here to\ncollect the coins..","callText":"godNo", "callBack": "godNo"}
-
-      ]}
+      {
+        "char": "godRoot",
+        "pos": [
+          -0.3,
+          0.85,
+          0
+        ],
+        "text": "Goodmorning little child."
+      },
+      {
+        "text": "Those where some nice jumps!"
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.1,
+          0.8,
+          0
+        ],
+        "text": "Hi, Are you..."
+      },
+      {
+        "text": "Are you God?"
+      },
+      {
+        "char": "godRoot",
+        "pos": [
+          -0.3,
+          0.85,
+          0
+        ],
+        "text": "Noooo, my child!"
+      },
+      {
+        "text": "I am the man in the sky!"
+      },
+      {
+        "text": "Every year, I bring presents\nto the children!"
+      },
+      {
+        "text": "If they are good, that is..."
+      },
+      {
+        "text": "Do you want to have a present?"
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.1,
+          0.83,
+          0
+        ],
+        "choice": [
+          {
+            "text": "I'm not a child, but sure,\nI like presents!",
+            "callText": "godYes",
+            "callBack": "godYes"
+          },
+          {
+            "text": "No time old man, I'm here to\ncollect the coins..",
+            "callText": "godNo",
+            "callBack": "godNo"
+          }
+        ]
+      }
     ]
   },
   {
     "name": "godYes",
     "data": [
-      {"char":"godRoot","pos":[-0.3, 0.85, 0],"text": "Good my child. Choose wisely!"}
+      {
+        "char": "godRoot",
+        "pos": [
+          -0.3,
+          0.85,
+          0
+        ],
+        "text": "Good my child. Choose wisely!"
+      }
     ]
   },
   {
     "name": "godNo",
     "data": [
-      {"char":"godRoot","pos":[-0.3, 0.85, 0],"text": "Ow... You can have my coins if you want?"},
-      {"text": "No need for coins in the sky..."}
+      {
+        "char": "godRoot",
+        "pos": [
+          -0.3,
+          0.85,
+          0
+        ],
+        "text": "Ow... You can have my coins if you want?"
+      },
+      {
+        "text": "No need for coins in the sky..."
+      }
     ]
   },
   {
     "name": "godPresent0",
     "data": [
-      {"char":"godRoot","pos":[0.15,0.8,0],"text": "A user agreement!\nBy choosing this, You agree that your data will be used and sold to the highest bidder."},
-      {"text": "Thanks!"}
+      {
+        "char": "godRoot",
+        "pos": [
+          0.15,
+          0.8,
+          0
+        ],
+        "text": "A user agreement!\nBy choosing this, You agree that your data will be used and sold to the highest bidder."
+      },
+      {
+        "text": "Thanks!"
+      }
     ]
   },
   {
     "name": "godPresent1",
     "data": [
-      {"char":"godRoot","pos":[0.15,0.8,0],"text": "A degree in Economics\nnot sure you can use that."}
+      {
+        "char": "godRoot",
+        "pos": [
+          0.15,
+          0.8,
+          0
+        ],
+        "text": "A degree in Economics\nnot sure you can use that."
+      }
     ]
   },
   {
     "name": "godPresent2",
     "data": [
-      {"char":"godRoot","pos":[0.15,0.8,0],"text": "Cold hard cash\nVery usefull!"}
+      {
+        "char": "godRoot",
+        "pos": [
+          0.15,
+          0.8,
+          0
+        ],
+        "text": "Cold hard cash\nVery usefull!"
+      }
     ]
   },
   {
     "name": "godPresent3",
     "data": [
-      {"char":"godRoot","pos":[0.15,0.8,0],"text": "A non-disclosure agreement.\nHow exiting!"}
+      {
+        "char": "godRoot",
+        "pos": [
+          0.15,
+          0.8,
+          0
+        ],
+        "text": "A non-disclosure agreement.\nHow exiting!"
+      }
     ]
   },
   {
     "name": "cookieNoPresent",
     "data": [
-      {"char":"charRoot","pos":[0.01, 0.8, 0],"text": "Hi Cookie, you won't believe who I just met!"}
+      {
+        "char": "charRoot",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "Hi Cookie, you won't believe who I just met!"
+      }
     ]
   },
   {
     "name": "cookieLightning",
     "data": [
-      {"char":"charRoot","pos":[0.01, 0.8, 0],"text": "Hi Cookie, want to the striking thing I just got?"}
+      {
+        "char": "charRoot",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "Hi Cookie, want to the striking thing I just got?"
+      }
     ]
   },
   {
     "name": "cookieNDA",
     "data": [
-      {"char":"charRoot","pos":[0.01, 0.8, 0],"text": "Hi Cookie, Want to sign my NDA?"}
+      {
+        "char": "charRoot",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "Hi Cookie, Want to sign my NDA?"
+      }
     ]
   },
   {
     "name": "cookieHammer",
     "data": [
-      {"char":"charRoot","pos":[0.01, 0.8, 0],"text": "Hi Cookie, I got a new hammer!"}
+      {
+        "char": "charRoot",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "Hi Cookie, I got a new hammer!"
+      }
     ]
   },
   {
     "name": "cookieBox",
     "data": [
-      {"char":"charRoot","pos":[0.01, 0.8, 0],"text": "Hi Cookie, do you want to check out my new box?"}
+      {
+        "char": "charRoot",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "Hi Cookie, do you want to check out my new box?"
+      }
     ]
   },
   {
     "name": "cookie",
     "data": [
-      {"char":"cookieRoot","pos":[0.3, 1.0, 0],"text": "Fuck off man, get lost!"},
-      {"char":"charRoot","pos":[0.01, 0.8, 0],"text": "Why are you always so angry?"},
-      {"char":"cookieRoot","pos":[0.3, 1.0, 0],"text": "I don't know?\nMy mom told me\nI was a happy baby."},
-      {"text": "But then I had to go to\nschool and stuff."},
-      {"text": "Now I just want to smash things."},
-      {"text": "You should try it.\nIt makes you feel better for a short moment."},
-      {"char":"charRoot","pos":[0.01, 0.8, 0],"text": "I don't know Cookie, seems "},
-      {"char":"cookieRoot","pos":[0.3, 1.0, 0],"text": "Com on man, They are just fruit and vegetables."},
-      {"char":"charRoot","pos":[0.01, 0.8, 0],"text": "Ok... If you put it that way."}
-    ]
-  },
-  {
-    "name": "strawBerry",
-    "data": [
-      {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "What's going on Strawberry?"},
-      {"char":"strawberryRoot","pos":[-0.2, 0.8, 0],"text": "Just got a call from my mum:\nMy brother got squased by some jerk!"},
-      {"char":"charRoot","pos":[0.2, 0.8, 0],"text": " Ow... "},
-      {"char":"strawberryRoot","pos":[-0.2, 0.8, 0],"text": "Yea, and I really need some money\nto buy DRU...\neuh, my medicine."},
-      {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "How much do you need?"},
-      {"char":"strawberryRoot","pos":[-0.2, 0.8, 0],"text": "Just #numCoins coins..."},
-      {"char":"charRoot","pos":[0.1, 0.8, 0],"choice": [
-        {"text": "Those are all my coins Strawberry,\nMr Loathsome needs those.", "callBack": "coinsNo" },
-        {"text": "Here you go! #numCoins coins.\nI know it's a tough world out there!","callBack": "coinsYes" }
-      ]}
-
+      {
+        "char": "cookieRoot",
+        "pos": [
+          0.3,
+          1.0,
+          0
+        ],
+        "text": "Fuck off man, get lost!"
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "Why are you always so angry?"
+      },
+      {
+        "char": "cookieRoot",
+        "pos": [
+          0.3,
+          1.0,
+          0
+        ],
+        "text": "I don't know?\nMy mom told me\nI was a happy baby."
+      },
+      {
+        "text": "But then I had to go to\nschool and stuff."
+      },
+      {
+        "text": "Now I just want to smash things."
+      },
+      {
+        "text": "You should try it.\nIt makes you feel better for a short moment."
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "I don't know Cookie, seems "
+      },
+      {
+        "char": "cookieRoot",
+        "pos": [
+          0.3,
+          1.0,
+          0
+        ],
+        "text": "Com on man, They are just fruit and vegetables."
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "Ok... If you put it that way."
+      }
     ]
   },
   {
     "name": "hand",
     "data": [
-
-      {"char":"rootHand","pos":[-0.2, 0.8, 0],"text": "Hi pirate, want to have some fun?"},
-      {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "I'm broke Candy. Maybe some other time..."},
-      {"char":"rootHand","pos":[-0.2, 0.8, 0],"text": "Yea, everyone seems broke these days."},
-      {"text": "Maybe you can help me get my fingers back?\nMr Loathsome, took them. He says I dont make him enough money"},
-      {"text": "Some of my clients really miss them."},
-      {"text": "And you being a pirate and such..."},
-      {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "You know Candy, I'm actually not a real pirate."},
-      {"text": "Sure, I download a movie every know and then."},
-      {"text": "But mostly, It's just me pretending I'm free."},
-      {"text": "I don't even own a sword, or a ship..."},
-      {"char":"rootHand","pos":[0.01, 0.8, 0],"text": "ow...  "},
-      {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "...   "},
-      {"char":"rootHand","pos":[0.01, 0.8, 0],"text": "Its not sword, You can give you my patato pealer if you want."},
-      {"text": "I have 2 of them for some reason"},
-      {"text": "It's sharp, I used it on some guy last nignt."},
-      {"char":"charRoot","pos":[0.2, 0.8, 0],"text": "Nice!\nIt's a PEELER 2000!\nThat's PREMIUM STABBING device!"},
-      {"text": "Thanks Candy!"}
+      {
+        "char": "rootHand",
+        "pos": [
+          -0.2,
+          0.8,
+          0
+        ],
+        "text": "Hi pirate, want to have some fun?"
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.2,
+          0.8,
+          0
+        ],
+        "text": "I'm broke Candy. Maybe some other time..."
+      },
+      {
+        "char": "rootHand",
+        "pos": [
+          -0.2,
+          0.8,
+          0
+        ],
+        "text": "Yea, everyone seems broke these days."
+      },
+      {
+        "text": "Maybe you can help me get my fingers back?\nMr Loathsome, took them. He says I dont make him enough money"
+      },
+      {
+        "text": "Some of my clients really miss them."
+      },
+      {
+        "text": "And you being a pirate and such..."
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.2,
+          0.8,
+          0
+        ],
+        "text": "You know Candy, I'm actually not a real pirate."
+      },
+      {
+        "text": "Sure, I download a movie every know and then."
+      },
+      {
+        "text": "But mostly, It's just me pretending I'm free."
+      },
+      {
+        "text": "I don't even own a sword, or a ship..."
+      },
+      {
+        "char": "rootHand",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "ow...  "
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.2,
+          0.8,
+          0
+        ],
+        "text": "...   "
+      },
+      {
+        "char": "rootHand",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "Its not sword, But I got a stabbing device from Strawbery."
+      },
+      {
+        "text": "I think he has more of them."
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.2,
+          0.8,
+          0
+        ],
+        "text": "Not sure violence is a solution Candy. But Ill ask him if I see him."
+      }
     ]
   },
-
-
-
+  {
+    "name": "strawBerry",
+    "data": [
+      {
+        "char": "charRoot",
+        "pos": [
+          0.2,
+          0.8,
+          0
+        ],
+        "text": "What's going on Strawberry?"
+      },
+      {
+        "char": "strawberryRoot",
+        "pos": [
+          -0.2,
+          0.8,
+          0
+        ],
+        "text": "Just got a call from my mum:\nMy brother got squased by some jerk!"
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.2,
+          0.8,
+          0
+        ],
+        "text": " Ow... "
+      },
+      {
+        "char": "strawberryRoot",
+        "pos": [
+          -0.2,
+          0.8,
+          0
+        ],
+        "text": "Yea, and I really need some money\nto buy DRU...\neuh, my medicine."
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.2,
+          0.8,
+          0
+        ],
+        "text": "How much do you need?"
+      },
+      {
+        "char": "strawberryRoot",
+        "pos": [
+          -0.2,
+          0.8,
+          0
+        ],
+        "text": "Just #numCoins coins..."
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.1,
+          0.8,
+          0
+        ],
+        "choice": [
+          {
+            "text": "Those are all my coins Strawberry,\nMr Loathsome needs those.",
+            "callBack": "coinsNo"
+          },
+          {
+            "text": "Here you go! #numCoins coins.\nI know it's a tough world out there!",
+            "callBack": "coinsYes"
+          }
+        ]
+      }
+    ]
+  },
   {
     "name": "girlStrawberry",
     "data": [
-      {"char":"girl","pos":[0.01, 1.2, 0],"text": "Hi Pirate, whats up?"},
-      {"char":"charRoot","pos":[-0.1, 0.8, 0],"text": "Ow man, feels like the game\nis rigged against me."},
-      {"text": "Whatever I do I feel like I'm loosing"},
-      {"char":"girl","pos":[0.01, 1.2, 0],"text": "Yea, it's rigged. But that doesn't\nmean you can't do anything about it"},
-      {"text": "Even if its something small"},
-      {"text": "Like, I got this can of beans\nfrom Strawberry,\nafter I gave him some change."},
-      {"text": "And I love beans!\nThey are my favorite\ncanned vegetable!"}
+      {
+        "char": "girl",
+        "pos": [
+          0.01,
+          1.2,
+          0
+        ],
+        "text": "Hi Pirate, whats up?"
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          -0.1,
+          0.8,
+          0
+        ],
+        "text": "Ow man, feels like the game\nis rigged against me."
+      },
+      {
+        "text": "Whatever I do I feel like I'm loosing"
+      },
+      {
+        "char": "girl",
+        "pos": [
+          0.01,
+          1.2,
+          0
+        ],
+        "text": "Yea, it's rigged. But that doesn't\nmean you can't do anything about it"
+      },
+      {
+        "text": "Even if its something small"
+      },
+      {
+        "text": "Like, I got this can of beans\nfrom Strawberry,\nafter I gave him some change."
+      },
+      {
+        "text": "And I love beans!\nThey are my favorite\ncanned vegetable!"
+      }
     ]
   },
-
-
-
-
   {
-  "name": "sea",
-  "data": [
-
-    {"char":"charRoot","pos":[0.01, 0.8, 0],"text": "blabla"}
-
-  ]
-}, {
-  "name": "readBoy",
-  "data": [
-
-    {"char":"rootLandlord","pos":[0.01, 0.8, 0],"text": "Can't you read boy! This is a private pier!"},
-    {"text": "I can shoot you right now if I want to"}
-  ]
-},
-
- {
-  "name": "landlordConversation",
-  "data": [
-
-    {"char":"rootLandlord","pos":[0.01, 0.8, 0],"text": "Ow, It's you?\nGot my money boy?"}
-
-  ]
-}, {
-  "name": "godEnd",
-  "data": [
-
-    {"char":"charRoot","pos":[0.1, 0.8, 0],"text": "Hi God, Want to join the party?"},
-    {"char":"godRoot","pos":[-0.3, 0.85, 0],"text": "Don't believe in God pirate.\nIt only gives you false hope..."},
-    {"text": "Nice ship you got there!"},
-    {"char":"charRoot","pos":[0.1, 0.8, 0],"text": "Thanks, worked my ass off to get it!"},
-    {"char":"godRoot","pos":[-0.3, 0.85, 0],"text": "You know, they won't let you get away with this."},
-    {"char":"charRoot","pos":[0.1, 0.8, 0],"text": "I know..."},
-    {"text": "I dont care, it doesn't matter..."},
-    {"char":"godRoot","pos":[-0.3, 0.85, 0],"text": "Nothing does, thats the point.\nJust enjoy the party while it last..."},
-    {"text": "Anyway, I'll see you soon Pirate."},
-    {"char":"charRoot","pos":[0.1, 0.8, 0],"text": "Yea... See you soon God!"}
-  ]
-}
+    "name": "sea",
+    "data": [
+      {
+        "char": "charRoot",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "blabla"
+      }
+    ]
+  },
+  {
+    "name": "readBoy",
+    "data": [
+      {
+        "char": "rootLandlord",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "Can't you read boy! This is a private pier!"
+      },
+      {
+        "text": "I can shoot you right now if I want to"
+      }
+    ]
+  },
+  {
+    "name": "landlordConversation",
+    "data": [
+      {
+        "char": "rootLandlord",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "Ow, It's you?\nGot my money boy?"
+      }
+    ]
+  },
+  {
+    "name": "godEnd",
+    "data": [
+      {
+        "char": "charRoot",
+        "pos": [
+          0.1,
+          0.8,
+          0
+        ],
+        "text": "Hi God, Want to join the party?"
+      },
+      {
+        "char": "godRoot",
+        "pos": [
+          -0.3,
+          0.85,
+          0
+        ],
+        "text": "Don't believe in God pirate.\nIt only gives you false hope..."
+      },
+      {
+        "text": "Nice ship you got there!"
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.1,
+          0.8,
+          0
+        ],
+        "text": "Thanks, worked my ass off to get it!"
+      },
+      {
+        "char": "godRoot",
+        "pos": [
+          -0.3,
+          0.85,
+          0
+        ],
+        "text": "You know, they won't let you get away with this."
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.1,
+          0.8,
+          0
+        ],
+        "text": "I know..."
+      },
+      {
+        "text": "I dont care, it doesn't matter..."
+      },
+      {
+        "char": "godRoot",
+        "pos": [
+          -0.3,
+          0.85,
+          0
+        ],
+        "text": "Nothing does, thats the point.\nJust enjoy the party while it last..."
+      },
+      {
+        "text": "Anyway, I'll see you soon Pirate."
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.1,
+          0.8,
+          0
+        ],
+        "text": "Yea... See you soon God!"
+      }
+    ]
+  }
 ]
-
-

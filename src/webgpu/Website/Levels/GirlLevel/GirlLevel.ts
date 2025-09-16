@@ -6,16 +6,16 @@ import sceneHandler from "../../../data/SceneHandler.ts";
 import CharacterController from "../../CharacterController.ts";
 
 import GameModel from "../../GameModel.ts";
-import {PlatformLevel} from "../PlatformLevel.ts";
-import {Vector3} from "@math.gl/core";
+import { PlatformLevel } from "../PlatformLevel.ts";
+import { Vector3 } from "@math.gl/core";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
-import {HitTrigger} from "../../../data/HitTriggers.ts";
+import { HitTrigger } from "../../../data/HitTriggers.ts";
 import gsap from "gsap";
 import LevelHandler from "../LevelHandler.ts";
 
 
 export class GirlLevel extends PlatformLevel {
-    private startPos: number=-4;
+    private startPos: number = -4;
 
 
 
@@ -64,31 +64,31 @@ export class GirlLevel extends PlatformLevel {
         GameModel.gameCamera.setMinMaxX(this.startPos, this.startPos + 5)
 
 
-        GameModel.gameCamera.setForCharPos(new Vector3(this.startPos , 0, 0))
+        GameModel.gameCamera.setForCharPos(new Vector3(this.startPos, 0, 0))
 
 
     }
     resolveHitTrigger(f: SceneObject3D) {
-        if(!super.resolveHitTrigger(f)){
+        if (!super.resolveHitTrigger(f)) {
 
 
 
 
 
-            if(f.hitTriggerItem ==HitTrigger.GIRL){
-                f.triggerIsEnabled =false;
+            if (f.hitTriggerItem == HitTrigger.GIRL) {
+                f.triggerIsEnabled = false;
 
 
-                this.blockInput =true
-                this.characterController.gotoAndIdle(new Vector3(-1.2,0,0),1,()=> {
-                    let target = new Vector3(-0.6,0.7,0)
-                    GameModel.gameCamera.TweenToLockedView( target,target.clone().add([0,0,2.3]))
+                this.blockInput = true
+                this.characterController.gotoAndIdle(new Vector3(-1.2, 0, 0), 1, () => {
+                    let target = new Vector3(-0.6, 0.7, 0)
+                    GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 2.3]))
 
                     gsap.delayedCall(0.5, () => {
                         GameModel.conversationHandler.startConversation("girlStrawberry")
 
                         GameModel.conversationHandler.doneCallBack = () => {
-                          //  LevelHandler.setLevel("Dock");
+                            LevelHandler.setLevel("Dock");
                         }
                     });
 
