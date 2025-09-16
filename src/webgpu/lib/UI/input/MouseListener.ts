@@ -16,45 +16,34 @@ export default class MouseListener {
         this.element = document;
 
         this.element.addEventListener(
-            "mousemove",
+            "pointermove",
             this.mouseMoveListener.bind(this),
             false
         );
-        this.element.addEventListener(
-            "touchmove",
-            this.touchMoveListener.bind(this),
-            {passive: true}
-        );
 
         this.element.addEventListener(
-            "touchstart",
-            this.touchStartListener.bind(this),
-            {passive: true}
-        );
-        this.element.addEventListener(
-            "mousedown",
+            "pointerdown",
             this.mouseDownListener.bind(this),
             false
         );
 
-        this.element.addEventListener("touchend", this.mouseUp.bind(this), false);
-        this.element.addEventListener("mouseup", this.mouseUp.bind(this), false);
+        this.element.addEventListener(
+            "pointerup",
+            this.mouseUpListener.bind(this),
+            false
+        );
 
         this.element.addEventListener(
-            "mousecancel",
+            "pointercancel",
             this.endListener.bind(this),
             false
         );
         this.element.addEventListener(
-            "mouseout",
+            "pointerout",
             this.endListener.bind(this),
             false
         );
-        this.element.addEventListener(
-            "touchcancel",
-            this.endListener.bind(this),
-            false
-        );
+
 
         this.element.addEventListener("wheel", (event) => {
             this.wheelDelta = event.deltaY;
@@ -73,7 +62,7 @@ export default class MouseListener {
     }
 
     mouseDownListener(e: MouseEvent) {
-        if (e.which - 1 == 0) {
+        if (e.button == 0) {
             this.setMousePosition(e);
             if (this.preventDefault) {
                 e.preventDefault();
@@ -81,13 +70,17 @@ export default class MouseListener {
             this.mouseDown();
         }
     }
-
-    touchMoveListener(e: TouchEvent) {
-        this.setMousePosition(e.targetTouches[0]);
-        if (this.preventDefault) {
-            e.preventDefault();
+    mouseUpListener(e: MouseEvent) {
+        if (e.button == 0) {
+            this.setMousePosition(e);
+            if (this.preventDefault) {
+                e.preventDefault();
+            }
+            this.mouseUp();
         }
     }
+
+
 
     mouseMoveListener(e: MouseEvent) {
         this.setMousePosition(e);
