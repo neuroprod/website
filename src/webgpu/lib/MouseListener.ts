@@ -1,9 +1,9 @@
-import {Vector2} from "@math.gl/core";
+import { Vector2 } from "@math.gl/core";
 import Renderer from "./Renderer.ts";
 
 
 export default class MouseListener {
-    public mouseNorm: Vector2 =new Vector2();
+    public mouseNorm: Vector2 = new Vector2();
     public mousePos: Vector2;
     public mousePosDown: Vector2;
     public isDown: boolean = false;
@@ -18,7 +18,7 @@ export default class MouseListener {
     private element: Document;
     private preventDefault = false;
     private renderer: Renderer;
-    pressure:number =0;
+    pressure: number = 0;
 
     constructor(renderer: Renderer) {
         this.renderer = renderer;
@@ -29,25 +29,18 @@ export default class MouseListener {
             this.mouseMoveListener.bind(this),
             false
         );
-        this.element.addEventListener(
-            "touchmove",
-            this.touchMoveListener.bind(this),
-            {passive: true}
-        );
 
-        this.element.addEventListener(
-            "touchstart",
-            this.touchStartListener.bind(this),
-            {passive: true}
-        );
         this.element.addEventListener(
             "pointerdown",
             this.mouseDownListener.bind(this),
             false
         );
 
-        this.element.addEventListener("touchend", this.mouseUp.bind(this), false);
-        this.element.addEventListener("mouseup", this.mouseUp.bind(this), false);
+        this.element.addEventListener(
+            "pointerup",
+            this.mouseUpListener.bind(this),
+            false
+        );
 
         this.element.addEventListener(
             "pointercancel",
@@ -59,11 +52,7 @@ export default class MouseListener {
             this.endListener.bind(this),
             false
         );
-        this.element.addEventListener(
-            "touchcancel",
-            this.endListener.bind(this),
-            false
-        );
+
 
         this.element.addEventListener("wheel", (event) => {
             this.wheelDelta = event.deltaY;
@@ -90,15 +79,10 @@ export default class MouseListener {
         return this.mouseNorm;
     }
 
-    touchStartListener(e: TouchEvent) {
-        this.setMousePosition(e.targetTouches[0]);
-        if (this.preventDefault) {
-            e.preventDefault();
-        }
-        this.mouseDown();
-    }
+
 
     mouseDownListener(e: PointerEvent) {
+
         if (e.button == 0) {
             this.setMousePosition(e);
             if (this.preventDefault) {
@@ -114,12 +98,24 @@ export default class MouseListener {
         }
     }
 
-    touchMoveListener(e: TouchEvent) {
-        this.setMousePosition(e.targetTouches[0]);
-        if (this.preventDefault) {
-            e.preventDefault();
+    mouseUpListener(e: PointerEvent) {
+
+        if (e.button == 0) {
+            this.setMousePosition(e)
+            if (this.preventDefault) {
+                e.preventDefault();
+            }
+            this.altKey = e.altKey;
+            this.ctrlKey = e.ctrlKey;
+            this.shiftKey = e.shiftKey;
+            this.metaKey = e.metaKey;
+
+
+
+            this.mouseUp();
         }
     }
+
 
     mouseMoveListener(e: PointerEvent) {
 
@@ -156,7 +152,7 @@ export default class MouseListener {
     }
 
     setMousePosition(e: any) {
-        this.pressure =e.pressure;
+        this.pressure = e.pressure;
         this.mousePos.x = e.offsetX * window.devicePixelRatio;
         this.mousePos.y = e.offsetY * window.devicePixelRatio;
         this.isDirty = 1;
