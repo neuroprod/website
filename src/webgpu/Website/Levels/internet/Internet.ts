@@ -22,7 +22,7 @@ export default class Internet extends NavigationLevel {
     private video!: VideoPlayer;
     constructor() {
         super();
-
+        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/macaroni.mp4", new Vector2(1920, 1080))
     }
 
 
@@ -30,7 +30,7 @@ export default class Internet extends NavigationLevel {
         super.init();
 
         LoadHandler.onComplete = this.configScene.bind(this)
-        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/macaroni.mp4", new Vector2(1920, 1080))
+
         this.backgroundTexture = new TextureLoader(GameModel.renderer, "backgrounds/deadInternet.jpg")
 
         LoadHandler.startLoading()

@@ -21,13 +21,13 @@ export default class FoodForFish extends NavigationLevel {
     fishMouth!: Model;
     constructor() {
         super();
-
+        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/foodfish.mp4", new Vector2(1920, 1080))
     }
 
 
     init() {
         super.init();
-        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/foodfish.mp4", new Vector2(1920, 1080))
+
 
         LoadHandler.onComplete = this.configScene.bind(this)
         LoadHandler.startLoading()
@@ -79,11 +79,11 @@ export default class FoodForFish extends NavigationLevel {
             gsap.to(link.sceneObject, {
                 sx: 1.1,
                 sy: 1.1,
-              
+
                 ease: "elastic.out",
                 duration: 0.5
             })
-           
+
         }
         link.onRollOut = () => {
             GameModel.renderer.setCursor(false)
@@ -102,7 +102,7 @@ export default class FoodForFish extends NavigationLevel {
         this.fishMouth = SceneHandler.getSceneObject("FishMouth").model as Model
 
         let tl = gsap.timeline({
-            delay:5
+            delay: 5
         })
 
 

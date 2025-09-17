@@ -20,7 +20,8 @@ export default class VideoPlayer {
         this.video.autoplay = false;
         this.video.loop = true;
         this.video.muted = true;
-        this.video.playsInline = true
+        this.video.playsInline = true;
+        this.video.preload = 'auto';
     }
     getTexture() {
         return this.videoRenderPass.texture

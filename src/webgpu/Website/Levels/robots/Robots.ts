@@ -21,7 +21,7 @@ export default class Robots extends NavigationLevel {
 
     constructor() {
         super();
-
+        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/robot.mp4", new Vector2(1920, 1080))
     }
 
 

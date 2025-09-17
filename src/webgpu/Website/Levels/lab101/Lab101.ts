@@ -20,13 +20,13 @@ export default class Lab101 extends NavigationLevel {
 
     constructor() {
         super();
-
+        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/overview1.mp4", new Vector2(1920, 1080))
     }
 
 
     init() {
         super.init();
-        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/overview1.mp4", new Vector2(1920, 1080))
+
 
         LoadHandler.onComplete = this.configScene.bind(this)
         LoadHandler.startLoading()
