@@ -91,23 +91,7 @@ class SoundHandler {
             }
         });
 
-        this.fart = new Howl({
-            src: ['sound/fart-noises-83359.mp3'],
-            sprite: {
-                s0: [0, 300],
-                s1: [500, 300],
-                s2: [1000, 300],
-                s3: [1500, 300],
-                s4: [2000, 600],
-                s5: [2820, 600],
-                s6: [3500, 600],
-                s7: [4200, 800],
 
-
-
-
-            }
-        });
 
         this.scroll = new Howl({
             src: ['sound/scroll.mp3'],
