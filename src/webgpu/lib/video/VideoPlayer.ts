@@ -1,46 +1,48 @@
 import Renderer from "../Renderer.ts";
 
 import VideoRenderPass from "./VideoRenderPass.ts";
-import {Vector2} from "@math.gl/core";
+import { Vector2 } from "@math.gl/core";
 
-export default class VideoPlayer{
+export default class VideoPlayer {
 
     video: HTMLVideoElement;
     private renderer: Renderer;
     private videoRenderPass: VideoRenderPass;
 
 
-    constructor(renderer:Renderer,file:string,size:Vector2) {
+    constructor(renderer: Renderer, file: string, size: Vector2) {
 
-            this.video = document.createElement("Video") as HTMLVideoElement;
-            this.renderer =renderer
-        this.videoRenderPass  =new VideoRenderPass(renderer,file,size)
-        this.video.src =file;
-        this.video.autoplay=false;
-        this.video.loop =true;
-        this.video.muted =true;
+        this.video = document.createElement("Video") as HTMLVideoElement;
+
+        this.renderer = renderer
+        this.videoRenderPass = new VideoRenderPass(renderer, file, size)
+        this.video.src = file;
+        this.video.autoplay = false;
+        this.video.loop = true;
+        this.video.muted = true;
+        this.video.playsInline = true
     }
-    getTexture(){
+    getTexture() {
         return this.videoRenderPass.texture
     }
 
-    play(){
+    play() {
 
-        this.video.play().then(()=>{
+        this.video.play().then(() => {
 
             this.video.requestVideoFrameCallback(this.setFrame.bind(this));
         })
 
     }
-    public pauze(){
+    public pauze() {
         this.video.pause()
 
     }
-    public setFrame(){
-       // this.isReady = true;
+    public setFrame() {
+        // this.isReady = true;
         let videoFrame = new VideoFrame(this.video)
 
-        this.videoRenderPass.material.uniformGroups[0].setVideoFrameTexture("colorTexture",videoFrame)
+        this.videoRenderPass.material.uniformGroups[0].setVideoFrameTexture("colorTexture", videoFrame)
         this.videoRenderPass.material.uniformGroups[0].update();
 
         let comEncoder = this.renderer.device.createCommandEncoder()

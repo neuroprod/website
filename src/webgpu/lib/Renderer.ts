@@ -61,15 +61,16 @@ export default class Renderer {
             }
             const requiredFeatures: Array<GPUFeatureName> = []
             if (adapter.features.has("float32-filterable")) {
-                // this.hasFloat32Filterable = true;
-                //requiredFeatures.push("float32-filterable")
+
+                this.hasFloat32Filterable = true;
+                requiredFeatures.push("float32-filterable")
             }
 
 
             if (this.useTimeStampQuery) {
                 requiredFeatures.push("timestamp-query");
             }
-            console.log(requiredFeatures)
+            //  console.log(requiredFeatures)
             const hdrMediaQuery = window.matchMedia('(dynamic-range: high)');
             if (hdrMediaQuery.matches) {
                 //console.log("hdr windown")
