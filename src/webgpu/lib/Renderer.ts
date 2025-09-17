@@ -40,6 +40,7 @@ export default class Renderer {
     private uniformGroups: Array<UniformGroup> = [];
     mipmapQueue!: MipMapQueue;
 
+    hasFloat32Filterable = false;
     constructor() {
 
     }
@@ -50,26 +51,33 @@ export default class Renderer {
         this.pixelRatio = window.devicePixelRatio;
         this.textureHandler = new TextureHandler();
         Renderer.instance = this;
-        console.log("intit")
+
         const adapter = await navigator.gpu.requestAdapter({ featureLevel: 'compatibility', powerPreference: "high-performance" });
-        console.log("adapter")
+
         if (adapter) {
 
             for (let a of adapter.features.keys()) {
-
+                console.log(a)
             }
-            const requiredFeatures: Array<GPUFeatureName> = ["float32-filterable"];
+            const requiredFeatures: Array<GPUFeatureName> = []
+            if (adapter.features.has("float32-filterable")) {
+                this.hasFloat32Filterable = true;
+                requiredFeatures.push("float32-filterable")
+            }
+
 
             if (this.useTimeStampQuery) {
                 requiredFeatures.push("timestamp-query");
             }
+            console.log(requiredFeatures)
             const hdrMediaQuery = window.matchMedia('(dynamic-range: high)');
             if (hdrMediaQuery.matches) {
-                console.log("hdr windown")
+                //console.log("hdr windown")
 
             }
 
             this.device = await adapter.requestDevice({ requiredFeatures: requiredFeatures });
+
             console.log(this.device)
             this.context = this.canvas.getContext("webgpu") as GPUCanvasContext;
             this.presentationFormat = navigator.gpu.getPreferredCanvasFormat();

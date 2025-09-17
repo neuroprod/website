@@ -45,16 +45,16 @@ export default class GameRenderer {
     private passSelect: Array<SelectItem> = []
     private lightPass: LightRenderPass;
     private sunLight: DirectionalLight;
-    // private gtoaPass: GTAORenderPass;
+
     private shadowBlurPass: ShadowBlurRenderPass;
-    //private gtoaDenoisePass: GTAODenoisePass;
+
     private shadowPass: ShadowRenderPass;
-    private AOPreDept: AOPreprocessDepth;
-    private ao: GTAO;
-    //preProcessDepth: PreProcessDepth;
-    // private preProcessDepth: PreProcessDepth;
-    private aoDenoise: DeNoisePass;
-    private shadowDenoise: DeNoisePass;
+    private AOPreDept!: AOPreprocessDepth;
+    private ao!: GTAO;
+    private aoDenoise!: DeNoisePass;
+
+
+    private shadowDenoise!: DeNoisePass;
     private transparentModelRenderer: ModelRenderer;
     private transitionValue: number = 0;
     private transparentPass: TransRenderPass;
@@ -71,14 +71,24 @@ export default class GameRenderer {
         // this.preProcessDepth = new PreProcessDepth(renderer);
 
         this.shadowPass = new ShadowRenderPass(renderer, camera, this.sunLight)
+        if (renderer.hasFloat32Filterable) {
 
-        this.AOPreDept = new AOPreprocessDepth(renderer)
-        this.ao = new GTAO(renderer, camera)
-        this.aoDenoise = new DeNoisePass(renderer, Textures.GTAO_DENOISE, Textures.GTAO)
-        this.shadowDenoise = new DeNoisePass(renderer, Textures.SHADOW_DENOISE, Textures.SHADOW)
+            this.AOPreDept = new AOPreprocessDepth(renderer)
+            this.ao = new GTAO(renderer, camera)
+            this.aoDenoise = new DeNoisePass(renderer, Textures.GTAO_DENOISE, Textures.GTAO)
+            this.shadowDenoise = new DeNoisePass(renderer, Textures.SHADOW_DENOISE, Textures.SHADOW)
 
-
+        }
         this.lightPass = new LightRenderPass(renderer, camera, this.sunLight)
+        if (renderer.hasFloat32Filterable) {
+
+            this.lightPass.lightMaterial.setTexture("shadow", renderer.getTexture(Textures.SHADOW_DENOISE))
+            this.lightPass.lightMaterial.setTexture("aoTexture", renderer.getTexture(Textures.GTAO_DENOISE))
+        } else {
+            this.lightPass.lightMaterial.setTexture("shadow", renderer.getTexture(Textures.SHADOW))
+        }
+
+
         this.transparentModelRenderer = new ModelRenderer(this.renderer, "transparent", camera)
         this.transparentPass = new TransRenderPass(renderer, camera, this.sunLight, this.transparentModelRenderer)
         this.maskRenderPass = new MaskRenderPass(renderer, camera)
@@ -97,11 +107,10 @@ export default class GameRenderer {
 
 
         this.passSelect.push(new SelectItem(Textures.GRADING, { texture: Textures.GRADING, type: 0 }));
-
-        this.passSelect.push(new SelectItem(Textures.GTAO, { texture: Textures.GTAO, type: 1 }));
-
-        this.passSelect.push(new SelectItem(Textures.GTAO_DENOISE, { texture: Textures.GTAO_DENOISE, type: 1 }));
-
+        if (this.renderer.hasFloat32Filterable) {
+            this.passSelect.push(new SelectItem(Textures.GTAO, { texture: Textures.GTAO, type: 1 }));
+            this.passSelect.push(new SelectItem(Textures.GTAO_DENOISE, { texture: Textures.GTAO_DENOISE, type: 1 }));
+        }
         this.passSelect.push(new SelectItem(Textures.MASK, { texture: Textures.MASK, type: 0 }));
         this.passSelect.push(new SelectItem(Textures.LIGHT, { texture: Textures.LIGHT, type: 0 }));
         this.passSelect.push(new SelectItem("video/test.mp4", { texture: "video/test.mp4", type: 0 }));
@@ -302,26 +311,26 @@ export default class GameRenderer {
     draw() {
         if (LoadHandler.isLoading()) return;
 
-        // this.dripPass.add()
-        // this.needsAOInt = false;
-        // this.needsShadowInt = false;
+
         if (this.needsShadowInt) this.shadowMapPass.add();
 
 
         this.gBufferPass.add();
         if (this.needsAOInt) {
-            this.AOPreDept.add();
-            // this.preProcessDepth.add();
-            this.ao.add()
-
+            if (this.renderer.hasFloat32Filterable) {
+                this.AOPreDept.add();
+                this.ao.add()
+                this.aoDenoise.add()
+            }
         }
 
 
 
         if (this.needsShadowInt) this.shadowPass.add();
-        if (this.needsAOInt) this.aoDenoise.add()
 
-        if (this.needsShadowInt) this.shadowDenoise.add()
+        if (this.renderer.hasFloat32Filterable) {
+            if (this.needsShadowInt) this.shadowDenoise.add()
+        }
         //   this.shadowBlurPass.add();
 
         this.lightPass.add();

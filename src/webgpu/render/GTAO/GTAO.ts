@@ -128,7 +128,7 @@ ${Camera.getShaderText(1)}
 
 
 fn load_noise(pixel_coordinates: vec2<i32>) -> vec2<f32> {
- var index = textureLoad(noise, pixel_coordinates%5 , 0).rg*2.0-1.0;
+ var index = textureLoad(noise, pixel_coordinates%4 , 0).rg*2.0-1.0;
 
 return index;
     // R2 sequence - http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences

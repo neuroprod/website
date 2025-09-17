@@ -7,6 +7,7 @@ import { Textures } from "../../data/Textures.ts";
 import DefaultUniformGroups from "../../lib/material/DefaultUniformGroups.ts";
 import { getWorldFromUVDepth } from "../../lib/material/shaders/DeferedChunks.ts";
 import { Vector4 } from "@math.gl/core";
+import DefaultTextures from "../../lib/textures/DefaultTextures.ts";
 
 export default class LightMaterial extends Material {
     setup() {
@@ -26,11 +27,14 @@ export default class LightMaterial extends Material {
         uniforms.addUniform("lightColor", new Vector4(1, 0.7, 0.7, 5));
         uniforms.addUniform("needsAO", 0);
         uniforms.addUniform("needsShadow", 0);
-        uniforms.addTexture("aoTexture", this.renderer.getTexture(Textures.GTAO_DENOISE), { sampleType: TextureSampleType.UnfilterableFloat })
+
+        // this.renderer.getTexture(Textures.GTAO_DENOISE)
+        // this.renderer.getTexture(Textures.SHADOW_DENOISE)
+        uniforms.addTexture("aoTexture", DefaultTextures.getWhite(this.renderer), { sampleType: TextureSampleType.UnfilterableFloat })
         uniforms.addTexture("gColor", this.renderer.getTexture(Textures.GCOLOR), { sampleType: TextureSampleType.UnfilterableFloat })
         uniforms.addTexture("gNormal", this.renderer.getTexture(Textures.GNORMAL), { sampleType: TextureSampleType.UnfilterableFloat })
         uniforms.addTexture("gDepth", this.renderer.getTexture(Textures.GDEPTH), { sampleType: TextureSampleType.UnfilterableFloat })
-        uniforms.addTexture("shadow", this.renderer.getTexture(Textures.SHADOW_DENOISE), { sampleType: TextureSampleType.UnfilterableFloat })
+        uniforms.addTexture("shadow", DefaultTextures.getWhite(this.renderer), { sampleType: TextureSampleType.UnfilterableFloat })
         uniforms.addSampler("mySampler");
 
 
