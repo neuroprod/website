@@ -44,8 +44,10 @@ export default class LightRenderPass extends RenderPass {
 
     update(needsAOInt: boolean, needsShadowInt: boolean) {
         if (needsAOInt) {
+
             this.lightMaterial.setUniform("needsAO", 1)
         } else {
+
             this.lightMaterial.setUniform("needsAO", 0)
         }
         if (needsShadowInt) {

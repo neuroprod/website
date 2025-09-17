@@ -260,8 +260,12 @@ export default class GameRenderer {
 
         if (!this.needsAO) {
             this.needsAOInt = false
+
         } else {
             this.needsAOInt = true
+        }
+        if (!this.renderer.hasFloat32Filterable) {
+            this.needsAOInt = false;
         }
         if (this.gBufferPass.modelRenderer.models.length == 0) {
             this.needsAOInt = false// do i want ao in trans pass?

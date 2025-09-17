@@ -61,8 +61,8 @@ export default class Renderer {
             }
             const requiredFeatures: Array<GPUFeatureName> = []
             if (adapter.features.has("float32-filterable")) {
-                this.hasFloat32Filterable = true;
-                requiredFeatures.push("float32-filterable")
+                // this.hasFloat32Filterable = true;
+                //requiredFeatures.push("float32-filterable")
             }
 
 
