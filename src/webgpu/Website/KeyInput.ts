@@ -12,7 +12,7 @@ export default class KeyInput {
     private space: boolean = false;
     private spaceTimeStamp!: DOMHighResTimeStamp;
     private spaceTime: number = 0;
-    m: boolean;
+    m: boolean = false;
     constructor() {
 
         document.addEventListener('keydown', (event) => {
