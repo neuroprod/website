@@ -246,7 +246,10 @@ export default class Main {
     }
 
     private onUI() {
-
+        if (this.keyInput.m) {
+            gameModel.debug = !gameModel.debug;
+            this.keyInput.m = false
+        }
         if (this.currentMainState == MainState.game) {
 
             if (gameModel.debug) {

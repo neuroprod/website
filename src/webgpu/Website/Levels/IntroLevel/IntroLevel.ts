@@ -18,6 +18,7 @@ export class IntroLevel extends PlatformLevel {
 
     private startPos = 0
     private landlordHand!: SceneObject3D;
+    tl!: gsap.core.Timeline;
 
 
     init() {
@@ -55,13 +56,13 @@ export class IntroLevel extends PlatformLevel {
 
         this.landlord = sceneHandler.getSceneObject("rootLandlord")
         this.landlord.setScaler(1.2)
-        this.landlord.z = 0
-        this.landlord.x = -1.5 - 2
+        this.landlord.z = -0.3
+        this.landlord.x = -1.5 - 0.5
         this.landlord.ry = 0
         sceneHandler.getSceneObject("LandlordArmGun").hide()
         this.landlordHand = sceneHandler.getSceneObject("landlordArmPoint")
-        this.landlordHand.rz = -1.5
-        this.landlordHand.x = 0.07
+        this.landlordHand.rz = -1
+        this.landlordHand.x = 0.01
         let charRoot = SceneHandler.getSceneObject("charRoot");
         charRoot.x = this.startPos - 3
         charRoot.y = 0.15
@@ -71,7 +72,7 @@ export class IntroLevel extends PlatformLevel {
             gsap.delayedCall(0.5, this.playIntro.bind(this));
 
         })
-        GameModel.gameCamera.camDistance = 1.2;
+        GameModel.gameCamera.camDistance = 1.4;
         GameModel.gameCamera.heightOffset = 0.4
         GameModel.gameCamera.setMinMaxX(this.startPos - 0.5, this.startPos + 5)
 
@@ -93,26 +94,29 @@ export class IntroLevel extends PlatformLevel {
 
     private playIntro() {
 
-        this.landlord.x = -1.5
+        // this.landlord.x = -1.5
         let tl = gsap.timeline()
-        GameModel.gameCamera.TweenToLockedView(new Vector3(-1.0, 0.5, 0), new Vector3(-1.0, 0.5, 2))
-
+        GameModel.gameCamera.TweenToLockedView(new Vector3(-1.0, 0.5, 0), new Vector3(-1.0, 0.5, 2), 3)
+        tl.to(this.landlord, { x: -1.5, ry: -0.1 }, 0)
+        tl.to(this.landlordHand, { rz: -0.7, x: 0.05, y: 0.12 }, 0)
         // GameModel.gameCamera.TweenToLockedView()
 
 
-        this.characterController.setAngle(-Math.PI)
+        this.characterController.setAngle(-Math.PI - 0.2, 0.7, 0.7)
         let count = 0;
-        gsap.delayedCall(1, () => {
+        gsap.delayedCall(2, () => {
             GameModel.conversationHandler.startConversation("mrLoathsome")
             GameModel.conversationHandler.dataCallBack = (data: string) => {
+                if (this.tl) this.tl.clear();
+                this.tl = gsap.timeline()
                 if (data == "raiseHand") {
-                    gsap.to(this.landlordHand, { rz: 0, x: 0.1, y: 0.12 })
+                    tl.to(this.landlordHand, { rz: 0, x: 0.1, y: 0.12 })
                 }
                 else if (data == "moveHand") {
-                    gsap.to(this.landlordHand, { rz: -0.2, x: 0.1, y: 0.12 })
+                    tl.to(this.landlordHand, { rz: -0.2, x: 0.1, y: 0.12 })
                 }
                 else if (data == "lowerHand") {
-                    gsap.to(this.landlordHand, { rz: -0.4, duration: 3, x: 0.1, y: 0.12 })
+                    tl.to(this.landlordHand, { rz: -0.4, duration: 3, x: 0.1, y: 0.12 })
                 }
                 count++
 

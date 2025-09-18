@@ -2,12 +2,12 @@ import Renderer from "../lib/Renderer.ts";
 
 import SceneObject3D from "../data/SceneObject3D.ts";
 import gsap from "gsap";
-import {lerp, Vector3} from "@math.gl/core";
+import { lerp, Vector3 } from "@math.gl/core";
 import Ray from "../lib/Ray.ts";
 import DebugDraw from "./DebugDraw.ts";
 import CloudParticles from "./CloudParticles.ts";
-import {lerpValueDelta, smoothstep} from "../lib/MathUtils.ts";
-import {NumericArray} from "@math.gl/types";
+import { lerpValueDelta, smoothstep } from "../lib/MathUtils.ts";
+import { NumericArray } from "@math.gl/types";
 import SoundHandler from "./SoundHandler.ts";
 import SceneHandler from "../data/SceneHandler.ts";
 import Timer from "../lib/Timer.ts";
@@ -55,18 +55,18 @@ export default class CharacterController {
     private charHitTop = new Vector3(0.01, 0.32, 0)
     private feetStepPrev: number = 0;
     private idleTime = 0;
-     cloudParticles: CloudParticles;
-    private autoWalk: boolean =false;
-    private autoWalkTarget: Vector3 =new Vector3();
-    private autoWalkTargetDir: number =0;
-    private gotoDone!:() => void
-    private hitObject: Object3D | null=null;
+    cloudParticles: CloudParticles;
+    private autoWalk: boolean = false;
+    private autoWalkTarget: Vector3 = new Vector3();
+    private autoWalkTargetDir: number = 0;
+    private gotoDone!: () => void
+    private hitObject: Object3D | null = null;
     private armLeft!: SceneObject3D;
     private waveTL!: gsap.core.Timeline;
     private browTL!: gsap.core.Timeline;
     private browLeft!: SceneObject3D;
     private browRight!: SceneObject3D;
-private feetToFloor=0.1;// 0.06/1.2
+    private feetToFloor = 0.1;// 0.06/1.2
     constructor(renderer: Renderer) {
         this.renderer = renderer;
 
@@ -88,26 +88,26 @@ private feetToFloor=0.1;// 0.06/1.2
         this.sideRay = new Ray()
 
     }
-    public startWave(){
-        if(this.waveTL)this.waveTL.clear()
-        this.waveTL =gsap.timeline({repeat:-1,repeatRefresh:true})
-       // this.waveTL.to( this.armLeft,{rz:0.2,x:0.02,duration:0.4,ease:"sine.inOut"})
+    public startWave() {
+        if (this.waveTL) this.waveTL.clear()
+        this.waveTL = gsap.timeline({ repeat: -1, repeatRefresh: true })
+        // this.waveTL.to( this.armLeft,{rz:0.2,x:0.02,duration:0.4,ease:"sine.inOut"})
         //this.waveTL.to( this.armLeft,{rz:-0.4,x:0.06,duration:0.5,ease:"sine.inOut"})
 
-        if(this.browTL)this.browTL.clear()
-        this.browTL =gsap.timeline({repeat:1})
-        this.browTL.to(this.browRight,{y:0.07,duration:0.2},0)
-        this.browTL.to(this.browLeft,{y:0.07,duration:0.2},0)
-        this.browTL.to(this.browRight,{y:0.050,duration:0.4},0.2)
-        this.browTL.to(this.browLeft,{y:0.050,duration:0.4},0.2)
+        if (this.browTL) this.browTL.clear()
+        this.browTL = gsap.timeline({ repeat: 1 })
+        this.browTL.to(this.browRight, { y: 0.07, duration: 0.2 }, 0)
+        this.browTL.to(this.browLeft, { y: 0.07, duration: 0.2 }, 0)
+        this.browTL.to(this.browRight, { y: 0.050, duration: 0.4 }, 0.2)
+        this.browTL.to(this.browLeft, { y: 0.050, duration: 0.4 }, 0.2)
     }
-    public stopWave(){
-        if(this.waveTL)this.waveTL.clear()
-        this.waveTL =gsap.timeline({})
-       // this.waveTL.to( this.armLeft,{rz:-0.7,x:0.06,ease:"power2.inOut"})
+    public stopWave() {
+        if (this.waveTL) this.waveTL.clear()
+        this.waveTL = gsap.timeline({})
+        // this.waveTL.to( this.armLeft,{rz:-0.7,x:0.06,ease:"power2.inOut"})
     }
     setCharacter() {
-        if(this.waveTL)this.waveTL.clear()
+        if (this.waveTL) this.waveTL.clear()
         this.charRoot = SceneHandler.getSceneObject("charRoot");
         this.charBody = SceneHandler.getSceneObject("body");
         this.leftLeg = SceneHandler.getSceneObject("legLeft");
@@ -116,33 +116,33 @@ private feetToFloor=0.1;// 0.06/1.2
         this.browLeft = SceneHandler.getSceneObject("browLeft");
         this.browRight = SceneHandler.getSceneObject("browRight");
         this.bodyBasePos = this.charBody.getPosition().clone()
-        this.autoWalk =false;
-       this.cloudParticles.init()
+        this.autoWalk = false;
+        this.cloudParticles.init()
         this.targetPos.copy(this.charRoot.getPosition() as NumericArray)
     }
-    gotoAndIdle(worldPos: Vector3,dir:number =1,gotoDone: () => void) {
-        this.gotoDone =gotoDone;
-        this.autoWalk =true;
+    gotoAndIdle(worldPos: Vector3, dir: number = 1, gotoDone: () => void) {
+        this.gotoDone = gotoDone;
+        this.autoWalk = true;
         this.autoWalkTarget.copy(worldPos);
-        this.autoWalkTargetDir =dir;
+        this.autoWalkTargetDir = dir;
     }
-    updateIdle(delta:number) {
-        if(! this.charRoot )return;
+    updateIdle(delta: number) {
+        if (!this.charRoot) return;
 
-        if( this.autoWalk){
+        if (this.autoWalk) {
 
-            let speed = Math.min(3,Math.abs(this.autoWalkTarget.x-this.targetPos.x)*10)
+            let speed = Math.min(3, Math.abs(this.autoWalkTarget.x - this.targetPos.x) * 10)
 
-            if(this.autoWalkTarget.x < this.targetPos.x){
-                this.velocity.x =-speed;
+            if (this.autoWalkTarget.x < this.targetPos.x) {
+                this.velocity.x = -speed;
             }
-            if(this.autoWalkTarget.x > this.targetPos.x){
-                this.velocity.x =speed;
+            if (this.autoWalkTarget.x > this.targetPos.x) {
+                this.velocity.x = speed;
             }
 
-            if(Math.abs(this.autoWalkTarget.x-this.targetPos.x)<0.01){
-                this.update(delta, this.autoWalkTargetDir*0.001, false)
-                this.autoWalk =false
+            if (Math.abs(this.autoWalkTarget.x - this.targetPos.x) < 0.01) {
+                this.update(delta, this.autoWalkTargetDir * 0.001, false)
+                this.autoWalk = false
                 this.gotoDone();
 
             }
@@ -152,11 +152,11 @@ private feetToFloor=0.1;// 0.06/1.2
 
         this.update(delta, 0, false)
     }
-    setAngle(angle:number){
-            gsap.to( this.charRoot,{ry:angle,duration:0.5,ease:"power2.inOut"})
+    setAngle(angle: number, duration: number = 0.5, delay: number = 0) {
+        gsap.to(this.charRoot, { ry: angle, duration: duration, delay: delay, ease: "power2.inOut" })
     }
     update(delta: number, hInput: number, jump: boolean) {
-if(! this.charRoot )return;
+        if (!this.charRoot) return;
         this.cloudParticles.update()
 
         if (!jump) this.canJump = true; //release button for a second jump
@@ -210,7 +210,7 @@ if(! this.charRoot )return;
         this.targetPos.copy(this.charRoot.getPosition() as NumericArray)
         this.targetPos.add(this.positionAdjustment as NumericArray);
 
-//checkDown
+        //checkDown
         this.downRay.rayDir.set(0, -1, 0);
         this.downRay.rayStart.copy(this.charRoot.getPosition() as NumericArray);
         this.downRay.rayStart.y += 0.1
@@ -254,7 +254,7 @@ if(! this.charRoot )return;
         //
         //console.log(SceneData.hitTestModels)
 
-//if(Timer.frame%10==0)console.log(this.targetPos)
+        //if(Timer.frame%10==0)console.log(this.targetPos)
         this.charRoot.setPositionV(this.targetPos)
         this.setFeet(delta)
         this.setCharacterDir(hInput);
@@ -303,7 +303,7 @@ if(! this.charRoot )return;
 
 
         } else {
-//hit ground animation
+            //hit ground animation
             //console.log(this.hitObject)
             if (this.velocity.y < -5) {
                 let vEf = Math.abs(this.velocity.y) - 5;
@@ -322,15 +322,15 @@ if(! this.charRoot )return;
             this.facingRight = true;
             if (this.rotateTimeLine) this.rotateTimeLine.clear()
             this.rotateTimeLine = gsap.timeline();
-            this.rotateTimeLine.set(this.charRoot, {ry: -1}, 0);
-            this.rotateTimeLine.to(this.charRoot, {ry: 0, duration: 0.2}, 0);
+            this.rotateTimeLine.set(this.charRoot, { ry: -1 }, 0);
+            this.rotateTimeLine.to(this.charRoot, { ry: 0, duration: 0.2 }, 0);
 
         } else if (horizontalDir < 0 && this.facingRight) {
             this.facingRight = false;
             if (this.rotateTimeLine) this.rotateTimeLine.clear()
             this.rotateTimeLine = gsap.timeline();
-            this.rotateTimeLine.set(this.charRoot, {ry: Math.PI + 1}, 0);
-            this.rotateTimeLine.to(this.charRoot, {ry: Math.PI, duration: 0.2}, 0);
+            this.rotateTimeLine.set(this.charRoot, { ry: Math.PI + 1 }, 0);
+            this.rotateTimeLine.to(this.charRoot, { ry: Math.PI, duration: 0.2 }, 0);
         }
 
     }
@@ -339,7 +339,7 @@ if(! this.charRoot )return;
         let intSide = ray.intersectModels(SceneHandler.hitTestModels);
 
         if (intSide.length > 0) {
-           this.hitObject =intSide[0].model.parent;
+            this.hitObject = intSide[0].model.parent;
             DebugDraw.path.moveTo(this.sideRay.rayStart.clone())
             DebugDraw.path.lineTo(intSide[0].point.clone())
             return intSide[0].distance;
@@ -362,11 +362,11 @@ if(! this.charRoot )return;
         if (Math.abs(this.velocity.x) < 0.01 || !this.isGrounded) {
             let lerpVal = lerpValueDelta(0.002, delta)
 
-            this.feetPos1.x = lerp(this.feetPos1.x, tScale * (this.stepLength / 2) , lerpVal);
+            this.feetPos1.x = lerp(this.feetPos1.x, tScale * (this.stepLength / 2), lerpVal);
             this.feetPos1.y = lerp(this.feetPos1.y, this.feetToFloor, lerpVal)
 
-            this.feetPos2.x = lerp(this.feetPos2.x, tScale * (-this.stepLength / 2) , lerpVal);
-            this.feetPos2.y = lerp(this.feetPos2.y,  this.feetToFloor, lerpVal)
+            this.feetPos2.x = lerp(this.feetPos2.x, tScale * (-this.stepLength / 2), lerpVal);
+            this.feetPos2.y = lerp(this.feetPos2.y, this.feetToFloor, lerpVal)
 
             this.leftLeg.setPositionV(this.feetPos1)
             this.rightLeg.setPositionV(this.feetPos2)
@@ -393,14 +393,14 @@ if(! this.charRoot )return;
             let x = Math.sin(feetStepLocal * Math.PI + Math.PI / 2) * this.stepLength / 2
             let y = Math.cos(feetStepLocal * Math.PI + Math.PI / 2) * this.stepLength / 4;
 
-            this.feetPos1.x = x ;
-            this.feetPos1.y = Math.max(y, 0) +  this.feetToFloor;
+            this.feetPos1.x = x;
+            this.feetPos1.y = Math.max(y, 0) + this.feetToFloor;
 
             let x2 = Math.sin(feetStepLocal * Math.PI - Math.PI + Math.PI / 2) * this.stepLength / 2
             let y2 = Math.cos(feetStepLocal * Math.PI - Math.PI + Math.PI / 2) * this.stepLength / 4;
 
-            this.feetPos2.x = x2 ;
-            this.feetPos2.y = Math.max(y2, 0) +  this.feetToFloor;
+            this.feetPos2.x = x2;
+            this.feetPos2.y = Math.max(y2, 0) + this.feetToFloor;
 
 
             this.charBody.y = Math.max(y, y2) / 6 + 0.15//charheight

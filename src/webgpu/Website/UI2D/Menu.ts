@@ -14,7 +14,7 @@ export default class Menu {
     private width: number;
 
     private items: Array<Text> = []
-private space =5;
+    private space = 5;
     private line!: Sprite;
     constructor(renderer: Renderer) {
         this.renderer = renderer;
@@ -33,33 +33,33 @@ private space =5;
 
                 LevelHandler.setLevel(item)
             }
-            text.rollOver=()=>{
+            text.rollOver = () => {
                 GameModel.renderer.setCursor(true)
-                
+
             }
-                text.rollOut=()=>{
+            text.rollOut = () => {
                 GameModel.renderer.setCursor(false)
-                
+
             }
             this.items.push(text)
             count++
             if (count != LevelHandler.navigationLevels.length) {
                 let slash = new Text(renderer, font, 17, "/")
                 slash.x = size
-                slash.mouseEnabled =false
+                slash.mouseEnabled = false
                 size += slash.width + this.space;
                 this.menuRoot.addChild(slash)
             }
 
         }
         this.width = size;
-        this.line  =new Sprite(renderer,DefaultTextures.getWhite(renderer))
+        this.line = new Sprite(renderer, DefaultTextures.getWhite(renderer))
         this.menuRoot.addChild(this.line)
     }
 
 
     update() {
-        this.menuRoot.x = this.renderer.htmlWidth - this.width-this.space*4
+        this.menuRoot.x = this.renderer.htmlWidth - this.width - this.space * 4
         this.menuRoot.y = 10
     }
 
@@ -70,14 +70,14 @@ private space =5;
                 ///
                 //i.width
                 //i.x
-                this.line.x = i.x+i.width/2;
-                this.line.y = i.y+i.height/2+2;
-                this.line.sx =i.width
-                this.line.sy =3
-                i.mouseEnabled =false
+                this.line.x = i.x + i.width / 2;
+                this.line.y = i.y + i.height / 2 + 2;
+                this.line.sx = i.width
+                this.line.sy = 3
+                i.mouseEnabled = false
                 found = true;
             } else {
-                i.mouseEnabled =true
+                i.mouseEnabled = true
             }
         }
         if (!found) {
