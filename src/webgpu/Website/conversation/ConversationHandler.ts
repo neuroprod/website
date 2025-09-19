@@ -25,7 +25,18 @@ export default class ConversationHandler {
         this.textBalloonHandler = textBalloonHandler;
         this.data = GameModel.gameCopy
     }
+    setSingleSentence(id: string) {
 
+
+        this.dataArr = this.getCopyData(id);
+
+        this.dataIndex = 0
+        this.isChoice = false;
+        this.isDone = true
+        this.setText();
+
+
+    }
     startConversation(id: string) {
 
 
@@ -40,7 +51,7 @@ export default class ConversationHandler {
     }
 
     setText() {
-        console.log(this.dataArr)
+
         if (this.dataArr.length == this.dataIndex) {
 
             return true;

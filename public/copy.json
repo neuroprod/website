@@ -242,6 +242,20 @@
     ]
   },
   {
+    "name": "godGame",
+    "data": [
+      {
+        "char": "godRoot",
+        "pos": [
+          0.15,
+          0.8,
+          0
+        ],
+        "text": "get ready!"
+      }
+    ]
+  },
+  {
     "name": "godPresent0",
     "data": [
       {
@@ -251,7 +265,7 @@
           0.8,
           0
         ],
-        "text": "A user agreement!\nBy choosing this, You agree that your data will be used and sold to the highest bidder."
+        "text": "A user agreement!\nBy choosing this, You agree that your data will\nbe sold to serve you the best propaganda."
       },
       {
         "text": "Thanks!"
@@ -268,7 +282,10 @@
           0.8,
           0
         ],
-        "text": "A degree in Economics\nnot sure you can use that."
+        "text": "A degree in Economics\nNot sure that that is usefull."
+      },
+      {
+        "text": "You can hang it on your wall, I suppose..."
       }
     ]
   },
@@ -282,7 +299,10 @@
           0.8,
           0
         ],
-        "text": "Cold hard cash\nVery usefull!"
+        "text": "A blank page!\nProbably the best choise."
+      },
+      {
+        "text": "You can make a drawing, or write a story!"
       }
     ]
   },
@@ -297,6 +317,9 @@
           0
         ],
         "text": "A non-disclosure agreement.\nHow exiting!"
+      },
+      {
+        "text": "don't"
       }
     ]
   },
@@ -315,7 +338,7 @@
     ]
   },
   {
-    "name": "cookieLightning",
+    "name": "cookieUser",
     "data": [
       {
         "char": "charRoot",
@@ -324,7 +347,7 @@
           0.8,
           0
         ],
-        "text": "Hi Cookie, want to the striking thing I just got?"
+        "text": "Hi Cookie, want to sign a user agreement?"
       }
     ]
   },
@@ -343,7 +366,7 @@
     ]
   },
   {
-    "name": "cookieHammer",
+    "name": "cookieBlank",
     "data": [
       {
         "char": "charRoot",
@@ -352,12 +375,12 @@
           0.8,
           0
         ],
-        "text": "Hi Cookie, I got a new hammer!"
+        "text": "Hi Cookie, got me a blank page!"
       }
     ]
   },
   {
-    "name": "cookieBox",
+    "name": "cookieDegree",
     "data": [
       {
         "char": "charRoot",
@@ -366,7 +389,7 @@
           0.8,
           0
         ],
-        "text": "Hi Cookie, do you want to check out my new box?"
+        "text": "Hi Cookie, want to see my degree?"
       }
     ]
   },
