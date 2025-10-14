@@ -60,7 +60,7 @@ export class GirlLevel extends PlatformLevel {
 
 
         let girl = SceneHandler.getSceneObject("girl");
-        girl.setScaler(1.3)
+
         GameModel.gameCamera.setMinMaxX(this.startPos, this.startPos + 5)
 
 
@@ -78,10 +78,10 @@ export class GirlLevel extends PlatformLevel {
             if (f.hitTriggerItem == HitTrigger.GIRL) {
                 f.triggerIsEnabled = false;
 
-
+                // 
                 this.blockInput = true
-                this.characterController.gotoAndIdle(new Vector3(-1.2, 0, 0), 1, () => {
-                    let target = new Vector3(-0.6, 0.7, 0)
+                this.characterController.gotoAndIdle(new Vector3(-1.0, 0, 0), 1, () => {
+                    let target = new Vector3(-0.6, 0.6, 0)
                     GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 2.3]))
 
                     gsap.delayedCall(0.5, () => {

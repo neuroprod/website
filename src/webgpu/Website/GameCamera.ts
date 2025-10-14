@@ -180,6 +180,16 @@ export default class GameCamera {
 
         this.zoomTL.to(this.cameraWorld, { z: z, duration: 15 });
     }
+
+    setPan(camLookAt: Vector3, camPosition: Vector3) {
+
+
+        if (this.zoomTL) this.zoomTL.clear()
+        this.zoomTL = gsap.timeline()
+
+
+        this.zoomTL.to(this.cameraWorld, { z: camPosition.z, duration: 15 });
+    }
     TweenToLockedView(camLookAt: Vector3, camPosition: Vector3, duration = 1.5) {
         this.tl = gsap.timeline()
         this.tl.to(this.cameraWorld, { x: camPosition.x, y: camPosition.y, z: camPosition.z, duration: duration, ease: "power2.out" }, 0)

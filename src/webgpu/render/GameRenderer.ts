@@ -363,9 +363,9 @@ export default class GameRenderer {
         this.maskRenderPass.modelRenderer.setModels(model)
     }
 
-    tweenToNonBlack() {
+    tweenToNonBlack(duration = 3) {
 
-        gsap.to(this.gradingPass, { blackValue: 1, duration: 3 })
+        gsap.to(this.gradingPass, { blackValue: 1, duration: duration, ease: "power2.in", delay: 0.5 })
 
     }
 

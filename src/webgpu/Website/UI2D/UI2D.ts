@@ -22,8 +22,9 @@ export default class UI2D {
          sprite.scale =1*/
 
         this.menu = new Menu(renderer)
+
         this.root.addChild(this.menu.menuRoot)
-        this.root.sx =   this.root.sy =renderer.pixelRatio
+        this.root.sx = this.root.sy = renderer.pixelRatio
         //LevelHandler.
     }
 
@@ -32,7 +33,7 @@ export default class UI2D {
     }
 
     updateMouse() {
-        this.root.updateMouse (GameModel.mouseListener.mousePos,GameModel.mouseListener.isDownThisFrame,GameModel.mouseListener.isUpThisFrame)
+        this.root.updateMouse(GameModel.mouseListener.mousePos, GameModel.mouseListener.isDownThisFrame, GameModel.mouseListener.isUpThisFrame)
 
     }
 

@@ -2,7 +2,7 @@ import Renderer from "../lib/Renderer.ts";
 import Camera from "../lib/Camera.ts";
 import MouseListener from "../lib/MouseListener.ts";
 import Ray from "../lib/Ray.ts";
-import {Matrix4, Quaternion, Vector2, Vector3} from "@math.gl/core";
+import { Matrix4, Quaternion, Vector2, Vector3 } from "@math.gl/core";
 import UI from "../lib/UI/UI.ts";
 import AppState from "../AppState.ts";
 
@@ -162,7 +162,7 @@ export default class EditCamera {
 
     setFocus(worldPos: Vector3) {
         this.camTarget.copy(worldPos)
-        this.camDistance =2
+        this.camDistance = 2
         this.setCamera()
     }
 }

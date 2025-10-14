@@ -14,7 +14,7 @@ import { SeaLevel } from "./SeaLevel/SeaLevel.ts";
 import { HandLevel } from "./HandLevel/HandLevel.ts";
 import { IntroLevel } from "./IntroLevel/IntroLevel.ts";
 import gsap from "gsap";
-import { GnomeLevel } from "./GnomeLevel/GnomeLevel.ts";
+
 import { GirlLevel } from "./GirlLevel/GirlLevel.ts";
 
 import { GraphicDev } from "./graphicDev/GraphicDev.ts";
@@ -32,6 +32,8 @@ import Social from "./social/Social.ts";
 import Robots from "./robots/Robots.ts";
 import Peeler from "./peeler/Peeler.ts";
 import Internet from "./internet/Internet.ts";
+import GuageLevel from "./guage/GuageLevel.ts";
+import GunLevel from "./gun/GunLevel.ts";
 
 class LevelHandler {
     public levelKeys: Array<string> = [];
@@ -44,6 +46,8 @@ class LevelHandler {
     init() {
 
         this.addLevel("Home", new StartLevel())
+        this.addLevel("Gun", new GunLevel());
+        this.addLevel("Guage", new GuageLevel());
         this.addLevel("Macaroni", new Internet())
         this.addLevel("Me", new GraphicDev())
         this.addLevel("Peeler", new Peeler())
@@ -67,7 +71,7 @@ class LevelHandler {
 
         this.addLevel("StrawBerry", new StrawberryLevel())
         this.addLevel("Hand", new HandLevel())
-        this.addLevel("Gnome", new GnomeLevel())
+
         this.addLevel("Girl", new GirlLevel())
         this.addLevel("Dock", new DockLevel())
         this.addLevel("Sea", new SeaLevel())

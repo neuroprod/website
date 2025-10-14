@@ -643,7 +643,7 @@
         "char": "girl",
         "pos": [
           0.01,
-          1.2,
+          0.8,
           0
         ],
         "text": "Hi Pirate, whats up?"
@@ -664,7 +664,7 @@
         "char": "girl",
         "pos": [
           0.01,
-          1.2,
+          0.8,
           0
         ],
         "text": "Yea, it's rigged. But that doesn't\nmean you can't do anything about it"

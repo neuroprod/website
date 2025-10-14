@@ -1,6 +1,8 @@
 
 import { Howl } from 'howler';
 class SoundHandler {
+
+
     public fxVolume = 1;
     private coin!: Howl;
     private step!: Howl;
@@ -13,6 +15,10 @@ class SoundHandler {
     bgSounds: Array<Howl> = [];
     private fart!: Howl;
     private fartCount: number = -1;
+    clock!: Howl;
+
+    sea!: Howl;
+    gun!: Howl;
 
 
     init() {
@@ -23,12 +29,32 @@ class SoundHandler {
             talkSound["s" + i] = [i * 100, 100]
         }
 
+        this.sea = new Howl({
+            src: ['sound/653311__mfedward__relaxing-sea.mp3'],
+            loop: true
+        });
+        this.gun = new Howl({
+            src: ['sound/465488__janthracite__1911-pistol-cocking.mp3'],
+
+        });
+
 
         this.talking = new Howl({
             src: ['sound/talking.mp3'],
             sprite: talkSound
         });
+        this.clock = new Howl({
+            src: ['sound/clock-ticking.mp3'],
+            sprite: {
+                s0: [0, 1000],
+                s1: [1000, 1000],
+                s2: [2000, 1000],
+                s3: [3000, 1000],
+                s4: [4000, 1000],
+                s5: [5000, 1000],
 
+            }
+        });
 
         this.coin = new Howl({
             src: ['sound/coins.mp3'],
@@ -139,7 +165,17 @@ class SoundHandler {
     }
 
 
+    playTick(count: number) {
+        if (!this.playSound) return
 
+
+        console.log("this.tick")
+        this.clock.volume(this.fxVolume * 0.1);
+
+        this.clock.pos(count % 2 - 0.5, 0, -0.5);
+        this.clock.play("s" + count % 6)
+
+    }
 
 
     playCoin() {
@@ -191,7 +227,7 @@ class SoundHandler {
         if (!this.playSound) return
         let s = Math.floor(Math.random() * 1000) % 4;
 
-        this.talking.volume(this.fxVolume * 0.1);
+        this.talking.volume(this.fxVolume * 0.2);
         this.talking.play("s" + s)
 
     }
@@ -215,7 +251,12 @@ class SoundHandler {
         this.drip.volume(this.fxVolume);
         this.drip.play("s" + s)
     }
+    playGun() {
+        if (!this.playSound) return
 
+
+        this.gun.play()
+    }
     playFart() {
         if (!this.playSound) return
         this.fartCount++;
@@ -238,7 +279,12 @@ class SoundHandler {
                 }
             });
             this.bgSounds.push(bgSound);
-            console.log(s)
+
+        }
+    }
+    fadeBackground() {
+        for (let s of this.bgSounds) {
+            s.fade(1, 0, 3000)
         }
     }
 
@@ -248,5 +294,18 @@ class SoundHandler {
         }
         this.bgSounds = []
     }
+    playSeaSound() {
+        this.sea.play()
+    }
+    fadeSea() {
+        this.sea.fade(this.fxVolume * 0.1, 0, 1000)
+    }
+    setSeaSoundTranstion(seaSoundTransition: number) {
+        for (let s of this.bgSounds) {
+            s.volume(this.fxVolume * (1 - seaSoundTransition));
+        }
+        this.sea.volume(this.fxVolume * (seaSoundTransition) * 0.1);
+    }
+
 }
 export default new SoundHandler()
