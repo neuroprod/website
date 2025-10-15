@@ -9,6 +9,7 @@ import SoundHandler from "../../SoundHandler";
 import LevelHandler from "../LevelHandler";
 export default class GunLevel extends BaseLevel {
     animationTime: number = 0;
+    tl!: gsap.core.Timeline;
 
 
     init() {
@@ -44,15 +45,16 @@ export default class GunLevel extends BaseLevel {
         GameModel.gameRenderer.tweenToNonBlack(1)
         let gun = SceneHandler.getSceneObject("gun")
         SceneHandler.sceneAnimations[0].setTime(0)
-        let tl = gsap.timeline()
+        if (this.tl) this.tl.clear()
+        this.tl = gsap.timeline()
         gun.rz = -0.5;
         gun.y = -0.5;
         this.animationTime = 0;
-        tl.to(gun, { rz: 0, y: 0, duration: 2 }, 1);
-        tl.to(this, { animationTime: 30, duration: 1 }, 3.5);
-        tl.call(() => { SoundHandler.playGun() }, [], 3.6)
-        tl.to(this, { animationTime: 60, duration: 5 }, 5);
-        tl.call(() => { LevelHandler.setLevel("Guage") }, [], 5)
+        this.tl.to(gun, { rz: 0, y: 0, duration: 2 }, 1);
+        this.tl.to(this, { animationTime: 30, duration: 1 }, 3.5);
+        this.tl.call(() => { SoundHandler.playGun() }, [], 3.6)
+        this.tl.to(this, { animationTime: 60, duration: 5 }, 5);
+        this.tl.call(() => { LevelHandler.setLevel("Guage") }, [], 4)
         // SceneHandler.sceneAnimations[0].play = true
         SoundHandler.fadeSea()
 
@@ -68,7 +70,7 @@ export default class GunLevel extends BaseLevel {
     destroy() {
         super.destroy();
 
-
+        if (this.tl) this.tl.clear()
 
     }
 

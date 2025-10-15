@@ -55,7 +55,7 @@ export class DockLevel extends PlatformLevel {
 
     }
     configScene() {
-        SoundHandler.setBackgroundSounds(["sound/JuliaFlorida.mp3"])
+
         super.configScene()
         LoadHandler.onComplete = () => { }
         this.blockInput = false
@@ -164,7 +164,7 @@ export class DockLevel extends PlatformLevel {
         this.rootShip.y = Math.sin(Timer.time * 0.5) * 0.03
         this.rootShip.rz = Math.sin(Timer.time * 0.33) * 0.02 + Math.PI
 
-        let seaSoundTransition = (GameModel.gameCamera.cameraWorld.x + 3) / 4;
+        let seaSoundTransition = (GameModel.gameCamera.cameraWorld.x + 3) / 7;
         SoundHandler.setSeaSoundTranstion(seaSoundTransition)
     }
 

@@ -119,6 +119,7 @@ export default class GameCamera {
     }
 
     setCharacter() {
+        if (this.zoomTL) this.zoomTL.clear()
         this.charRoot = SceneHandler.getSceneObject("charRoot");
         this.cameraState = CameraState.CharCamera
 
@@ -155,6 +156,7 @@ export default class GameCamera {
         this.cameraWorld.lerp(this.camPos as NumericArray, lerpValueDelta(0.00001, delta))
     }
     setCharView() {
+        if (this.zoomTL) this.zoomTL.clear()
         this.cameraState = CameraState.CharCamera
     }
 

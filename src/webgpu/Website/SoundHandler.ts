@@ -3,6 +3,8 @@ import { Howl } from 'howler';
 class SoundHandler {
 
 
+
+
     public fxVolume = 1;
     private coin!: Howl;
     private step!: Howl;
@@ -19,7 +21,8 @@ class SoundHandler {
 
     sea!: Howl;
     gun!: Howl;
-
+    gunShot!: Howl;
+    splash!: Howl;
 
     init() {
 
@@ -37,8 +40,14 @@ class SoundHandler {
             src: ['sound/465488__janthracite__1911-pistol-cocking.mp3'],
 
         });
+        this.gunShot = new Howl({
+            src: ['sound/416417__superphat__automatic-assault-rifle.mp3'],
 
+        });
+        this.splash = new Howl({
+            src: ['sound/442773__qubodup__big-water-splash.mp3'],
 
+        });
         this.talking = new Howl({
             src: ['sound/talking.mp3'],
             sprite: talkSound
@@ -169,7 +178,7 @@ class SoundHandler {
         if (!this.playSound) return
 
 
-        console.log("this.tick")
+
         this.clock.volume(this.fxVolume * 0.1);
 
         this.clock.pos(count % 2 - 0.5, 0, -0.5);
@@ -253,9 +262,21 @@ class SoundHandler {
     }
     playGun() {
         if (!this.playSound) return
-
+        this.gun.volume(this.fxVolume);
 
         this.gun.play()
+    }
+    playSplash() {
+        if (!this.playSound) return
+        this.splash.volume(this.fxVolume * 0.1);
+
+        this.splash.play()
+    }
+    playGunShot() {
+        if (!this.playSound) return
+
+        this.gunShot.volume(this.fxVolume);
+        this.gunShot.play()
     }
     playFart() {
         if (!this.playSound) return
@@ -296,6 +317,7 @@ class SoundHandler {
     }
     playSeaSound() {
         this.sea.play()
+        this.sea.volume(this.fxVolume * 0.1);
     }
     fadeSea() {
         this.sea.fade(this.fxVolume * 0.1, 0, 1000)

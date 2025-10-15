@@ -1,4 +1,4 @@
-import {PlatformLevel} from "../PlatformLevel.ts";
+import { PlatformLevel } from "../PlatformLevel.ts";
 import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import sceneHandler from "../../../data/SceneHandler.ts";
@@ -8,10 +8,11 @@ import SceneObject3D from "../../../data/SceneObject3D.ts";
 import GameModel from "../../GameModel.ts";
 
 import Timer from "../../../lib/Timer.ts";
-import {Vector3} from "@math.gl/core";
+import { Vector3 } from "@math.gl/core";
 import SeaFull from "./SeaFull.ts";
 import God from "../GodLevel/God.ts";
 import levelHandler from "../LevelHandler.ts";
+import SoundHandler from "../../SoundHandler.ts";
 
 
 
@@ -22,8 +23,8 @@ export class SeaLevel extends PlatformLevel {
     private sea!: SeaFull;
     private foam!: SceneObject3D;
 
-private camLookAt!:Vector3 ;
-    private camPosition!:Vector3;
+    private camLookAt!: Vector3;
+    private camPosition!: Vector3;
     private god!: SceneObject3D;
     private godController!: God;
     init() {
@@ -72,7 +73,7 @@ private camLookAt!:Vector3 ;
         }
         this.blockInput = false
 
-
+        SoundHandler.playSeaSound()
         this.rootShip = sceneHandler.getSceneObject("rootShip")
         this.rootShip.x = -7
         this.rootShip.z = -0.7
@@ -118,12 +119,12 @@ private camLookAt!:Vector3 ;
 
 
 
-        this.god.ry =0
-        this.god.y =0
-        this.god.x =0.9
-        this.god.z =-0.7
+        this.god.ry = 0
+        this.god.y = 0
+        this.god.x = 0.9
+        this.god.z = -0.7
 
-        this.godController =new God()
+        this.godController = new God()
         this.godController.initEnd(this.god)
 
 
@@ -137,8 +138,8 @@ private camLookAt!:Vector3 ;
 
         //this.characterController.setCharacter()
         GameModel.gameCamera.setCharacter()
-        this.camLookAt =new Vector3(0, 1, 0);
-        this.camPosition =new Vector3(0, 1, 4);
+        this.camLookAt = new Vector3(0, 1, 0);
+        this.camPosition = new Vector3(0, 1, 4);
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         // GameModel.gameRenderer.addModel(this.characterController.cloudParticles.particlesModel)
 
@@ -147,22 +148,22 @@ private camLookAt!:Vector3 ;
 
         GameModel.gameCamera.camDistance = 8;
         GameModel.gameCamera.heightOffset = 0.5
-        this.blockInput =true
+        this.blockInput = true
 
         this.tl = gsap.timeline()
-        this.tl.to(this.rootShip, {x: 0, duration: 10},0)
-        this.tl.to(this.camPosition, {x: 2.4,y:1,z:1.5,ease:"power2.inOut", duration: 5},9)
-        this.tl.to(this.camLookAt, {x: 2.4,y:1,z:0, ease:"power2.inOut",duration: 5},9)
-        this.tl.call(()=>{
-            this.godController.showEnd(()=>{
+        this.tl.to(this.rootShip, { x: 0, duration: 10 }, 0)
+        this.tl.to(this.camPosition, { x: 2.4, y: 1, z: 1.5, ease: "power2.inOut", duration: 5 }, 9)
+        this.tl.to(this.camLookAt, { x: 2.4, y: 1, z: 0, ease: "power2.inOut", duration: 5 }, 9)
+        this.tl.call(() => {
+            this.godController.showEnd(() => {
                 GameModel.conversationHandler.startConversation("godEnd")
-                GameModel.conversationHandler.doneCallBack =()=>{
-levelHandler.setLevel("Start")
+                GameModel.conversationHandler.doneCallBack = () => {
+                    levelHandler.setLevel("Start")
                 }
 
 
             })
-        },[],15)
+        }, [], 15)
     }
 
     conversationDataCallBack(data: string) {
@@ -196,6 +197,7 @@ levelHandler.setLevel("Start")
 
     destroy() {
         super.destroy()
+        SoundHandler.fadeSea()
         if (this.tl) this.tl.clear()
 
     }

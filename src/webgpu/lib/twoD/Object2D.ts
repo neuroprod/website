@@ -1,4 +1,4 @@
-import {Matrix4, Quaternion, Vector2, Vector3} from "@math.gl/core";
+import { Matrix4, Quaternion, Vector2, Vector3 } from "@math.gl/core";
 import RenderPass from "../RenderPass.ts";
 
 export default class Object2D {
@@ -7,6 +7,7 @@ export default class Object2D {
     public id: string = ""
     public visible: boolean = true;
     protected _position = new Vector3(0, 0, 0);
+    private _r = 0;
     private _rotation = new Quaternion(0, 0, 0, 1);
     private _scale = new Vector3(1, 1, 1);
 
@@ -18,9 +19,9 @@ export default class Object2D {
     private tempMatrix = new Matrix4()
     private _localMatrix: Matrix4 = new Matrix4()
     protected _worldMatrixInv: Matrix4 = new Matrix4()
-    public mouseEnabled =true;
+    public mouseEnabled = true;
     constructor() {
-        this.id ="" +Math.random()
+        this.id = "" + Math.random()
     }
 
 
@@ -30,7 +31,7 @@ export default class Object2D {
 
     set sx(value: number) {
 
-        this._scale.x =value
+        this._scale.x = value
         this.setDirty()
     }
     get sy() {
@@ -39,7 +40,7 @@ export default class Object2D {
 
     set sy(value: number) {
 
-        this._scale.y =value
+        this._scale.y = value
         this.setDirty()
     }
     private _worldMatrix: Matrix4 = new Matrix4()
@@ -68,7 +69,15 @@ export default class Object2D {
         this._position.y = value;
         this.setDirty()
     }
+    get r() {
+        return this._r;
+    }
 
+    set r(value: number) {
+        this._r = value;
+        this._rotation.setAxisAngle(new Vector3(0, 0, 1), value)
+        this.setDirty()
+    }
     addChild(child: Object2D) {
         this.children.push(child)
         child.parent = this;
@@ -84,7 +93,7 @@ export default class Object2D {
     }
 
     updateInt() {
-//overide
+        //overide
 
     }
 
@@ -104,7 +113,7 @@ export default class Object2D {
 
     protected updateMatrices() {
         if (!this.isDirty) return
-
+        if (!this.visible) return;
         this._localMatrix.identity();
         this._localMatrix.translate(this._position);
 
@@ -142,37 +151,37 @@ export default class Object2D {
     public currentOver: Object2D | null = null;
     public currentDown: Object2D | null = null;
     updateMouse(mousePos: Vector2, isDownThisFrame: boolean, isUpThisFrame: boolean) {
-       let mouseObject = this.updateMouseInt(mousePos);
-        if(this.currentOver != mouseObject){
-          if(this.currentOver)this.currentOver.rollOut()
+        let mouseObject = this.updateMouseInt(mousePos);
+        if (this.currentOver != mouseObject) {
+            if (this.currentOver) this.currentOver.rollOut()
             this.currentOver = mouseObject
-            if(this.currentOver)this.currentOver.rollOver()
+            if (this.currentOver) this.currentOver.rollOver()
         }
-        if(isDownThisFrame) {
+        if (isDownThisFrame) {
             this.currentDown = this.currentOver;
-            if(this.currentDown)this.currentDown.mouseDown()
+            if (this.currentDown) this.currentDown.mouseDown()
         }
-        if(isUpThisFrame){
-            if(this.currentDown){
+        if (isUpThisFrame) {
+            if (this.currentDown) {
                 this.currentDown.mouseUp()
-                if(this.currentDown == this.currentOver)this.currentDown.onClick()
-                this.currentDown =null
+                if (this.currentDown == this.currentOver) this.currentDown.onClick()
+                this.currentDown = null
             }
 
         }
 
     }
-    updateMouseInt(mousePos:Vector2):null|Object2D{
+    updateMouseInt(mousePos: Vector2): null | Object2D {
         if (!this.visible) return null;
         if (!this.mouseEnabled) return null;
         //TODO: revers order
         for (let c of this.children) {
-           let a = c.updateMouseInt(mousePos)
-            if(a) return a;
+            let a = c.updateMouseInt(mousePos)
+            if (a) return a;
         }
         return this.checkMouseHit(mousePos)
     }
-    checkMouseHit(mousePos:Vector2):null|Object2D{
+    checkMouseHit(mousePos: Vector2): null | Object2D {
         return null
     }
 

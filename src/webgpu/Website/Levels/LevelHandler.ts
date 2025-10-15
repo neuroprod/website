@@ -34,6 +34,7 @@ import Peeler from "./peeler/Peeler.ts";
 import Internet from "./internet/Internet.ts";
 import GuageLevel from "./guage/GuageLevel.ts";
 import GunLevel from "./gun/GunLevel.ts";
+import DeadLevel from "./dead/DeadLevel.ts";
 
 class LevelHandler {
     public levelKeys: Array<string> = [];
@@ -46,6 +47,7 @@ class LevelHandler {
     init() {
 
         this.addLevel("Home", new StartLevel())
+        this.addLevel("Dead", new DeadLevel());
         this.addLevel("Gun", new GunLevel());
         this.addLevel("Guage", new GuageLevel());
         this.addLevel("Macaroni", new Internet())
