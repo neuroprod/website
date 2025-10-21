@@ -28,6 +28,7 @@ import gsap from "gsap";
 import PostLightRenderPass from "./postLight/PostLightRenderPass.ts";
 import Timer from "../lib/Timer.ts";
 import BackgroundPass from "./background/BackgroundPass.ts";
+import AsciiPass from "./ascii/AsciiPass.ts";
 
 export default class GameRenderer {
     public needsAO: boolean = true;
@@ -63,10 +64,14 @@ export default class GameRenderer {
     private inGameFXPass: InGameFXPass;
     private maskRenderPass: MaskRenderPass;
     backgroundPass: BackgroundPass;
+    ascciPass: AsciiPass;
 
     constructor(renderer: Renderer, camera: Camera) {
         this.renderer = renderer;
         this.sunLight = new DirectionalLight(renderer, camera)
+
+        this.ascciPass = new AsciiPass(renderer)
+
         this.shadowMapPass = new ShadowMapRenderPass(renderer, this.sunLight)
         this.shadowBlurPass = new ShadowBlurRenderPass(renderer);
         this.gBufferPass = new GBufferRenderPass(renderer, camera);
@@ -109,6 +114,7 @@ export default class GameRenderer {
 
 
         this.passSelect.push(new SelectItem(Textures.GRADING, { texture: Textures.GRADING, type: 0 }));
+        this.passSelect.push(new SelectItem(Textures.ASCII, { texture: Textures.ASCII, type: 0 }));
         if (this.renderer.hasFloat32Filterable) {
             this.passSelect.push(new SelectItem(Textures.GTAO, { texture: Textures.GTAO, type: 1 }));
             this.passSelect.push(new SelectItem(Textures.GTAO_DENOISE, { texture: Textures.GTAO_DENOISE, type: 1 }));
@@ -280,7 +286,7 @@ export default class GameRenderer {
         if (!this.needsShadow) {
             this.needsShadowInt = false;
         }
-
+        this.ascciPass.update()
 
         this.sunLight.update();
 
@@ -316,7 +322,7 @@ export default class GameRenderer {
     //doPasses
     draw() {
         if (LoadHandler.isLoading()) return;
-
+        this.ascciPass.add();
 
         if (this.needsShadowInt) this.shadowMapPass.add();
 

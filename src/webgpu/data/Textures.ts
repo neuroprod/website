@@ -30,5 +30,6 @@ export const Textures = {
     SPACE_ARM: "SpaceArmL.png",
     SPACE_HEAD: "SpaceHead.png",
     DRIP: "dripPass",
-    ASCII: "ascii.png"
+    ASCII_FONT: "ascii.png",
+    ASCII: "ascii"
 }
