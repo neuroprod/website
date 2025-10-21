@@ -119,6 +119,9 @@ export default class CharacterController {
         this.autoWalk = false;
         this.cloudParticles.init()
         this.targetPos.copy(this.charRoot.getPosition() as NumericArray)
+
+
+        this.velocity.x = 0.1
     }
     gotoAndIdle(worldPos: Vector3, dir: number = 1, gotoDone: () => void) {
         this.gotoDone = gotoDone;
@@ -392,12 +395,14 @@ export default class CharacterController {
 
             let x = Math.sin(feetStepLocal * Math.PI + Math.PI / 2) * this.stepLength / 2
             let y = Math.cos(feetStepLocal * Math.PI + Math.PI / 2) * this.stepLength / 4;
+            x = Math.max(x, -0.075)
 
             this.feetPos1.x = x;
             this.feetPos1.y = Math.max(y, 0) + this.feetToFloor;
 
             let x2 = Math.sin(feetStepLocal * Math.PI - Math.PI + Math.PI / 2) * this.stepLength / 2
             let y2 = Math.cos(feetStepLocal * Math.PI - Math.PI + Math.PI / 2) * this.stepLength / 4;
+            x2 = Math.max(x2, -0.075)
 
             this.feetPos2.x = x2;
             this.feetPos2.y = Math.max(y2, 0) + this.feetToFloor;
