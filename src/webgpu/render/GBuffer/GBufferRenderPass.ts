@@ -45,7 +45,7 @@ export default class GBufferRenderPass extends RenderPass {
 
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
         });
-        this.normalAttachment = new ColorAttachment(this.normalTarget);
+        this.normalAttachment = new ColorAttachment(this.normalTarget, { clearValue: { r: 0.0, g: 0.0, b: 0.0, a: 1.0 } });
 
 
 

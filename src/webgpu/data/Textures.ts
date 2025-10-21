@@ -29,5 +29,6 @@ export const Textures = {
     SPACE_SHIP: "SpaceBottom.png",
     SPACE_ARM: "SpaceArmL.png",
     SPACE_HEAD: "SpaceHead.png",
-    DRIP: "dripPass"
+    DRIP: "dripPass",
+    ASCII: "ascii.png"
 }

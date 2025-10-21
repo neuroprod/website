@@ -52,7 +52,7 @@ class LevelHandler {
         this.addLevel("Guage", new GuageLevel());
         this.addLevel("Macaroni", new Internet())
         this.addLevel("Me", new GraphicDev())
-        this.addLevel("Peeler", new Peeler())
+        //this.addLevel("Peeler", new Peeler())
         this.addLevel("Shaders", new Shaders())
         this.addLevel("Food", new FoodForFish())
         this.addLevel("Friends", new Friends())

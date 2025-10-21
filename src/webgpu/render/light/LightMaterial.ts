@@ -128,7 +128,10 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
    
       let textureSize =vec2<f32>( textureDimensions(gColor));
       let uvPos = vec2<i32>(floor(uv0*textureSize));
-      
+      let rawNormal = textureLoad(gNormal,  uvPos ,0);
+      if(rawNormal.w ==1 ){
+        return vec4(0.0) ;
+      }
        let depth=textureLoad(gDepth,  uvPos ,0).x; 
        let world =getWorldFromUVDepth(uv0,depth);
        
@@ -140,7 +143,7 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
        }
        let roughness = 0.7;
        let metallic = 0.0;
-       let N=normalize(textureLoad(gNormal,  uvPos ,0).xyz*2.0-1.0); 
+       let N=normalize(rawNormal.xyz*2.0-1.0); 
        let V = normalize(camera.worldPosition.xyz - world);
        let F0 = mix(vec3(0.04), albedo, metallic);
        var color =albedo*vec3(0.7,0.7,0.8)*0.9*aoM;

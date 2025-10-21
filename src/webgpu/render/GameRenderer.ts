@@ -27,6 +27,7 @@ import MaskRenderPass from "./InGameFX/MaskRenderPass.ts";
 import gsap from "gsap";
 import PostLightRenderPass from "./postLight/PostLightRenderPass.ts";
 import Timer from "../lib/Timer.ts";
+import BackgroundPass from "./background/BackgroundPass.ts";
 
 export default class GameRenderer {
     public needsAO: boolean = true;
@@ -61,6 +62,7 @@ export default class GameRenderer {
     private gradingPass: GradingRenderPass;
     private inGameFXPass: InGameFXPass;
     private maskRenderPass: MaskRenderPass;
+    backgroundPass: BackgroundPass;
 
     constructor(renderer: Renderer, camera: Camera) {
         this.renderer = renderer;
@@ -88,7 +90,7 @@ export default class GameRenderer {
             this.lightPass.lightMaterial.setTexture("shadow", renderer.getTexture(Textures.SHADOW))
         }
 
-
+        this.backgroundPass = new BackgroundPass(this.renderer)
         this.transparentModelRenderer = new ModelRenderer(this.renderer, "transparent", camera)
         this.transparentPass = new TransRenderPass(renderer, camera, this.sunLight, this.transparentModelRenderer)
         this.maskRenderPass = new MaskRenderPass(renderer, camera)
@@ -338,6 +340,7 @@ export default class GameRenderer {
         //   this.shadowBlurPass.add();
 
         this.lightPass.add();
+        this.backgroundPass.add();
         this.transparentPass.add();
         if (this._fxEnabled) {
             this.maskRenderPass.add()

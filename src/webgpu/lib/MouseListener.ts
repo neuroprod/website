@@ -125,7 +125,7 @@ export default class MouseListener {
 
 
     mouseMoveListener(e: PointerEvent) {
-        if (e.pointerId != this.pointerID) return;
+        // if (e.pointerId != this.pointerID) return;
         this.setMousePosition(e);
         if (this.preventDefault) {
             e.preventDefault();

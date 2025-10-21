@@ -110,6 +110,7 @@ export default class Main {
         new TextureLoader(this.renderer, Textures.SPACE_ARM)
         new TextureLoader(this.renderer, Textures.SPACE_SHIP)
         new TextureLoader(this.renderer, Textures.SPACE_HEAD)
+        new TextureLoader(this.renderer, Textures.ASCII)
         let tl = new HDRTextureLoader()
         tl.loadURL(this.renderer, "specular.hdr").then()
 
