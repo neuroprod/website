@@ -368,9 +368,11 @@ export default class CharacterController {
             this.feetPos1.x = lerp(this.feetPos1.x, tScale * (this.stepLength / 2), lerpVal);
             this.feetPos1.y = lerp(this.feetPos1.y, this.feetToFloor, lerpVal)
 
+            this.feetPos1.x = Math.max(this.feetPos1.x, -0.09)
+
             this.feetPos2.x = lerp(this.feetPos2.x, tScale * (-this.stepLength / 2), lerpVal);
             this.feetPos2.y = lerp(this.feetPos2.y, this.feetToFloor, lerpVal)
-
+            this.feetPos2.x = Math.max(this.feetPos2.x, -0.09)
             this.leftLeg.setPositionV(this.feetPos1)
             this.rightLeg.setPositionV(this.feetPos2)
             this.feetStep = 0;

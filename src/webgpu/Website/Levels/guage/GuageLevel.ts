@@ -58,11 +58,11 @@ export default class GuageLevel extends BaseLevel {
 
         GameModel.gameRenderer.setBlack(0)
 
-        this.clockSpeed = 1.5;
+        this.clockSpeed = 1;
         this.count = 0
 
         if (this.stl) this.stl.clear()
-        let endIntro = 18 * 1.5
+        let endIntro = 18 * 1
         this.stl = gsap.timeline()
 
         this.stl.call(() => {

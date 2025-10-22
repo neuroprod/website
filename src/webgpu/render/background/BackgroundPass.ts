@@ -9,6 +9,10 @@ import Blit from "../../lib/blit/Blit.ts";
 
 import Texture from "../../lib/textures/Texture.ts";
 import BackgroundMaterial from "./BackgroundMaterial.ts";
+import Model from "../../lib/model/Model.ts";
+import Plane from "../../lib/mesh/geometry/Plane.ts";
+import ModelRenderer from "../../lib/model/ModelRenderer.ts";
+import GameModel from "../../Website/GameModel.ts";
 
 
 export default class BackgroundPass extends RenderPass {
@@ -19,6 +23,8 @@ export default class BackgroundPass extends RenderPass {
 
     blackValue = 1;
     backgroundMaterial: BackgroundMaterial;
+    model: Model;
+    modelRenderer: ModelRenderer;
 
     constructor(renderer: Renderer) {
         super(renderer, "lightRenderPass");
@@ -30,19 +36,26 @@ export default class BackgroundPass extends RenderPass {
 
 
         this.blit = new Blit(renderer, "blitBackground", this.backgroundMaterial)
+        this.model = new Model(renderer, "bg");
+        this.model.mesh = new Plane(renderer, 160, 80, 1, 1, false)
 
+        this.model.material = new BackgroundMaterial(renderer, "bgMaterial")
+        this.modelRenderer = new ModelRenderer(renderer, "modelR", GameModel.mainCamera)
+        this.modelRenderer.addModel(this.model)
     }
     setBaseTexture(t: Texture) {
         // this.gradingMaterial.setTexture("colorTexture", t)
     }
 
     update() {
+        this.model.setPositionV(GameModel.gameCamera.cameraWorld)
+        this.model.z -= 50
 
     }
     draw() {
 
-        this.blit.draw(this)
-
+        //this.blit.draw(this)
+        this.modelRenderer.draw(this)
 
     }
 

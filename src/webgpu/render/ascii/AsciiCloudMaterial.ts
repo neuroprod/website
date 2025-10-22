@@ -64,7 +64,7 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
 {
    
     
-      let n =simplex2d(uv0*vec2(1.0,3.0)+vec2f(uniforms.time,0))+simplex2d(uv0*vec2(2.0,6.0)+vec2f(-uniforms.time*0.5,0))*0.3;
+      let n =simplex2d(uv0*vec2(3.0,9.0)+vec2f(uniforms.time,0))+simplex2d(uv0*vec2(10.0,20.0)+vec2f(-uniforms.time*0.5,0))*0.3;
      return vec4(smoothstep(0.2,0.6,n),0,0,1.0) ;
 }
 ///////////////////////////////////////////////////////////

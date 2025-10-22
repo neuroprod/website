@@ -7,50 +7,39 @@ import TextBalloonFontMesh from "../conversation/TextBalloonFontMesh.ts";
 import ProjectData from "../../data/ProjectData.ts";
 import GameModel from "../GameModel.ts";
 
-export default class CoinHandler{
+export default class CoinHandler {
 
-    numCoins =0;//622; 999987470
-    displayCoins =0;//622; 999987470
-    displayTime =0
-    private textModel: Model;
-    private textMesh: TextBalloonFontMesh;
-    constructor(renderer:Renderer) {
-        this.textModel = new Model(renderer, "textModel")
-        this.textModel.material = new TextBalloonFontMaterial(renderer, "textBalloonFontMaterial")
+    numCoins = 0;//622; 999987470
+    displayCoins = 0;//622; 999987470
+    displayTime = 0
 
-        this.textMesh = new TextBalloonFontMesh(renderer)
-        this.textMesh.setText( this.displayCoins+"", ProjectData.font, 0.15)
+    constructor(renderer: Renderer) {
 
-        this.textModel.mesh = this.textMesh;
-        this.textModel.setScaler(1)
-
-        GameModel.overlay.modelRenderer.addModel(this.textModel)
     }
-    public addCoins(numCoins:number)
-    {
+    public addCoins(numCoins: number) {
         this.numCoins += numCoins;
 
     }
-    update(){
-        this.textModel.y =100
+    update() {
 
-      //  this.textModel.visible =true
-        if(this.numCoins!=this.displayCoins){
 
-            this.displayTime-=Timer.delta;
-            if(this.displayTime<0){
+        //  this.textModel.visible =true
+        if (this.numCoins != this.displayCoins) {
 
-                if(this.numCoins<this.displayCoins){
+            this.displayTime -= Timer.delta;
+            if (this.displayTime < 0) {
+
+                if (this.numCoins < this.displayCoins) {
                     this.displayCoins--
                     SoundHandler.playCoin()
                 }
-                 else {
+                else {
                     this.displayCoins++
                     SoundHandler.playCoin()
                 }
-               this.textMesh.setText(""+this.displayCoins, ProjectData.font, 0.15)
-                if(this.numCoins!=this.displayCoins){
-                    this.displayTime =0.1;
+                // this.textMesh.setText(""+this.displayCoins, ProjectData.font, 0.15)
+                if (this.numCoins != this.displayCoins) {
+                    this.displayTime = 0.1;
                 }
             }
 
@@ -61,9 +50,9 @@ export default class CoinHandler{
 
     hide() {
 
-        this.textModel.visible=false
+        // this.textModel.visible=false
     }
     show() {
-        this.textModel.visible=true
+        // this.textModel.visible=true
     }
 }

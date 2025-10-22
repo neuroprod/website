@@ -1,13 +1,13 @@
-import {PlatformLevel} from "../PlatformLevel.ts";
+import { PlatformLevel } from "../PlatformLevel.ts";
 import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import sceneHandler from "../../../data/SceneHandler.ts";
 import gsap from "gsap";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
-import {HitTrigger} from "../../../data/HitTriggers.ts";
+import { HitTrigger } from "../../../data/HitTriggers.ts";
 import God from "./God.ts";
 import LevelHandler from "../LevelHandler.ts";
-import {Vector3} from "@math.gl/core";
+import { Vector3 } from "@math.gl/core";
 import GameModel from "../../GameModel.ts";
 
 export class GodLevel extends PlatformLevel {
@@ -17,7 +17,7 @@ export class GodLevel extends PlatformLevel {
     private god!: SceneObject3D;
     private godController!: God;
     private skipGodChoice: boolean = false;
-    private startPos = -10
+    private startPos = -10.3
     private landlord!: SceneObject3D;
 
     init() {
@@ -91,10 +91,10 @@ export class GodLevel extends PlatformLevel {
         })
         GameModel.gameCamera.camDistance = 2;
         GameModel.gameCamera.heightOffset = 0.5
-        GameModel.gameCamera.setMinMaxX(this.startPos, 4.5)
+        GameModel.gameCamera.setMinMaxX(this.startPos + 0.5, 4.5)
 
 
-        GameModel.gameCamera.setForCharPos(new Vector3(this.startPos, 0, 0))
+        GameModel.gameCamera.setForCharPos(new Vector3(this.startPos + 0.5, 0, 0))
 
 
     }

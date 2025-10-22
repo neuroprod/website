@@ -146,14 +146,14 @@ export default class GameCamera {
         charPos.y += this.heightOffset
         if (charPos.x < this.minX) charPos.x = this.minX
         if (charPos.x > this.maxX) charPos.x = this.maxX
-        this.cameraLookAt.lerp(charPos, 1 - Math.pow(0.005, delta))
+        this.cameraLookAt.lerp(charPos, 1 - Math.pow(0.01, delta))
         this.camPos.copy(this.cameraLookAt);
         this.camPos.z += this.camDistance;
         this.camPos.y += 0;
         //  this.camera.fovy =0.3
 
         // this.camera.far=100
-        this.cameraWorld.lerp(this.camPos as NumericArray, lerpValueDelta(0.00001, delta))
+        this.cameraWorld.lerp(this.camPos as NumericArray, lerpValueDelta(0.0001, delta))
     }
     setCharView() {
         if (this.zoomTL) this.zoomTL.clear()

@@ -25,7 +25,7 @@ export default class AsciiPass extends RenderPass {
             format: TextureFormat.R8Unorm,
             sampleCount: this.sampleCount,
             scaleToCanvas: true,
-            sizeMultiplier: 1 / 4,
+            sizeMultiplier: 1 / 3,
             heightMultiplier: 18 / 27,
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
         });

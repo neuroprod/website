@@ -12,6 +12,7 @@ import CoinHandler from "./handlers/CoinHandler.ts";
 import { MainState } from "../Main.ts";
 import Renderer2D from "../lib/twoD/Renderer2D.ts";
 import GLFTLoader from "../lib/GLFTLoader.ts";
+import Camera from "../lib/Camera.ts";
 
 
 class GameModel {
@@ -36,6 +37,7 @@ class GameModel {
     glft!: GLFTLoader;
     glft2!: GLFTLoader;
     gameCopy!: any;
+    mainCamera!: Camera
 
 
 
