@@ -31,5 +31,10 @@ export const Textures = {
     SPACE_HEAD: "SpaceHead.png",
     DRIP: "dripPass",
     ASCII_FONT: "ascii.png",
-    ASCII: "ascii"
+    ASCII: "ascii",
+
+
+    BACK_BTN: "iconBack.png",
+    SETTINGS_BTN: "iconSettings.png",
+    COIN_ICON: "iconCoin.png",
 }

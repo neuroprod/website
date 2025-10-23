@@ -4,7 +4,7 @@ import Texture from "./textures/Texture.ts";
 
 function download(content: any, fileName: string, contentType: string) {
     var a = document.createElement("a");
-    var file = new Blob([content], {type: contentType});
+    var file = new Blob([content], { type: contentType });
     a.href = URL.createObjectURL(file);
     a.download = fileName;
     a.click();
@@ -23,23 +23,23 @@ export function saveToBinFile(data: any, filename: string) {
 }
 
 // RGBA8Unorm GPUTextureUsage.COPY_SRC
-export async function sendTextureToServer(texture:Texture,filename:string,saveTarget:string,data:string=""){
+export async function sendTextureToServer(texture: Texture, filename: string, saveTarget: string, data: string = "") {
 
-    let blob = await getImageBlob (texture)
+    let blob = await getImageBlob(texture)
 
-    await sendBlobToServer(blob as Blob,"image/png",filename+".png",saveTarget,data)
+    await sendBlobToServer(blob as Blob, "image/png", filename + ".png", saveTarget, data)
 }
 
-export async function  sendBlobToServer(b:Blob,mime:string,filename:string,saveTarget:string,data:string ="") {
+export async function sendBlobToServer(b: Blob, mime: string, filename: string, saveTarget: string, data: string = "") {
 
-    const file = new File( [b], filename , {
+    const file = new File([b], filename, {
         type: mime
     });
 
     let formData = new FormData();
-    formData.set("destination",saveTarget);
-    formData.set("data",data);
-    formData.append("file",file);
+    formData.set("destination", saveTarget);
+    formData.set("data", data);
+    formData.append("file", file);
     const response = await fetch("http://localhost:3001/save", {
         method: "POST",
         body: formData,
@@ -47,11 +47,11 @@ export async function  sendBlobToServer(b:Blob,mime:string,filename:string,saveT
 
 
 }
-export async function  saveScene(fileName:string,data:string ="") {
+export async function saveScene(fileName: string, data: string = "") {
 
     let formData = new FormData();
-    formData.set("fileName",fileName);
-    formData.set("data",data);
+    formData.set("fileName", fileName);
+    formData.set("data", data);
 
     const response = await fetch("http://localhost:3001/saveScene", {
         method: "post",
@@ -60,33 +60,45 @@ export async function  saveScene(fileName:string,data:string ="") {
 
 
 }
+export async function saveFace(fileName: string, data: string = "") {
 
+    let formData = new FormData();
+    formData.set("fileName", fileName);
+    formData.set("data", data);
+
+    const response = await fetch("http://localhost:3001/saveFace", {
+        method: "post",
+        body: formData,
+    });
+
+
+}
 // RGBA8Unorm GPUTextureUsage.COPY_SRC
-export async function getImageBlob (texture:Texture){
+export async function getImageBlob(texture: Texture) {
 
-   const device = texture.renderer.device
+    const device = texture.renderer.device
 
-    const bytesPerRow  =texture.options.width*4
+    const bytesPerRow = texture.options.width * 4
     const bytesPerRowAligned = Math.ceil(bytesPerRow / 256) * 256;
 
-    const bufferSize =  bytesPerRowAligned * texture.options.height;
+    const bufferSize = bytesPerRowAligned * texture.options.height;
 
     const stagingBuffer = device.createBuffer({
-        size:bufferSize,
+        size: bufferSize,
         usage: GPUBufferUsage.MAP_READ | GPUBufferUsage.COPY_DST,
     });
     let commandEncoder = device.createCommandEncoder();
     commandEncoder.copyTextureToBuffer(
         {
-            texture: texture.textureGPU,mipLevel:0,origin: {
-                x:0,
-                y:0,
+            texture: texture.textureGPU, mipLevel: 0, origin: {
+                x: 0,
+                y: 0,
                 z: 0,
             },
         },
         {
             buffer: stagingBuffer,
-            bytesPerRow:bytesPerRowAligned
+            bytesPerRow: bytesPerRowAligned
         },
         {
             width: texture.options.width,
@@ -108,34 +120,34 @@ export async function getImageBlob (texture:Texture){
     stagingBuffer.unmap();
     stagingBuffer.destroy()
 
-   const data  =new Uint8Array(texture.options.width*texture.options.height*4)
-    let targetPos =0;
-   for(let i=0;i<texture.options.height;i++){
-       let srcPos = i*bytesPerRowAligned;
-       for(let j=0;j<texture.options.width;j++) {
-           data[targetPos++] = dataTemp[srcPos];
-           data[targetPos++] = dataTemp[srcPos+1];
-           data[targetPos++] = dataTemp[srcPos+2];
+    const data = new Uint8Array(texture.options.width * texture.options.height * 4)
+    let targetPos = 0;
+    for (let i = 0; i < texture.options.height; i++) {
+        let srcPos = i * bytesPerRowAligned;
+        for (let j = 0; j < texture.options.width; j++) {
+            data[targetPos++] = dataTemp[srcPos];
+            data[targetPos++] = dataTemp[srcPos + 1];
+            data[targetPos++] = dataTemp[srcPos + 2];
 
-           data[targetPos++] = dataTemp[srcPos+3];
-           srcPos+=4;
+            data[targetPos++] = dataTemp[srcPos + 3];
+            srcPos += 4;
 
-       }
-   }
+        }
+    }
 
 
-    let canvas  = document.createElement("canvas");//HTMLCanvasElement()
+    let canvas = document.createElement("canvas");//HTMLCanvasElement()
     canvas.width = texture.options.width;
     canvas.height = texture.options.height;
     let ctx = canvas.getContext("2d");
 
-    if(ctx) {
+    if (ctx) {
         let imData = ctx.createImageData(texture.options.width, texture.options.height)
         imData.data.set(data)
-        ctx.putImageData(imData,0,0)
+        ctx.putImageData(imData, 0, 0)
 
     }
 
-    return await new Promise(resolve => canvas.toBlob(resolve,"image/png",1));
+    return await new Promise(resolve => canvas.toBlob(resolve, "image/png", 1));
 
 }

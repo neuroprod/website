@@ -6,12 +6,15 @@ import Menu from "./Menu.ts";
 import GameModel from "../GameModel.ts";
 import GuageLevel from "../Levels/guage/GuageLevel.ts";
 import GuageLevel2D from "../Levels/guage/GuageLevel2D.ts";
+import SettingsUI from "./SettingsUI.ts";
 
 export default class UI2D {
+
     private renderer2D: Renderer2D;
     private root: Object2D;
     private menu: Menu;
     guageLevel2D: GuageLevel2D;
+    settings: SettingsUI;
 
     constructor(renderer: Renderer, renderer2D: Renderer2D) {
         this.renderer2D = renderer2D
@@ -22,8 +25,16 @@ export default class UI2D {
 
         this.menu = new Menu(renderer)
         this.guageLevel2D = new GuageLevel2D(renderer)
+        this.settings = new SettingsUI(renderer)
+
+
+
+
         this.root.addChild(this.guageLevel2D.root)
         this.root.addChild(this.menu.menuRoot)
+        this.root.addChild(this.settings.settingsRoot)
+
+
         this.root.sx = this.root.sy = renderer.pixelRatio
         //LevelHandler.
     }
@@ -37,7 +48,9 @@ export default class UI2D {
         this.root.updateMouse(GameModel.mouseListener.mousePos, GameModel.mouseListener.isDownThisFrame, GameModel.mouseListener.isUpThisFrame)
 
     }
-
+    setCoins(displayCoins: number) {
+        this.settings.setCoins(displayCoins)
+    }
     setLevel(key: string) {
         this.menu.setLevel(key)
         this.guageLevel2D.setLevel(key)

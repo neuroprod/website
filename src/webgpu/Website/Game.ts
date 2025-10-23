@@ -138,6 +138,11 @@ export default class Game {
                 LevelHandler.setLevel(l)
             }
         }
+
+        UI.popWindow()
+
+        UI.pushWindow("Level")
+
         LevelHandler.onUI()
         UI.popWindow()
     }

@@ -38,6 +38,8 @@ export default class CoinHandler {
                     SoundHandler.playCoin()
                 }
                 // this.textMesh.setText(""+this.displayCoins, ProjectData.font, 0.15)
+
+                GameModel.UI2D.setCoins(this.displayCoins)
                 if (this.numCoins != this.displayCoins) {
                     this.displayTime = 0.1;
                 }

@@ -14,6 +14,7 @@ import MouseInteractionWrapper from "../../MouseInteractionWrapper.ts";
 import LevelHandler from "../LevelHandler.ts";
 import SoundHandler from "../../SoundHandler.ts";
 import GameModel from "../../GameModel.ts";
+import FaceHandler from "../../handlers/FaceHandler.ts";
 
 export class StartLevel extends BaseLevel {
 
@@ -25,6 +26,7 @@ export class StartLevel extends BaseLevel {
 
     private characterController!: CharacterController;
     private goGraphicDev: boolean = false;
+    charFaceHandler!: FaceHandler;
 
 
     init() {
@@ -80,7 +82,7 @@ export class StartLevel extends BaseLevel {
         char.x = -2;
         char.y = 1;
         this.characterController.setCharacter()
-
+        this.charFaceHandler = new FaceHandler(char)
         this.camPos.set(0, 0.7, 2)
         this.camTarget.set(0, 0.7, 0)
         GameModel.gameCamera.setLockedView(this.camTarget.add([0, 0, 0]), this.camPos.clone().add([0, 0, 1]))
@@ -123,11 +125,11 @@ export class StartLevel extends BaseLevel {
             })
         }
         mainChar.onRollOver = () => {
-            this.characterController.startWave()
+            // this.characterController.startWave()
             GameModel.renderer.setCursor(true)
         }
         mainChar.onRollOut = () => {
-            this.characterController.stopWave()
+            //  this.characterController.stopWave()
             GameModel.renderer.setCursor(false)
         }
         this.kris.show();
@@ -162,6 +164,9 @@ export class StartLevel extends BaseLevel {
             }
         })
         GameModel.gameRenderer.tweenToNonBlack()
+    }
+    onUI(): void {
+        this.charFaceHandler?.onUI()
     }
     destroy() {
         super.destroy();

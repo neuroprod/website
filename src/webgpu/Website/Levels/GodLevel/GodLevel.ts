@@ -9,6 +9,7 @@ import God from "./God.ts";
 import LevelHandler from "../LevelHandler.ts";
 import { Vector3 } from "@math.gl/core";
 import GameModel from "../../GameModel.ts";
+import FaceHandler from "../../handlers/FaceHandler.ts";
 
 export class GodLevel extends PlatformLevel {
     private tl!: gsap.core.Timeline;
@@ -19,6 +20,9 @@ export class GodLevel extends PlatformLevel {
     private skipGodChoice: boolean = false;
     private startPos = -10.3
     private landlord!: SceneObject3D;
+    charFaceHandler!: FaceHandler;
+    godFaceHandler!: FaceHandler;
+    treeFaceHandler!: FaceHandler;
 
     init() {
         super.init();
@@ -81,6 +85,10 @@ export class GodLevel extends PlatformLevel {
         this.blockInput = true
 
         let charRoot = SceneHandler.getSceneObject("charRoot");
+
+        this.charFaceHandler = new FaceHandler(charRoot)
+        this.godFaceHandler = new FaceHandler(this.god)
+        this.treeFaceHandler = new FaceHandler(this.tree)
         charRoot.x = this.startPos - 2
         charRoot.y = 0.15
         charRoot.setScaler(1.2)
@@ -98,7 +106,11 @@ export class GodLevel extends PlatformLevel {
 
 
     }
-
+    onUI() {
+        this.charFaceHandler?.onUI()
+        this.godFaceHandler?.onUI()
+        this.treeFaceHandler?.onUI()
+    }
     conversationDataCallBack(data: string) {
         super.conversationDataCallBack(data);
         if (data == "godNo") {

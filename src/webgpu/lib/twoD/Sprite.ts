@@ -7,15 +7,19 @@ import SpriteMaterial from "./SpriteMaterial.ts";
 import Plane from "../mesh/geometry/Plane.ts";
 import RenderPass from "../RenderPass.ts";
 import UniformGroup from "../material/UniformGroup.ts";
+import { Vector2, Vector4 } from "@math.gl/core";
+import Rect from "./Rect.ts";
 
 export default class Sprite extends Object2D {
     private texture: Texture;
     private mesh: Mesh
     private material: Material
-   public width: number;
+    public width: number;
     public height: number;
-    public text: string ="";
-
+    public text: string = "";
+    public alpha = 1
+    private mousePosLocal: Vector4 = new Vector4()
+    private rect: Rect;
 
     constructor(renderer: Renderer, texture: Texture) {
         super();
@@ -25,16 +29,26 @@ export default class Sprite extends Object2D {
         this.width = this.texture.options.width
         this.height = this.texture.options.height
 
-        this.mesh = new Plane(renderer, this.width, this.height,1,1,false)
+        this.mesh = new Plane(renderer, this.width, this.height, 1, 1, false)
+        this.rect = new Rect()
+        this.rect.min.set(this.mesh.min.x, this.mesh.min.y)
+        this.rect.max.set(this.mesh.max.x, this.mesh.max.y)
         this.material = new SpriteMaterial(renderer)
         this.material.setTexture("texture", texture)
         this.id = texture.label
     }
+    checkMouseHit(mousePos: Vector2) {
+        this.mousePosLocal.set(mousePos.x, mousePos.y, 0, 1)
+        this.mousePosLocal.applyMatrix4(this._worldMatrixInv)
+        if (this.rect.contains(this.mousePosLocal)) {
+            return this
+        }
+        return null;
+    }
 
-
-   public updateInt(){
-
-     this.material.setUniform("worldMatrix",this.worldMatrix)
+    public updateInt() {
+        this.material.setUniform("alpha", this.alpha)
+        this.material.setUniform("worldMatrix", this.worldMatrix)
     }
     public drawInt(pass: RenderPass) {
 
@@ -48,17 +62,17 @@ export default class Sprite extends Object2D {
             let label = this.material.uniformGroups[i].label;
             let uniformGroup: UniformGroup;
 
-                        if (label == "camera2D") {
+            if (label == "camera2D") {
 
 
-                        } else if (label == "model") {
+            } else if (label == "model") {
 
-                        } else {
-                            // @ts-ignore
-                            uniformGroup = this.material.uniformGroups[i];
+            } else {
+                // @ts-ignore
+                uniformGroup = this.material.uniformGroups[i];
 
-                            passEncoder.setBindGroup(i, uniformGroup.bindGroup);
-                        }
+                passEncoder.setBindGroup(i, uniformGroup.bindGroup);
+            }
             //con
 
 
