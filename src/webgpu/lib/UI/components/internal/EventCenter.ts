@@ -1,4 +1,4 @@
-import VerticalLayout, {VerticalLayoutSettings} from "../VerticalLayout";
+import VerticalLayout, { VerticalLayoutSettings } from "../VerticalLayout";
 import UI_I from "../../UI_I";
 
 export class EventCenterSettings extends VerticalLayoutSettings {
@@ -21,6 +21,6 @@ export default class EventCenter extends VerticalLayout {
 
     layoutRelative() {
         super.layoutRelative();
-        this.posOffset.y = UI_I.screenSize.y - this.children.length * 36 - 15;
+        this.posOffset.y = UI_I.pixelSize.y - this.children.length * 36 - 15;
     }
 }

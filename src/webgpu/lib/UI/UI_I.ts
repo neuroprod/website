@@ -1,6 +1,6 @@
 
 import Layer from "./components/Layer";
-import Component, {ComponentSettings} from "./components/Component";
+import Component, { ComponentSettings } from "./components/Component";
 import Panel from "./components/Panel";
 import DrawBatch from "./draw/DrawBatch";
 import Font from "./draw/Font";
@@ -12,7 +12,7 @@ import Local from "./local/Local";
 
 import UI_Style from "./UI_Style";
 import KeyboardListener from "./input/KeyboardListener";
-import EventCenter, {EventCenterSettings,} from "./components/internal/EventCenter";
+import EventCenter, { EventCenterSettings, } from "./components/internal/EventCenter";
 import RendererGPU from "./GPU/RendererGPU";
 import Rect from "./math/Rect";
 import Renderer from "../Renderer";
@@ -26,7 +26,7 @@ export default class UI_I {
     static screenSize: Vec2 = new Vec2();
     static canvasSize: Vec2 = new Vec2();
 
-    static pixelRatio: number =1;
+    static pixelRatio: number = 1;
 
     static renderType: string;
     static numDrawCalls: number = 0;
@@ -52,26 +52,27 @@ export default class UI_I {
     private static canvas: HTMLCanvasElement;
     private static keyboardListener: KeyboardListener;
     private static oldDrawBatchIDs: number[] = [];
-    static pixelSize =new Vec2();
+    static pixelSize = new Vec2();
     public static renderer: Renderer;
 
     constructor() {
     }
 
-    static setSize(width:number, height:number) {
-        this.pixelSize.set(width/ this.pixelRatio , height/ this.pixelRatio );
-        this.screenSize.set(width , height );
+    static setSize(width: number, height: number) {
+        this.pixelSize.set(width / this.pixelRatio, height / this.pixelRatio);
+        this.screenSize.set(width, height);
         this.canvasSize.set(width, height);
-        if(this.mainComp){
-        this.mainComp.size.copy(this.pixelSize);
-        this.mainComp.layoutRect.size.copy(this.pixelSize);
-        this.mainComp.setDirty()}
+        if (this.mainComp) {
+            this.mainComp.size.copy(this.pixelSize);
+            this.mainComp.layoutRect.size.copy(this.pixelSize);
+            this.mainComp.setDirty()
+        }
     }
 
-    static init(canvas:HTMLCanvasElement) {
+    static init(canvas: HTMLCanvasElement) {
 
         this.pixelRatio = window.devicePixelRatio;
-        UI_I.setSize(canvas.width,canvas.height)
+        UI_I.setSize(canvas.width, canvas.height)
         this.globalStyle = new UI_Style();
 
         // this.setSize(canvas.offsetWidth, this.canvas.offsetHeight);
@@ -397,7 +398,7 @@ export default class UI_I {
         renderer: Renderer,
         settings?: any
     ) {
-        this.renderer =renderer;
+        this.renderer = renderer;
         UI_I.renderType = "gpu";
         UI_I.rendererGPU = new RendererGPU();
         UI_I.rendererGPU.init(renderer.device, renderer.presentationFormat);
@@ -464,7 +465,7 @@ export default class UI_I {
             let drawBatches: Array<DrawBatch> = [];
             this.mainDrawBatch.collectBatches(drawBatches);
 
-                UI_I.rendererGPU.setDrawBatches(drawBatches);
+            UI_I.rendererGPU.setDrawBatches(drawBatches);
 
             this.mainComp.isDirty = false;
         }
@@ -515,7 +516,7 @@ export default class UI_I {
     static removeDrawBatch(id: number) {
         let batch = this.drawBatches.get(id);
         if (!batch) return;
-//batch.clear();
+        //batch.clear();
         if (batch.parent) {
             batch.parent.removeChild(batch);
         }

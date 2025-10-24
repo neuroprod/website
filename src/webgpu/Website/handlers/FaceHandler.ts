@@ -29,9 +29,16 @@ export default class FaceHandler {
     onUI() {
 
         UI.pushGroup(this.name)
+        let state = UI.LTextInput("state", "")
         if (UI.LButton("save")) {
+            if (state == "") {
 
-            saveFace(this.name, this.getFaceData())
+                UI.logEvent("error", "fill in state", true)
+                return;
+            }
+            let data = this.getFaceData(state)
+            console.log(data)
+            // saveFace( this.name, this.getFaceData(state))
         }
         for (let g of this.groups) {
             UI.pushGroup(g.label)
@@ -64,8 +71,35 @@ export default class FaceHandler {
 
 
     }
-    getFaceData(): string {
-        return "kaka"
+    getFaceData(state: string): any {
+
+        let data = { name: this.name, state: state, props: new Array<any>() }
+
+
+        for (let g of this.groups) {
+
+
+            if (g.label == "pupil") {
+                for (let ob of g.objects) {
+                    let propObj = { label: ob.label, id: ob.UUID, x: ob.x, y: ob.y }
+                    data.props.push(propObj)
+
+                }
+            }
+            if (g.label == "brow") {
+                for (let ob of g.objects) {
+
+                    let propObj = { label: ob.label, id: ob.UUID, x: ob.x, y: ob.y, rz: ob.rz }
+                    data.props.push(propObj)
+                }
+            }
+
+
+
+
+
+        }
+        return data;
     }
     findObjects(obj: Object3D) {
 

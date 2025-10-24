@@ -1,4 +1,4 @@
-import Component, {ComponentSettings} from "../Component";
+import Component, { ComponentSettings } from "../Component";
 
 import Color from "../../math/Color";
 import Utils from "../../math/Utils";
@@ -68,6 +68,7 @@ export default class Event extends Component {
     }
 
     layoutAbsolute() {
+
         super.layoutAbsolute();
         let settings = this.settings as EventSettings;
 
@@ -90,9 +91,11 @@ export default class Event extends Component {
         this.leftRect.size.x = 100;
         this.rightRect.size.x = this.layoutRect.size.x - 100;
         this.rightRect.pos.x += 100;
+        console.log("layout")
     }
 
     prepDraw() {
+        console.log("prep")
         super.prepDraw();
         let settings = this.settings as EventSettings;
         if (this.isError) {
@@ -107,6 +110,7 @@ export default class Event extends Component {
             this.leftRect,
             settings.bgColorRight
         );
+        console.log(this.leftRect)
         UI_I.currentDrawBatch.textBatch.addLine(
             this.labelPos,
             this.label,

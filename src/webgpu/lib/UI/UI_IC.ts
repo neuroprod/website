@@ -1,55 +1,55 @@
 //internal components
 import UI_I from "./UI_I";
 
-import SliderBase, {SliderBaseSettings,} from "./components/internal/SliderBase";
-import DirtyButton, {DirtyButtonSettings,} from "./components/internal/DirtyButton";
-import SettingsButton, {SettingsButtonSettings,} from "./components/internal/SettingsButton";
-import ButtonBase, {ButtonBaseSettings,} from "./components/internal/ButtonBase";
-import ColorButton, {ColorButtonSettings,} from "./components/internal/ColorButton";
-import ColorPickerPopUp, {ColorPickerPopupSettings,} from "./components/internal/popUps/ColorPickerPopUp";
+import SliderBase, { SliderBaseSettings, } from "./components/internal/SliderBase";
+import DirtyButton, { DirtyButtonSettings, } from "./components/internal/DirtyButton";
+import SettingsButton, { SettingsButtonSettings, } from "./components/internal/SettingsButton";
+import ButtonBase, { ButtonBaseSettings, } from "./components/internal/ButtonBase";
+import ColorButton, { ColorButtonSettings, } from "./components/internal/ColorButton";
+import ColorPickerPopUp, { ColorPickerPopupSettings, } from "./components/internal/popUps/ColorPickerPopUp";
 import LColor from "./components/LColor";
-import LSlider, {LSliderSettings} from "./components/LSlider";
+import LSlider, { LSliderSettings } from "./components/LSlider";
 import Color from "./math/Color";
-import ColorPicker, {ColorPickerSettings,} from "./components/internal/ColorPicker";
-import CheckBox, {CheckBoxSettings} from "./components/internal/CheckBox";
-import GroupTitle, {GroupTitleSettings,} from "./components/internal/GroupTitle";
+import ColorPicker, { ColorPickerSettings, } from "./components/internal/ColorPicker";
+import CheckBox, { CheckBoxSettings } from "./components/internal/CheckBox";
+import GroupTitle, { GroupTitleSettings, } from "./components/internal/GroupTitle";
 
-import InputBase, {InputBaseSettings} from "./components/internal/InputBase";
-import ToggleIcon, {ToggleIconSettings,} from "./components/internal/ToggleIcon";
-import SelectPopUp, {SelectPopUpSettings,} from "./components/internal/popUps/SelectPopUp";
-import SliderPopUp, {SliderPopUpSettings,} from "./components/internal/popUps/SliderPopUp";
+import InputBase, { InputBaseSettings } from "./components/internal/InputBase";
+import ToggleIcon, { ToggleIconSettings, } from "./components/internal/ToggleIcon";
+import SelectPopUp, { SelectPopUpSettings, } from "./components/internal/popUps/SelectPopUp";
+import SliderPopUp, { SliderPopUpSettings, } from "./components/internal/popUps/SliderPopUp";
 import SelectItem from "./math/SelectItem";
 import Vec2 from "./math/Vec2";
-import VerticalLayout, {VerticalLayoutSettings,} from "./components/VerticalLayout";
-import SelectButton, {SelectButtonSettings,} from "./components/internal/SelectButton";
-import DragBase, {DragBaseSettings} from "./components/internal/DragBase";
-import DockIndicator, {DockIndicatorSettings,} from "./components/internal/DockIndicator";
-import DockDivider, {DockDividerSettings,} from "./components/internal/DockDivider";
+import VerticalLayout, { VerticalLayoutSettings, } from "./components/VerticalLayout";
+import SelectButton, { SelectButtonSettings, } from "./components/internal/SelectButton";
+import DragBase, { DragBaseSettings } from "./components/internal/DragBase";
+import DockIndicator, { DockIndicatorSettings, } from "./components/internal/DockIndicator";
+import DockDivider, { DockDividerSettings, } from "./components/internal/DockDivider";
 import DockTabData from "./docking/DockTabData";
 
-import DockPanelIndicator, {DockPanelIndicatorSettings,} from "./components/internal/DockPanelIndicator";
+import DockPanelIndicator, { DockPanelIndicatorSettings, } from "./components/internal/DockPanelIndicator";
 
-import TabButton, {TabButtonSettings} from "./components/internal/TabButton";
-import {NumberType} from "./UI_Enums";
-import IconButton, {IconButtonSettings,} from "./components/internal/IconButton";
+import TabButton, { TabButtonSettings } from "./components/internal/TabButton";
+import { NumberType } from "./UI_Enums";
+import IconButton, { IconButtonSettings, } from "./components/internal/IconButton";
 
-import LText, {LTextSettings} from "./components/LText";
-import LNumber, {LNumberSettings} from "./components/LNumber";
-import Separator, {SeparatorSettings} from "./components/Separator";
-import Component, {ComponentSettings} from "./components/Component";
+import LText, { LTextSettings } from "./components/LText";
+import LNumber, { LNumberSettings } from "./components/LNumber";
+import Separator, { SeparatorSettings } from "./components/Separator";
+import Component, { ComponentSettings } from "./components/Component";
 
 import LVector from "./components/LVector";
-import DragPopUp, {DragPopUpSettings,} from "./components/internal/popUps/DragPopUp";
+import DragPopUp, { DragPopUpSettings, } from "./components/internal/popUps/DragPopUp";
 
-import LSelect, {LSelectSettings} from "./components/LSelect";
-import Event, {EventSettings} from "./components/internal/Event";
-import TreeTitle, {TreeTitleSettings} from "./components/internal/UITreeTitle.ts";
+import LSelect, { LSelectSettings } from "./components/LSelect";
+import Event, { EventSettings } from "./components/internal/Event";
+import TreeTitle, { TreeTitleSettings } from "./components/internal/UITreeTitle.ts";
 
 export default class UI_IC {
     static LFloat(
         ref_or_label: any,
         property_or_value: any,
-        labelOver?:string,
+        labelOver?: string,
         settings?: LNumberSettings
     ): number {
         let label;
@@ -395,13 +395,13 @@ export default class UI_IC {
         return retValue;
     }
 
-    static buttonBase(buttonText: string,enabled:boolean, settings?: ButtonBaseSettings) {
+    static buttonBase(buttonText: string, enabled: boolean, settings?: ButtonBaseSettings) {
         if (!UI_I.setComponent(buttonText)) {
             if (!settings) settings = new ButtonBaseSettings();
             let comp = new ButtonBase(UI_I.getID(buttonText), buttonText, settings);
             UI_I.addComponent(comp);
         }
-        ( UI_I.currentComponent as ButtonBase).setEnabled(enabled);
+        (UI_I.currentComponent as ButtonBase).setEnabled(enabled);
         let retValue = UI_I.currentComponent.getReturnValue();
         UI_I.popComponent();
         return retValue;
