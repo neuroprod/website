@@ -1,6 +1,8 @@
+import FaceDataHandler from "../../data/FaceDataHandler";
 import SceneObject3D from "../../data/SceneObject3D";
 import Object3D from "../../lib/model/Object3D";
 import { saveFace } from "../../lib/SaveUtils";
+import SelectItem from "../../lib/UI/math/SelectItem";
 import UI from "../../lib/UI/UI";
 
 export default class FaceHandler {
@@ -11,7 +13,10 @@ export default class FaceHandler {
     private objects: Array<Object3D> = []
     name: string;
     groups: { label: string; objects: Object3D[]; }[];
+    data: Array<any> = [];
+    selectItems: Array<SelectItem> = []
 
+    countID = 0;
     constructor(char: SceneObject3D) {
 
         this.name = char.label
@@ -23,12 +28,22 @@ export default class FaceHandler {
                 item.label.toLowerCase().includes(sub.toLowerCase())
             ),
         }));
-
-
+        this.data = FaceDataHandler.getDataForLabel(this.name)
+        this.updateSelect()
     }
     onUI() {
 
         UI.pushGroup(this.name)
+        UI.pushID(this.countID + "");
+        if (this.selectItems.length) {
+            let a = UI.LSelect("states", this.selectItems, 0)
+            if (UI.LButton("set")) {
+                this.setState(a)
+                UI.popID()
+                this.countID++
+                UI.pushID(this.countID + "");
+            }
+        }
         let state = UI.LTextInput("state", "")
         if (UI.LButton("save")) {
             if (state == "") {
@@ -37,8 +52,14 @@ export default class FaceHandler {
                 return;
             }
             let data = this.getFaceData(state)
-            console.log(data)
-            // saveFace( this.name, this.getFaceData(state))
+
+
+            FaceDataHandler.addFaceData(data)
+
+            this.data = FaceDataHandler.getDataForLabel(this.name)
+            this.updateSelect()
+            this.countID++
+
         }
         for (let g of this.groups) {
             UI.pushGroup(g.label)
@@ -67,8 +88,59 @@ export default class FaceHandler {
             UI.popGroup()
 
         }
+        UI.popID()
         UI.popGroup()
 
+
+    }
+    setState(state: string) {
+        this.countID++
+        let s = this.getStateByName(state)
+        for (let prop of s.props) {
+            let obj = this.getObjectByID(prop.id)
+            if (obj) {
+
+
+                if (prop.x) {
+                    obj.x = prop.x
+                }
+                if (prop.y) {
+                    obj.y = prop.y
+                }
+                if (prop.rz) {
+                    obj.rz = prop.rz
+                }
+
+            }
+
+        }
+
+    }
+    getObjectByID(id: string) {
+        for (let f of this.objects) {
+
+            if (f.UUID == id) {
+
+                return f
+            }
+        }
+        return undefined
+    }
+    getStateByName(state: string) {
+        for (let f of this.data) {
+
+            if (f.state == state) {
+
+                return f
+            }
+        }
+    }
+    updateSelect() {
+
+        this.selectItems = []
+        for (let f of this.data) {
+            this.selectItems.push(new SelectItem(f.state, f.state))
+        }
 
     }
     getFaceData(state: string): any {

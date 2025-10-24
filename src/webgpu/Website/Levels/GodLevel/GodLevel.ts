@@ -87,6 +87,7 @@ export class GodLevel extends PlatformLevel {
         let charRoot = SceneHandler.getSceneObject("charRoot");
 
         this.charFaceHandler = new FaceHandler(charRoot)
+        this.charFaceHandler.setState("default")
         this.godFaceHandler = new FaceHandler(this.god)
         this.treeFaceHandler = new FaceHandler(this.tree)
         charRoot.x = this.startPos - 2
@@ -170,14 +171,23 @@ export class GodLevel extends PlatformLevel {
                 this.characterController.gotoAndIdle(this.tree.getWorldPos().add([-0.65, 0, 0]), 1, () => {
                     this.characterController.setAngle(0.1)
                     gsap.delayedCall(0.5, () => {
+                        this.charFaceHandler.setState("looktree")
+                        this.treeFaceHandler.setState("look")
                         GameModel.conversationHandler.startConversation("tree")
+                        GameModel.conversationHandler.dataCallBack = (data: string) => {
+                            if (data == "sigh") this.treeFaceHandler.setState("lookup")
+                            if (data == "sighDone") this.treeFaceHandler.setState("look")
+
+                        }
                         GameModel.conversationHandler.doneCallBack = () => {
                             GameModel.gameCamera.setCharView()
                             GameModel.gameCamera.camDistance = 2.5;
                             GameModel.gameCamera.heightOffset = 0.7
                             this.characterController.setAngle(0.0)
+
                             gsap.delayedCall(0.5, () => {
                                 this.blockInput = false
+                                this.charFaceHandler.setState("default")
                             })
 
                         }
@@ -227,9 +237,12 @@ export class GodLevel extends PlatformLevel {
     }
 
     private playIntro() {
+        console.log('startFront')
+        this.charFaceHandler.setState("front")
         GameModel.conversationHandler.startConversation("start")
         GameModel.conversationHandler.doneCallBack = () => {
             this.blockInput = false
+            this.charFaceHandler.setState("default")
         }
 
 

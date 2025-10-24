@@ -33,6 +33,7 @@ import FontPool from "./lib/twoD/FontPool.ts";
 import GLFTLoader from "./lib/GLFTLoader.ts";
 import HDRTextureLoader from "./lib/HDRTextureLoader.ts";
 import JsonLoader from "./lib/JsonLoader.ts";
+import FaceDataHandler from "./data/FaceDataHandler.ts";
 
 
 export enum MainState {
@@ -134,7 +135,7 @@ export default class Main {
         this.preloader.startLoad()
         GameModel.glft = new GLFTLoader(this.renderer, "ross", this.preloader)
         GameModel.glft2 = new GLFTLoader(this.renderer, "ross5", this.preloader)
-
+        FaceDataHandler.init(this.preloader)
         SceneHandler.init(this.renderer, this.preloader).then(() => {
 
             this.preloader.stopLoad()

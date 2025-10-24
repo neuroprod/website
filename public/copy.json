@@ -9,7 +9,7 @@
           0.8,
           0
         ],
-        "text": "Hi Mr Loathsome!",
+        "text": "Hi Mister B!",
         "callBack": "raiseHand"
       },
       {
@@ -118,7 +118,8 @@
           0.9,
           0
         ],
-        "text": "I don't know,\nMr Loathsome looked realy angry this time."
+        "text": "I don't know,\nMister B looked realy angry this time.",
+        "callBack": "sigh"
       },
       {
         "char": "rootTree",
@@ -127,7 +128,8 @@
           0.9,
           0
         ],
-        "text": "Sigh... The are also\ncoins in the branches."
+        "text": "Sigh... The are also\ncoins in the branches.",
+        "callBack": "sighDone"
       },
       {
         "char": "charRoot",
@@ -492,7 +494,7 @@
         "text": "Yea, everyone seems broke these days."
       },
       {
-        "text": "Maybe you can help me get my fingers back?\nMr Loathsome, took them. He says I dont make him enough money"
+        "text": "Maybe you can help me get my fingers back?\nMister B, took them. He says I dont make him enough money"
       },
       {
         "text": "Some of my clients really miss them."
@@ -625,7 +627,7 @@
         ],
         "choice": [
           {
-            "text": "Those are all my coins Strawberry,\nMr Loathsome needs those.",
+            "text": "Those are all my coins Strawberry,\nMister B needs those.",
             "callBack": "coinsNo"
           },
           {

@@ -85,6 +85,7 @@ export class StartLevel extends BaseLevel {
         char.y = 1;
         this.characterController.setCharacter()
         this.charFaceHandler = new FaceHandler(char)
+        this.charFaceHandler.setState("front")
         this.camPos.set(0, 0.7, 2)
         this.camTarget.set(0, 0.7, 0)
         GameModel.gameCamera.setLockedView(this.camTarget.add([0, 0, 0]), this.camPos.clone().add([0, 0, 1]))
