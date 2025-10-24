@@ -52,9 +52,9 @@ export default class CoinHandler {
 
     hide() {
 
-        // this.textModel.visible=false
+        GameModel.UI2D.hideCoins()
     }
     show() {
-        // this.textModel.visible=true
+        GameModel.UI2D.showCoins()
     }
 }

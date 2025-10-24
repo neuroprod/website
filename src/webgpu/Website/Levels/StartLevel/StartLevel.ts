@@ -68,7 +68,9 @@ export class StartLevel extends BaseLevel {
 
         LoadHandler.onComplete = () => {
         }
-
+        GameModel.coinHandler.hide()
+        GameModel.coinHandler.numCoins = 0
+        GameModel.coinHandler.displayCoins = 0
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         GameModel.gameRenderer.setLevelType("platform")
         this.setMouseHitObjects(SceneHandler.mouseHitModels);

@@ -7,8 +7,9 @@ import Object2D from "../../lib/twoD/Object2D";
 import Sprite from "../../lib/twoD/Sprite";
 import GameModel from "../GameModel";
 import LevelHandler from "../Levels/LevelHandler";
-
+import gsap from "gsap";
 export default class SettingsUI {
+
 
     renderer: Renderer;
     settingsRoot = new Object2D()
@@ -16,14 +17,15 @@ export default class SettingsUI {
     settingsButton: Sprite;
     coinIcon: Sprite;
     scoreText: Text;
+    numCoins: number = 0;
 
     constructor(renderer: Renderer) {
         this.renderer = renderer;
 
 
         let font = FontPool.getFont("bold") as Font;
-        this.settingsRoot.x = 20
-        this.settingsRoot.y = 20
+        this.settingsRoot.x = 40
+        this.settingsRoot.y = 40
 
 
         this.backButton = new Sprite(renderer, this.renderer.getTexture(Textures.BACK_BTN))
@@ -73,15 +75,56 @@ export default class SettingsUI {
         this.settingsRoot.addChild(this.coinIcon)
 
 
-        this.scoreText = new Text(renderer, font, 17, "0/30")
+        this.scoreText = new Text(renderer, font, 22, "0/30")
         this.scoreText.x = 32 * 3
-        this.scoreText.y = -8
+        this.scoreText.y = -11
+        this.scoreText.alpha = 0.7
         this.settingsRoot.addChild(this.scoreText)
 
     }
-    setCoins(displayCoins: number) {
-        this.scoreText.setText(displayCoins + "/30")
-    }
+    update() {
+        this.scoreText.x = this.renderer.htmlWidth - 150
+        if (this.numCoins > 9) this.scoreText.x -= 10
+        this.coinIcon.x = this.renderer.htmlWidth - 80
 
+    }
+    setLevel(level: string) {
+        console.log(level)
+        if (LevelHandler.navigationLevels.includes(level)) {
+            this.settingsRoot.x = 20
+            this.settingsRoot.y = 20
+        } else {
+            this.settingsRoot.x = 40
+            this.settingsRoot.y = 40
+        }
+        if (level == "Home") {
+
+            this.backButton.visible = false
+            this.settingsButton.visible = false
+
+        } else {
+            this.settingsButton.visible = true
+            this.backButton.visible = true
+
+        }
+
+
+    }
+    setCoins(displayCoins: number) {
+        this.numCoins = displayCoins;
+        this.scoreText.setText(displayCoins + "/30")
+        this.coinIcon.sx = this.coinIcon.sy = 0.25
+        this.scoreText.alpha = 1
+        gsap.to(this.coinIcon, { sx: 0.2, sy: 0.2, ease: "back.in", duration: 0.2 })
+        gsap.to(this.scoreText, { alpha: 0.7, duration: 0.2 })
+    }
+    hideCoins() {
+        this.scoreText.visible = false
+        this.coinIcon.visible = false
+    }
+    showCoins() {
+        this.scoreText.visible = true
+        this.coinIcon.visible = true
+    }
 
 }

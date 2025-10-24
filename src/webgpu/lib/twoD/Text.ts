@@ -21,7 +21,7 @@ export default class Text extends Object2D {
     height: number = 0;
     size: number;
     font: Font;
-
+    alpha = 1;
     constructor(renderer: Renderer, font: Font, size: number = 25, text: string = "testText") {
         super();
 
@@ -47,7 +47,7 @@ export default class Text extends Object2D {
     }
 
     public updateInt() {
-
+        this.material.setUniform("alpha", this.alpha)
         this.material.setUniform("worldMatrix", this.worldMatrix)
     }
     public drawInt(pass: RenderPass) {

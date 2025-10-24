@@ -42,6 +42,7 @@ export default class UI2D {
     public update() {
         this.menu.update()
         this.guageLevel2D.update()
+        this.settings.update()
     }
 
     updateMouse() {
@@ -51,8 +52,16 @@ export default class UI2D {
     setCoins(displayCoins: number) {
         this.settings.setCoins(displayCoins)
     }
+    showCoins() {
+        this.settings.showCoins()
+    }
+    hideCoins() {
+        this.settings.hideCoins()
+    }
+
     setLevel(key: string) {
         this.menu.setLevel(key)
         this.guageLevel2D.setLevel(key)
+        this.settings.setLevel(key)
     }
 }

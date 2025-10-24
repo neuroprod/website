@@ -1,38 +1,38 @@
 import Material from "../material/Material.ts";
-import {ShaderType} from "../material/ShaderTypes.ts";
+import { ShaderType } from "../material/ShaderTypes.ts";
 import DefaultUniformGroups from "../material/DefaultUniformGroups.ts";
 import UniformGroup from "../material/UniformGroup.ts";
 import DefaultTextures from "../textures/DefaultTextures.ts";
-import {CullMode} from "../WebGPUConstants.ts";
+import { CullMode } from "../WebGPUConstants.ts";
 import Blend from "../material/Blend.ts";
-import {Matrix4} from "@math.gl/core";
+import { Matrix4 } from "@math.gl/core";
 
-export default class TextMaterial extends Material{
+export default class TextMaterial extends Material {
 
-    setup(){
+    setup() {
         this.addAttribute("aPos", ShaderType.vec3);
 
         this.addAttribute("aUV0", ShaderType.vec2);
 
         // this.addVertexOutput("normal", ShaderType.vec3 );
-        this.addVertexOutput("uv", ShaderType.vec2 );
+        this.addVertexOutput("uv", ShaderType.vec2);
 
         this.addUniformGroup(DefaultUniformGroups.getCamera2D(this.renderer), true);
 
 
         let uniforms = new UniformGroup(this.renderer, "uniforms");
         this.addUniformGroup(uniforms, true);
-        uniforms.addUniform("worldMatrix",new Matrix4().identity())
+        uniforms.addUniform("worldMatrix", new Matrix4().identity())
         uniforms.addUniform("alpha", 1);
 
         uniforms.addTexture("texture", DefaultTextures.getGrid(this.renderer));
 
         uniforms.addSampler("mySampler")
-        this.cullMode =CullMode.None;
-        this.depthCompare="always"
-        this.depthWrite =false;
+        this.cullMode = CullMode.None;
+        this.depthCompare = "always"
+        this.depthWrite = false;
 
-        this.blendModes =[Blend.preMultAlpha()]
+        this.blendModes = [Blend.preMultAlpha()]
     }
     getShader(): string {
         return /* wgsl */ `
@@ -75,7 +75,7 @@ fn mainFragment(${this.getFragmentInput()}) ->  @location(0) vec4f
 
   let edgeWidth = 0.5;
 
-  let a= smoothstep(-edgeWidth, edgeWidth, pxDist);
+  let a= smoothstep(-edgeWidth, edgeWidth, pxDist)*uniforms.alpha;
    
   
 
