@@ -267,7 +267,7 @@
           0.8,
           0
         ],
-        "text": "A user agreement!\nBy choosing this, You agree that your data will\nbe sold to serve you the best propaganda."
+        "text": "A user agreement!\nBy choosing this, You agree that\nyour data will be sold to\nthe highest bidder!"
       },
       {
         "text": "Thanks!"
@@ -284,10 +284,10 @@
           0.8,
           0
         ],
-        "text": "A degree in Economics\nNot sure that that is usefull."
+        "text": "An MBA in business administration!\nYou can use it to maximise shareholder value...\nor something silly like that."
       },
       {
-        "text": "You can hang it on your wall, I suppose..."
+        "text": "Looks gr, I suppose..."
       }
     ]
   },
@@ -301,10 +301,10 @@
           0.8,
           0
         ],
-        "text": "A blank page!\nProbably the best choise."
+        "text": "A pack of Fish Sticks!\nAll the goodness of the sea\nprocessed in tasty little blocks."
       },
       {
-        "text": "You can make a drawing, or write a story!"
+        "text": "Keep frozen"
       }
     ]
   },
@@ -321,7 +321,7 @@
         "text": "A non-disclosure agreement.\nHow exiting!"
       },
       {
-        "text": "don't"
+        "text": "Don't tell anyone!"
       }
     ]
   },
@@ -377,7 +377,7 @@
           0.8,
           0
         ],
-        "text": "Hi Cookie, got me a blank page!"
+        "text": "Hi Cookie, Got me some fish for the sky guy."
       }
     ]
   },
@@ -391,7 +391,7 @@
           0.8,
           0
         ],
-        "text": "Hi Cookie, want to see my degree?"
+        "text": "Hi Cookie, Got an MBA!/nWant me to do some layoffs/nfor a big bonus?"
       }
     ]
   },
@@ -450,7 +450,7 @@
           1.0,
           0
         ],
-        "text": "Com on man, They are just fruit and vegetables."
+        "text": "Come on man, They are just fruit and vegetables."
       },
       {
         "char": "charRoot",
@@ -460,6 +460,15 @@
           0
         ],
         "text": "Ok... If you put it that way."
+      },
+      {
+        "char": "cookieRoot",
+        "pos": [
+          0.3,
+          1.0,
+          0
+        ],
+        "text": "It's only 5 coins"
       }
     ]
   },
@@ -537,27 +546,6 @@
           0
         ],
         "text": "...   "
-      },
-      {
-        "char": "rootHand",
-        "pos": [
-          0.01,
-          0.8,
-          0
-        ],
-        "text": "Its not sword, But I got a stabbing device from Strawbery."
-      },
-      {
-        "text": "I think he has more of them."
-      },
-      {
-        "char": "charRoot",
-        "pos": [
-          0.2,
-          0.8,
-          0
-        ],
-        "text": "Not sure violence is a solution Candy. But Ill ask him if I see him."
       }
     ]
   },
