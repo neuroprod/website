@@ -9,7 +9,7 @@
           0.8,
           0
         ],
-        "text": "Hi Mister B!",
+        "text": "Hi Mister Billy!",
         "callBack": "raiseHand"
       },
       {
@@ -118,7 +118,7 @@
           0.9,
           0
         ],
-        "text": "I don't know,\nMister B looked realy angry this time.",
+        "text": "I don't know,\nMister Billy looked realy angry this time.",
         "callBack": "sigh"
       },
       {
@@ -503,7 +503,7 @@
         "text": "Yea, everyone seems broke these days."
       },
       {
-        "text": "Maybe you can help me get my fingers back?\nMister B, took them. He says I dont make him enough money"
+        "text": "Maybe you can help me get my fingers back?\nMister Billy, took them. He says I dont make him enough money"
       },
       {
         "text": "Some of my clients really miss them."
@@ -615,7 +615,7 @@
         ],
         "choice": [
           {
-            "text": "Those are all my coins Strawberry,\nMister B needs those.",
+            "text": "Those are all my coins Strawberry,\nMister Billy needs those.",
             "callBack": "coinsNo"
           },
           {
