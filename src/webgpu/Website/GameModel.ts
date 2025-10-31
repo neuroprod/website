@@ -38,6 +38,7 @@ class GameModel {
     glft2!: GLFTLoader;
     gameCopy!: any;
     mainCamera!: Camera
+    hasFishsticks: boolean = false;
 
 
 

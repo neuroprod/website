@@ -83,6 +83,7 @@ export class StartLevel extends BaseLevel {
         char.setScaler(1.2)
         char.x = -2;
         char.y = 1;
+        GameModel.hasFishsticks = false;
         this.characterController.setCharacter()
         this.charFaceHandler = new FaceHandler(char)
         this.charFaceHandler.setState("front")

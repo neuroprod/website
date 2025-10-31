@@ -10,7 +10,7 @@ export default class GuageLevel2D {
 
     root = new Object2D()
     private renderer: Renderer;
-    mainCopy = ["This is now.", "You can make a choice.", "It won't be easy...", "...time is running out.", "But you are a pirate.", "You will do the right thing."]
+    mainCopy = ["Time is running out...", "You have to act now!", "But you are a pirate.", "You will do the right thing."]
     leftRightCopy = ["Strawbery", 'Sugar', "Macaroni", "Fishstick", "Create", "Consume", "Fight", "Flight", "Pirate", "Steal", "Love", "Hate", "Wrong", "Right", "Right", "Wrong", "Live", "Die"]
 
 
@@ -58,7 +58,7 @@ export default class GuageLevel2D {
     }
     setTick(count: number) {
 
-        let halfCount = (count - 3) / 3;
+        let halfCount = (count - 3) / 4;
         for (let i = 0; i < this.mainText.length; i++) {
             let text = this.mainText[i]
             if (i == halfCount) {

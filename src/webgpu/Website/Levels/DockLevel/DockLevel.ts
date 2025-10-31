@@ -76,6 +76,7 @@ export class DockLevel extends PlatformLevel {
         this.landlord.setScaler(1.2)
         this.landlord.x = 4.5
         this.landlord.y = -1000
+        this.landlord.z = 0;
         this.characterController.setCharacter()
         GameModel.gameCamera.setCharacter()
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
@@ -150,10 +151,14 @@ export class DockLevel extends PlatformLevel {
                 this.characterController.gotoAndIdle(target, -1, () => { })
                 gsap.delayedCall(0.5, () => {
                     GameModel.conversationHandler.startConversation("landlordConversation")
-                    GameModel.conversationHandler.doneCallBack = () => {
+
+                    GameModel.conversationHandler.dataCallBack = (data: string) => {
+                        console.log(data)
                         LevelHandler.setLevel("Gun")
                     }
-
+                    GameModel.conversationHandler.doneCallBack = () => {
+                        console.log("done")
+                    }
                 })
             }
         });

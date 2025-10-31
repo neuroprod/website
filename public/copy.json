@@ -468,7 +468,7 @@
           1.0,
           0
         ],
-        "text": "It's only 5 coins"
+        "text": "It's only 5 coins."
       }
     ]
   },
@@ -524,10 +524,13 @@
         "text": "Sure, I download a movie every know and then."
       },
       {
-        "text": "But mostly, It's just me pretending I'm free."
+        "text": "It's just me trying to be someone meaningfull."
       },
       {
         "text": "I don't even own a sword, or a ship..."
+      },
+      {
+        "text": "All I have is a pack of fishsticks..."
       },
       {
         "char": "rootHand",
@@ -676,11 +679,17 @@
       {
         "char": "charRoot",
         "pos": [
-          0.01,
-          0.8,
+          0.1,
+          0.85,
           0
         ],
-        "text": "Seems like the end of the road."
+        "text": "The open ocean.\nThe birthplace of the mighty fishstick."
+      },
+      {
+        "text": "How I wish I could sail from this shores,\nand travel the endless sea."
+      },
+      {
+        "text": "I would be free, like a real pirate."
       }
     ]
   },
@@ -694,10 +703,10 @@
           0.8,
           0
         ],
-        "text": "Can't you read boy! This is a private pier!"
+        "text": "Can't you read boy! This is a private property!"
       },
       {
-        "text": "I can shoot you right now if I want to"
+        "text": "I can shoot you right now if I want to."
       }
     ]
   },
@@ -712,6 +721,28 @@
           0
         ],
         "text": "Ow, It's you?\nGot my money boy?"
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          -0.1,
+          0.85,
+          0
+        ],
+        "choice": [
+          {
+            "text": "Sorry mr Billy,\nI will get it tomorrow,\nI promise!",
+            "callBack": "endCall"
+          },
+          {
+            "text": "I blablallalala",
+            "callBack": "endCall"
+          },
+          {
+            "text": "blablalldldldldldl ldld",
+            "callBack": "endCall"
+          }
+        ]
       }
     ]
   },
@@ -740,21 +771,6 @@
         "text": "Nice ship you got there!"
       },
       {
-        "char": "charRoot",
-        "pos": [
-          0.1,
-          0.8,
-          0
-        ],
-        "text": "Thanks, worked my ass off to get it!"
-      },
-      {
-        "char": "godRoot",
-        "pos": [
-          -0.3,
-          0.85,
-          0
-        ],
         "text": "You know, they won't let you get away with this."
       },
       {

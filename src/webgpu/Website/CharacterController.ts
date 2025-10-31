@@ -67,6 +67,7 @@ export default class CharacterController {
     private browLeft!: SceneObject3D;
     private browRight!: SceneObject3D;
     private feetToFloor = 0.1;// 0.06/1.2
+    fishTicks!: SceneObject3D;
     constructor(renderer: Renderer) {
         this.renderer = renderer;
 
@@ -108,6 +109,14 @@ export default class CharacterController {
      }*/
     setCharacter() {
         if (this.waveTL) this.waveTL.clear()
+        this.fishTicks = SceneHandler.getSceneObject("fishstickHero");
+
+        if (GameModel.hasFishsticks) {
+            this.fishTicks.show()
+        } else {
+            this.fishTicks.hide()
+        }
+
         this.charRoot = SceneHandler.getSceneObject("charRoot");
         this.charBody = SceneHandler.getSceneObject("body");
         this.leftLeg = SceneHandler.getSceneObject("legLeft");
@@ -160,6 +169,8 @@ export default class CharacterController {
     }
     update(delta: number, hInput: number, jump: boolean) {
         if (!this.charRoot) return;
+
+
         this.cloudParticles.update()
 
         if (!jump) this.canJump = true; //release button for a second jump
