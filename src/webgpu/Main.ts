@@ -134,7 +134,7 @@ export default class Main {
         });
         this.preloader.startLoad()
         GameModel.glft = new GLFTLoader(this.renderer, "ross", this.preloader)
-        GameModel.glft2 = new GLFTLoader(this.renderer, "ross5", this.preloader)
+
         FaceDataHandler.init(this.preloader)
         SceneHandler.init(this.renderer, this.preloader).then(() => {
 
@@ -188,8 +188,7 @@ export default class Main {
         GameModel.setMainState = this.setMainState.bind(this)
 
 
-        GameModel.glft.meshes[0].setAttribute("aPos2", GameModel.glft2.meshes[0].positions)
-        GameModel.glft.meshes[0].setAttribute("aNormal2", GameModel.glft2.meshes[0].normals)
+
 
 
 

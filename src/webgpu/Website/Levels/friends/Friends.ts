@@ -62,7 +62,7 @@ export default class Friends extends NavigationLevel {
     private deform: number = 0;
     private backgroundTexture!: TextureLoader;
     private bgModel!: Model;
-    private rossTexture2!: TextureLoader;
+
     rachelHolder!: SceneObject3D;
     rachel1!: SceneObject3D;
     rachel2!: SceneObject3D;
@@ -91,7 +91,7 @@ export default class Friends extends NavigationLevel {
 
 
         this.rossTexture = new TextureLoader(GameModel.renderer, "ross.jpg")
-        this.rossTexture2 = new TextureLoader(GameModel.renderer, "ross2.jpg")
+
         LoadHandler.startLoading()
         this.rossTexture.onComplete = () => {
             LoadHandler.stopLoading()
@@ -139,7 +139,7 @@ export default class Friends extends NavigationLevel {
         this.rossModel.mesh = GameModel.glft.meshes[0]
         this.rossModel.material = new RossMaterial(GameModel.renderer, "ross")
         this.rossModel.material.setTexture("colorTexture", this.rossTexture)
-        this.rossModel.material.setTexture("colorTexture2", this.rossTexture2)
+
         this.rossModel.material.setTexture("irradiance", GameModel.renderer.getTexture("irradiance.hdr"))
         this.rossModel.material.setTexture("specular", GameModel.renderer.getTexture("specular.hdr"))
         GameModel.gameRenderer.postLightModelRenderer.addModel(this.rossModel)
@@ -178,11 +178,11 @@ export default class Friends extends NavigationLevel {
 
         if (this.rossRot < rRot) {
 
-            this.switchText()
+
         }
 
         this.rossModel.ry = this.rossRot
-        this.rossModel.material.setUniform("mix", this.deform)
+
         this.lineModel.material.setUniform("time", Timer.time * 0.2)
 
 
@@ -222,7 +222,7 @@ export default class Friends extends NavigationLevel {
 
         GameModel.gameCamera.setMouseInput(0.04)
         this.rossTexture.destroy()
-        this.rossTexture2.destroy()
+
         SoundHandler.killBackgroundSounds()
 
         this.texts = []

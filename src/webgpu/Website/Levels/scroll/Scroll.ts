@@ -3,7 +3,7 @@ import NavigationLevel from "../NavigationLevel.ts";
 import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import GameModel from "../../GameModel.ts";
-import {Vector2, Vector3} from "@math.gl/core";
+import { Vector2, Vector3 } from "@math.gl/core";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
 import Timer from "../../../lib/Timer.ts";
 import TextureLoader from "../../../lib/textures/TextureLoader.ts";
@@ -13,8 +13,8 @@ import GBufferFullScreenStretchMaterial from "../../backgroundShaders/GBufferFul
 import gsap from "gsap";
 import FullScreenStretchMaterial from "../../backgroundShaders/FullscreenStretchMaterial.ts";
 import SoundHandler from "../../SoundHandler.ts";
-import {Howl} from "howler";
-export default class Scroll extends NavigationLevel{
+import { Howl } from "howler";
+export default class Scroll extends NavigationLevel {
     private scroll1!: SceneObject3D;
     private scroll2!: SceneObject3D;
     private scroll3!: SceneObject3D;
@@ -24,12 +24,12 @@ export default class Scroll extends NavigationLevel{
     private backgroundTexture!: TextureLoader;
     private bgModel!: Model;
 
-    private worm1Time =0
-    private worm2Time =4
+    private worm1Time = 0
+    private worm2Time = 4
 
-    private worm1Dir =1
-    private worm2Dir =-1
-    private scrollArr:Array<SceneObject3D>=[]
+    private worm1Dir = 1
+    private worm2Dir = -1
+    private scrollArr: Array<SceneObject3D> = []
     private head1!: SceneObject3D;
     private head2!: SceneObject3D;
     private bgSound!: Howl;
@@ -51,10 +51,10 @@ export default class Scroll extends NavigationLevel{
             LoadHandler.stopLoading()
 
         });
-        this.backgroundTexture = new TextureLoader(GameModel.renderer,"backgrounds/scrollBG.jpg")
+        this.backgroundTexture = new TextureLoader(GameModel.renderer, "backgrounds/scrollBG.jpg")
 
         LoadHandler.startLoading()
-        this.backgroundTexture.onComplete =()=>{
+        this.backgroundTexture.onComplete = () => {
             LoadHandler.stopLoading()
         }
 
@@ -65,9 +65,9 @@ export default class Scroll extends NavigationLevel{
         }
 
 
-SoundHandler.setBackgroundSounds(["sound/meatLoop.mp3"])
+        SoundHandler.setBackgroundSounds(["sound/meatLoop.mp3"])
 
-       
+
     }
 
     configScene() {
@@ -80,46 +80,68 @@ SoundHandler.setBackgroundSounds(["sound/meatLoop.mp3"])
         GameModel.gameCamera.setLockedViewZoom(new Vector3(0, 0.25, 0), new Vector3(0, 0.25, 0.65))
 
         GameModel.gameRenderer.setLevelType("website")
-       this.scroll1 =SceneHandler.getSceneObject("scroll1")
-        this.scroll2 =SceneHandler.getSceneObject("scroll2")
-        this.scroll3 =SceneHandler.getSceneObject("scroll3")
-        this.scroll4 =SceneHandler.getSceneObject("scroll4")
+        this.scroll1 = SceneHandler.getSceneObject("scroll1")
+        this.scroll2 = SceneHandler.getSceneObject("scroll2")
+        this.scroll3 = SceneHandler.getSceneObject("scroll3")
+        this.scroll4 = SceneHandler.getSceneObject("scroll4")
 
         this.scrollArr.push(this.scroll1)
         this.scrollArr.push(this.scroll2)
         this.scrollArr.push(this.scroll3)
         this.scrollArr.push(this.scroll4)
 
-        this.worm1 =SceneHandler.getSceneObject("worm1")
-        this.worm2 =SceneHandler.getSceneObject("worm2")
-        this.head1 =SceneHandler.getSceneObject("head1")
-        this.head2 =SceneHandler.getSceneObject("head2")
+        this.worm1 = SceneHandler.getSceneObject("worm1")
+        this.worm2 = SceneHandler.getSceneObject("worm2")
+        this.head1 = SceneHandler.getSceneObject("head1")
+        this.head2 = SceneHandler.getSceneObject("head2")
 
-        this.bgModel = new Model(GameModel.renderer,"background")
-        this.bgModel.mesh =new Quad(GameModel.renderer)
-        this.bgModel.material =new FullScreenStretchMaterial(GameModel.renderer,"bg")
-        this.bgModel.material.setTexture("colorTexture",  this.backgroundTexture)
-        this.bgModel.z =-100
+
+
+
+
+        this.bgModel = new Model(GameModel.renderer, "background")
+        this.bgModel.mesh = new Quad(GameModel.renderer)
+        this.bgModel.material = new FullScreenStretchMaterial(GameModel.renderer, "bg")
+        this.bgModel.material.setTexture("colorTexture", this.backgroundTexture)
+        this.bgModel.z = -100
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
 
         this.overModel = new Model(GameModel.renderer, "over");
         this.overModel.mesh = new Quad(GameModel.renderer)
         this.overModel.material = new FullScreenStretchMaterial(GameModel.renderer, "over")
         this.overModel.material.setTexture("colorTexture", this.overTexture)
-        this.overModel.z =100
+        this.overModel.z = 100
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.overModel)
+
+
+
+        this.setMouseHitObjects(SceneHandler.mouseHitModels);
+        console.log(SceneHandler.mouseHitModels)
+        let worm1Mouse = this.mouseInteractionMap.get("worm1")
+        if (worm1Mouse) {
+            worm1Mouse.onRollOver = () => { GameModel.renderer.setCursor(true) }
+            worm1Mouse.onRollOut = () => { GameModel.renderer.setCursor(false) }
+        }
+
+        let worm2Mouse = this.mouseInteractionMap.get("worm2")
+        if (worm2Mouse) {
+            worm2Mouse.onRollOver = () => { GameModel.renderer.setCursor(true) }
+            worm2Mouse.onRollOut = () => { GameModel.renderer.setCursor(false) }
+        }
+
+
 
     }
 
     public update() {
         super.update()
 
-        for(let s of this.scrollArr){
+        for (let s of this.scrollArr) {
 
-          s.y-= Timer.delta*0.3;
-            if(s.y<-0.5){
-               s.y =0.5
-                s.x=Math.random()-0.5
+            s.y -= Timer.delta * 0.3;
+            if (s.y < -0.5) {
+                s.y = 0.5
+                s.x = Math.random() - 0.5
             }
 
         }
@@ -128,65 +150,65 @@ SoundHandler.setBackgroundSounds(["sound/meatLoop.mp3"])
 
 
 
-        this.worm1Time-=Timer.delta
-        if(this.worm1Time<0){
+        this.worm1Time -= Timer.delta
+        if (this.worm1Time < 0) {
 
-            if(this.worm1.x>0.1){
-                this.worm1Dir =-1
-                this.worm1.x -=0.05
+            if (this.worm1.x > 0.1) {
+                this.worm1Dir = -1
+                this.worm1.x -= 0.05
             }
-            if(this.worm1.x<-0.1){
-                this.worm1Dir =1
-                this.worm1.x +=0.05
+            if (this.worm1.x < -0.1) {
+                this.worm1Dir = 1
+                this.worm1.x += 0.05
             }
-            if(this.worm1Dir==1){
-                this.worm1.ry =0
-                this.head1.z =0.01
-            }else{
-                this.worm1.ry =Math.PI
-                this.head1.z =-0.01
+            if (this.worm1Dir == 1) {
+                this.worm1.ry = 0
+                this.head1.z = 0.01
+            } else {
+                this.worm1.ry = Math.PI
+                this.head1.z = -0.01
             }
-            this.moveWorm(this.worm1,this.worm1Dir,1)
-            this.worm1Time +=3+Math.random()*8
+            this.moveWorm(this.worm1, this.worm1Dir, 1)
+            this.worm1Time += 3 + Math.random() * 8
 
         }
-        this.worm2Time-=Timer.delta
-        if(this.worm2Time<0){
-            if(this.worm2.x>0.1){
-                this.worm2Dir =-1
-                this.worm2.x -=0.05
+        this.worm2Time -= Timer.delta
+        if (this.worm2Time < 0) {
+            if (this.worm2.x > 0.1) {
+                this.worm2Dir = -1
+                this.worm2.x -= 0.05
             }
-            if(this.worm2.x<-0.1){
-                this.worm2Dir =1
-                this.worm2.x +=0.05
+            if (this.worm2.x < -0.1) {
+                this.worm2Dir = 1
+                this.worm2.x += 0.05
             }
-            if(this.worm2Dir==1){
-                this.worm2.ry =Math.PI
-                this.head2.z =-0.01
-            }else{
-                this.worm2.ry =0
-                this.head2.z =0.01
+            if (this.worm2Dir == 1) {
+                this.worm2.ry = Math.PI
+                this.head2.z = -0.01
+            } else {
+                this.worm2.ry = 0
+                this.head2.z = 0.01
             }
-            this.moveWorm(this.worm2,this.worm2Dir,0.5)
-            this.worm2Time +=6+Math.random()*9
+            this.moveWorm(this.worm2, this.worm2Dir, 0.5)
+            this.worm2Time += 6 + Math.random() * 9
         }
 
     }
-    moveWorm(worm:SceneObject3D,dir:number,vol:number) {
+    moveWorm(worm: SceneObject3D, dir: number, vol: number) {
         let tl = gsap.timeline()
-        let wx =worm.x;
-        SoundHandler.playScroll(wx,vol)
-        tl.to(worm, {sx: 0.9, sy: 1.05,duration:0.6,ease:"power2.inOut"}, 0)
-        tl.to(worm, {sx: 1, sy: 1,x:wx+0.02*dir,duration:1.5,ease:"power2.inOut"}, 1.1)
+        let wx = worm.x;
+        SoundHandler.playScroll(wx, vol)
+        tl.to(worm, { sx: 0.9, sy: 1.05, duration: 0.6, ease: "power2.inOut" }, 0)
+        tl.to(worm, { sx: 1, sy: 1, x: wx + 0.02 * dir, duration: 1.5, ease: "power2.inOut" }, 1.1)
     }
 
     destroy() {
         super.destroy()
         this.backgroundTexture.destroy()
         this.overTexture.destroy()
-this.overModel.mesh.destroy()
+        this.overModel.mesh.destroy()
         this.bgModel.mesh.destroy()
-        this.scrollArr =[]
+        this.scrollArr = []
         SoundHandler.killBackgroundSounds();
     }
 

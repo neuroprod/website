@@ -35,7 +35,7 @@ class GameModel {
     renderer2D!: Renderer2D;
     UI2D!: UI2D;
     glft!: GLFTLoader;
-    glft2!: GLFTLoader;
+
     gameCopy!: any;
     mainCamera!: Camera
     hasFishsticks: boolean = false;

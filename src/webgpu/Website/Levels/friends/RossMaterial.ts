@@ -1,38 +1,37 @@
 import Material from "../../../lib/material/Material.ts";
-import {ShaderType} from "../../../lib/material/ShaderTypes.ts";
+import { ShaderType } from "../../../lib/material/ShaderTypes.ts";
 import DefaultUniformGroups from "../../../lib/material/DefaultUniformGroups.ts";
 import UniformGroup from "../../../lib/material/UniformGroup.ts";
 import DefaultTextures from "../../../lib/textures/DefaultTextures.ts";
-import {CullMode} from "../../../lib/WebGPUConstants.ts";
+import { CullMode } from "../../../lib/WebGPUConstants.ts";
 import Blend from "../../../lib/material/Blend.ts";
 
 
-export default class RossMaterial extends Material{
+export default class RossMaterial extends Material {
 
-    setup(){
+    setup() {
         this.addAttribute("aPos", ShaderType.vec3);
         this.addAttribute("aNormal", ShaderType.vec3);
-        this.addAttribute("aPos2", ShaderType.vec3);
-        this.addAttribute("aNormal2", ShaderType.vec3);
+
         this.addAttribute("aUV0", ShaderType.vec2);
-        this.addVertexOutput("world", ShaderType.vec3 );
-        this.addVertexOutput("normal", ShaderType.vec3 );
-        this.addVertexOutput("uv", ShaderType.vec2 );
+        this.addVertexOutput("world", ShaderType.vec3);
+        this.addVertexOutput("normal", ShaderType.vec3);
+        this.addVertexOutput("uv", ShaderType.vec2);
 
         this.addUniformGroup(DefaultUniformGroups.getCamera(this.renderer));
         this.addUniformGroup(DefaultUniformGroups.getModelTransform(this.renderer));
 
 
-        let uniforms =new UniformGroup(this.renderer,"uniforms");
-        this.addUniformGroup(uniforms,true);
-        uniforms.addUniform("mix",0)
-        uniforms.addTexture("irradiance",DefaultTextures.getWhite(this.renderer))
-        uniforms.addTexture("specular",DefaultTextures.getWhite(this.renderer))
-        uniforms.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
-        uniforms.addTexture("colorTexture2",DefaultTextures.getWhite(this.renderer))
+        let uniforms = new UniformGroup(this.renderer, "uniforms");
+        this.addUniformGroup(uniforms, true);
+
+        uniforms.addTexture("irradiance", DefaultTextures.getWhite(this.renderer))
+        uniforms.addTexture("specular", DefaultTextures.getWhite(this.renderer))
+        uniforms.addTexture("colorTexture", DefaultTextures.getWhite(this.renderer))
+
         uniforms.addSampler("mySampler")
         //this.cullMode =CullMode.None;
-        this.blendModes =[Blend.preMultAlpha()]
+        this.blendModes = [Blend.preMultAlpha()]
 
     }
     getShader(): string {
@@ -71,8 +70,8 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 {
     var output : VertexOutput;
     
-    let  p =mix(aPos,aPos2,uniforms.mix);
-    let  n =mix(aNormal,aNormal2,uniforms.mix);
+    let  p =aPos;
+    let  n =aNormal;
     output.position =camera.viewProjectionMatrix*model.modelMatrix* vec4( p,1.0);
     output.world=(model.modelMatrix* vec4( p,1.0)).xyz;
     output.normal = model.normalMatrix*n;
@@ -85,7 +84,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
 fn mainFragment(${this.getFragmentInput()}) ->  @location(0) vec4f
 {
 let N =normalize(normal);
-    var color =mix(pow(textureSample(colorTexture, mySampler,  uv).xyz,vec3(2.2)),pow(textureSample(colorTexture2, mySampler,  uv).xyz,vec3(2.2)),uniforms.mix);
+    var color =pow(textureSample(colorTexture, mySampler,  uv).xyz,vec3(2.2));
     let V      = normalize(camera.worldPosition.xyz - world); // vector to eye in world space
     let R      = reflect(-V, N);
     let  NdotV = max(0.0, dot(N, V));
