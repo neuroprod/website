@@ -35,6 +35,10 @@ export default class Scroll extends NavigationLevel {
     private bgSound!: Howl;
     private overTexture!: TextureLoader;
     private overModel!: Model;
+    splash1!: SceneObject3D;
+    splash2!: SceneObject3D;
+    worm1Playing: boolean = true;
+    worm2Playing: boolean = true;
     constructor() {
         super();
 
@@ -95,7 +99,10 @@ export default class Scroll extends NavigationLevel {
         this.head1 = SceneHandler.getSceneObject("head1")
         this.head2 = SceneHandler.getSceneObject("head2")
 
-
+        this.splash1 = SceneHandler.getSceneObject("splash1")
+        this.splash1.hide()
+        this.splash2 = SceneHandler.getSceneObject("splash2")
+        this.splash2.hide()
 
 
 
@@ -116,21 +123,46 @@ export default class Scroll extends NavigationLevel {
 
 
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
-        console.log(SceneHandler.mouseHitModels)
+
         let worm1Mouse = this.mouseInteractionMap.get("worm1")
         if (worm1Mouse) {
             worm1Mouse.onRollOver = () => { GameModel.renderer.setCursor(true) }
             worm1Mouse.onRollOut = () => { GameModel.renderer.setCursor(false) }
+            worm1Mouse.onClick = () => {
+
+                this.splash1.show()
+                this.head1.hide()
+                this.worm1.hide()
+                this.worm1Playing = false;
+                SoundHandler.playSquatch()
+                gsap.killTweensOf(this.worm1)
+                this.splash1.sx = 0.7
+                this.splash1.sy = 0.9
+                gsap.to(this.splash1, { sx: 1, sy: 1, ease: "power3.out", duration: 0.3 })
+            }
         }
 
         let worm2Mouse = this.mouseInteractionMap.get("worm2")
         if (worm2Mouse) {
             worm2Mouse.onRollOver = () => { GameModel.renderer.setCursor(true) }
             worm2Mouse.onRollOut = () => { GameModel.renderer.setCursor(false) }
+            worm2Mouse.onClick = () => {
+
+                this.splash2.show()
+                this.head2.hide()
+                this.worm2.hide()
+                this.worm2Playing = false;
+                SoundHandler.playSquatch()
+                gsap.killTweensOf(this.worm2)
+
+                this.splash2.sx = 0.7
+                this.splash2.sy = 0.9
+                gsap.to(this.splash2, { sx: 1, sy: 1, ease: "power3.out", duration: 0.3 })
+            }
         }
 
-
-
+        this.worm1Playing = true
+        this.worm2Playing = true
     }
 
     public update() {
@@ -149,48 +181,51 @@ export default class Scroll extends NavigationLevel {
 
 
 
+        if (this.worm1Playing) {
+            this.worm1Time -= Timer.delta
+            if (this.worm1Time < 0) {
 
-        this.worm1Time -= Timer.delta
-        if (this.worm1Time < 0) {
+                if (this.worm1.x > 0.1) {
+                    this.worm1Dir = -1
+                    this.worm1.x -= 0.05
+                }
+                if (this.worm1.x < -0.1) {
+                    this.worm1Dir = 1
+                    this.worm1.x += 0.05
+                }
+                if (this.worm1Dir == 1) {
+                    this.worm1.ry = 0
+                    this.head1.z = 0.01
+                } else {
+                    this.worm1.ry = Math.PI
+                    this.head1.z = -0.01
+                }
+                this.moveWorm(this.worm1, this.worm1Dir, 1)
+                this.worm1Time += 3 + Math.random() * 8
 
-            if (this.worm1.x > 0.1) {
-                this.worm1Dir = -1
-                this.worm1.x -= 0.05
             }
-            if (this.worm1.x < -0.1) {
-                this.worm1Dir = 1
-                this.worm1.x += 0.05
-            }
-            if (this.worm1Dir == 1) {
-                this.worm1.ry = 0
-                this.head1.z = 0.01
-            } else {
-                this.worm1.ry = Math.PI
-                this.head1.z = -0.01
-            }
-            this.moveWorm(this.worm1, this.worm1Dir, 1)
-            this.worm1Time += 3 + Math.random() * 8
-
         }
-        this.worm2Time -= Timer.delta
-        if (this.worm2Time < 0) {
-            if (this.worm2.x > 0.1) {
-                this.worm2Dir = -1
-                this.worm2.x -= 0.05
+        if (this.worm2Playing) {
+            this.worm2Time -= Timer.delta
+            if (this.worm2Time < 0) {
+                if (this.worm2.x > 0.1) {
+                    this.worm2Dir = -1
+                    this.worm2.x -= 0.05
+                }
+                if (this.worm2.x < -0.1) {
+                    this.worm2Dir = 1
+                    this.worm2.x += 0.05
+                }
+                if (this.worm2Dir == 1) {
+                    this.worm2.ry = Math.PI
+                    this.head2.z = -0.01
+                } else {
+                    this.worm2.ry = 0
+                    this.head2.z = 0.01
+                }
+                this.moveWorm(this.worm2, this.worm2Dir, 0.5)
+                this.worm2Time += 6 + Math.random() * 9
             }
-            if (this.worm2.x < -0.1) {
-                this.worm2Dir = 1
-                this.worm2.x += 0.05
-            }
-            if (this.worm2Dir == 1) {
-                this.worm2.ry = Math.PI
-                this.head2.z = -0.01
-            } else {
-                this.worm2.ry = 0
-                this.head2.z = 0.01
-            }
-            this.moveWorm(this.worm2, this.worm2Dir, 0.5)
-            this.worm2Time += 6 + Math.random() * 9
         }
 
     }

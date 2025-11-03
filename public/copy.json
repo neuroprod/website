@@ -700,6 +700,15 @@
       },
       {
         "text": "And I love fishsticks !\nThey are my favorite\nprotein blocks!"
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          -0.1,
+          0.8,
+          0
+        ],
+        "text": "Like, helping "
       }
     ]
   },

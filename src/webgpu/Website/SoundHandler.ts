@@ -23,6 +23,7 @@ class SoundHandler {
     gun!: Howl;
     gunShot!: Howl;
     splash!: Howl;
+    squatch!: Howl;
 
     init() {
 
@@ -48,6 +49,9 @@ class SoundHandler {
             src: ['sound/442773__qubodup__big-water-splash.mp3'],
 
         });
+        this.squatch = new Howl({
+            src: ['sound/641046__magnuswaker__gore-impact-lot-of-heart.mp3'],
+        })
         this.talking = new Howl({
             src: ['sound/talking.mp3'],
             sprite: talkSound
@@ -171,6 +175,15 @@ class SoundHandler {
             }
         });
 
+    }
+    playSquatch() {
+        if (!this.playSound) return
+
+
+
+        this.squatch.volume(this.fxVolume * 0.2);
+        this.squatch.rate(1.3 + Math.random() * 0.5);
+        this.squatch.play()
     }
 
 
