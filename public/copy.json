@@ -94,7 +94,7 @@
           0.9,
           0
         ],
-        "text": "No time for that, I’m collecting coins lying around here"
+        "text": "No time for that,\nI'm collecting coins."
       },
       {
         "text": "Gotta pay the rent."
@@ -106,7 +106,7 @@
           0.9,
           0
         ],
-        "text": "There's more to life than rent, you know."
+        "text": "Sigh... There's more to life than rent, you know."
       },
       {
         "text": "Climb my branches,\nand discover what it's all about."
@@ -185,7 +185,7 @@
         "text": "Every year I bring presents\nto the children!"
       },
       {
-        "text": "If they’ve been good, that is...."
+        "text": "If there parents can afford it, that is...."
       },
       {
         "text": "Would you like a present?"
@@ -503,7 +503,7 @@
         "text": "Yea, everyone seems broke these days."
       },
       {
-        "text": "Hey, maybe you can help me\nMister Billy took my fingers.\nSaid I didn’t make him enough money."
+        "text": "Hey, maybe you can help me\nMister Billy took my fingers.\nSaid I didn't make him enough money."
       },
       {
         "text": "Some of my clients really miss them."
@@ -518,13 +518,13 @@
           0.8,
           0
         ],
-        "text": "You know, Candy... I’m not a real pirate."
+        "text": "You know, Candy... I'm not a real pirate."
       },
       {
         "text": "Sure, I download a movie every know and then."
       },
       {
-        "text": " I just wanted to be someone meaningful."
+        "text": "blbbllb I just wanted to be someone meaningful."
       },
       {
         "text": "I don't even own a sword, or a ship..."
@@ -655,7 +655,7 @@
           0.8,
           0
         ],
-        "text": "Thats ok, Mr Billy will use it..., I guess."
+        "text": "Thats ok, Mr Billy will use it balalalal..., I guess."
       }
     ]
   },
@@ -678,10 +678,10 @@
           0.8,
           0
         ],
-        "text": "Feels like the game\nis rigged against me."
+        "text": "I don't know Miss...\nI can't seem to collect enough\ncoins these days"
       },
       {
-        "text": "Whatever I do, I lose."
+        "text": "Feels like the game\nis rigged against me"
       },
       {
         "char": "girl",
@@ -690,16 +690,7 @@
           0.8,
           0
         ],
-        "text": "It is rigged. But that doesn't\nmean you can't do anything about it"
-      },
-      {
-        "text": "Even small things matter."
-      },
-      {
-        "text": "Like, Strawberry gave me this pack of fishsticks\nafter I gave him some change."
-      },
-      {
-        "text": "And I love fishsticks !\nThey are my favorite\nprotein blocks!"
+        "text": "If the game is rigged, you shouldn't play by its rulles Pirate."
       },
       {
         "char": "charRoot",
@@ -708,7 +699,28 @@
           0.8,
           0
         ],
-        "text": "Like, helping "
+        "text": "I'm afraid I don't have much of a choise Miss... "
+      },
+      {
+        "char": "girl",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "There is always a choise Pirate."
+      },
+      {
+        "text": "But sometimes it takes everything you got."
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          -0.1,
+          0.8,
+          0
+        ],
+        "text": "Sigh... I only have a pack of frozen fishsticks."
       }
     ]
   },
@@ -774,7 +786,7 @@
             "callBack": "endCall"
           },
           {
-            "text": "I blablallalala",
+            "text": "I have this pack of fishsticks you can have?",
             "callBack": "endCall"
           },
           {

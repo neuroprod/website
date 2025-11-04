@@ -75,7 +75,7 @@ export class StartLevel extends BaseLevel {
         GameModel.gameRenderer.setLevelType("platform")
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
-
+        SoundHandler.setBackgroundSounds([])
         if (!this.kris) this.kris = new Kris()
         this.kris.reset()
 
@@ -101,7 +101,8 @@ export class StartLevel extends BaseLevel {
             this.kris.jump()
             this.kris.stopWave()
             this.goGraphicDev = true;
-
+            gsap.killTweensOf(GameModel.gameRenderer)
+            GameModel.gameRenderer.distortValue = 0
             gsap.delayedCall(1.5, () => {
 
                 LevelHandler.setLevel(LevelHandler.navigationLevels[0])
@@ -127,6 +128,9 @@ export class StartLevel extends BaseLevel {
                 this.goGraphicDev = false;
                 LevelHandler.setLevel("Intro")
             })
+
+            gsap.killTweensOf(GameModel.gameRenderer)
+            GameModel.gameRenderer.distortValue = 0
         }
         mainChar.onRollOver = () => {
             // this.characterController.startWave()

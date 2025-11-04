@@ -58,6 +58,7 @@ export class IntroLevel extends PlatformLevel {
         this.landlord.setScaler(1.2)
         this.landlord.z = -0.3
         this.landlord.x = -1.5 - 0.5
+        this.landlord.y = 0
         this.landlord.ry = 0
         sceneHandler.getSceneObject("LandlordArmGun").hide()
         this.landlordHand = sceneHandler.getSceneObject("landlordArmPoint")

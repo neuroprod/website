@@ -136,6 +136,7 @@ export class GodLevel extends PlatformLevel {
                     this.godController.show(() => {
 
                         GameModel.conversationHandler.startConversation("god")
+                        GameModel.conversationHandler.dataCallBack = this.conversationDataCallBack.bind(this)
                         GameModel.conversationHandler.doneCallBack = () => {
 
                             gsap.delayedCall(0.5, () => {
