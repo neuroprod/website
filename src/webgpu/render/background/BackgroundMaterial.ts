@@ -20,8 +20,6 @@ export default class BackgroundMaterial extends Material {
 
         let uniforms = new UniformGroup(this.renderer, "uniforms");
         this.addUniformGroup(uniforms, true);
-        uniforms.addTexture("asciiTexture", this.renderer.getTexture(Textures.ASCII), { sampleType: TextureSampleType.UnfilterableFloat })
-        uniforms.addTexture("asciiFont", this.renderer.getTexture(Textures.ASCII_FONT))
 
 
         uniforms.addTexture("normalText", this.renderer.getTexture(Textures.GNORMAL), { sampleType: TextureSampleType.UnfilterableFloat })
@@ -65,20 +63,16 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
       let w =textureLoad(normalText,  uvPos ,0).w;
         if(w==0){discard;}
   
-         let textureSizeA =vec2<f32>( textureDimensions(asciiTexture));
-      let uvPosA = vec2<i32>(floor(uv0*textureSizeA));
-   let s =textureLoad(asciiTexture,  uvPosA ,0).x;
+  
 
 
 
-var uv = uv0*vec2(textureSizeA.x,textureSizeA.y)%1.0;
- uv = vec2(uv.x/11.0 +floor(s*10.0)/11.0,uv.y);
- let f =textureSampleLevel(asciiFont, mySampler,  uv,0).x*0.6;
+
 
 
 // return vec4(uv,0.0,0.0) ;
 
-     return vec4(0.3725,0.5569,0.6471,0.0)+vec4(f,f,f,0) ;
+     return vec4(0.3725,0.5569,0.6471,0.0) ;
 }
 ///////////////////////////////////////////////////////////
         `

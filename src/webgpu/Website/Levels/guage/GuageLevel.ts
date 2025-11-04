@@ -16,7 +16,7 @@ export default class GuageLevel extends BaseLevel {
     tl!: gsap.core.Timeline;
     count = 0
     stl!: gsap.core.Timeline;
-    clockSpeed = 1;
+    clockSpeed = 0.8;
     guageLevel2D!: GuageLevel2D
     colorAngle = 0
     doTick: boolean = true;

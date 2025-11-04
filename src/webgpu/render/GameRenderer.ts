@@ -286,7 +286,7 @@ export default class GameRenderer {
         if (!this.needsShadow) {
             this.needsShadowInt = false;
         }
-        this.ascciPass.update()
+        // this.ascciPass.update()
         this.backgroundPass.update()
         this.sunLight.update();
 
