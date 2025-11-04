@@ -94,7 +94,7 @@ export class GodLevel extends PlatformLevel {
         charRoot.y = 0.15
         charRoot.setScaler(1.2)
         this.characterController.setCharacter()
-        this.characterController.gotoAndIdle(new Vector3(this.startPos, 0.1, 0), 1, () => {
+        this.characterController.gotoAndIdle(new Vector3(this.startPos, 0.1, 0), 3, () => {
             this.playIntro();
 
         })

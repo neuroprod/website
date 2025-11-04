@@ -77,7 +77,7 @@ export class IntroLevel extends PlatformLevel {
         GameModel.gameCamera.heightOffset = 0.4
         GameModel.gameCamera.setMinMaxX(this.startPos - 0.5, this.startPos + 5)
 
-
+        GameModel.coinHandler.hide()
         GameModel.gameCamera.setForCharPos(new Vector3(this.startPos - 0.5, 0, 0))
 
 
@@ -111,13 +111,18 @@ export class IntroLevel extends PlatformLevel {
                 if (this.tl) this.tl.clear();
                 this.tl = gsap.timeline()
                 if (data == "raiseHand") {
-                    tl.to(this.landlordHand, { rz: 0, x: 0.1, y: 0.12 })
+                    tl.to(this.landlordHand, { rz: -0.1, x: 0.1, y: 0.12 })
+                } else if (data == "raiseHandCoins") {
+
+                    GameModel.coinHandler.show()
+                    SoundHandler.playCoin()
+                    tl.to(this.landlordHand, { rz: -0.4, duration: 1, x: 0.1, y: 0.12 })
                 }
                 else if (data == "moveHand") {
                     tl.to(this.landlordHand, { rz: -0.2, x: 0.1, y: 0.12 })
                 }
                 else if (data == "lowerHand") {
-                    tl.to(this.landlordHand, { rz: -0.4, duration: 3, x: 0.1, y: 0.12 })
+                    tl.to(this.landlordHand, { rz: -0.4, duration: 2, x: 0.1, y: 0.12 })
                 }
                 count++
 

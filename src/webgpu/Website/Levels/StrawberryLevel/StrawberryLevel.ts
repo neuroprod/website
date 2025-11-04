@@ -82,6 +82,15 @@ export class StrawberryLevel extends PlatformLevel {
         super.conversationDataCallBack(data);
         if (data == "coinsYes") {
             GameModel.coinHandler.addCoins(GameModel.coinHandler.numCoins * -1);
+            if (GameModel.hasFishsticks) {
+                GameModel.conversationHandler.startConversation("giveCoins")
+
+            } else {
+                GameModel.conversationHandler.startConversation("giveCoinsNoFishsticks")
+                GameModel.hasFishsticks = true;
+            }
+
+
         }
 
     }

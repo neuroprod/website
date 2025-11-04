@@ -23,7 +23,7 @@
         "callBack": "moveHand"
       },
       {
-        "text": "Or you'll be sleeping in the street, with the rest\nof the scum.",
+        "text": "Or you'll be sleeping in the street,\nwith the rest of the scum.",
         "callBack": "lowerHand"
       },
       {
@@ -48,7 +48,7 @@
       },
       {
         "text": "Now get me those\nthirty coins you owe me.",
-        "callBack": "raiseHand"
+        "callBack": "raiseHandCoins"
       },
       {
         "char": "charRoot",
@@ -94,7 +94,7 @@
           0.9,
           0
         ],
-        "text": "No time for that,\nI'm collecting coins."
+        "text": "No time for that Mr. Tree,\nI'm collecting coins."
       },
       {
         "text": "Gotta pay the rent."
@@ -118,7 +118,7 @@
           0.9,
           0
         ],
-        "text": "I don't know...\nMister Billy looked really angry this time.",
+        "text": "I don't know...\nMister Billy looked really\nangry this time.",
         "callBack": "sigh"
       },
       {
@@ -185,7 +185,10 @@
         "text": "Every year I bring presents\nto the children!"
       },
       {
-        "text": "If there parents can afford it, that is...."
+        "text": "If there parents can afford it, that is..."
+      },
+      {
+        "text": "the Miracle of Economics."
       },
       {
         "text": "Would you like a present?"
@@ -199,12 +202,12 @@
         ],
         "choice": [
           {
-            "text": "I'm not a child, but sure,\nI like presents!",
+            "text": "I'm not a child anymore,\nbut sure, I like presents!",
             "callText": "godYes",
             "callBack": "godYes"
           },
           {
-            "text": "No time, old man. I'm here to\ncollect the coins..",
+            "text": "No time, old man. I'm here to\ncollect the coins.",
             "callText": "godNo",
             "callBack": "godNo"
           }
@@ -500,7 +503,7 @@
           0.8,
           0
         ],
-        "text": "Yea, everyone seems broke these days."
+        "text": "Yeah... seems everyone's broke now."
       },
       {
         "text": "Hey, maybe you can help me\nMister Billy took my fingers.\nSaid I didn't make him enough money."
@@ -524,7 +527,7 @@
         "text": "Sure, I download a movie every know and then."
       },
       {
-        "text": "blbbllb I just wanted to be someone meaningful."
+        "text": "I just wanted to be someone... meaningful, you know?"
       },
       {
         "text": "I don't even own a sword, or a ship..."
@@ -624,8 +627,7 @@
           },
           {
             "text": "Here you go! #numCoins coins.\nI know it's rough out here.",
-            "callBack": "coinsYes",
-            "callText": "giveCoins"
+            "callBack": "coinsYes"
           }
         ]
       }
@@ -633,6 +635,20 @@
   },
   {
     "name": "giveCoins",
+    "data": [
+      {
+        "char": "strawberryRoot",
+        "pos": [
+          -0.2,
+          0.8,
+          0
+        ],
+        "text": "You're alright, Pirate.\nI ow you one."
+      }
+    ]
+  },
+  {
+    "name": "giveCoinsNoFishsticks",
     "data": [
       {
         "char": "strawberryRoot",
@@ -678,10 +694,10 @@
           0.8,
           0
         ],
-        "text": "I don't know Miss...\nI can't seem to collect enough\ncoins these days"
+        "text": "I don't know Miss...\nI can't seem to collect enough\ncoins these days."
       },
       {
-        "text": "Feels like the game\nis rigged against me"
+        "text": "Feels like the game\nis rigged against me."
       },
       {
         "char": "girl",
