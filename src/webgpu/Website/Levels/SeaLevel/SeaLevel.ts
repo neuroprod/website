@@ -158,7 +158,8 @@ export class SeaLevel extends PlatformLevel {
             this.godController.showEnd(() => {
                 GameModel.conversationHandler.startConversation("godEnd")
                 GameModel.conversationHandler.doneCallBack = () => {
-                    levelHandler.setLevel("Start")
+                    GameModel.happyEnd = true
+                    levelHandler.setLevel("Dead")
                 }
 
 

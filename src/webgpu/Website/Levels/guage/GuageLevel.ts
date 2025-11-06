@@ -137,8 +137,11 @@ export default class GuageLevel extends BaseLevel {
         }, [], 2)
         this.stl.call(() => {
             if (die) {
+                GameModel.happyEnd = false
                 LevelHandler.setLevel("Dead");
+
             } else {
+                GameModel.happyEnd = true
                 LevelHandler.setLevel("Sea");
             }
 

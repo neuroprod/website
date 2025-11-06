@@ -1,5 +1,5 @@
 import Texture from "./textures/Texture.ts";
-import {TextureFormat} from "./WebGPUConstants.ts";
+import { TextureFormat } from "./WebGPUConstants.ts";
 import Renderer from "./Renderer.ts";
 
 class HDRImageParser {
@@ -35,6 +35,7 @@ export default class HDRTextureLoader {
             const w = rgbe_header_info.width;
             const h = rgbe_header_info.height;
             const image_data = this.RGBE_ReadPixels_RLE(byteArray.subarray(this.pos), w, h);
+
             if (image_data) {
 
                 let bytesPerRow = w * 4 * 4
@@ -221,7 +222,6 @@ export default class HDRTextureLoader {
             return null;
         }
 
-        // NOTE(Joey): we don't store the exponent, only the RGB float components
         data_rgb_float = new Float32Array(4 * w * h);
 
         if (!data_rgb_float || !data_rgb_float.length) {

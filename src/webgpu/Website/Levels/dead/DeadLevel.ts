@@ -8,6 +8,7 @@ import gsap from "gsap";
 import SoundHandler from "../../SoundHandler";
 import LevelHandler from "../LevelHandler";
 import SceneObject3D from "../../../data/SceneObject3D";
+import FishParicles from "./FishParticles";
 export default class DeadLevel extends BaseLevel {
     animationTime: number = 0;
     tl!: gsap.core.Timeline;
@@ -22,6 +23,8 @@ export default class DeadLevel extends BaseLevel {
     arm2R = 2.6541042343949774;
     posy = 0.3;
     fall = 1
+    fishParicles1!: FishParicles;
+    fishParicles2!: FishParicles;
     init() {
         super.init();
         LoadHandler.onComplete = this.configScene.bind(this)
@@ -46,49 +49,72 @@ export default class DeadLevel extends BaseLevel {
 
         LoadHandler.onComplete = () => { }
 
-        this.posy = 0.3;
-        this.fall = 1
+
         SoundHandler.setBackgroundSounds(["sound/JuliaFlorida.mp3", "sound/651743__department64__underwater-deep-water-loop.mp3"])
 
-        GameModel.gameRenderer.setModels(SceneHandler.allModels)
+        if (!GameModel.happyEnd) {
 
-        this.holder = SceneHandler.getSceneObject("pirateHolder")
-        this.holder.y = 1
-        this.leg1 = SceneHandler.getSceneObject("l1");
-        this.leg2 = SceneHandler.getSceneObject("l2");
+            this.posy = 0.3;
+            this.fall = 1
 
-        this.arm1 = SceneHandler.getSceneObject("a1");
 
-        this.arm2 = SceneHandler.getSceneObject("a2");
+            GameModel.gameRenderer.setModels(SceneHandler.allModels)
 
-        GameModel.gameCamera.setLockedView(new Vector3(0, 0, 0), new Vector3(0, 0, 1))
-        // GameModel.gameCamera.setPan(new Vector3(0, 0, 0), new Vector3(0, 0, 1.5))
+            this.holder = SceneHandler.getSceneObject("pirateHolder")
+            this.holder.y = 1
+            this.leg1 = SceneHandler.getSceneObject("l1");
+            this.leg2 = SceneHandler.getSceneObject("l2");
+
+            this.arm1 = SceneHandler.getSceneObject("a1");
+
+            this.arm2 = SceneHandler.getSceneObject("a2");
+
+            GameModel.gameCamera.setLockedView(new Vector3(0, 0, 0), new Vector3(0, 0, 1))
+            // GameModel.gameCamera.setPan(new Vector3(0, 0, 0), new Vector3(0, 0, 1.5))
+
+            if (this.tl) this.tl.clear()
+            this.tl = gsap.timeline()
+
+            this.tl.to(this, { fall: 0, ease: "elastic.out(0.5,0.5),0.5", duration: 2 }, 0.5)
+            this.tl.call(() => { SoundHandler.playSplash() }, [], 0.3 + 0.5)
+        } else {
+            GameModel.gameRenderer.setModels([])
+        }
         GameModel.gameRenderer.tweenToNonBlack(1)
-        if (this.tl) this.tl.clear()
-        this.tl = gsap.timeline()
+        let fish1 = SceneHandler.getSceneObject("seaFishstick1")
+        fish1.hide()
+        this.fishParicles1 = new FishParicles(fish1)
+        GameModel.gameRenderer.gBufferPass.modelRenderer.addModel(this.fishParicles1.particlesModel)
 
-        this.tl.to(this, { fall: 0, ease: "elastic.out(0.5,0.5),0.5", duration: 2 }, 0.5)
-        this.tl.call(() => { SoundHandler.playSplash() }, [], 0.3 + 0.5)
+        let fish2 = SceneHandler.getSceneObject("seaFishstick2")
+        fish2.hide()
+        this.fishParicles2 = new FishParicles(fish2)
+        GameModel.gameRenderer.gBufferPass.modelRenderer.addModel(this.fishParicles2.particlesModel)
+
 
     }
 
     update() {
         super.update();
-        this.holder.rz = Math.sin(Timer.time * 0.5) * 0.05
-        this.posy -= Timer.delta * 0.02
-        this.holder.y = this.fall + this.posy;
-        this.holder.x = Math.sin(Timer.time * 0.1) * 0.02
-        this.leg1.rz = this.leg1R + Math.cos(Timer.time * 0.5) * 0.2
-        this.leg2.rz = this.leg2R + Math.cos((Timer.time + 0.3) * 0.5) * 0.2
-        this.arm1.rz = this.arm1R + Math.sin(Timer.time * 0.3) * 0.1
-        this.arm2.rz = this.arm2R - Math.cos((Timer.time + 0.3) * 0.3) * 0.2
-
+        if (!GameModel.happyEnd) {
+            this.holder.rz = Math.sin(Timer.time * 0.5) * 0.05
+            this.posy -= Timer.delta * 0.02
+            this.holder.y = this.fall + this.posy;
+            this.holder.x = Math.sin(Timer.time * 0.1) * 0.02
+            this.leg1.rz = this.leg1R + Math.cos(Timer.time * 0.5) * 0.2
+            this.leg2.rz = this.leg2R + Math.cos((Timer.time + 0.3) * 0.5) * 0.2
+            this.arm1.rz = this.arm1R + Math.sin(Timer.time * 0.3) * 0.1
+            this.arm2.rz = this.arm2R - Math.cos((Timer.time + 0.3) * 0.3) * 0.2
+        }
+        this.fishParicles1.update()
+        this.fishParicles2.update()
     }
 
     destroy() {
         super.destroy();
         if (this.tl) this.tl.clear()
-
+        this.fishParicles1.destroy()
+        this.fishParicles2.destroy()
 
     }
 

@@ -39,6 +39,7 @@ class GameModel {
     gameCopy!: any;
     mainCamera!: Camera
     hasFishsticks: boolean = false;
+    happyEnd: boolean = false;
 
 
 

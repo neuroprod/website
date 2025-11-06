@@ -20,7 +20,7 @@ export default class TextureLoader extends Texture {
         this.loadURL(url).then(() => {
 
             this.onComplete();
-        });
+        }).catch(() => { console.log("failed" + url) });
 
 
     }
