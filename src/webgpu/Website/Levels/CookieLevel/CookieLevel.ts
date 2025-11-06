@@ -8,6 +8,7 @@ import SceneObject3D from "../../../data/SceneObject3D.ts";
 import { HitTrigger } from "../../../data/HitTriggers.ts";
 import GameModel from "../../GameModel.ts";
 import LevelHandler from "../LevelHandler.ts";
+import CoinHandler from "../../handlers/CoinHandler.ts";
 
 
 
@@ -119,7 +120,10 @@ export class CookieLevel extends PlatformLevel {
                         GameModel.conversationHandler.doneCallBack = () => {
 
                             GameModel.conversationHandler.startConversation("cookie")
-
+                            GameModel.conversationHandler.dataCallBack = (data: string) => {
+                                console.log(data)
+                                GameModel.coinHandler.addCoins(-5)
+                            }
                             GameModel.conversationHandler.doneCallBack = () => {
 
                                 GameModel.gameCamera.setCharView()

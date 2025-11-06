@@ -69,6 +69,7 @@ export default class DeadLevel extends BaseLevel {
 
         this.tl.to(this, { fall: 0, ease: "elastic.out(0.5,0.5),0.5", duration: 2 }, 0.5)
         this.tl.call(() => { SoundHandler.playSplash() }, [], 0.3 + 0.5)
+
     }
 
     update() {

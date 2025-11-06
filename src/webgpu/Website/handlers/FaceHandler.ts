@@ -17,6 +17,7 @@ export default class FaceHandler {
     selectItems: Array<SelectItem> = []
 
     countID = 0;
+    statename: string = "";
     constructor(char: SceneObject3D) {
 
         this.name = char.label
@@ -44,7 +45,8 @@ export default class FaceHandler {
                 UI.pushID(this.countID + "");
             }
         }
-        let state = UI.LTextInput("state", "")
+
+        let state = UI.LTextInput("state", this.statename)
         if (UI.LButton("save")) {
             if (state == "") {
 
@@ -96,6 +98,7 @@ export default class FaceHandler {
     setState(state: string) {
         this.countID++
         let s = this.getStateByName(state)
+        this.statename = s.state;
         for (let prop of s.props) {
             let obj = this.getObjectByID(prop.id)
             if (obj) {

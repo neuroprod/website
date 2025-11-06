@@ -202,7 +202,7 @@
         ],
         "choice": [
           {
-            "text": "I'm not a child anymore,\nbut sure, I like presents!",
+            "text": "I love presents!",
             "callText": "godYes",
             "callBack": "godYes"
           },
@@ -304,10 +304,10 @@
           0.8,
           0
         ],
-        "text": "A pack of Fish Sticks!\nAll the goodness of the sea\nprocessed into tasty, frozen blocks."
+        "text": "A pack of Fish Sticks!"
       },
       {
-        "text": "Yum yum!"
+        "text": "All the goodness of the sea\nprocessed into tasty, frozen blocks."
       }
     ]
   },
@@ -338,7 +338,7 @@
           0.8,
           0
         ],
-        "text": "Hi Cookie, you won't believe who I just met!"
+        "text": "Hi Cookie,\nyou won't believe who I just met!"
       }
     ]
   },
@@ -352,7 +352,7 @@
           0.8,
           0
         ],
-        "text": "Hi Cookie, want to sign my User Agreement?"
+        "text": "Hi Cookie,\nwant to sign my User Agreement?"
       }
     ]
   },
@@ -366,7 +366,7 @@
           0.8,
           0
         ],
-        "text": "Hi Cookie, Want to sign my NDA?"
+        "text": "Hi Cookie,\nWant to sign my NDA?"
       }
     ]
   },
@@ -380,7 +380,7 @@
           0.8,
           0
         ],
-        "text": "Hi Cookie, Got me some fish for the sky guy."
+        "text": "Hi Cookie,\nGot me some fish for the sky guy."
       }
     ]
   },
@@ -394,7 +394,7 @@
           0.8,
           0
         ],
-        "text": "Hi Cookie, Got an MBA!/nWant me to do some layoffs/nfor a big bonus?"
+        "text": "Hi Cookie, Got an MBA!\nWant me to do some layoffs\nfor a big bonus?"
       }
     ]
   },
@@ -417,7 +417,7 @@
           0.8,
           0
         ],
-        "text": "Why are you always so angry?"
+        "text": "Why are you so angry?\nIt's such a beautifull day!"
       },
       {
         "char": "cookieRoot",
@@ -429,16 +429,16 @@
         "text": "I don't know?\nMy mom told me\nI was a happy baby."
       },
       {
-        "text": "But then I had to go to\nschool and stuff."
+        "text": "But then I had to go to school,\nget a job and pay my bills..."
       },
       {
-        "text": "But then I had to go to\nschool and stuff."
+        "text": "It went downhill ever since..."
       },
       {
-        "text": "Now I just smash stuff. It's the easy way out."
+        "text": "Now I just smash stuff!"
       },
       {
-        "text": "You should try it.\nIt feels great. For a second, anyway."
+        "text": "You should try it, it feels great!\n...It really gives my life a purpose!"
       },
       {
         "char": "charRoot",
@@ -456,7 +456,7 @@
           1.0,
           0
         ],
-        "text": "Come on man, They are just fruit and vegetables."
+        "text": "Come on man,\nIt's just fruits and vegetables."
       },
       {
         "char": "charRoot",
@@ -474,7 +474,17 @@
           1.0,
           0
         ],
-        "text": "It's only 5 coins."
+        "text": "Great! That will be 5 coins.",
+        "callBack": "payCookie"
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "Ow..."
       }
     ]
   },
@@ -773,10 +783,10 @@
           0.8,
           0
         ],
-        "text": "Can't you read boy! This is private property!"
+        "text": "Can't you read boy!\nThis is private property!"
       },
       {
-        "text": "I could shoot you right now if I wanted to."
+        "text": "I should shoot you right now."
       }
     ]
   },

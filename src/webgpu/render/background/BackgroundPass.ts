@@ -13,9 +13,13 @@ import Model from "../../lib/model/Model.ts";
 import Plane from "../../lib/mesh/geometry/Plane.ts";
 import ModelRenderer from "../../lib/model/ModelRenderer.ts";
 import GameModel from "../../Website/GameModel.ts";
+import ColorV from "../../lib/ColorV.ts";
 
 
 export default class BackgroundPass extends RenderPass {
+    setColor(color: ColorV) {
+        this.model.material.setUniform("color", color)
+    }
 
     private colorAttachment: ColorAttachment;
 

@@ -27,7 +27,7 @@ class FaceDataHandler {
 
         this.faceData = JSON.parse(text);
 
-
+        console.log(this.faceData)
 
     }
     getDataForLabel(name: string): any {
@@ -42,6 +42,15 @@ class FaceDataHandler {
     }
 
     addFaceData(data: any) {
+
+        for (let i = 0; i < this.faceData.length; i++) {
+            if (this.faceData[i].name == data.name && this.faceData[i].state == data.state) {
+                this.faceData[i] = data;
+                this.saveFaceData()
+                return;
+            }
+
+        }
         this.faceData.push(data)
         this.saveFaceData()
 

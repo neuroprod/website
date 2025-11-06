@@ -29,6 +29,7 @@ import PostLightRenderPass from "./postLight/PostLightRenderPass.ts";
 import Timer from "../lib/Timer.ts";
 import BackgroundPass from "./background/BackgroundPass.ts";
 import AsciiPass from "./ascii/AsciiPass.ts";
+import ColorV from "../lib/ColorV.ts";
 
 export default class GameRenderer {
     public needsAO: boolean = true;
@@ -308,6 +309,10 @@ export default class GameRenderer {
         UI.LText("ao:" + this.needsAOInt)
         this.needsShadow = UI.LBool(this, "needsShadow")
         UI.LText("shadow:" + this.needsShadowInt)
+
+
+        let color = UI.LColor("bgcolor", new ColorV(0.3725, 0.5569, 0.6471, 0.0))
+        this.backgroundPass.setColor(color)
         let value = UI.LSelect("Render Pass", this.passSelect)
         if (value != this.currentValue) {
             this.currentValue = value;

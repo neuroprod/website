@@ -7,6 +7,8 @@ import { CullMode, TextureSampleType } from "../../lib/WebGPUConstants.ts";
 import Renderer from "../../lib/Renderer.ts";
 import { Textures } from "../../data/Textures.ts";
 import DefaultUniformGroups from "../../lib/material/DefaultUniformGroups.ts";
+import Color from "../../lib/UI/math/Color.ts";
+import ColorV from "../../lib/ColorV.ts";
 
 export default class BackgroundMaterial extends Material {
     setup() {
@@ -20,7 +22,7 @@ export default class BackgroundMaterial extends Material {
 
         let uniforms = new UniformGroup(this.renderer, "uniforms");
         this.addUniformGroup(uniforms, true);
-
+        uniforms.addUniform("color", new ColorV(0.3725, 0.5569, 0.6471, 0.0))
 
         uniforms.addTexture("normalText", this.renderer.getTexture(Textures.GNORMAL), { sampleType: TextureSampleType.UnfilterableFloat })
         uniforms.addSampler("mySampler");
@@ -72,7 +74,7 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
 
 // return vec4(uv,0.0,0.0) ;
 
-     return vec4(0.3725,0.5569,0.6471,0.0) ;
+     return vec4(uniforms.color.xyz,0.0) ;
 }
 ///////////////////////////////////////////////////////////
         `
