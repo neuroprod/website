@@ -11,12 +11,14 @@ import { HitTrigger } from "../../../data/HitTriggers.ts";
 
 import GameModel from "../../GameModel.ts";
 import LevelHandler from "../LevelHandler.ts";
+import FaceHandler from "../../handlers/FaceHandler.ts";
 
 
 
 export class HandLevel extends PlatformLevel {
     private tl!: gsap.core.Timeline;
     private hand!: SceneObject3D;
+    charFaceHandler!: FaceHandler;
 
 
 
@@ -66,7 +68,12 @@ export class HandLevel extends PlatformLevel {
 
         GameModel.gameCamera.setMinMaxX(-0.3, 100)
 
+        this.charFaceHandler = new FaceHandler(char)
+        this.charFaceHandler.setState("default")
 
+    }
+    onUI() {
+        this.charFaceHandler?.onUI()
 
     }
     update() {
@@ -89,11 +96,11 @@ export class HandLevel extends PlatformLevel {
             if (f.hitTriggerItem == HitTrigger.HAND) {
                 f.triggerIsEnabled = false;
 
-                let target = this.hand.getWorldPos().add([-0.5, 0.5, 0])
+                let target = this.hand.getWorldPos().add([-0.35, 0.3, 0])
                 GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 2]))
                 this.blockInput = true
-
-                this.characterController.gotoAndIdle(this.hand.getWorldPos().add([-0.9, 0, 0]), 1, () => {
+                this.charFaceHandler.setState("lookHand")
+                this.characterController.gotoAndIdle(this.hand.getWorldPos().add([-0.7, 0, 0]), 1, () => {
                     gsap.delayedCall(0.5, () => {
                         GameModel.conversationHandler.startConversation("hand")
 

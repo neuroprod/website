@@ -10,13 +10,14 @@ import { HitTrigger } from "../../../data/HitTriggers.ts";
 import Strawberry from "./Strawberry.ts";
 import GameModel from "../../GameModel.ts";
 import LevelHandler from "../LevelHandler.ts";
+import FaceHandler from "../../handlers/FaceHandler.ts";
 
 
 export class StrawberryLevel extends PlatformLevel {
     strawBerryHandler = new Strawberry()
     private tl!: gsap.core.Timeline;
     private strawBerry!: SceneObject3D;
-
+    charFaceHandler!: FaceHandler;
     init() {
         super.init();
 
@@ -55,6 +56,8 @@ export class StrawberryLevel extends PlatformLevel {
 
 
         let char = sceneHandler.getSceneObject("charRoot")
+
+        this.charFaceHandler = new FaceHandler(char);
         char.setScaler(1.2)
 
         GameModel.gameCamera.camDistance = 2.3;
@@ -71,7 +74,9 @@ export class StrawberryLevel extends PlatformLevel {
         //
 
     }
-
+    onUI() {
+        if (this.charFaceHandler) this.charFaceHandler.onUI()
+    }
     update() {
         super.update()
 
@@ -101,7 +106,7 @@ export class StrawberryLevel extends PlatformLevel {
 
             if (f.hitTriggerItem == HitTrigger.STRAWBERRY) {
                 f.triggerIsEnabled = false;
-
+                this.charFaceHandler.setState("lookStarw")
                 let target = this.strawBerry.getWorldPos().add([-0.5, 0.5, 0])
                 GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 2]))
                 this.blockInput = true
