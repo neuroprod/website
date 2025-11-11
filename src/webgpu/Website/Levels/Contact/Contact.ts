@@ -52,7 +52,7 @@ export default class Contact extends NavigationLevel {
     private prevSeek: number = 100000;
     private contactTextMesh!: FontMesh;
 
-    private contactTextArr = ["Contact me!", "For great\nprojects!", "cool visuals!", "Happy CLients!", "Macaroni Art!"]
+    private contactTextArr = ["Contact me!", "For great\nprojects!", "cool visuals!", "Happy CLients!", "The best\nDance Moves!"]
     private contactTextArrCount = 0
     constructor() {
         super();

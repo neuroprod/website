@@ -15,6 +15,9 @@ import LevelHandler from "../LevelHandler.ts";
 import SoundHandler from "../../SoundHandler.ts";
 import GameModel from "../../GameModel.ts";
 import FaceHandler from "../../handlers/FaceHandler.ts";
+import Model from "../../../lib/model/Model.ts";
+import SceneObject3D from "../../../data/SceneObject3D";
+
 
 export class StartLevel extends BaseLevel {
 
@@ -27,6 +30,9 @@ export class StartLevel extends BaseLevel {
     private characterController!: CharacterController;
     private goGraphicDev: boolean = false;
     charFaceHandler!: FaceHandler;
+    game!: SceneObject3D
+
+    gameLine!: SceneObject3D
 
 
     init() {
@@ -91,9 +97,21 @@ export class StartLevel extends BaseLevel {
         this.camTarget.set(0, 0.7, 0)
         GameModel.gameCamera.setLockedView(this.camTarget.add([0, 0, 0]), this.camPos.clone().add([0, 0, 1]))
         GameModel.gameCamera.TweenToLockedView(this.camTarget, this.camPos, 3)
+        this.game = SceneHandler.getSceneObject("game")
 
+
+
+        this.game.hide()
+
+        this.gameLine = SceneHandler.getSceneObject("gameLine")
+
+
+
+        this.gameLine.hide()
 
         let kris = this.mouseInteractionMap.get("kris") as MouseInteractionWrapper
+
+        let devText = sceneHandler.getSceneObject("graphicsDev").model as Model
         kris.onClick = () => {
             SoundHandler.playSound = true
             gsap.to(pirate, { sx: 0, sy: 0, sz: 0, duration: 0.2 })
@@ -113,13 +131,28 @@ export class StartLevel extends BaseLevel {
         kris.onRollOver = () => {
             this.kris.startWave()
             GameModel.renderer.setCursor(true)
+            gsap.killTweensOf(devText)
+            devText.sx = devText.sy = 0.7
+            gsap.to(devText, { sx: 1.2, sy: 1.2, duration: 0.8, ease: "elastic.out" })
+            GameModel.gameRenderer.distortValue = 0.15
+
+
         }
         kris.onRollOut = () => {
             this.kris.stopWave()
+            gsap.killTweensOf(devText)
+            gsap.to(devText, { sx: 1.21, sy: 1.21, duration: 0.1, ease: "back.in" })
             GameModel.renderer.setCursor(false)
+
+            GameModel.gameRenderer.distortValue = 0.0
+
+
         }
 
         let mainChar = this.mouseInteractionMap.get("mainChar") as MouseInteractionWrapper
+
+        let line = sceneHandler.getSceneObject("line")
+        line.sx = 0;
         mainChar.onClick = () => {
             SoundHandler.playSound = true
             gsap.to(pirate, { sx: 0, sy: 0, sz: 0, duration: 0.2 })
@@ -134,15 +167,29 @@ export class StartLevel extends BaseLevel {
         }
         mainChar.onRollOver = () => {
             // this.characterController.startWave()
+            line.sx = 0.5;
+            gsap.killTweensOf(line)
+            gsap.to(line, { sx: 1, duration: 0.2, ease: "back.out" })
             GameModel.renderer.setCursor(true)
+            this.game.show()
+            this.gameLine.show()
+
         }
         mainChar.onRollOut = () => {
-            //  this.characterController.stopWave()
+            // this.characterController.stopWave()
+            gsap.killTweensOf(line)
+            gsap.to(line, { sx: 0.5, duration: 0.1, ease: "back.in", onComplete: () => { line.sx = 0 } })
             GameModel.renderer.setCursor(false)
+            this.game.hide()
+            this.gameLine.hide()
+
         }
         this.kris.show();
         this.characterController.gotoAndIdle(new Vector3(0, 0.1, 0), 1, () => {
         })
+
+
+
 
         let choose = SceneHandler.getSceneObject("choose")
         let your = SceneHandler.getSceneObject("your")
@@ -166,7 +213,7 @@ export class StartLevel extends BaseLevel {
         gsap.to(pirate, { sx: 1, sy: 1, sz: 1, ease: "back.out", delay: delay + 0.7, duration: 0.5 })
         gsap.to(graphicsDev, { sx: 1, sy: 1, sz: 1, ease: "back.out", delay: delay + 0.8, duration: 0.5 })
         gsap.to(GameModel.gameRenderer, {
-            distortValue: 1, delay: delay + 1.5, duration: 0.5, onComplete: () => {
+            distortValue: 1, delay: delay + 1.5, duration: 0.3, onComplete: () => {
 
                 gsap.to(GameModel.gameRenderer, { distortValue: 0, delay: 0.2, duration: 0.5 })
             }
