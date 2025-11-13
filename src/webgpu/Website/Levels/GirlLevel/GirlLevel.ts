@@ -15,7 +15,8 @@ import LevelHandler from "../LevelHandler.ts";
 
 
 export class GirlLevel extends PlatformLevel {
-    private startPos: number = -4;
+    private startPos: number = -5;
+    girl!: SceneObject3D;
 
 
 
@@ -54,14 +55,15 @@ export class GirlLevel extends PlatformLevel {
 
         let charRoot = SceneHandler.getSceneObject("charRoot");
         charRoot.x = this.startPos
-        charRoot.y = 0.15
+        charRoot.y = 0.0
         charRoot.setScaler(1.2)
         this.characterController.setCharacter()
+        this.blockInput = true
+        this.characterController.gotoAndIdle(new Vector3(this.startPos + 0.5, 0, 0), 1, () => { this.blockInput = false })
 
+        this.girl = SceneHandler.getSceneObject("girl");
 
-        let girl = SceneHandler.getSceneObject("girl");
-
-        GameModel.gameCamera.setMinMaxX(this.startPos, this.startPos + 5)
+        GameModel.gameCamera.setMinMaxX(this.startPos, this.girl.x + 2 + 5)
 
 
         GameModel.gameCamera.setForCharPos(new Vector3(this.startPos, 0, 0))
@@ -80,8 +82,8 @@ export class GirlLevel extends PlatformLevel {
 
                 // 
                 this.blockInput = true
-                this.characterController.gotoAndIdle(new Vector3(-1.0, 0, 0), 1, () => {
-                    let target = new Vector3(-0.6, 0.6, 0)
+                this.characterController.gotoAndIdle(new Vector3(this.girl.x - 1.0, 0, 0), 1, () => {
+                    let target = new Vector3(this.girl.x - 0.5, 0.6, 0)
                     GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 2.3]))
 
                     gsap.delayedCall(0.5, () => {

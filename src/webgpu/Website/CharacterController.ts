@@ -119,6 +119,7 @@ export default class CharacterController {
 
         this.charRoot = SceneHandler.getSceneObject("charRoot");
         this.charBody = SceneHandler.getSceneObject("body");
+        this.charBody.y = 0.15
         this.leftLeg = SceneHandler.getSceneObject("legLeft");
         this.rightLeg = SceneHandler.getSceneObject("legRight");
         this.armLeft = SceneHandler.getSceneObject("armLeft");

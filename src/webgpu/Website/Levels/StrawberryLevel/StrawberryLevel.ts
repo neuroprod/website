@@ -54,12 +54,12 @@ export class StrawberryLevel extends PlatformLevel {
         GameModel.gameRenderer.addModel(this.characterController.cloudParticles.particlesModel)
         this.strawBerryHandler.init()
 
-
+        let startX = -2
         let char = sceneHandler.getSceneObject("charRoot")
 
         this.charFaceHandler = new FaceHandler(char);
         char.setScaler(1.2)
-
+        char.x = startX
         GameModel.gameCamera.camDistance = 2.3;
         GameModel.gameCamera.heightOffset = 0.5
 
@@ -70,7 +70,7 @@ export class StrawberryLevel extends PlatformLevel {
         this.strawBerry.x = 3.8
         this.strawBerry.ry = -0.4
 
-        GameModel.gameCamera.setMinMaxX(-0.3, 100)
+        GameModel.gameCamera.setMinMaxX(startX - 0.3, 100)
         //
 
     }
