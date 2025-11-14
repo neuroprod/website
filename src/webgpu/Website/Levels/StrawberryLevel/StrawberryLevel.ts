@@ -67,7 +67,8 @@ export class StrawberryLevel extends PlatformLevel {
         this.strawBerry = sceneHandler.getSceneObject("strawberryRoot")
         this.strawBerry.setScaler(1.1)
         this.strawBerry.z = 0
-        this.strawBerry.x = 3.8
+        this.strawBerry.x = 4.8
+        this.strawBerry.y = 1.055
         this.strawBerry.ry = -0.4
 
         GameModel.gameCamera.setMinMaxX(startX - 0.3, 100)
