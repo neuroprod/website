@@ -27,7 +27,7 @@ export class CookieLevel extends PlatformLevel {
         LoadHandler.startLoading()
         LoadHandler.startLoading()
         LoadHandler.startLoading()
-        SceneHandler.setScene("01811203-860d-45a3").then(() => {
+        SceneHandler.setScene("e857a11e-d9f9-4a0c").then(() => {
 
             SceneHandler.addScene("1234").then(() => {
                 LoadHandler.stopLoading()

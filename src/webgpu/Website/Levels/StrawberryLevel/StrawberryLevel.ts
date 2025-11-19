@@ -118,7 +118,7 @@ export class StrawberryLevel extends PlatformLevel {
                         GameModel.conversationHandler.startConversation("strawBerry")
 
                         GameModel.conversationHandler.doneCallBack = () => {
-                            LevelHandler.setLevel("Girl");
+                            LevelHandler.setLevel("Hand");
                         }
                     });
 

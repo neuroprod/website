@@ -66,7 +66,7 @@ export class FactoryLevel extends PlatformLevel {
 
 
 
-        GameModel.gameCamera.setMinMaxX(this.startPos, this.startPos + 5)
+        GameModel.gameCamera.setMinMaxX(this.startPos, this.startPos + 20)
 
 
         GameModel.gameCamera.setForCharPos(new Vector3(this.startPos, 0, 0))
@@ -106,7 +106,10 @@ export class FactoryLevel extends PlatformLevel {
         if (!super.resolveHitTrigger(f)) {
 
 
-
+            if (f.hitTriggerItem == HitTrigger.ENDFACTORY) {
+                this.blockInput = true
+                LevelHandler.setLevel("Girl")
+            }
 
 
 

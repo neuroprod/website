@@ -246,7 +246,7 @@ export default class CookieGame extends BaseLevel {
     private endGame() {
         GameModel.textBalloonHandler.setText("Great job! That will teach them!")
         this.playGame = false
-        gsap.delayedCall(4, () => { LevelHandler.setLevel("Hand") })
+        gsap.delayedCall(4, () => { LevelHandler.setLevel("StrawBerry") })
 
     }
 

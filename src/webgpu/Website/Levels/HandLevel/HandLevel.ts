@@ -105,7 +105,7 @@ export class HandLevel extends PlatformLevel {
                         GameModel.conversationHandler.startConversation("hand")
 
                         GameModel.conversationHandler.doneCallBack = () => {
-                            LevelHandler.setLevel("StrawBerry");
+                            LevelHandler.setLevel("Factory");
                         }
                     });
 

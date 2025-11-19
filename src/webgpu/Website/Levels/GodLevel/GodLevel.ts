@@ -18,7 +18,7 @@ export class GodLevel extends PlatformLevel {
     private god!: SceneObject3D;
     private godController!: God;
     private skipGodChoice: boolean = false;
-    private startPos = -10.3
+    private startPos = 1
     private landlord!: SceneObject3D;
     charFaceHandler!: FaceHandler;
     godFaceHandler!: FaceHandler;
@@ -32,7 +32,8 @@ export class GodLevel extends PlatformLevel {
         LoadHandler.startLoading()
         LoadHandler.startLoading()
 
-        SceneHandler.setScene("e857a11e-d9f9-4a0c").then(() => {
+
+        SceneHandler.setScene("01811203-860d-45a3").then(() => {
 
             SceneHandler.addScene("1234").then(() => {
                 LoadHandler.stopLoading()
@@ -67,7 +68,7 @@ export class GodLevel extends PlatformLevel {
         this.tree = sceneHandler.getSceneObject("rootTree")
         this.tree.setScaler(1.5)
         this.tree.z = -0.05
-        this.tree.x = 3
+        this.tree.x = 3 + 14
 
 
         this.god = sceneHandler.getSceneObject("godRoot")
@@ -100,7 +101,7 @@ export class GodLevel extends PlatformLevel {
         })
         GameModel.gameCamera.camDistance = 2;
         GameModel.gameCamera.heightOffset = 0.5
-        GameModel.gameCamera.setMinMaxX(this.startPos + 0.5, 4.5)
+        GameModel.gameCamera.setMinMaxX(this.startPos + 0.5, 17)
 
 
         GameModel.gameCamera.setForCharPos(new Vector3(this.startPos + 0.5, 0, 0))

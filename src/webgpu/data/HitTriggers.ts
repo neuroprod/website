@@ -1,27 +1,27 @@
 import SelectItem from "../lib/UI/math/SelectItem.ts";
-import {EnumToSelectItem} from "../lib/UI/UIUtils.ts";
+import { EnumToSelectItem } from "../lib/UI/UIUtils.ts";
 
-export enum HitTrigger
-    {
-        NONE,
-        COIN,
-        STRAWBERRY,
-        GOD,
-        COOKIE,
-        TREE,
-        DOCK,
-        HAND,
-       GNOME,
-        GIRL,
-    }
+export enum HitTrigger {
+    NONE,
+    COIN,
+    STRAWBERRY,
+    GOD,
+    COOKIE,
+    TREE,
+    DOCK,
+    HAND,
+    GNOME,
+    GIRL,
+    ENDFACTORY,
+}
 
-export  const HitTriggerSelectItems:Array<SelectItem> =[]
+export const HitTriggerSelectItems: Array<SelectItem> = []
 
 
-export function makeHitTriggerSelectItems(){
+export function makeHitTriggerSelectItems() {
 
-    let temp  =EnumToSelectItem(HitTrigger)
-    for(let t of temp){
+    let temp = EnumToSelectItem(HitTrigger)
+    for (let t of temp) {
         HitTriggerSelectItems.push(t)
     }
 
