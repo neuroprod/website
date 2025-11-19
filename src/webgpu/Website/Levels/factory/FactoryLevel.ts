@@ -23,20 +23,24 @@ export class FactoryLevel extends PlatformLevel {
     boxes: Array<SceneObject3D> = []
     rollers: Array<SceneObject3D> = []
     boxIndex = 1;
+    drinkTime = 0
+    pullTime = 0
     init() {
         super.init();
         this.characterController = new CharacterController(GameModel.renderer)
         LoadHandler.onComplete = this.configScene.bind(this)
         LoadHandler.startLoading()
         LoadHandler.startLoading()
-
+        LoadHandler.startLoading()
 
 
         SceneHandler.setScene("aee2b3e2-c1b5-4e53").then(() => {
             SceneHandler.addScene("1234").then(() => {
                 LoadHandler.stopLoading()
             });
-
+            SceneHandler.addScene("cdfb5c38-67db-4e1a").then(() => {
+                LoadHandler.stopLoading()
+            });
             LoadHandler.stopLoading()
         })
 
@@ -54,7 +58,12 @@ export class FactoryLevel extends PlatformLevel {
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         GameModel.gameRenderer.addModel(this.characterController.cloudParticles.particlesModel)
 
-
+        let fishRoot = SceneHandler.getSceneObject("FishBoyRoot");
+        fishRoot.x = 6
+        fishRoot.y = 0.0
+        fishRoot.z = -0.1
+        fishRoot.ry = -0.2
+        fishRoot.setScaler(1.3)
 
         let charRoot = SceneHandler.getSceneObject("charRoot");
         charRoot.x = this.startPos
@@ -102,6 +111,12 @@ export class FactoryLevel extends PlatformLevel {
 
 
     }
+
+    setFishLoop() {
+
+
+
+    }
     resolveHitTrigger(f: SceneObject3D) {
         if (!super.resolveHitTrigger(f)) {
 
@@ -127,6 +142,8 @@ export class FactoryLevel extends PlatformLevel {
             r.rz += 5 * Timer.delta;
         }
 
+        SceneHandler.sceneAnimations[0].setTime(this.pullTime)
+        SceneHandler.sceneAnimations[1].setTime(this.drinkTime)
     }
 
     destroy() {
