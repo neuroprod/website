@@ -13,6 +13,7 @@ export enum HitTrigger {
     GNOME,
     GIRL,
     ENDFACTORY,
+    FISHBOY,
 }
 
 export const HitTriggerSelectItems: Array<SelectItem> = []

@@ -17,14 +17,16 @@ import Timer from "../../../lib/Timer.ts";
 
 export class FactoryLevel extends PlatformLevel {
     private startPos: number = -3;
-    girl!: SceneObject3D;
-    tlBox!: gsap.core.Timeline;
 
+    tlBox!: gsap.core.Timeline;
+    tlLever!: gsap.core.Timeline;
+    tlDrink!: gsap.core.Timeline;
     boxes: Array<SceneObject3D> = []
     rollers: Array<SceneObject3D> = []
     boxIndex = 1;
     drinkTime = 0
     pullTime = 0
+    fishRoot!: SceneObject3D;
     init() {
         super.init();
         this.characterController = new CharacterController(GameModel.renderer)
@@ -58,12 +60,12 @@ export class FactoryLevel extends PlatformLevel {
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         GameModel.gameRenderer.addModel(this.characterController.cloudParticles.particlesModel)
 
-        let fishRoot = SceneHandler.getSceneObject("FishBoyRoot");
-        fishRoot.x = 6
-        fishRoot.y = 0.0
-        fishRoot.z = -0.1
-        fishRoot.ry = -0.2
-        fishRoot.setScaler(1.3)
+        this.fishRoot = SceneHandler.getSceneObject("FishBoyRoot");
+        this.fishRoot.x = 6
+        this.fishRoot.y = 0.0
+        this.fishRoot.z = -0.1
+        this.fishRoot.ry = -0.2
+        this.fishRoot.setScaler(1.3)
 
         let charRoot = SceneHandler.getSceneObject("charRoot");
         charRoot.x = this.startPos
@@ -107,9 +109,15 @@ export class FactoryLevel extends PlatformLevel {
         this.tlBox.to(grabber, { y: 0, ease: "power3.inout", duration: 1 }, 2.5)
         this.tlBox.to(roller, { x: -4, ease: "power3.in", duration: 1 }, 3.0)
 
+        this.pullTime = 0;
+        this.tlLever = gsap.timeline({ repeat: -1 })
+        this.tlLever.to(this, { pullTime: 20, ease: "power2.in", duration: 0.7 }, 0)
+        this.tlLever.to(this, { pullTime: 0, ease: "power2.inOut" }, 0.9)
 
 
-
+        this.tlDrink = gsap.timeline({ repeat: -1 })
+        this.tlDrink.to(this, { drinkTime: 20, ease: "power2.inOut", duration: 1.6 }, 3)
+        this.tlDrink.to(this, { drinkTime: 0, ease: "power2.inOut" }, 5)
     }
 
     setFishLoop() {
@@ -121,9 +129,25 @@ export class FactoryLevel extends PlatformLevel {
         if (!super.resolveHitTrigger(f)) {
 
 
-            if (f.hitTriggerItem == HitTrigger.ENDFACTORY) {
+            if (f.hitTriggerItem == HitTrigger.FISHBOY) {
+                f.triggerIsEnabled = false;
+
+                // 
                 this.blockInput = true
-                LevelHandler.setLevel("Girl")
+                this.characterController.gotoAndIdle(new Vector3(this.fishRoot.x - 1.0, 0, 0), 1, () => {
+                    let target = new Vector3(this.fishRoot.x - 0.5, 0.6, 0)
+                    GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 2.3]))
+
+                    gsap.delayedCall(0.5, () => {
+                        GameModel.conversationHandler.startConversation("fishBoy")
+
+                        GameModel.conversationHandler.doneCallBack = () => {
+                            LevelHandler.setLevel("Girl");
+                        }
+                    });
+
+                });
+                return true;
             }
 
 
@@ -150,6 +174,8 @@ export class FactoryLevel extends PlatformLevel {
         super.destroy();
         this.boxes = []
         this.tlBox.clear()
+        this.tlLever.clear()
+        this.tlDrink.clear()
     }
 
 

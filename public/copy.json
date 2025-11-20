@@ -689,6 +689,29 @@
     ]
   },
   {
+    "name": "fishBoy",
+    "data": [
+      {
+        "char": "charRoot",
+        "pos": [
+          -0.1,
+          0.8,
+          0
+        ],
+        "text": "blablzjdjfjfjfdj."
+      },
+      {
+        "char": "FishBoyRoot",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "blblblbl"
+      }
+    ]
+  },
+  {
     "name": "girlStrawberry",
     "data": [
       {
