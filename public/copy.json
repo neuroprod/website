@@ -694,20 +694,44 @@
       {
         "char": "charRoot",
         "pos": [
-          -0.1,
-          0.8,
+          0.1,
+          0.9,
           0
         ],
-        "text": "blablzjdjfjfjfdj."
+        "text": "Wow! You'r Fish Boy!"
+      },
+      {
+        "text": "The world's most famous\ncelebrity fishstick!"
       },
       {
         "char": "FishBoyRoot",
         "pos": [
-          0.01,
-          0.8,
+          -0.1,
+          0.7,
           0
         ],
-        "text": "blblblbl"
+        "text": "I sure am kid."
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.1,
+          0.9,
+          0
+        ],
+        "text": "Damn! I dindn't know you\nworked in your own factory?"
+      },
+      {
+        "char": "FishBoyRoot",
+        "pos": [
+          -0.1,
+          0.7,
+          0
+        ],
+        "text": "It's not mine anymore kid."
+      },
+      {
+        "text": "Mr Billy's Global Industries\ntook it over last recession."
       }
     ]
   },

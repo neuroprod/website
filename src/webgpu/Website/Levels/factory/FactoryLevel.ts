@@ -61,11 +61,11 @@ export class FactoryLevel extends PlatformLevel {
         GameModel.gameRenderer.addModel(this.characterController.cloudParticles.particlesModel)
 
         this.fishRoot = SceneHandler.getSceneObject("FishBoyRoot");
-        this.fishRoot.x = 6
+        this.fishRoot.x = 7
         this.fishRoot.y = 0.0
-        this.fishRoot.z = -0.1
-        this.fishRoot.ry = -0.2
-        this.fishRoot.setScaler(1.3)
+        this.fishRoot.z = -1.0
+        this.fishRoot.ry = -0.0
+        this.fishRoot.setScaler(1.4)
 
         let charRoot = SceneHandler.getSceneObject("charRoot");
         charRoot.x = this.startPos
@@ -81,7 +81,7 @@ export class FactoryLevel extends PlatformLevel {
 
 
         GameModel.gameCamera.setForCharPos(new Vector3(this.startPos, 0, 0))
-        GameModel.gameCamera.camDistance = 2
+        GameModel.gameCamera.camDistance = 2.3
         for (let i = 1; i < 7; i++) {
             this.rollers.push(SceneHandler.getSceneObject("r" + i))
 
@@ -134,10 +134,10 @@ export class FactoryLevel extends PlatformLevel {
 
                 // 
                 this.blockInput = true
-                this.characterController.gotoAndIdle(new Vector3(this.fishRoot.x - 1.0, 0, 0), 1, () => {
-                    let target = new Vector3(this.fishRoot.x - 0.5, 0.6, 0)
-                    GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 2.3]))
-
+                this.characterController.gotoAndIdle(new Vector3(this.fishRoot.x - 0.7, 0, 0), 1, () => {
+                    let target = new Vector3(this.fishRoot.x + 0.12, 0.6, 0)
+                    GameModel.gameCamera.TweenToLockedView(target, target.clone().add([1, 0.1, 1.1]))
+                    this.characterController.setAngle(1)
                     gsap.delayedCall(0.5, () => {
                         GameModel.conversationHandler.startConversation("fishBoy")
 
