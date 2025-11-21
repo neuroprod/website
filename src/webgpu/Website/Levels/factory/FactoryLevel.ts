@@ -13,6 +13,7 @@ import { HitTrigger } from "../../../data/HitTriggers.ts";
 import gsap from "gsap";
 import LevelHandler from "../LevelHandler.ts";
 import Timer from "../../../lib/Timer.ts";
+import SoundHandler from "../../SoundHandler.ts";
 
 
 export class FactoryLevel extends PlatformLevel {
@@ -127,12 +128,20 @@ export class FactoryLevel extends PlatformLevel {
 
 
         let gateUp = SceneHandler.getSceneObject("gateUp");
+        gateUp.y = 0.12
+
         let gateDown = SceneHandler.getSceneObject("gateDown");
+        gateDown.y = 0.12
+
+        let gatePos = gateUp.getWorldPos()
         let pack1 = SceneHandler.getSceneObject("pack1");
         this.tlLever = gsap.timeline({ repeat: -1 })
         this.tlLever.call(() => {
             pack1.z = -0.2; pack1.show()
             pack1.y = 0.07;
+
+
+            SoundHandler.playLever(gatePos.clone().subtract(GameModel.gameCamera.cameraWorld));
         }, [], 0)
         this.tlLever.to(this, { pullTime: 20, ease: "power2.in", duration: 0.7 }, 0)
         this.tlLever.to(gateUp, { y: 0.23, ease: "power2.in", duration: 0.4 }, 0.1)
@@ -149,8 +158,15 @@ export class FactoryLevel extends PlatformLevel {
         this.tlLever.to(gateUp, { y: 0.12, ease: "power2.inOut", duration: 0.5 }, 0.9)
         this.tlLever.to(gateDown, { y: 0.12, ease: "power2.inOut", duration: 0.5 }, 0.9)
 
+
+        let fishPos = this.fishRoot.getWorldPos()
         this.tlDrink = gsap.timeline({ repeat: -1 })
         this.tlDrink.to(this, { drinkTime: 20, ease: "power2.inOut", duration: 1.6 }, 3)
+        this.tlDrink.call(() => {
+
+
+            SoundHandler.playDrink(fishPos.clone().subtract(GameModel.gameCamera.cameraWorld));
+        }, [], 4)
         this.tlDrink.to(this, { drinkTime: 0, ease: "power2.inOut" }, 5)
     }
 

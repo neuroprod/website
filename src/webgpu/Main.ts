@@ -116,7 +116,7 @@ export default class Main {
         new TextureLoader(this.renderer, Textures.BACK_BTN)
         new TextureLoader(this.renderer, Textures.SETTINGS_BTN)
         new TextureLoader(this.renderer, Textures.COIN_ICON)
-
+        new TextureLoader(this.renderer, Textures.STICK_ICON);
 
         let tl = new HDRTextureLoader()
         tl.loadURL(this.renderer, "specular.hdr").then()

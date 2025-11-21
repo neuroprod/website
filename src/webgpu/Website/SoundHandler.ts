@@ -1,4 +1,5 @@
 
+import { Vector3 } from '@math.gl/core';
 import { Howl } from 'howler';
 class SoundHandler {
 
@@ -24,6 +25,8 @@ class SoundHandler {
     gunShot!: Howl;
     splash!: Howl;
     squatch!: Howl;
+    lever!: Howl;
+    drink: Howl;
 
     init() {
 
@@ -52,6 +55,16 @@ class SoundHandler {
         this.squatch = new Howl({
             src: ['sound/641046__magnuswaker__gore-impact-lot-of-heart.mp3'],
         })
+
+
+
+        this.lever = new Howl({
+            src: ['sound/489725__shadowsilhouette__toaster_down-01.mp3'],
+        })
+        this.drink = new Howl({
+            src: ['sound/776763__limofeus__soda-can-open-drink-drop.mp3'],
+        })
+
         this.talking = new Howl({
             src: ['sound/talking.mp3'],
             sprite: talkSound
@@ -265,7 +278,23 @@ class SoundHandler {
         this.scroll.play("s" + s)
 
     }
+    playDrink(v: Vector3) {
+        if (!this.playSound) return
+        // let s = Math.floor(Math.random() * 1000) % 9;
 
+        this.drink.pos(v.x, v.y, v.z);
+        this.drink.volume(this.fxVolume);
+        this.drink.play()
+
+    }
+    playLever(v: Vector3) {
+        if (!this.playSound) return
+        // let s = Math.floor(Math.random() * 1000) % 9;
+
+        this.lever.pos(v.x, v.y, v.z);
+        this.lever.volume(this.fxVolume);
+        this.lever.play()
+    }
     playDrip(xPos: number) {
         if (!this.playSound) return
         let s = Math.floor(Math.random() * 1000) % 9;

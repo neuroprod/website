@@ -18,6 +18,8 @@ export default class SettingsUI {
     coinIcon: Sprite;
     scoreText: Text;
     numCoins: number = 0;
+    stickIcon: Sprite;
+    scoreStickText: Text;
 
     constructor(renderer: Renderer) {
         this.renderer = renderer;
@@ -81,11 +83,30 @@ export default class SettingsUI {
         this.scoreText.alpha = 0.7
         this.settingsRoot.addChild(this.scoreText)
 
+
+        this.stickIcon = new Sprite(renderer, this.renderer.getTexture(Textures.STICK_ICON))
+        this.stickIcon.sx = this.stickIcon.sy = 0.2
+        this.stickIcon.x = 32 * 2 + 10
+
+        this.settingsRoot.addChild(this.stickIcon)
+
+
+        this.scoreStickText = new Text(renderer, font, 22, "2")
+        this.scoreStickText.x = 32 * 3
+        this.scoreStickText.y = -11
+        this.scoreStickText.alpha = 0.7
+        this.settingsRoot.addChild(this.scoreStickText)
+
     }
     update() {
         this.scoreText.x = this.renderer.htmlWidth - 150
         if (this.numCoins > 9) this.scoreText.x -= 10
         this.coinIcon.x = this.renderer.htmlWidth - 80
+
+
+        this.scoreStickText.x = this.renderer.htmlWidth - 150 - 110
+
+        this.stickIcon.x = this.renderer.htmlWidth - 80 - 130
 
     }
     setLevel(level: string) {
