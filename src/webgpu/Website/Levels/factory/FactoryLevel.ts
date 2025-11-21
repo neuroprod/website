@@ -22,8 +22,11 @@ export class FactoryLevel extends PlatformLevel {
     tlLever!: gsap.core.Timeline;
     tlDrink!: gsap.core.Timeline;
     boxes: Array<SceneObject3D> = []
+    boxesFish: Array<SceneObject3D> = []
     rollers: Array<SceneObject3D> = []
+    rollersBack: Array<SceneObject3D> = []
     boxIndex = 1;
+    packIndex = 1;
     drinkTime = 0
     pullTime = 0
     fishRoot!: SceneObject3D;
@@ -86,12 +89,17 @@ export class FactoryLevel extends PlatformLevel {
             this.rollers.push(SceneHandler.getSceneObject("r" + i))
 
         }
+        for (let i = 7; i < 11; i++) {
+            this.rollersBack.push(SceneHandler.getSceneObject("r" + i))
 
+        }
         let roller = SceneHandler.getSceneObject("roller");
         let grabber = SceneHandler.getSceneObject("grabber");
         let grabberBox = SceneHandler.getSceneObject("boxGrabber");
         this.boxes.push(SceneHandler.getSceneObject("box1"))
         this.boxes.push(SceneHandler.getSceneObject("box2"))
+
+
         grabber.y = 0;
         roller.x = -4;
         this.tlBox = gsap.timeline({ repeat: -1 })
@@ -110,10 +118,36 @@ export class FactoryLevel extends PlatformLevel {
         this.tlBox.to(roller, { x: -4, ease: "power3.in", duration: 1 }, 3.0)
 
         this.pullTime = 0;
-        this.tlLever = gsap.timeline({ repeat: -1 })
-        this.tlLever.to(this, { pullTime: 20, ease: "power2.in", duration: 0.7 }, 0)
-        this.tlLever.to(this, { pullTime: 0, ease: "power2.inOut" }, 0.9)
 
+
+        this.boxesFish.push(SceneHandler.getSceneObject("pack2"))
+        this.boxesFish.push(SceneHandler.getSceneObject("pack3"))
+        this.boxesFish.push(SceneHandler.getSceneObject("pack4"))
+        this.boxesFish.push(SceneHandler.getSceneObject("pack5"))
+
+
+        let gateUp = SceneHandler.getSceneObject("gateUp");
+        let gateDown = SceneHandler.getSceneObject("gateDown");
+        let pack1 = SceneHandler.getSceneObject("pack1");
+        this.tlLever = gsap.timeline({ repeat: -1 })
+        this.tlLever.call(() => {
+            pack1.z = -0.2; pack1.show()
+            pack1.y = 0.07;
+        }, [], 0)
+        this.tlLever.to(this, { pullTime: 20, ease: "power2.in", duration: 0.7 }, 0)
+        this.tlLever.to(gateUp, { y: 0.23, ease: "power2.in", duration: 0.4 }, 0.1)
+        this.tlLever.to(gateDown, { y: 0.03, ease: "power2.in", duration: 0.4 }, 0.1)
+        this.tlLever.to(pack1, { z: 0.6, ease: "power1.out", duration: 0.4 }, 0.4 + 0.2)
+        this.tlLever.to(pack1, { y: 0.01, ease: "power2.out", duration: 0.2 }, 0.6 + 0.2)
+
+        this.tlLever.call(() => {
+            pack1.hide()
+            this.boxesFish[this.packIndex].setPosition(pack1.x, pack1.y, pack1.z)
+            this.packIndex = (this.packIndex + 1) % 4;
+        }, [], 0.5 + 0.2 + 0.2)
+        this.tlLever.to(this, { pullTime: 0, ease: "power2.inOut" }, 0.9)
+        this.tlLever.to(gateUp, { y: 0.12, ease: "power2.inOut", duration: 0.5 }, 0.9)
+        this.tlLever.to(gateDown, { y: 0.12, ease: "power2.inOut", duration: 0.5 }, 0.9)
 
         this.tlDrink = gsap.timeline({ repeat: -1 })
         this.tlDrink.to(this, { drinkTime: 20, ease: "power2.inOut", duration: 1.6 }, 3)
@@ -162,10 +196,16 @@ export class FactoryLevel extends PlatformLevel {
         for (let b of this.boxes) {
             b.x += 0.3 * Timer.delta;
         }
+        for (let b of this.boxesFish) {
+            b.z += 0.3 * Timer.delta;
+        }
         for (let r of this.rollers) {
             r.rz += 5 * Timer.delta;
         }
+        for (let r of this.rollersBack) {
 
+            r.children[0].rz -= 5 * Timer.delta;
+        }
         SceneHandler.sceneAnimations[0].setTime(this.pullTime)
         SceneHandler.sceneAnimations[1].setTime(this.drinkTime)
     }

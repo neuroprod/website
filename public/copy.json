@@ -707,7 +707,7 @@
         "char": "FishBoyRoot",
         "pos": [
           -0.1,
-          0.7,
+          0.8,
           0
         ],
         "text": "I sure am kid."
@@ -725,13 +725,13 @@
         "char": "FishBoyRoot",
         "pos": [
           -0.1,
-          0.7,
+          0.8,
           0
         ],
-        "text": "It's not mine anymore kid."
+        "text": "It's not mine kid. I'm just the mascotte."
       },
       {
-        "text": "Billy's Global Industries\ntook it over last recession."
+        "text": "It's part of Billy's Global Industries"
       }
     ]
   },
