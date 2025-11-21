@@ -105,7 +105,7 @@ export class FactoryLevel extends PlatformLevel {
         roller.x = -4;
         this.tlBox = gsap.timeline({ repeat: -1 })
         this.tlBox.call(() => { grabberBox.show(); grabberBox.ry = (Math.random() - 0.5) * 0.5 }, [], 0)
-        this.tlBox.to(roller, { x: -2, ease: "power3.out", duration: 1.5 }, 0.5)
+        this.tlBox.to(roller, { x: -2, ease: "power3.out", duration: 1 }, 0.5)
         this.tlBox.to(grabber, { y: -0.86, ease: "power3.inout", duration: 1 }, 1.5)
         this.tlBox.call(() => {
             grabberBox.hide()
