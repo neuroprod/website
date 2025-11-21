@@ -26,7 +26,7 @@ class SoundHandler {
     splash!: Howl;
     squatch!: Howl;
     lever!: Howl;
-    drink: Howl;
+    drink!: Howl;
 
     init() {
 
