@@ -142,10 +142,14 @@ export default class SettingsUI {
     hideCoins() {
         this.scoreText.visible = false
         this.coinIcon.visible = false
+        this.scoreStickText.visible = false
+        this.stickIcon.visible = false
     }
     showCoins() {
         this.scoreText.visible = true
         this.coinIcon.visible = true
+        this.scoreStickText.visible = true
+        this.stickIcon.visible = true
     }
 
 }
