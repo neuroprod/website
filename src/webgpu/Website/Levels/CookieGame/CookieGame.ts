@@ -184,9 +184,9 @@ export default class CookieGame extends BaseLevel {
             GameModel.gameCamera.screenShakeCookie(0.1)
             this.points++;
             if (this.points == 1) {
-                text = "Nice! First one is the sweetest!"
+                text = "Nice! First one!"
             } else {
-                text = "Yea! " + this.points + " kills!"
+                text = "Yea! " + this.points + " hits!"
             }
 
 
@@ -223,13 +223,13 @@ export default class CookieGame extends BaseLevel {
 
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
 
+        let x = -0.1
+        GameModel.gameCamera.setLockedView(new Vector3(x, .5, 0), new Vector3(x - 0.04, .6, 1.6))
 
-        GameModel.gameCamera.setLockedView(new Vector3(-0, .5, 0), new Vector3(-0.0 - 0.04, .6, 1.6))
+        let cookie = sceneHandler.getSceneObject("sausageBody")
 
-        let cookie = sceneHandler.getSceneObject("cookieBody")
-
-        GameModel.textBalloonHandler.setModel(cookie, [-0.1, 0.35, 0])
-        GameModel.textBalloonHandler.setText("Smash those bastards!")
+        GameModel.textBalloonHandler.setModel(cookie, [0.1, 0.6, 0])
+        GameModel.textBalloonHandler.setText("Now, Get those fruits!")
         this.strawBerryData = []
         for (let i = 0; i < 3; i++) {
             let sbData = new StrawberryData(i)

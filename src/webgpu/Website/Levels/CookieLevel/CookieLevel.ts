@@ -15,8 +15,9 @@ import CoinHandler from "../../handlers/CoinHandler.ts";
 export class CookieLevel extends PlatformLevel {
     private tl!: gsap.core.Timeline;
 
-    private cookie!: SceneObject3D;
+
     private tree!: SceneObject3D;
+    rootSausage!: SceneObject3D;
 
 
 
@@ -33,13 +34,15 @@ export class CookieLevel extends PlatformLevel {
                 LoadHandler.stopLoading()
             });
 
-            SceneHandler.addScene("58745956-acac-4aba").then(() => {
-                LoadHandler.stopLoading()
-            });
+            /*  SceneHandler.addScene("58745956-acac-4aba").then(() => {
+                  LoadHandler.stopLoading()
+              });*/
             SceneHandler.addScene("9f307f29-4140-48d6").then(() => {
                 LoadHandler.stopLoading()
             });
-
+            SceneHandler.addScene(SceneHandler.getSceneIDByName("sausage")).then(() => {
+                LoadHandler.stopLoading()
+            });
 
             LoadHandler.stopLoading()
         })
@@ -68,12 +71,14 @@ export class CookieLevel extends PlatformLevel {
         let char = sceneHandler.getSceneObject("charRoot")
         char.setScaler(1.2)
 
+        this.rootSausage = sceneHandler.getSceneObject("rootSausage")
+        this.rootSausage.setScaler(1.4)
 
-        this.cookie = sceneHandler.getSceneObject("cookieRoot")
-        this.cookie.setScaler(1.4)
-        this.cookie.z = -0.1
-        this.cookie.x = 20
-        this.cookie.ry = -0.2
+        this.rootSausage.z = -0.1
+        this.rootSausage.x = 5
+        this.rootSausage.ry = -0.2
+
+
 
         GameModel.gameCamera.setMinMaxX(-0.3, 100)
 
@@ -94,11 +99,11 @@ export class CookieLevel extends PlatformLevel {
             if (f.hitTriggerItem == HitTrigger.COOKIE) {
                 f.triggerIsEnabled = false;
 
-                let target = this.cookie.getWorldPos().add([-0.5, 0.5, 0])
+                let target = this.rootSausage.getWorldPos().add([-0.3, 0.5, 0])
                 GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 2.3]))
                 this.blockInput = true
 
-                this.characterController.gotoAndIdle(this.cookie.getWorldPos().add([-0.9, 0, 0]), 1, () => {
+                this.characterController.gotoAndIdle(this.rootSausage.getWorldPos().add([-0.9, 0, 0]), 1, () => {
                     setTimeout(() => {
                         if (GameModel.presentID == -1) {
                             GameModel.conversationHandler.startConversation("cookieNoPresent")
@@ -126,7 +131,7 @@ export class CookieLevel extends PlatformLevel {
                             }
                             GameModel.conversationHandler.doneCallBack = () => {
 
-                                GameModel.gameCamera.setCharView()
+                                //GameModel.gameCamera.setCharView()
                                 setTimeout(() => {
                                     this.blockInput = false
 

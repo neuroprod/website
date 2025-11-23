@@ -334,11 +334,11 @@
       {
         "char": "charRoot",
         "pos": [
-          0.01,
-          0.8,
+          0.2,
+          0.82,
           0
         ],
-        "text": "Hi Cookie,\nyou won't believe who I just met!"
+        "text": "Hi S,\nyou won't believe who I just met!"
       }
     ]
   },
@@ -348,11 +348,11 @@
       {
         "char": "charRoot",
         "pos": [
-          0.01,
-          0.8,
+          0.2,
+          0.82,
           0
         ],
-        "text": "Hi Cookie,\nwant to sign my User Agreement?"
+        "text": "Hi S,\nwant to sign my User Agreement?"
       }
     ]
   },
@@ -362,11 +362,11 @@
       {
         "char": "charRoot",
         "pos": [
-          0.01,
-          0.8,
+          0.2,
+          0.82,
           0
         ],
-        "text": "Hi Cookie,\nWant to sign my NDA?"
+        "text": "Hi S,\nWant to sign my NDA?"
       }
     ]
   },
@@ -376,11 +376,11 @@
       {
         "char": "charRoot",
         "pos": [
-          0.01,
-          0.8,
+          0.2,
+          0.82,
           0
         ],
-        "text": "Hi Cookie,\nGot me some fish for the sky guy."
+        "text": "Hi Se,\nGot me some fish for the sky guy."
       }
     ]
   },
@@ -390,11 +390,11 @@
       {
         "char": "charRoot",
         "pos": [
-          0.01,
-          0.8,
+          0.2,
+          0.82,
           0
         ],
-        "text": "Hi Cookie, Got an MBA!\nWant me to do some layoffs\nfor a big bonus?"
+        "text": "Hi S, Got an MBA!S\nWant me to do some layoffs\nfor a big bonus?"
       }
     ]
   },
@@ -402,9 +402,9 @@
     "name": "cookie",
     "data": [
       {
-        "char": "cookieRoot",
+        "char": "rootSausage",
         "pos": [
-          0.3,
+          -0.2,
           1.0,
           0
         ],
@@ -413,16 +413,16 @@
       {
         "char": "charRoot",
         "pos": [
-          0.01,
-          0.8,
+          0.2,
+          0.82,
           0
         ],
         "text": "Why are you so angry?\nIt's such a beautifull day!"
       },
       {
-        "char": "cookieRoot",
+        "char": "rootSausage",
         "pos": [
-          0.3,
+          -0.2,
           1.0,
           0
         ],
@@ -443,16 +443,16 @@
       {
         "char": "charRoot",
         "pos": [
-          0.01,
-          0.8,
+          0.2,
+          0.82,
           0
         ],
-        "text": "I don't know Cookie, Seems wrong."
+        "text": "I don't know S, Seems wrong."
       },
       {
-        "char": "cookieRoot",
+        "char": "rootSausage",
         "pos": [
-          0.3,
+          -0.2,
           1.0,
           0
         ],
@@ -461,16 +461,16 @@
       {
         "char": "charRoot",
         "pos": [
-          0.01,
-          0.8,
+          0.2,
+          0.82,
           0
         ],
         "text": "...Okay. If you put it that way."
       },
       {
-        "char": "cookieRoot",
+        "char": "rootSausage",
         "pos": [
-          0.3,
+          -0.2,
           1.0,
           0
         ],
@@ -480,8 +480,8 @@
       {
         "char": "charRoot",
         "pos": [
-          0.01,
-          0.8,
+          0.2,
+          0.82,
           0
         ],
         "text": "Ow..."
