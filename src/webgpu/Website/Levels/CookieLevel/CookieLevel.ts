@@ -99,12 +99,12 @@ export class CookieLevel extends PlatformLevel {
             if (f.hitTriggerItem == HitTrigger.COOKIE) {
                 f.triggerIsEnabled = false;
 
-                let target = this.rootSausage.getWorldPos().add([-0.2, 0.52, 0])
+                let target = this.rootSausage.getWorldPos().add([-0.4, 0.52, 0])
                 GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 1.9]))
                 this.blockInput = true
 
                 this.characterController.gotoAndIdle(this.rootSausage.getWorldPos().add([-0.9, 0, 0]), 1, () => {
-                    this.characterController.setAngle(0.3)
+                    this.characterController.setAngle(0.4)
                     setTimeout(() => {
                         if (GameModel.presentID == -1) {
                             GameModel.conversationHandler.startConversation("cookieNoPresent")
