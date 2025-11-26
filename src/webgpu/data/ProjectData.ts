@@ -14,6 +14,7 @@ import ShadowFontDepthMaterial from "../render/shadow/ShadowFontDepthMaterial.ts
 import Font from "./Font.ts";
 import FontMaterial from "../render/TransparentMaterials/FontMaterial.ts";
 import MaskMaterial from "../render/InGameFX/MaskMaterial.ts";
+import GameModel from "../Website/GameModel.ts";
 
 class ProjectData {
     private folders!: any;
@@ -78,11 +79,12 @@ class ProjectData {
 
         let textW = await responseW.text();
         this.copy = JSON.parse(textW);
-
+        GameModel.singleCopy = this.copy;
 
 
 
     }
+
     private addProject(p: Project) {
 
         this.projects.push(p)

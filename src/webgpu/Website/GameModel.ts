@@ -40,9 +40,12 @@ class GameModel {
     mainCamera!: Camera
     hasFishsticks: boolean = false;
     happyEnd: boolean = false;
+    singleCopy!: any;
 
 
-
+    getCopy(key: string) {
+        return this.singleCopy[key] + ""
+    }
 
 
 

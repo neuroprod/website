@@ -2,12 +2,6 @@
   "about1": "I'm a Freelance Graphics developer\nspecialized in WebGL/WebGPU.",
   "about2": "I make Award winning Websites, Games and\nInstallations for Agencies\naround the world.",
   "about3": "Here you will find a very small\nselection of the things I made.",
-  "foodforfish": "Discover the secret of\nthe Golden Underpants in\nthis little browser game",
-  "lab101": "Together with Kris Meeusen of Lab101, I make\nlow overhead/ high quality Interactive Installations\nfor museums and events all over the world.\nCheck out his website for more info.",
-  "arduinoGame": "A free to play game for anyone\nthat passes by my house.\nRunning on an arduino and\na home made ledscreen.",
-  "arduinoGameTitle": "A Game for the",
-  "arduinoGameTitle2": "Neighbourhood",
-  "instructions": "Use arrow keys and spacebar\nor use your favorite controller",
   "adress": "LANGE SCHOLIERSTRAAT 55\n2060 ANTWERP\nBELGIUM",
   "company": "NEURO PRODUCTIONS COMM. V.\nVAT: BE0895051662",
   "robots": "The future is here!\nThe robots\nare taking over!",
@@ -18,5 +12,12 @@
   "thanks": "Thanks for visiting!",
   "clients": " Nike  Adidas  PepsiCo  CocaCola  Redbull  Google  Microsoft  Netflix  Hulu  Amazon  Cisco  Unilever  Nestle  Accenture  ExxonMobil  Shell Sony Samsung",
   "ross1": "I PAYED 20 DOLLARS FOR THIS ROSS GELLER.\n                       SO, I HOPE YOU LIKE IT!",
-  "contactCursor": "CONTACT ME!"
+  "contactCursor": "CONTACT ME!",
+  "FIGHTGAME": "----------------------------------------",
+  "FShot": "Owch, Mister Billy shoots you right in the eye\nThat hurts a lot",
+  "FHealSucces": "The fishstick has a weird taste\nYou feel the adrenaline rushing to your head.",
+  "FHealFail": "The fishstick smells like your underpants \nThe toxins fill your body.",
+  "FFightSucces": "You hit Mister Billy right in the head\nHe's getting angrier",
+  "FFightFail": "You missed  ",
+  "FRun": "You can't run from this\nMister Billy shoots you for a final time"
 }

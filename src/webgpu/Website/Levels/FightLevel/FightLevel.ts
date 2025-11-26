@@ -169,7 +169,9 @@ export class FightLevel extends BaseLevel {
     setFirstShot() {
         let tl = this.getTimeline()
         this.state = FSTATE.PAUZE
-        tl.call(() => { this.fightUI.setInfoPanel("you got shot in the eye") }, [], 1)
+
+
+        tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FShot")) }, [], 1)
         tl.to(this, { pirateLife: 0.6 }, 2)
         tl.call(() => { this.setFightPanel() }, [], 4)
 
@@ -226,7 +228,7 @@ export class FightLevel extends BaseLevel {
 
 
         let tl = this.getTimeline()
-        tl.call(() => { this.fightUI.setInfoPanel("pirate fight succes") }, [], 0)
+        tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FFightSucces")) }, [], 0)
         tl.to(this, { landlordLife: target }, 2)
         if (target == 0) {
             tl.call(() => { this.fightUI.setInfoPanel("you win") }, [], 3)
@@ -249,7 +251,7 @@ export class FightLevel extends BaseLevel {
 
 
         let tl = this.getTimeline()
-        tl.call(() => { this.fightUI.setInfoPanel("pirate fight failed") }, [], 0)
+        tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FFightFail")) }, [], 0)
 
         tl.call(() => { this.doLandlordFight() }, [], 4)
 
@@ -267,8 +269,9 @@ export class FightLevel extends BaseLevel {
 
         this.state = FSTATE.PAUZE
         let tl = this.getTimeline()
-        tl.call(() => { this.fightUI.setInfoPanel("heal succes") }, [], 0)
-        let target = Math.min(this.pirateLife + 0.3);
+        tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FHealSucces")) }, [], 0)
+        let target = Math.min(this.pirateLife + 0.3, 1);
+
         tl.to(this, { pirateLife: target }, 2)
 
         tl.call(() => { this.doLandlordFight() }, [], 4)
@@ -279,7 +282,7 @@ export class FightLevel extends BaseLevel {
     doPirateHealFail() {
         this.state = FSTATE.PAUZE
         let tl = this.getTimeline()
-        tl.call(() => { this.fightUI.setInfoPanel("heal fail") }, [], 0)
+        tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FHealFail")) }, [], 0)
         let target = Math.min(this.pirateLife - 0.2);
         tl.to(this, { pirateLife: target }, 2)
         tl.call(() => { this.doLandlordFight() }, [], 4)
@@ -291,7 +294,7 @@ export class FightLevel extends BaseLevel {
 
         let tl = this.getTimeline()
         this.state = FSTATE.PAUZE
-        tl.call(() => { this.fightUI.setInfoPanel("you cant run from this") }, [], 0)
+        tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FRun")) }, [], 0)
         tl.to(this, { pirateLife: 0.0 }, 2)
 
         tl.call(() => { GameModel.happyEnd = false; LevelHandler.setLevel("Dead") }, [], 4)
