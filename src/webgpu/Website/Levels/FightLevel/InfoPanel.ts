@@ -19,8 +19,8 @@ export default class InfoPanel {
         let font = FontPool.getFont("bold") as Font;
 
 
-        this.text = new Text(renderer, font, 30, "item")
-        this.text.setText("Mister Billy shot you in the eye, Ouch")
+        this.text = new Text(renderer, font, 30, "_")
+
         this.text.x = -700 / 2 + 20
         this.text.y = -150 / 2 + 20
 

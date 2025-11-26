@@ -14,9 +14,12 @@ import { Vector3 } from "@math.gl/core";
 import UI from "../../../lib/UI/UI.ts";
 import FightUI from "./FigthUI.ts";
 import GameInput from "../../GameInput.ts";
+import LevelHandler from "../LevelHandler.ts";
+
 
 enum FSTATE {
     START,
+    PAUZE,
     FIGHT_SELECT,
 
 }
@@ -24,13 +27,16 @@ enum FSTATE {
 export class FightLevel extends BaseLevel {
     private tl!: gsap.core.Timeline;
 
-    private rootShip!: SceneObject3D;
-    private landlord!: SceneObject3D;
+
     fightUI!: FightUI;
 
 
     state: FSTATE = FSTATE.START
-    fightSelectIndex: number;
+    fightSelectIndex: number = 0;
+    private pirate!: SceneObject3D;
+    private landlord!: SceneObject3D;
+    pirateLife: number = 1;
+    landlordLife: number = 1;
 
 
     init() {
@@ -67,8 +73,8 @@ export class FightLevel extends BaseLevel {
         char.x = 0.6;
         char.y = 0;
         char.ry = Math.PI - 0.2
-
         char.setScaler(1.2)
+        this.pirate = char;
 
         this.landlord = sceneHandler.getSceneObject("rootLandlord")
         this.landlord.setScaler(1.2)
@@ -89,20 +95,31 @@ export class FightLevel extends BaseLevel {
         GameModel.gameRenderer.tweenToNonBlack()
 
         this.fightUI = GameModel.UI2D.fightUI;
+        this.pirateLife = 1;
+        this.landlordLife = 1;
 
-
+        this.setFirstShot()
     }
 
     onUI(): void {
-        if (UI.LButton("fightPanel",)) {
-            this.setFightPanel()
+        if (UI.LButton("fightSucces",)) {
+            this.doPirateFightSucces()
         }
-        if (UI.LButton("Rinus knop",)) {
-            this.setFirstShot()
+        if (UI.LButton("fightFail",)) {
+            this.doPirateFightFail()
+        }
+        if (UI.LButton("healSucces",)) {
+            this.doPirateHealSucces()
+        }
+        if (UI.LButton("healFail",)) {
+            this.doPirateHealFail()
         }
     }
-    setFirstShot() {
-        this.fightUI.setInfoPanel("hallo Rinus!")
+
+    getTimeline() {
+        if (this.tl) this.tl.clear()
+        this.tl = gsap.timeline()
+        return this.tl;
     }
     setFightPanel() {
         this.state = FSTATE.FIGHT_SELECT
@@ -111,19 +128,174 @@ export class FightLevel extends BaseLevel {
     }
     update() {
         super.update();
+
+
+        let pPos = this.pirate.getWorldPos().add([0, -0.3, 0])
+        pPos.transform(GameModel.gameCamera.camera.viewProjection)
+
+
+
+        let lPos = this.landlord.getWorldPos().add([0, -0.2, 0])
+        lPos.transform(GameModel.gameCamera.camera.viewProjection)
+
+        this.fightUI.setCharPositionsLife(pPos, this.pirateLife, lPos, this.landlordLife)
+
+
         if (this.state == FSTATE.FIGHT_SELECT) {
             let vInput = GameInput.vInput;
             if (vInput != 0) {
                 this.fightSelectIndex += vInput + 3;
                 this.fightSelectIndex %= 3;
                 this.fightUI.setFightPannel(this.fightSelectIndex)
-                GameInput.reset()
+                GameInput.reset();
+            }
+
+            else if (GameInput.space) {
+                if (this.fightSelectIndex == 0) {
+                    this.doPirateFight()
+                }
+                if (this.fightSelectIndex == 1) {
+                    this.doPirateHeal()
+                }
+                if (this.fightSelectIndex == 2) {
+                    this.doPirateRun()
+                }
+                GameInput.reset();
             }
 
         }
 
     }
+    setFirstShot() {
+        let tl = this.getTimeline()
+        this.state = FSTATE.PAUZE
+        tl.call(() => { this.fightUI.setInfoPanel("you got shot in the eye") }, [], 1)
+        tl.to(this, { pirateLife: 0.6 }, 2)
+        tl.call(() => { this.setFightPanel() }, [], 4)
 
+
+    }
+    doLandlordFight() {
+        if (Math.random() > 0.5) {
+            this.doLandlordFightSucces()
+        } else {
+            this.doLandlordFightFail()
+        }
+    }
+    doLandlordFightFail() {
+        this.state = FSTATE.PAUZE
+
+        let tl = this.getTimeline()
+        tl.call(() => { this.fightUI.setInfoPanel("billy fight fail") }, [], 0)
+
+        tl.call(() => { this.setFightPanel() }, [], 4)
+
+
+
+    }
+    doLandlordFightSucces() {
+        this.state = FSTATE.PAUZE
+
+        let target = Math.max(this.pirateLife - 0.2, 0);
+
+
+        let tl = this.getTimeline()
+        tl.call(() => { this.fightUI.setInfoPanel("billy fight succes") }, [], 0)
+        tl.to(this, { pirateLife: target }, 2)
+        if (target == 0) {
+
+            tl.call(() => { GameModel.happyEnd = false; LevelHandler.setLevel("Dead") }, [], 5)
+        } else {
+            tl.call(() => { this.setFightPanel() }, [], 4)
+
+        }
+
+    }
+    doPirateFight() {
+        if (Math.random() > 0.3) {
+            this.doPirateFightSucces()
+        } else {
+            this.doPirateFightFail()
+        }
+    }
+    doPirateFightSucces() {
+
+        this.state = FSTATE.PAUZE
+
+        let target = Math.max(this.landlordLife - 0.34, 0);
+
+
+        let tl = this.getTimeline()
+        tl.call(() => { this.fightUI.setInfoPanel("pirate fight succes") }, [], 0)
+        tl.to(this, { landlordLife: target }, 2)
+        if (target == 0) {
+            tl.call(() => { this.fightUI.setInfoPanel("you win") }, [], 3)
+            tl.call(() => { GameModel.happyEnd = true; LevelHandler.setLevel("Sea") }, [], 5)
+        } else {
+            tl.call(() => {
+
+                this.doLandlordFight()
+
+
+            }, [], 4)
+
+        }
+
+    }
+    doPirateFightFail() {
+        this.state = FSTATE.PAUZE
+
+
+
+
+        let tl = this.getTimeline()
+        tl.call(() => { this.fightUI.setInfoPanel("pirate fight failed") }, [], 0)
+
+        tl.call(() => { this.doLandlordFight() }, [], 4)
+
+
+    }
+    doPirateHeal() {
+        if (Math.random() > 0.5 || this.pirateLife < 0.3) {
+            this.doPirateHealSucces()
+        } else {
+            this.doPirateHealFail()
+        }
+    }
+    doPirateHealSucces() {
+
+
+        this.state = FSTATE.PAUZE
+        let tl = this.getTimeline()
+        tl.call(() => { this.fightUI.setInfoPanel("heal succes") }, [], 0)
+        let target = Math.min(this.pirateLife + 0.3);
+        tl.to(this, { pirateLife: target }, 2)
+
+        tl.call(() => { this.doLandlordFight() }, [], 4)
+
+
+
+    }
+    doPirateHealFail() {
+        this.state = FSTATE.PAUZE
+        let tl = this.getTimeline()
+        tl.call(() => { this.fightUI.setInfoPanel("heal fail") }, [], 0)
+        let target = Math.min(this.pirateLife - 0.2);
+        tl.to(this, { pirateLife: target }, 2)
+        tl.call(() => { this.doLandlordFight() }, [], 4)
+
+    }
+
+    doPirateRun() {
+
+
+        let tl = this.getTimeline()
+        this.state = FSTATE.PAUZE
+        tl.call(() => { this.fightUI.setInfoPanel("you cant run from this") }, [], 0)
+        tl.to(this, { pirateLife: 0.0 }, 2)
+
+        tl.call(() => { GameModel.happyEnd = false; LevelHandler.setLevel("Dead") }, [], 4)
+    }
     destroy() {
         super.destroy()
         if (this.tl) this.tl.clear()
@@ -132,3 +304,5 @@ export class FightLevel extends BaseLevel {
 
 
 }
+
+

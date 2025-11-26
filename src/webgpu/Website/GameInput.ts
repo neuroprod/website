@@ -3,13 +3,17 @@ import KeyInput from "./KeyInput";
 
 class GameInput {
 
+    getSpace() {
+        throw new Error("Method not implemented.");
+    }
+
     keyInput!: KeyInput;
     gamePadInput!: GamePadInput;
     private _blockInput: boolean = false;
     jump: boolean = false;
     hInput: number = 0;
     vInput: number = 0;
-
+    space: boolean = false;
     constructor() {
 
     }
@@ -34,7 +38,7 @@ class GameInput {
         this.hInput = hInput;
         this.vInput = vInput;
 
-
+        this.space = this.keyInput.getSpace()
 
 
 

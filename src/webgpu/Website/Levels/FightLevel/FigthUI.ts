@@ -10,6 +10,8 @@ import DefaultTextures from "../../../lib/textures/DefaultTextures.ts";
 import Sprite from "../../../lib/twoD/Sprite.ts";
 import InfoPanel from "./InfoPanel.ts";
 import FightPanel from "./FightPanel.ts";
+import { Vector3 } from "@math.gl/core";
+import LifeBar from "./LifeBar.ts";
 export default class FightUI {
 
 
@@ -19,6 +21,8 @@ export default class FightUI {
     infoPanel: InfoPanel;
     infoHolder: Object2D;
     fightPannel: FightPanel;
+    pirateLife: LifeBar;
+    landLordLife: any;
 
 
     constructor(renderer: Renderer) {
@@ -36,6 +40,21 @@ export default class FightUI {
         this.fightPannel = new FightPanel(renderer)
         this.infoHolder.addChild(this.fightPannel.root)
         this.fightPannel.root.visible = false
+
+        this.pirateLife = new LifeBar(renderer)
+        this.root.addChild(this.pirateLife.root)
+
+        this.landLordLife = new LifeBar(renderer)
+        this.root.addChild(this.landLordLife.root)
+
+    }
+    setCharPositionsLife(pPos: Vector3, pLife: number, lPos: Vector3, lLife: number) {
+        this.pirateLife.root.x = pPos.x * this.renderer.htmlWidth / 2
+        this.pirateLife.root.y = pPos.y * this.renderer.htmlHeight / 2
+        this.pirateLife.setLive(pLife)
+        this.landLordLife.root.x = lPos.x * this.renderer.htmlWidth / 2
+        this.landLordLife.root.y = lPos.y * this.renderer.htmlHeight / 2
+        this.landLordLife.setLive(lLife)
 
     }
 

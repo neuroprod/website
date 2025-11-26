@@ -99,6 +99,12 @@ export default class KeyInput {
         }
         return false;
     }
+    getSpace() {
+        if (this.space) {
+            return true;
+        }
+        return false;
+    }
     getHdir() {
         if (this.rightDown && !this.leftDown) {
             return 1

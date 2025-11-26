@@ -62,7 +62,7 @@ export default class GuageLevel extends BaseLevel {
             console.log(this.count)
             if (this.count == 19) {
                 GameModel.happyEnd = true
-                LevelHandler.setLevel("Sea");
+                LevelHandler.setLevel("Fight");
 
             } else {
                 this.tick()
