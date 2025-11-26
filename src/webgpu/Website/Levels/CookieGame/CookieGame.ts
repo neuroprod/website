@@ -11,6 +11,7 @@ import gsap from "gsap";
 import SoundHandler from "../../SoundHandler.ts";
 import LevelHandler from "../LevelHandler.ts";
 import GameModel from "../../GameModel.ts";
+import GameInput from "../../GameInput.ts";
 
 class StrawberryData {
     strawBerry: SceneObject3D;
@@ -145,14 +146,9 @@ export default class CookieGame extends BaseLevel {
                 this.nextStrawBerryTime = 1.5 + Math.random() * 1.5;
             }
 
-            let jump = GameModel.keyInput.getJump()
-            let hInput = GameModel.keyInput.getHdir()
-            if (GameModel.gamepadInput.connected) {
+            let jump = GameInput.jump
+            let hInput = GameInput.hInput
 
-                if (hInput == 0) hInput = GameModel.gamepadInput.getHdir()
-
-                if (!jump) jump = GameModel.gamepadInput.getJump()
-            }
             this.setHole(hInput == -1, jump, hInput == 1)
         }
 

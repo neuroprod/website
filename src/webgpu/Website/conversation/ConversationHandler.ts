@@ -84,7 +84,7 @@ export default class ConversationHandler {
     }
 
     displayText(text: string, numAnswers: number, currentAnswer: number) {
-        console.log(text)
+
         this.textReady = false
         this.textBalloonHandler.setText(this.replace(text), numAnswers, currentAnswer)
         setTimeout(() => {

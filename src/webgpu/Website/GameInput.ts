@@ -2,11 +2,13 @@ import GamePadInput from "./GamePadInput";
 import KeyInput from "./KeyInput";
 
 class GameInput {
+
     keyInput!: KeyInput;
     gamePadInput!: GamePadInput;
     private _blockInput: boolean = false;
     jump: boolean = false;
     hInput: number = 0;
+    vInput: number = 0;
 
     constructor() {
 
@@ -21,6 +23,7 @@ class GameInput {
 
         let jump = this.keyInput.getJump()
         let hInput = this.keyInput.getHdir()
+        let vInput = this.keyInput.getVdir()
         if (this.gamePadInput.connected) {
 
             if (hInput == 0) hInput = this.gamePadInput.getHdir()
@@ -29,6 +32,16 @@ class GameInput {
         }
         this.jump = jump;
         this.hInput = hInput;
+        this.vInput = vInput;
+
+
+
+
+
+    }
+    reset() {
+        this.keyInput.clear()
+        this.gamePadInput.clear()
     }
     get blockInput(): boolean {
         return this._blockInput;
@@ -36,8 +49,7 @@ class GameInput {
 
     set blockInput(value: boolean) {
 
-        this.keyInput.clear()
-        this.gamePadInput.clear()
+        this.reset()
         this._blockInput = value;
     }
 

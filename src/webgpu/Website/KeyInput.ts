@@ -1,18 +1,26 @@
 export default class KeyInput {
 
+    jumpTime: number = 0;
+
     leftDown = false;
     rightDown = false;
 
-    /*camLeft: boolean = false;
-    camRight: boolean = false;
-    camUp: boolean = false;
-    camDown: boolean = false;*/
+
+    upDown = false;
+    downDown = false;
+
+    space = false;
+    m = false;
+
     private rightDownTime!: DOMHighResTimeStamp;
     private leftDownTime!: DOMHighResTimeStamp;
-    private space: boolean = false;
-    private spaceTimeStamp!: DOMHighResTimeStamp;
-    private spaceTime: number = 0;
-    m: boolean = false;
+    private upDownTime!: DOMHighResTimeStamp;
+    private downDownTime!: DOMHighResTimeStamp;
+
+    private spaceDownTime!: DOMHighResTimeStamp;
+
+
+
     constructor() {
 
         document.addEventListener('keydown', (event) => {
@@ -20,38 +28,32 @@ export default class KeyInput {
             switch (event.key) {
                 case "ArrowLeft":
 
-                    if (event.shiftKey) {
-                        //this.camLeft = true;
-                    } else {
-                        this.leftDown = true;
-                        this.leftDownTime = event.timeStamp
-                    }
+
+                    this.leftDown = true;
+                    this.leftDownTime = event.timeStamp
+
                     break;
                 case "ArrowRight":
-                    if (event.shiftKey) {
-                        // this.camLeft = true;
-                    } else {
-                        this.rightDown = true;
-                        this.rightDownTime = event.timeStamp
-                    }
+
+                    this.rightDown = true;
+                    this.rightDownTime = event.timeStamp
+
                     break;
                 case "ArrowUp":
-                    if (event.shiftKey) {
-                        // this.camUp = true;
-                        break;
-                    }
+                    this.upDown = true;
+
+                    this.upDownTime = event.timeStamp
+                    break;
+
+                case "ArrowDown":
+                    this.downDown = true
+                    this.downDownTime = event.timeStamp
+                    break;
                 case " ":
                     this.space = true;
-                    this.spaceTimeStamp = event.timeStamp
+                    this.spaceDownTime = event.timeStamp
 
                     break;
-                case "ArrowDown":
-                    if (event.shiftKey) {
-                        // this.camDown = true;
-
-                    }
-                    break;
-
                 case "m":
                     this.m = true;
 
@@ -70,17 +72,28 @@ export default class KeyInput {
                     this.rightDown = false
                     break;
                 case " ":
+                    this.jumpTime = event.timeStamp - this.spaceDownTime;
+                    this.space = false
+                    break;
+                    ;
                 case "ArrowUp":
 
-                    this.spaceTime = event.timeStamp - this.spaceTimeStamp;
-
+                    this.jumpTime = event.timeStamp - this.upDownTime;
+                    this.upDown = false
                     this.space = false
+                    break;
+
+                case "ArrowDown":
+
+
+                    this.downDown = false
+
                     break;
             }
         });
     }
     getJump() {
-        if (this.space) {
+        if (this.space || this.upDown) {
             // this.space =false;
             return true;
         }
@@ -99,6 +112,20 @@ export default class KeyInput {
         }
         return 0;
     }
+    getVdir() {
+        if (this.upDown && !this.downDown) {
+            return -1
+        }
+        if (this.downDown && !this.upDown) {
+            return 1
+        }
+        if (this.upDown && this.downDown) {
+            if (this.downDownTime > this.upDownTime) return 1
+            else return -1;
+        }
+        return 0;
+    }
+
 
 
     clear() {
@@ -106,5 +133,7 @@ export default class KeyInput {
         this.space = false;
         this.leftDown = false;
         this.rightDown = false;
+        this.upDown = false;
+        this.downDown = false;
     }
 }

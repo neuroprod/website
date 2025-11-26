@@ -8,16 +8,17 @@ import gsap from "gsap";
 import SoundHandler from "../../SoundHandler.ts";
 import DefaultTextures from "../../../lib/textures/DefaultTextures.ts";
 import Sprite from "../../../lib/twoD/Sprite.ts";
-import InfoPannel from "./InfoPannel.ts";
-import FightPannel from "./FightPannel.ts";
+import InfoPanel from "./InfoPanel.ts";
+import FightPanel from "./FightPanel.ts";
 export default class FightUI {
+
 
     root = new Object2D()
     private renderer: Renderer;
     backPanel: Sprite;
-    infoPanel: InfoPannel;
+    infoPanel: InfoPanel;
     infoHolder: Object2D;
-    fightPannel: FightPannel;
+    fightPannel: FightPanel;
 
 
     constructor(renderer: Renderer) {
@@ -30,9 +31,9 @@ export default class FightUI {
         this.backPanel.sy = 150;
         this.infoHolder.addChild(this.backPanel)
 
-        this.infoPanel = new InfoPannel(renderer)
+        this.infoPanel = new InfoPanel(renderer)
         this.infoHolder.addChild(this.infoPanel.root)
-        this.fightPannel = new FightPannel(renderer)
+        this.fightPannel = new FightPanel(renderer)
         this.infoHolder.addChild(this.fightPannel.root)
         this.fightPannel.root.visible = false
 
@@ -41,6 +42,16 @@ export default class FightUI {
     destroy() {
 
 
+    }
+    setInfoPanel(text: string) {
+        this.infoPanel.show()
+        this.fightPannel.hide()
+        this.infoPanel.setText(text)
+    }
+    setFightPannel(index: number) {
+        this.infoPanel.hide()
+        this.fightPannel.show(index)
+        console.log("setPannelIndex", index)
     }
     setLevel(key: string) {
 
