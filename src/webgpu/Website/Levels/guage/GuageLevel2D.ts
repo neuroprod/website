@@ -11,11 +11,9 @@ export default class GuageLevel2D {
     root = new Object2D()
     private renderer: Renderer;
     mainCopy = ["Time is running out...", "You have to act now!", "But you are a pirate.", "You will do the right thing."]
-    leftRightCopy = ["Strawbery", 'Sugar', "Macaroni", "Fishstick", "Create", "Consume", "Fight", "Flight", "Pirate", "Steal", "Love", "Hate", "Wrong", "Right", "Right", "Wrong", "Live", "Die"]
-
 
     mainText: Array<Text> = []
-    leftRightText: Array<Text> = []
+
     currentText!: Text;
     charPos = 0;
     charPosOld = -1;
@@ -34,31 +32,15 @@ export default class GuageLevel2D {
             this.root.addChild(text)
         }
         let cc = 0
-        for (let c of this.leftRightCopy) {
-            let text = new Text(renderer, font, 100, c)
 
-            this.leftRightText.push(text)
-            text.visible = false
-            if (cc % 2 == 0) {
-                text.x = -text.width - 300
-                text.r = Math.random() * 0.2
-            }
-            else {
-                text.x = 300
-                text.r = -Math.random() * 0.2
-            }
-
-            text.y = -25
-            this.root.addChild(text)
-            cc++;
-        }
 
 
         this.currentText = this.mainText[0];
     }
     setTick(count: number) {
-
+        if (count > 16) return
         let halfCount = (count - 3) / 4;
+
         for (let i = 0; i < this.mainText.length; i++) {
             let text = this.mainText[i]
             if (i == halfCount) {
@@ -77,35 +59,14 @@ export default class GuageLevel2D {
 
         }
 
-        let leftRightCount = (count - 25) / 2
 
-
-        for (let i = 0; i < this.leftRightText.length; i++) {
-            let text = this.leftRightText[i]
-            if (i == leftRightCount) {
-                text.visible = true
-
-            } if (i == leftRightCount + 1) {
-                text.visible = true
-
-            }
-
-            if ((i == leftRightCount - 2 || i == leftRightCount - 1) && i < this.leftRightText.length - 2) {
-
-                // text.visible = false
-            }
-
-        }
     }
     destroy() {
         for (let i = 0; i < this.mainText.length; i++) {
             let text = this.mainText[i]
             text.visible = false;
         }
-        for (let i = 0; i < this.leftRightText.length; i++) {
-            let text = this.leftRightText[i]
-            text.visible = false;
-        }
+
     }
     setLevel(key: string) {
 

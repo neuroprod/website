@@ -25,6 +25,7 @@ import Overlay from "./Overlay.ts";
 import CoinHandler from "./handlers/CoinHandler.ts";
 import Renderer2D from "../lib/twoD/Renderer2D.ts";
 import UI2D from "./UI2D/UI2D.ts";
+import GameInput from "./GameInput.ts";
 
 
 export default class Game {
@@ -50,6 +51,10 @@ export default class Game {
         GameModel.overlay = this.overlay;
         this.textBalloonHandler = new TextBalloonHandler(this.renderer, this.gameCamera.camera)
         this.conversationHandler = new ConversationHandler(this.renderer, this.textBalloonHandler)
+
+
+        //GameInput.init(new KeyInput(), new GamePadInput())
+
         this.keyInput = new KeyInput()
         this.gamepadInput = new GamePadInput()
 

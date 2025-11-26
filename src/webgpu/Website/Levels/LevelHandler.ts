@@ -36,6 +36,7 @@ import GuageLevel from "./guage/GuageLevel.ts";
 import GunLevel from "./gun/GunLevel.ts";
 import DeadLevel from "./dead/DeadLevel.ts";
 import { FactoryLevel } from "./factory/FactoryLevel.ts";
+import { FightLevel } from "./FightLevel/FightLevel.ts";
 
 class LevelHandler {
     public levelKeys: Array<string> = [];
@@ -46,6 +47,7 @@ class LevelHandler {
     public navigationLevels: Array<string> = ["Worries", "Me", "Smullen", "Food", "Shaders", "Clients", "Robot", "This", "Invasion", "Friends", "Lab101", "Macaroni", "Social", "Contact"]
     private currentLevelName: string = "";
     init() {
+        this.addLevel("Fight", new FightLevel())
         this.addLevel("Factory", new FactoryLevel())
         this.addLevel("Home", new StartLevel())
         this.addLevel("Dead", new DeadLevel());

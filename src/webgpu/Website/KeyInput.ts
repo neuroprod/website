@@ -3,10 +3,10 @@ export default class KeyInput {
     leftDown = false;
     rightDown = false;
 
-    camLeft: boolean = false;
+    /*camLeft: boolean = false;
     camRight: boolean = false;
     camUp: boolean = false;
-    camDown: boolean = false;
+    camDown: boolean = false;*/
     private rightDownTime!: DOMHighResTimeStamp;
     private leftDownTime!: DOMHighResTimeStamp;
     private space: boolean = false;
@@ -21,7 +21,7 @@ export default class KeyInput {
                 case "ArrowLeft":
 
                     if (event.shiftKey) {
-                        this.camLeft = true;
+                        //this.camLeft = true;
                     } else {
                         this.leftDown = true;
                         this.leftDownTime = event.timeStamp
@@ -29,7 +29,7 @@ export default class KeyInput {
                     break;
                 case "ArrowRight":
                     if (event.shiftKey) {
-                        this.camLeft = true;
+                        // this.camLeft = true;
                     } else {
                         this.rightDown = true;
                         this.rightDownTime = event.timeStamp
@@ -37,7 +37,7 @@ export default class KeyInput {
                     break;
                 case "ArrowUp":
                     if (event.shiftKey) {
-                        this.camUp = true;
+                        // this.camUp = true;
                         break;
                     }
                 case " ":
@@ -47,7 +47,7 @@ export default class KeyInput {
                     break;
                 case "ArrowDown":
                     if (event.shiftKey) {
-                        this.camDown = true;
+                        // this.camDown = true;
 
                     }
                     break;

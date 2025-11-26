@@ -137,7 +137,7 @@ export class DockLevel extends PlatformLevel {
         return false;
     }
     landLordConversation() {
-        let target = new Vector3(5, 0.5, 0)
+        let target = new Vector3(5.1, 0.5, 0)
         this.landlord.y = 0
         GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0.0, 0.0, 2]), 1)
         gsap.delayedCall(0.5, () => {

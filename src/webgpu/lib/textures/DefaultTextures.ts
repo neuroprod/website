@@ -115,7 +115,10 @@ export default class DefaultTextures {
         this.black.make()
 
         let f = new Uint8ClampedArray(4);
-        f.fill(0);
+        f[0] = 0;
+        f[1] = 0;
+        f[2] = 0;
+        f[3] = 255;
         this.black.writeTexture(f, 1, 1, 4);
 
         return this.black;
