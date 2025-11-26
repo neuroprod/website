@@ -12,6 +12,7 @@ import gsap from "gsap";
 import LevelHandler from "../LevelHandler.ts";
 import God from "../GodLevel/God.ts";
 import GameModel from "../../GameModel.ts";
+import GameInput from "../../GameInput.ts";
 
 export default class GodChoiceLevel extends BaseLevel {
     private god!: SceneObject3D;
@@ -23,7 +24,7 @@ export default class GodChoiceLevel extends BaseLevel {
     private presentStartScale: Array<number> = []
     private selectIndex = 0;
     private switchTime = 0;
-    private speed = 0.1;
+    private speed = 0.2;
     private state = 0;
     private godHandler!: God;
     init() {
@@ -108,11 +109,7 @@ export default class GodChoiceLevel extends BaseLevel {
         super.update();
         this.godHandler.update()
 
-        let jump = GameModel.keyInput.getJump()
-        if (GameModel.gamepadInput.connected) {
-            if (!jump) jump = GameModel.gamepadInput.getJump()
-        }
-
+        let jump = GameInput.jump
 
         if (this.state == 1) {
             if (jump) {

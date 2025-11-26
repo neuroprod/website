@@ -32,9 +32,9 @@ export default class Game {
     private renderer: Renderer;
     private mouseListener: MouseListener;
     private gameRenderer: GameRenderer;
-    private keyInput: KeyInput;
+    //private keyInput: KeyInput;
     private gameCamera: GameCamera;
-    private gamepadInput: GamePadInput;
+    //private gamepadInput: GamePadInput;
 
     private textBalloonHandler: TextBalloonHandler;
     private conversationHandler: ConversationHandler;
@@ -53,17 +53,18 @@ export default class Game {
         this.conversationHandler = new ConversationHandler(this.renderer, this.textBalloonHandler)
 
 
-        //GameInput.init(new KeyInput(), new GamePadInput())
+        GameInput.init(new KeyInput(), new GamePadInput())
 
-        this.keyInput = new KeyInput()
-        this.gamepadInput = new GamePadInput()
+        //this.keyInput = new KeyInput()
+        //this.gamepadInput = new GamePadInput()
 
 
         GameModel.renderer = renderer;
         GameModel.gameRenderer = this.gameRenderer;
         GameModel.gameCamera = this.gameCamera
-        GameModel.gamepadInput = this.gamepadInput
-        GameModel.keyInput = this.keyInput
+
+        // GameModel.gamepadInput = this.gamepadInput
+        //GameModel.keyInput = this.keyInput
         GameModel.textBalloonHandler = this.textBalloonHandler
         GameModel.conversationHandler = this.conversationHandler;
         GameModel.mouseListener = this.mouseListener;
@@ -82,7 +83,7 @@ export default class Game {
         if (!LoadHandler.isLoading()) {
 
 
-            this.gamepadInput.update();
+            GameInput.update()
             if (LevelHandler.currentLevel) {
                 LevelHandler.currentLevel.updateMouse()
                 LevelHandler.currentLevel.update()

@@ -49,7 +49,7 @@ export class HandLevel extends PlatformLevel {
     configScene() {
         super.configScene()
         LoadHandler.onComplete = () => { }
-        this.blockInput = false
+        this.isConversation = false
         this.characterController.setCharacter()
         GameModel.gameCamera.setCharacter()
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
@@ -98,7 +98,7 @@ export class HandLevel extends PlatformLevel {
 
                 let target = this.hand.getWorldPos().add([-0.35, 0.3, 0])
                 GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 2]))
-                this.blockInput = true
+                this.isConversation = true
                 this.charFaceHandler.setState("lookHand")
                 this.characterController.gotoAndIdle(this.hand.getWorldPos().add([-0.7, 0, 0]), 1, () => {
                     gsap.delayedCall(0.5, () => {

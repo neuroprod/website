@@ -6,21 +6,16 @@ import CoinGrabber from "../handlers/CoinGrabber.ts";
 import SceneObject3D from "../../data/SceneObject3D.ts";
 import { HitTrigger } from "../../data/HitTriggers.ts";
 import GameModel from "../GameModel.ts";
+import KeyInput from "../KeyInput.ts";
+import GameInput from "../GameInput.ts";
 
 export class PlatformLevel extends BaseLevel {
-    get blockInput(): boolean {
-        return this._blockInput;
-    }
 
-    set blockInput(value: boolean) {
-        GameModel.keyInput.clear()
-        GameModel.gamepadInput.clear()
-        this._blockInput = value;
-    }
     public characterController!: CharacterController;
     private coinHandler!: CoinGrabber;
+    isConversation: boolean = false;
 
-    private _blockInput = false
+
 
     init() {
         super.init();
@@ -38,25 +33,21 @@ export class PlatformLevel extends BaseLevel {
 
         this.coinHandler = new CoinGrabber()
         GameModel.conversationHandler.dataCallBack = this.conversationDataCallBack.bind(this)
-        this._blockInput = false;
+        GameInput.blockInput = false;
         GameModel.gameRenderer.setLevelType("platform")
 
         GameModel.gameRenderer.tweenToNonBlack()
     }
     update() {
 
-        GameModel.gamepadInput.update();
+
         let delta = Timer.delta;
-        let jump = GameModel.keyInput.getJump()
-        let hInput = GameModel.keyInput.getHdir()
-        if (GameModel.gamepadInput.connected) {
+        let jump = GameInput.jump
 
-            if (hInput == 0) hInput = GameModel.gamepadInput.getHdir()
+        let hInput = GameInput.hInput
 
-            if (!jump) jump = GameModel.gamepadInput.getJump()
-        }
 
-        if (!this._blockInput) {
+        if (!this.isConversation) {
             this.characterController.update(delta, hInput, jump)
         } else {
             this.characterController.updateIdle(delta)

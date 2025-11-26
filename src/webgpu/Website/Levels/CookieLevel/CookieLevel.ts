@@ -51,7 +51,7 @@ export class CookieLevel extends PlatformLevel {
     configScene() {
         super.configScene()
         LoadHandler.onComplete = () => { }
-        this.blockInput = false
+        this.isConversation = false
         this.characterController.setCharacter()
         GameModel.gameCamera.setCharacter()
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
@@ -101,7 +101,7 @@ export class CookieLevel extends PlatformLevel {
 
                 let target = this.rootSausage.getWorldPos().add([-0.4, 0.52, 0])
                 GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 1.9]))
-                this.blockInput = true
+                this.isConversation = true
 
                 this.characterController.gotoAndIdle(this.rootSausage.getWorldPos().add([-0.9, 0, 0]), 1, () => {
                     this.characterController.setAngle(0.4)
@@ -134,7 +134,7 @@ export class CookieLevel extends PlatformLevel {
 
                                 //GameModel.gameCamera.setCharView()
                                 setTimeout(() => {
-                                    this.blockInput = false
+                                    this.isConversation = false
 
                                     LevelHandler.setLevel("CookieGame")
 

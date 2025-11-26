@@ -56,7 +56,7 @@ export class FactoryLevel extends PlatformLevel {
         super.configScene()
         LoadHandler.onComplete = () => {
         }
-        this.blockInput = false
+        this.isConversation = false
 
         GameModel.gameCamera.setCharacter()
 
@@ -76,8 +76,8 @@ export class FactoryLevel extends PlatformLevel {
         charRoot.y = 0.0
         charRoot.setScaler(1.2)
         this.characterController.setCharacter()
-        this.blockInput = true
-        this.characterController.gotoAndIdle(new Vector3(this.startPos + 0.5, 0, 0), 1, () => { this.blockInput = false })
+        this.isConversation = true
+        this.characterController.gotoAndIdle(new Vector3(this.startPos + 0.5, 0, 0), 1, () => { this.isConversation = false })
 
 
 
@@ -183,7 +183,7 @@ export class FactoryLevel extends PlatformLevel {
                 f.triggerIsEnabled = false;
 
                 // 
-                this.blockInput = true
+                this.isConversation = true
                 this.characterController.gotoAndIdle(new Vector3(this.fishRoot.x - 0.7, 0, 0), 1, () => {
                     let target = new Vector3(this.fishRoot.x + 0.12, 0.6, 0)
                     GameModel.gameCamera.TweenToLockedView(target, target.clone().add([1, 0.1, 1.1]))

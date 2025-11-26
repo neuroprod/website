@@ -47,7 +47,7 @@ export class StrawberryLevel extends PlatformLevel {
         super.configScene()
         LoadHandler.onComplete = () => {
         }
-        this.blockInput = false
+        this.isConversation = false
         this.characterController.setCharacter()
         GameModel.gameCamera.setCharacter()
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
@@ -110,7 +110,7 @@ export class StrawberryLevel extends PlatformLevel {
                 this.charFaceHandler.setState("lookStarw")
                 let target = this.strawBerry.getWorldPos().add([-0.5, 0.5, 0])
                 GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 2]))
-                this.blockInput = true
+                this.isConversation = true
 
                 this.characterController.gotoAndIdle(this.strawBerry.getWorldPos().add([-0.9, 0, 0]), 1, () => {
                     gsap.delayedCall(1.5, () => {

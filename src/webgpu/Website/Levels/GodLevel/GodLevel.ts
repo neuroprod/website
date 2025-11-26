@@ -57,7 +57,7 @@ export class GodLevel extends PlatformLevel {
         super.configScene()
         LoadHandler.onComplete = () => {
         }
-        this.blockInput = false
+
         this.skipGodChoice = false
         GameModel.gameCamera.setCharacter()
 
@@ -83,7 +83,7 @@ export class GodLevel extends PlatformLevel {
         this.godController.init(this.god)
 
 
-        this.blockInput = true
+        this.isConversation = true
 
         let charRoot = SceneHandler.getSceneObject("charRoot");
 
@@ -130,7 +130,7 @@ export class GodLevel extends PlatformLevel {
                 f.triggerIsEnabled = false;
                 let target = f.getWorldPos().add([1, -0.1, 0])
                 GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 2]))
-                this.blockInput = true
+                this.isConversation = true
 
                 this.characterController.gotoAndIdle(this.tree.getWorldPos(), 1, () => {
                     this.characterController.setAngle(0.6)
@@ -168,7 +168,7 @@ export class GodLevel extends PlatformLevel {
 
                 let target = this.tree.getWorldPos().add([-0.5, 0.55, 0])
                 GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 1.7]))
-                this.blockInput = true
+                this.isConversation = true
 
                 this.characterController.gotoAndIdle(this.tree.getWorldPos().add([-0.65, 0, 0]), 1, () => {
                     this.characterController.setAngle(0.1)
@@ -188,7 +188,7 @@ export class GodLevel extends PlatformLevel {
                             this.characterController.setAngle(0.0)
 
                             gsap.delayedCall(0.5, () => {
-                                this.blockInput = false
+                                this.isConversation = false
                                 this.charFaceHandler.setState("default")
                             })
 
@@ -200,25 +200,7 @@ export class GodLevel extends PlatformLevel {
             }
 
 
-            /*  if(f.hitTriggerItem ==HitTrigger.STRAWBERRY){
-                  f.triggerIsEnabled =false;
 
-                  let target = this.strawBerry.getWorldPos().add([0.5,0.5,0])
-                  GameModel.gameCamera.TweenToLockedView( target,target.clone().add([0,0,2]))
-                 this.blockInput =true
-
-                 this.characterController.gotoAndIdle(this.strawBerry.getWorldPos().add([0.9,0,0]),-1,()=>{
-                     setTimeout(()=>{
-                     GameModel.conversationHandler.startConversation("strawberry")
-                     GameModel.conversationHandler.doneCallBack =()=>{
-                         GameModel.gameCamera.setCharView()
-                         setTimeout(()=>{this.blockInput =false},500)
-
-                     }},1500);
-
-                 });
-                  return true;
-              }*/
 
 
         }
@@ -243,7 +225,7 @@ export class GodLevel extends PlatformLevel {
         this.charFaceHandler.setState("front")
         GameModel.conversationHandler.startConversation("start")
         GameModel.conversationHandler.doneCallBack = () => {
-            this.blockInput = false
+            this.isConversation = false
             this.charFaceHandler.setState("default")
         }
 

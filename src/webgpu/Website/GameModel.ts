@@ -20,8 +20,8 @@ class GameModel {
     renderer!: Renderer;
     gameRenderer!: GameRenderer;
     gameCamera!: GameCamera;
-    gamepadInput!: GamePadInput;
-    keyInput!: KeyInput;
+    // gamepadInput!: GamePadInput;
+    //keyInput!: KeyInput;
     textBalloonHandler!: TextBalloonHandler;
     conversationHandler!: ConversationHandler;
     mouseListener!: MouseListener;

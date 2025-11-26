@@ -58,7 +58,7 @@ export class DockLevel extends PlatformLevel {
 
         super.configScene()
         LoadHandler.onComplete = () => { }
-        this.blockInput = false
+        this.isConversation = false
         let foam = sceneHandler.getSceneObject("foamHolder")
         for (let s of foam.children) {
             (s as SceneObject3D).hide()
@@ -118,7 +118,7 @@ export class DockLevel extends PlatformLevel {
                 f.triggerIsEnabled = false
                 let target = new Vector3(5.8, 0, 0)
                 GameModel.gameCamera.TweenToLockedView(target.clone().add([0.5, 0.5, 0]), target.clone().add([0.5, 0.5, 2]), 3)
-                this.blockInput = true
+                this.isConversation = true
 
                 this.characterController.gotoAndIdle(target, 1, () => {
                     gsap.delayedCall(2, () => {

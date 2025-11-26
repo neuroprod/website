@@ -71,7 +71,7 @@ export class SeaLevel extends PlatformLevel {
         super.configScene()
         LoadHandler.onComplete = () => {
         }
-        this.blockInput = false
+        this.isConversation = false
 
         SoundHandler.playSeaSound()
         this.rootShip = sceneHandler.getSceneObject("rootShip")
@@ -148,7 +148,7 @@ export class SeaLevel extends PlatformLevel {
 
         GameModel.gameCamera.camDistance = 8;
         GameModel.gameCamera.heightOffset = 0.5
-        this.blockInput = true
+        this.isConversation = true
 
         this.tl = gsap.timeline()
         this.tl.to(this.rootShip, { x: 0, duration: 10 }, 0)
