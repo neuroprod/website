@@ -38,27 +38,25 @@ export default class GuageLevel2D {
         this.currentText = this.mainText[0];
     }
     setTick(count: number) {
-        if (count > 16) return
-        let halfCount = (count - 3) / 4;
 
+        let delay = 0
         for (let i = 0; i < this.mainText.length; i++) {
             let text = this.mainText[i]
-            if (i == halfCount) {
+            if (i == count) {
                 text.visible = true
                 this.currentText = text;
                 this.charPos = 0
                 this.charPosOld = -1;
                 this.charCount = 0;
                 gsap.to(this, { charPos: this.currentText.mesh.charCount, duration: this.currentText.mesh.charCount / 30 })
+                delay = this.currentText.mesh.charCount / 30
             }
-
-            if (i == halfCount - 1) {
-
+            else {
                 text.visible = false
             }
 
         }
-
+        return delay;
 
     }
     destroy() {
@@ -66,7 +64,7 @@ export default class GuageLevel2D {
             let text = this.mainText[i]
             text.visible = false;
         }
-
+        gsap.killTweensOf(this)
     }
     setLevel(key: string) {
 

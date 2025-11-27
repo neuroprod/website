@@ -241,7 +241,7 @@ export default class CookieGame extends BaseLevel {
         this.nextStrawBerryTime = 2;
         this.hitCount = 0;
 
-        GameModel.gameRenderer.tweenToNonBlack()
+        GameModel.tweenToNonBlack()
 
         gsap.delayedCall(1, () => {
             GameModel.textBalloonHandler.setText("Now, Get those fruits!")

@@ -109,14 +109,9 @@ export default class CharacterController {
      }*/
     setCharacter() {
         if (this.waveTL) this.waveTL.clear()
-        this.fishTicks = SceneHandler.getSceneObject("fishstickHero");
 
-        /* if (GameModel.hasFishsticks) {
-             this.fishTicks.show()
-         } else {
-             this.fishTicks.hide()
-         }*/
-        this.fishTicks.hide()
+        SceneHandler.getSceneObject("patch").hide();
+
         this.charRoot = SceneHandler.getSceneObject("charRoot");
         this.charBody = SceneHandler.getSceneObject("body");
         this.charBody.y = 0.15

@@ -25,7 +25,7 @@ export class PlatformLevel extends BaseLevel {
 
     }
     endAnime(): number {
-        GameModel.gameRenderer.tweenToBlack()
+        GameModel.tweenToBlack()
         return 0.5;
     }
 
@@ -36,7 +36,7 @@ export class PlatformLevel extends BaseLevel {
         GameInput.blockInput = false;
         GameModel.gameRenderer.setLevelType("platform")
 
-        GameModel.gameRenderer.tweenToNonBlack()
+        GameModel.tweenToNonBlack()
     }
     update() {
 

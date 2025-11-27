@@ -10,6 +10,7 @@ import LevelHandler from "../LevelHandler";
 import gsap from "gsap";
 import SoundHandler from "../../SoundHandler";
 import GuageLevel2D from "./GuageLevel2D";
+import GameInput from "../../GameInput";
 export default class GuageLevel extends BaseLevel {
     arrow!: SceneObject3D;
     colorDisk!: SceneObject3D;
@@ -17,100 +18,57 @@ export default class GuageLevel extends BaseLevel {
     count = 0
     stl!: gsap.core.Timeline;
     clockSpeed = 0.8;
+    clockTime = this.clockSpeed;
     guageLevel2D!: GuageLevel2D
     colorAngle = 0
     doTick: boolean = true;
     canStopClock: boolean = false;
+    waitTime: number = 0;
+    textCount: number = 0;
     init() {
         super.init();
 
         this.configScene()
 
     }
-    endAnime(): number {
-        if (this.tl) this.tl.clear()
-        GameModel.gameRenderer.tweenToBlack()
-        return 0.5;
-    }
+
     private configScene() {
 
         LoadHandler.onComplete = () => { }
 
         this.guageLevel2D = GameModel.UI2D.guageLevel2D;
-        GameModel.gameRenderer.setBlack(0)
+        GameModel.setBlack(0)
 
-
-
-        this.tick()
+        this.count = 0
+        this.textCount = 0
+        this.waitTime = this.guageLevel2D.setTick(0)
     }
-    tick() {
-        if (!this.doTick) return;
-
-        let angle = 1
-        if (this.count % 2 == 0) {
-
-            angle *= -1
-
-        }
-        this.guageLevel2D.setTick(this.count)
-        if (this.tl) this.tl.clear()
-        this.tl = gsap.timeline()
-        this.tl.call(() => {
-            SoundHandler.playTick(this.count)
-        }, [], Math.min(0.3, this.clockSpeed))
-        this.tl.call(() => {
-            console.log(this.count)
-            if (this.count == 19) {
-                GameModel.happyEnd = true
-                LevelHandler.setLevel("Fight");
-
-            } else {
-                this.tick()
-            }
-
-        }, [], this.clockSpeed)
-
-        this.count++;
 
 
-    }
     update() {
         super.update();
-
-
-
-
-    }
-    stopClock() {
-        this.canStopClock = false;
-        this.doTick = false;
-        this.stl.clear()
-        let die = true;
-        if (this.count % 2 == 0) {
-            die = false
+        this.clockTime -= Timer.delta;
+        if (this.clockTime < 0) {
+            this.clockTime += this.clockSpeed;
+            SoundHandler.playTick(this.count)
+            this.count++;
         }
+        this.waitTime -= Timer.delta;
+        if (this.waitTime < 0) {
+            if (GameInput.space) {
+                this.textCount++
+                if (this.textCount > 3) {
+                    SoundHandler.playGunShot()
+                    LevelHandler.setLevel("Fight")
+                } else {
+                    this.waitTime = this.guageLevel2D.setTick(this.textCount)
+                }
 
-        this.stl = gsap.timeline()
 
-        this.stl.call(() => {
-            GameModel.gameRenderer.tweenToBlack()
-            this.guageLevel2D.destroy()
-        }, [], 0.5)
-        this.stl.call(() => {
-            SoundHandler.playGunShot()
-
-        }, [], 2)
-        this.stl.call(() => {
-            if (die) {
-                GameModel.happyEnd = false
-                LevelHandler.setLevel("Dead");
-
-            } else {
-                GameModel.happyEnd = true
-                LevelHandler.setLevel("Sea");
             }
+        }
+        //this.guageLevel2D.setTick(this.count)
 
-        }, [], 3)
 
     }
 
@@ -120,7 +78,7 @@ export default class GuageLevel extends BaseLevel {
         if (this.stl) this.stl.clear()
 
         this.guageLevel2D.destroy()
-        console.log("destroy")
+
     }
 
 

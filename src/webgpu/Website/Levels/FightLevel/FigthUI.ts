@@ -67,6 +67,10 @@ export default class FightUI {
         this.fightPannel.hide()
         this.infoPanel.setText(text)
     }
+    showNext() {
+        this.infoPanel.showNext()
+    }
+
     setFightPannel(index: number) {
         this.infoPanel.hide()
         this.fightPannel.show(index)

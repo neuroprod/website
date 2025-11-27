@@ -1,26 +1,26 @@
 import Material from "../../lib/material/Material.ts";
-import {ShaderType} from "../../lib/material/ShaderTypes.ts";
+import { ShaderType } from "../../lib/material/ShaderTypes.ts";
 
 import UniformGroup from "../../lib/material/UniformGroup.ts";
 import DefaultTextures from "../../lib/textures/DefaultTextures.ts";
-import {TextureSampleType} from "../../lib/WebGPUConstants.ts";
+import { TextureSampleType } from "../../lib/WebGPUConstants.ts";
 import Renderer from "../../lib/Renderer.ts";
-import {Textures} from "../../data/Textures.ts";
+import { Textures } from "../../data/Textures.ts";
 
 export default class GradingMaterial extends Material {
-    setup(){
+    setup() {
         this.addAttribute("aPos", ShaderType.vec3);
         this.addAttribute("aUV0", ShaderType.vec2);
-        this.addVertexOutput("uv0", ShaderType.vec2 );
+        this.addVertexOutput("uv0", ShaderType.vec2);
 
 
-        let uniforms =new UniformGroup(this.renderer,"uniforms");
-        this.addUniformGroup(uniforms,true);
+        let uniforms = new UniformGroup(this.renderer, "uniforms");
+        this.addUniformGroup(uniforms, true);
 
-        uniforms.addUniform("blackValue",1);
-        uniforms.addTexture("colorTexture", this.renderer.getTexture(Textures.LIGHT), {sampleType:TextureSampleType.UnfilterableFloat})
-        this.depthWrite =false;
-        this.depthCompare ="always"
+
+        uniforms.addTexture("colorTexture", this.renderer.getTexture(Textures.LIGHT), { sampleType: TextureSampleType.UnfilterableFloat })
+        this.depthWrite = false;
+        this.depthCompare = "always"
         //this.logShader =true;
     }
     getShader(): string {
@@ -73,7 +73,7 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
      let fall =0.3;
     color =color* smoothstep(0.8, fall * 0.799, dist * (0.6+ fall));
       
-     return vec4(acestonemap(color.xyz)*uniforms.blackValue,1.0) ;
+     return vec4(acestonemap(color.xyz),1.0) ;
 }
 ///////////////////////////////////////////////////////////
         `

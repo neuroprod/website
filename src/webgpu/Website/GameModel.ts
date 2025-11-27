@@ -14,7 +14,7 @@ import Renderer2D from "../lib/twoD/Renderer2D.ts";
 import GLFTLoader from "../lib/GLFTLoader.ts";
 import Camera from "../lib/Camera.ts";
 import FishstickHandler from "./handlers/FishstickHandler.ts";
-
+import gsap from "gsap";
 
 class GameModel {
 
@@ -47,7 +47,21 @@ class GameModel {
     getCopy(key: string) {
         return this.singleCopy[key] + ""
     }
+    tweenToNonBlack(duration = 2) {
+        gsap.killTweensOf(this.UI2D)
+        gsap.to(this.UI2D, { blackValue: 1, duration: duration, ease: "power2.in", delay: 0.5 })
 
+    }
+    setBlack(value = 0) {
+        gsap.killTweensOf(this.UI2D)
+        this.UI2D.blackValue = value
+
+    }
+    tweenToBlack() {
+        gsap.killTweensOf(this.UI2D)
+        gsap.to(this.UI2D, { blackValue: 0, duration: 0.5 })
+
+    }
 
 
 }

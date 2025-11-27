@@ -1,9 +1,14 @@
+import { Textures } from "../../../data/Textures.ts";
 import Renderer from "../../../lib/Renderer.ts";
+
 import Font from "../../../lib/twoD/Font.ts";
 import FontPool from "../../../lib/twoD/FontPool.ts";
 import Object2D from "../../../lib/twoD/Object2D.ts";
+import Sprite from "../../../lib/twoD/Sprite.ts";
 import Text from "../../../lib/twoD/Text.ts";
 export default class InfoPanel {
+    nextTriangle: Sprite;
+
     hide() {
         this.root.visible = false
     }
@@ -26,8 +31,21 @@ export default class InfoPanel {
 
         this.root.addChild(this.text)
 
+
+        this.nextTriangle = new Sprite(renderer, renderer.getTexture(Textures.TRIANGLE))
+
+        this.nextTriangle.x = 700 / 2 - 20
+        this.nextTriangle.y = 150 / 2 - 20
+        this.nextTriangle.sx = this.nextTriangle.sy = 0.6
+        this.root.addChild(this.nextTriangle)
+        this.nextTriangle.visible = false
+
+    }
+    showNext() {
+        this.nextTriangle.visible = true
     }
     setText(text: string) {
+        this.nextTriangle.visible = false
         this.text.setText(text)
     }
 

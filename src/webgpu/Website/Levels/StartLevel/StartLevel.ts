@@ -57,7 +57,7 @@ export class StartLevel extends BaseLevel {
     }
     endAnime(): number {
         if (this.goGraphicDev) return 0
-        GameModel.gameRenderer.tweenToBlack()
+        GameModel.tweenToBlack()
         return 0.5;
     }
     update() {
@@ -89,7 +89,7 @@ export class StartLevel extends BaseLevel {
         char.setScaler(1.2)
         char.x = -2;
         char.y = 1;
-        GameModel.hasFishsticks = false;
+
         this.characterController.setCharacter()
         this.charFaceHandler = new FaceHandler(char)
         this.charFaceHandler.setState("front")
@@ -218,7 +218,7 @@ export class StartLevel extends BaseLevel {
                 gsap.to(GameModel.gameRenderer, { distortValue: 0, delay: 0.2, duration: 0.5 })
             }
         })
-        GameModel.gameRenderer.tweenToNonBlack()
+        GameModel.tweenToNonBlack()
     }
     onUI(): void {
         this.charFaceHandler?.onUI()

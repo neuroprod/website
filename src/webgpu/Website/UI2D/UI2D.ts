@@ -8,6 +8,8 @@ import GuageLevel from "../Levels/guage/GuageLevel.ts";
 import GuageLevel2D from "../Levels/guage/GuageLevel2D.ts";
 import SettingsUI from "./SettingsUI.ts";
 import FightUI from "../Levels/FightLevel/FigthUI.ts";
+import Sprite from "../../lib/twoD/Sprite.ts";
+import DefaultTextures from "../../lib/textures/DefaultTextures.ts";
 
 export default class UI2D {
 
@@ -18,14 +20,32 @@ export default class UI2D {
     guageLevel2D: GuageLevel2D;
     settings: SettingsUI;
     fightUI: FightUI;
+    black: Sprite;
+    _blackValue: number = 1;
 
+    set blackValue(value: number) {
+
+        this._blackValue = value;
+        this.black.alpha = 1 - this._blackValue
+        if (this.blackValue == 1) {
+            this.black.visible = false
+        } else {
+            this.black.visible = true
+        }
+    }
+    get blackValue() {
+
+        return this._blackValue
+    }
     constructor(renderer: Renderer, renderer2D: Renderer2D) {
         this.renderer2D = renderer2D
         this.root = renderer2D.root
 
 
-
-
+        this.black = new Sprite(renderer, DefaultTextures.getBlack(renderer))
+        this.black.alpha = 0
+        this.black.sx = 10000
+        this.black.sy = 10000
         this.menu = new Menu(renderer)
         this.guageLevel2D = new GuageLevel2D(renderer)
         this.settings = new SettingsUI(renderer)
@@ -33,11 +53,15 @@ export default class UI2D {
 
         this.fightUI = new FightUI(renderer)
 
-        this.root.addChild(this.guageLevel2D.root)
-        this.root.addChild(this.menu.menuRoot)
-        this.root.addChild(this.settings.settingsRoot)
+
+        //  
+
         this.root.addChild(this.fightUI.root)
 
+        this.root.addChild(this.menu.menuRoot)
+        this.root.addChild(this.black)
+        this.root.addChild(this.settings.settingsRoot)
+        this.root.addChild(this.guageLevel2D.root)
         this.root.sx = this.root.sy = renderer.pixelRatio
         //LevelHandler.
     }

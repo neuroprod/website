@@ -21,6 +21,7 @@ enum FSTATE {
     START,
     PAUZE,
     FIGHT_SELECT,
+    WAIT,
 
 }
 
@@ -37,7 +38,8 @@ export class FightLevel extends BaseLevel {
     private landlord!: SceneObject3D;
     pirateLife: number = 1;
     landlordLife: number = 1;
-
+    nextFunction!: () => void;
+    waitForNext = false;
 
     init() {
         super.init();
@@ -68,14 +70,17 @@ export class FightLevel extends BaseLevel {
         LoadHandler.onComplete = () => { }
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
 
-
+        sceneHandler.getSceneObject("patch").hide()
         let char = sceneHandler.getSceneObject("charRoot")
         char.x = 0.6;
         char.y = 0;
         char.ry = Math.PI - 0.2
         char.setScaler(1.2)
         this.pirate = char;
-
+        let eyeLeft = sceneHandler.getSceneObject("eyeLeft")
+        eyeLeft.hide()
+        let pupilLeft = sceneHandler.getSceneObject("pupilLeft")
+        pupilLeft.hide()
         this.landlord = sceneHandler.getSceneObject("rootLandlord")
         this.landlord.setScaler(1.2)
         this.landlord.x = -0.6
@@ -92,7 +97,7 @@ export class FightLevel extends BaseLevel {
         let x = 0
         let y = 0.3
         GameModel.gameCamera.setLockedView(new Vector3(x, y, 0), new Vector3(x, y, 2))
-        GameModel.gameRenderer.tweenToNonBlack()
+        GameModel.tweenToNonBlack()
 
         this.fightUI = GameModel.UI2D.fightUI;
         this.pirateLife = 1;
@@ -126,6 +131,13 @@ export class FightLevel extends BaseLevel {
         this.fightSelectIndex = 0;
         this.fightUI.setFightPannel(this.fightSelectIndex)
     }
+    setNextCall(nextFunction: () => void) {
+        this.state = FSTATE.WAIT
+
+        this.nextFunction = nextFunction;
+        this.fightUI.showNext()
+
+    }
     update() {
         super.update();
 
@@ -139,9 +151,15 @@ export class FightLevel extends BaseLevel {
         lPos.transform(GameModel.gameCamera.camera.viewProjection)
 
         this.fightUI.setCharPositionsLife(pPos, this.pirateLife, lPos, this.landlordLife)
+        if (this.state == FSTATE.WAIT) {
+            if (GameInput.space) {
 
+                this.nextFunction()
+                GameInput.reset();
+            }
+        }
 
-        if (this.state == FSTATE.FIGHT_SELECT) {
+        else if (this.state == FSTATE.FIGHT_SELECT) {
             let vInput = GameInput.vInput;
             if (vInput != 0) {
                 this.fightSelectIndex += vInput + 3;
@@ -171,9 +189,9 @@ export class FightLevel extends BaseLevel {
         this.state = FSTATE.PAUZE
 
 
-        tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FShot")) }, [], 1)
-        tl.to(this, { pirateLife: 0.6 }, 2)
-        tl.call(() => { this.setFightPanel() }, [], 4)
+        tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FShot")) }, [], 0)
+        tl.to(this, { pirateLife: 0.6 }, 1)
+        tl.call(() => { this.setNextCall(this.setFightPanel.bind(this)) }, [], 2)
 
 
     }
@@ -190,7 +208,7 @@ export class FightLevel extends BaseLevel {
         let tl = this.getTimeline()
         tl.call(() => { this.fightUI.setInfoPanel("billy fight fail") }, [], 0)
 
-        tl.call(() => { this.setFightPanel() }, [], 4)
+        tl.call(() => { this.setNextCall(this.setFightPanel.bind(this)) }, [], 2)
 
 
 
@@ -206,9 +224,12 @@ export class FightLevel extends BaseLevel {
         tl.to(this, { pirateLife: target }, 2)
         if (target == 0) {
 
-            tl.call(() => { GameModel.happyEnd = false; LevelHandler.setLevel("Dead") }, [], 5)
+            tl.call(() => {
+                GameModel.happyEnd = false;
+                this.setNextCall(this.doLose.bind(this))
+            }, [], 2)
         } else {
-            tl.call(() => { this.setFightPanel() }, [], 4)
+            tl.call(() => { this.setNextCall(this.setFightPanel.bind(this)) }, [], 2)
 
         }
 
@@ -228,18 +249,22 @@ export class FightLevel extends BaseLevel {
 
 
         let tl = this.getTimeline()
-        tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FFightSucces")) }, [], 0)
+
         tl.to(this, { landlordLife: target }, 2)
         if (target == 0) {
-            tl.call(() => { this.fightUI.setInfoPanel("you win") }, [], 3)
-            tl.call(() => { GameModel.happyEnd = true; LevelHandler.setLevel("Sea") }, [], 5)
-        } else {
+            tl.call(() => { this.fightUI.setInfoPanel("you win") }, [], 0)
             tl.call(() => {
+                GameModel.happyEnd = true;
+                this.setNextCall(this.doWin.bind(this))
+            }, [], 2)
+        } else {
 
-                this.doLandlordFight()
+
+            tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FFightSucces")) }, [], 0)
+            tl.call(() => { this.setNextCall(this.doLandlordFight.bind(this)) }, [], 2)
 
 
-            }, [], 4)
+
 
         }
 
@@ -253,7 +278,7 @@ export class FightLevel extends BaseLevel {
         let tl = this.getTimeline()
         tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FFightFail")) }, [], 0)
 
-        tl.call(() => { this.doLandlordFight() }, [], 4)
+        tl.call(() => { this.setNextCall(this.doLandlordFight.bind(this)) }, [], 2)
 
 
     }
@@ -274,7 +299,7 @@ export class FightLevel extends BaseLevel {
 
         tl.to(this, { pirateLife: target }, 2)
 
-        tl.call(() => { this.doLandlordFight() }, [], 4)
+        tl.call(() => { this.setNextCall(this.doLandlordFight.bind(this)) }, [], 2)
 
 
 
@@ -285,9 +310,10 @@ export class FightLevel extends BaseLevel {
         tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FHealFail")) }, [], 0)
         let target = Math.min(this.pirateLife - 0.2);
         tl.to(this, { pirateLife: target }, 2)
-        tl.call(() => { this.doLandlordFight() }, [], 4)
+        tl.call(() => { this.setNextCall(this.doLandlordFight.bind(this)) }, [], 2)
 
     }
+
 
     doPirateRun() {
 
@@ -297,7 +323,17 @@ export class FightLevel extends BaseLevel {
         tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FRun")) }, [], 0)
         tl.to(this, { pirateLife: 0.0 }, 2)
 
-        tl.call(() => { GameModel.happyEnd = false; LevelHandler.setLevel("Dead") }, [], 4)
+        tl.call(() => {
+            GameModel.happyEnd = false;
+            this.setNextCall(this.doLose.bind(this))
+
+        }, [], 2)
+    }
+    doWin() {
+        LevelHandler.setLevel("Sea")
+    }
+    doLose() {
+        LevelHandler.setLevel("Dead")
     }
     destroy() {
         super.destroy()
