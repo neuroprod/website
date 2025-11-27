@@ -80,7 +80,7 @@ export default class DeadLevel extends BaseLevel {
         } else {
             GameModel.gameRenderer.setModels([])
         }
-        GameModel.gameRenderer.tweenToNonBlack(1)
+        GameModel.tweenToNonBlack(1)
         let fish1 = SceneHandler.getSceneObject("seaFishstick1")
         fish1.hide()
         this.fishParicles1 = new FishParicles(fish1)

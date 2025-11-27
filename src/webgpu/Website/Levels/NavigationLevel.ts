@@ -21,7 +21,7 @@ export default class NavigationLevel extends BaseLevel {
             this.setScrollPos();
         }, 1000)
 
-        GameModel.gameRenderer.tweenToNonBlack(1)
+        GameModel.tweenToNonBlack(1)
     }
     setScrollPos() {
         let wh = window.innerHeight * 2;
