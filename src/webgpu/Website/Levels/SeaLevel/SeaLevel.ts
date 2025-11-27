@@ -81,6 +81,12 @@ export class SeaLevel extends PlatformLevel {
         this.rootShip.x = -7
         this.rootShip.z = -0.7
 
+
+        let eyeLeft = sceneHandler.getSceneObject("eyeLeft")
+        eyeLeft.hide()
+        let pupilLeft = sceneHandler.getSceneObject("pupilLeft")
+        pupilLeft.hide()
+
         let char = sceneHandler.getSceneObject("charRoot")
         char.x = -1.6;
         char.y = 0.4;
