@@ -41,7 +41,7 @@ export default class DeadLevel extends BaseLevel {
     }
     endAnime(): number {
 
-        GameModel.gameRenderer.tweenToBlack()
+        GameModel.tweenToBlack()
         return 0.5;
     }
 

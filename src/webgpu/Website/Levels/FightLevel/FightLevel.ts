@@ -64,6 +64,11 @@ export class FightLevel extends BaseLevel {
         })
 
     }
+    endAnime(): number {
+
+        GameModel.tweenToBlack()
+        return 0.5;
+    }
     configScene() {
 
 

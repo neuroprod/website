@@ -31,7 +31,11 @@ export default class GuageLevel extends BaseLevel {
         this.configScene()
 
     }
+    endAnime(): number {
 
+        GameModel.tweenToBlack()
+        return 0.5;
+    }
     private configScene() {
 
         LoadHandler.onComplete = () => { }
@@ -60,6 +64,7 @@ export default class GuageLevel extends BaseLevel {
                 if (this.textCount > 3) {
                     SoundHandler.playGunShot()
                     LevelHandler.setLevel("Fight")
+                    this.waitTime = 100000
                 } else {
                     this.waitTime = this.guageLevel2D.setTick(this.textCount)
                 }

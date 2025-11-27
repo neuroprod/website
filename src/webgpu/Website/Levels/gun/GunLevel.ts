@@ -28,8 +28,8 @@ export default class GunLevel extends BaseLevel {
     }
     endAnime(): number {
 
-        GameModel.gameRenderer.tweenToBlack()
-        return 0.5;
+        GameModel.tweenToBlack(2)
+        return 2;
     }
 
     private configScene() {
@@ -42,7 +42,7 @@ export default class GunLevel extends BaseLevel {
 
         GameModel.gameCamera.setLockedView(new Vector3(0, 0, 0), new Vector3(0, 0, 1))
         // GameModel.gameCamera.setPan(new Vector3(0, 0, 0), new Vector3(0, 0, 1.5))
-        GameModel.gameRenderer.tweenToNonBlack(1)
+        GameModel.tweenToNonBlack(1)
         let gun = SceneHandler.getSceneObject("gun")
         SceneHandler.sceneAnimations[0].setTime(0)
         if (this.tl) this.tl.clear()

@@ -57,9 +57,9 @@ class GameModel {
         this.UI2D.blackValue = value
 
     }
-    tweenToBlack() {
+    tweenToBlack(time = 0.5) {
         gsap.killTweensOf(this.UI2D)
-        gsap.to(this.UI2D, { blackValue: 0, duration: 0.5 })
+        gsap.to(this.UI2D, { blackValue: 0, duration: time })
 
     }
 

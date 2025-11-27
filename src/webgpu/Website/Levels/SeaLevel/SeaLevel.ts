@@ -66,7 +66,10 @@ export class SeaLevel extends PlatformLevel {
         })
 
     }
-
+    endAnime(): number {
+        GameModel.tweenToBlack(3)
+        return 3;
+    }
     configScene() {
         super.configScene()
         LoadHandler.onComplete = () => {
