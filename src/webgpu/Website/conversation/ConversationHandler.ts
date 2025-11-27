@@ -109,7 +109,7 @@ export default class ConversationHandler {
 
         }
         if (this.isChoice) {
-
+            console.log("this is choise")
             let s = 0;
             if (hInput > 0) {
                 s = 1
@@ -126,10 +126,13 @@ export default class ConversationHandler {
                 this.displayText(text, this.numChoices, this.choiceIndex)
 
             } else if (jump) {
+
                 this.setCallBack(this.currentData.choice[this.choiceIndex].callBack)
                 if (this.currentData.choice[this.choiceIndex].callText) {
+
                     this.startConversation(this.currentData.choice[this.choiceIndex].callText)
                 } else {
+                    // this.setCallBack(this.currentData.choice[this.choiceIndex].callBack)
                     this.setDone();
                 }
 

@@ -26,6 +26,7 @@ import CoinHandler from "./handlers/CoinHandler.ts";
 import Renderer2D from "../lib/twoD/Renderer2D.ts";
 import UI2D from "./UI2D/UI2D.ts";
 import GameInput from "./GameInput.ts";
+import FishstickHandler from "./handlers/FishstickHandler.ts";
 
 
 export default class Game {
@@ -71,7 +72,7 @@ export default class Game {
         GameModel.coinHandler = new CoinHandler(renderer)
         GameModel.renderer2D = new Renderer2D(renderer, mouseListener)
         GameModel.UI2D = new UI2D(renderer, GameModel.renderer2D)
-
+        GameModel.fishstickHandler = new FishstickHandler()
 
         LevelHandler.init()
         SoundHandler.init()

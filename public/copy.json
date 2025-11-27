@@ -304,7 +304,7 @@
           0.8,
           0
         ],
-        "text": "A pack of Fish Sticks!"
+        "text": "A some Fish Sticks!"
       },
       {
         "text": "All the goodness of the sea\nprocessed into tasty, frozen blocks."
@@ -474,8 +474,7 @@
           1.0,
           0
         ],
-        "text": "Great! That will be 5 coins.",
-        "callBack": "payCookie"
+        "text": "Great! That will be 5 coins."
       },
       {
         "char": "charRoot",
@@ -484,87 +483,17 @@
           0.82,
           0
         ],
-        "text": "Ow..."
-      }
-    ]
-  },
-  {
-    "name": "hand",
-    "data": [
+        "text": "Ow...",
+        "callBack": "payCookie"
+      },
       {
-        "char": "rootHand",
+        "char": "rootSausage",
         "pos": [
-          -0.25,
-          0.85,
+          -0.2,
+          1.0,
           0
         ],
-        "text": "Hi pirate, want to have some fun?"
-      },
-      {
-        "char": "charRoot",
-        "pos": [
-          0.2,
-          0.8,
-          0
-        ],
-        "text": "I'm broke Candy. Maybe some other time..."
-      },
-      {
-        "char": "rootHand",
-        "pos": [
-          -0.25,
-          0.85,
-          0
-        ],
-        "text": "Yeah... seems everyone's broke now."
-      },
-      {
-        "text": "Hey, maybe you can help me\nMister Billy took my fingers.\nSaid I didn't make him enough money."
-      },
-      {
-        "text": "Some of my clients really miss them."
-      },
-      {
-        "text": "And you being a pirate and such..."
-      },
-      {
-        "char": "charRoot",
-        "pos": [
-          0.2,
-          0.8,
-          0
-        ],
-        "text": "You know, Candy... I'm not a real pirate."
-      },
-      {
-        "text": "Sure, I download a movie every know and then."
-      },
-      {
-        "text": "I just wanted to be someone... meaningful, you know?"
-      },
-      {
-        "text": "I don't even own a sword, or a ship..."
-      },
-      {
-        "text": "All I have is a pack of fishsticks..."
-      },
-      {
-        "char": "rootHand",
-        "pos": [
-          -0.25,
-          0.85,
-          0
-        ],
-        "text": "...Oh "
-      },
-      {
-        "char": "charRoot",
-        "pos": [
-          0.2,
-          0.8,
-          0
-        ],
-        "text": "...   "
+        "text": "You get a prize if you hit 4 of them."
       }
     ]
   },
@@ -640,7 +569,8 @@
           },
           {
             "text": "Here you go! #numCoins coins.\nI know it's rough out here.",
-            "callBack": "coinsYes"
+            "callBack": "coinsYes",
+            "callText": "giveCoins"
           }
         ]
       }
@@ -656,21 +586,7 @@
           0.8,
           0
         ],
-        "text": "You're alright, Pirate.\nI ow you one."
-      }
-    ]
-  },
-  {
-    "name": "giveCoinsNoFishsticks",
-    "data": [
-      {
-        "char": "strawberryRoot",
-        "pos": [
-          -0.2,
-          0.8,
-          0
-        ],
-        "text": "You're alright, Pirate.\nHey, take this pack of fishsticks."
+        "text": "You're alright, Pirate.\nHey, take some of my fish sticks!"
       }
     ]
   },
@@ -684,7 +600,87 @@
           0.8,
           0
         ],
-        "text": "Thats ok, Mr Billy will use it balalalal..., I guess."
+        "text": "Thats ok, I'm sure Mister Billy needs it more then I do."
+      }
+    ]
+  },
+  {
+    "name": "hand",
+    "data": [
+      {
+        "char": "rootHand",
+        "pos": [
+          -0.25,
+          0.85,
+          0
+        ],
+        "text": "Hi pirate, want to have some fun?"
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.2,
+          0.8,
+          0
+        ],
+        "text": "I'm broke Candy. Maybe some other time..."
+      },
+      {
+        "char": "rootHand",
+        "pos": [
+          -0.25,
+          0.85,
+          0
+        ],
+        "text": "Yeah... seems everyone's broke now."
+      },
+      {
+        "text": "Hey, maybe you can help me\nMister Billy took my fingers.\nSaid I didn't make him enough money."
+      },
+      {
+        "text": "Some of my clients really miss them."
+      },
+      {
+        "text": "And you being a pirate and such..."
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.2,
+          0.8,
+          0
+        ],
+        "text": "You know, Candy... I'm not a real pirate."
+      },
+      {
+        "text": "Sure, I download a movie every know and then."
+      },
+      {
+        "text": "I just wanted to be someone... meaningful, you know?"
+      },
+      {
+        "text": "I don't even own a sword, or a ship..."
+      },
+      {
+        "text": "All I have is a couple of fish sticks..."
+      },
+      {
+        "char": "rootHand",
+        "pos": [
+          -0.25,
+          0.85,
+          0
+        ],
+        "text": "...Oh "
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.2,
+          0.8,
+          0
+        ],
+        "text": "...   "
       }
     ]
   },
@@ -736,7 +732,7 @@
     ]
   },
   {
-    "name": "girlStrawberry",
+    "name": "girl",
     "data": [
       {
         "char": "girl",
@@ -766,7 +762,7 @@
           0.8,
           0
         ],
-        "text": "If the game is rigged, you shouldn't play by its rulles Pirate."
+        "text": "If the game is rigged,\nyou shouldn't play by the\nrules Pirate."
       },
       {
         "char": "charRoot",
@@ -775,7 +771,7 @@
           0.8,
           0
         ],
-        "text": "I'm afraid I don't have much of a choise Miss... "
+        "text": "I'm afraid I don't\nhave much of a choise Miss... "
       },
       {
         "char": "girl",
@@ -784,10 +780,10 @@
           0.8,
           0
         ],
-        "text": "There is always a choise Pirate."
+        "text": "There is always a\nchoise Pirate."
       },
       {
-        "text": "But sometimes it takes everything you got."
+        "text": "But sometimes it takes\neverything you got."
       },
       {
         "char": "charRoot",
@@ -796,7 +792,38 @@
           0.8,
           0
         ],
-        "text": "Sigh... I only have a pack of frozen fishsticks."
+        "text": "Sigh... I only got #numCoins of the 30 coins."
+      },
+      {
+        "text": "and #numFishsticks fish sticks\nfor some reason..."
+      }
+    ]
+  },
+  {
+    "name": "girlEnd",
+    "data": [
+      {
+        "char": "girl",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "Thats all you need Pirate!\n...thats al you need!"
+      }
+    ]
+  },
+  {
+    "name": "girlFishEnd",
+    "data": [
+      {
+        "char": "girl",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "A man needs at least 3 fish sticks,\nhave one of mine!"
       }
     ]
   },
@@ -862,11 +889,7 @@
             "callBack": "endCall"
           },
           {
-            "text": "I have this pack of fishsticks you can have?",
-            "callBack": "endCall"
-          },
-          {
-            "text": "blablalldldldldldl ldld",
+            "text": "I have some fish sticks you can have?",
             "callBack": "endCall"
           }
         ]

@@ -51,7 +51,7 @@ export default class GodChoiceLevel extends BaseLevel {
     private configScene() {
 
         LoadHandler.onComplete = () => { }
-
+        GameModel.coinHandler.show()
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
 
         this.god = sceneHandler.getSceneObject("godRoot")
@@ -157,7 +157,7 @@ export default class GodChoiceLevel extends BaseLevel {
     private setChoise() {
         let tl = gsap.timeline()
         tl.to(this.presentItems[this.selectIndex], { sx: this.presentStartScale[this.selectIndex] * 1.1, sy: this.presentStartScale[this.selectIndex] * 1.2 })
-        if (this.selectIndex == 2) GameModel.hasFishsticks = true
+        if (this.selectIndex == 2) GameModel.fishstickHandler.addFishstick(3)
 
         GameModel.conversationHandler.startConversation("godPresent" + this.selectIndex)
 

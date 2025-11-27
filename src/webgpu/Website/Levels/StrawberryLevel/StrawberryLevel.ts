@@ -18,6 +18,7 @@ export class StrawberryLevel extends PlatformLevel {
     private tl!: gsap.core.Timeline;
     private strawBerry!: SceneObject3D;
     charFaceHandler!: FaceHandler;
+    gaveCoins: boolean = false;
     init() {
         super.init();
 
@@ -73,7 +74,7 @@ export class StrawberryLevel extends PlatformLevel {
 
         GameModel.gameCamera.setMinMaxX(startX - 0.3, 100)
         //
-
+        this.gaveCoins = false;
     }
     onUI() {
         if (this.charFaceHandler) this.charFaceHandler.onUI()
@@ -88,13 +89,10 @@ export class StrawberryLevel extends PlatformLevel {
         super.conversationDataCallBack(data);
         if (data == "coinsYes") {
             GameModel.coinHandler.addCoins(GameModel.coinHandler.numCoins * -1);
-            if (GameModel.hasFishsticks) {
-                GameModel.conversationHandler.startConversation("giveCoins")
 
-            } else {
-                GameModel.conversationHandler.startConversation("giveCoinsNoFishsticks")
-                GameModel.hasFishsticks = true;
-            }
+            // GameModel.conversationHandler.startConversation("giveCoins")
+
+            this.gaveCoins = true;
 
 
         }
@@ -118,7 +116,13 @@ export class StrawberryLevel extends PlatformLevel {
                         GameModel.conversationHandler.startConversation("strawBerry")
 
                         GameModel.conversationHandler.doneCallBack = () => {
-                            LevelHandler.setLevel("Hand");
+                            if (this.gaveCoins) {
+
+                                GameModel.fishstickHandler.addFishstick(2)
+                                gsap.delayedCall(2, () => { LevelHandler.setLevel("Hand") });
+                            } else {
+
+                            }
                         }
                     });
 

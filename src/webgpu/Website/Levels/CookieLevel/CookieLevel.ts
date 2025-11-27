@@ -127,7 +127,7 @@ export class CookieLevel extends PlatformLevel {
 
                             GameModel.conversationHandler.startConversation("cookie")
                             GameModel.conversationHandler.dataCallBack = (data: string) => {
-                                console.log(data)
+
                                 GameModel.coinHandler.addCoins(-5)
                             }
                             GameModel.conversationHandler.doneCallBack = () => {

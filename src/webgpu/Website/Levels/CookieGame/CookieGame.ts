@@ -144,6 +144,7 @@ export default class CookieGame extends BaseLevel {
 
                 this.strawBerryData[this.currentStrawBerry].show()
                 this.nextStrawBerryTime = 1.5 + Math.random() * 1.5;
+
             }
 
             let jump = GameInput.jump
@@ -176,6 +177,7 @@ export default class CookieGame extends BaseLevel {
 
         }
         let text = ""
+
         if (this.strawBerryData[index].hitHole()) {
             GameModel.gameCamera.screenShakeCookie(0.1)
             this.points++;
@@ -193,10 +195,13 @@ export default class CookieGame extends BaseLevel {
             GameModel.gameCamera.screenShakeCookie(0.01)
             text = "Ow, you missed."
         }
+        if (this.hitCount == 3 && this.points > 0) {
+            text = "Last chance, make sure to hit this one"
+        }
         this.hitCount++;
+        console.log(this.hitCount, this.points)
 
-
-        if (this.points > 1 && this.hitCount > 8) {
+        if (this.hitCount > 4 && this.points > 0) {
             this.endGame()
             return;
         }
@@ -216,7 +221,7 @@ export default class CookieGame extends BaseLevel {
 
         LoadHandler.onComplete = () => {
         }
-
+        GameModel.coinHandler.show()
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
 
         let x = -0.1
@@ -225,24 +230,45 @@ export default class CookieGame extends BaseLevel {
         let cookie = sceneHandler.getSceneObject("sausageBody")
 
         GameModel.textBalloonHandler.setModel(cookie, [0.1, 0.6, 0])
-        GameModel.textBalloonHandler.setText("Now, Get those fruits!")
+
         this.strawBerryData = []
         for (let i = 0; i < 3; i++) {
             let sbData = new StrawberryData(i)
             this.strawBerryData.push(sbData);
         }
         this.points = 0;
-        this.playGame = true
+
         this.nextStrawBerryTime = 2;
         this.hitCount = 0;
 
         GameModel.gameRenderer.tweenToNonBlack()
+
+        gsap.delayedCall(1, () => {
+            GameModel.textBalloonHandler.setText("Now, Get those fruits!")
+            this.playGame = true
+        });
     }
 
     private endGame() {
-        GameModel.textBalloonHandler.setText("Great job! That will teach them!")
+
+
+        console.log(this.hitCount, this.points)
+        if (this.points >= 4) {
+            GameModel.textBalloonHandler.setText("Great job! You win 3 tasty fish sticks!")
+            GameModel.fishstickHandler.addFishstick(3)
+        }
+        else if (this.points >= 2) {
+            GameModel.textBalloonHandler.setText("Could be better!\nHave two fish sticks for your effort.")
+            GameModel.fishstickHandler.addFishstick(2)
+
+        }
+        else {
+            GameModel.textBalloonHandler.setText("You suck at this!\nHave two fish sticks for poor your effort.")
+            GameModel.fishstickHandler.addFishstick(2)
+
+        }
         this.playGame = false
-        gsap.delayedCall(4, () => { LevelHandler.setLevel("StrawBerry") })
+        gsap.delayedCall(6, () => { LevelHandler.setLevel("StrawBerry") })
 
     }
 

@@ -52,7 +52,6 @@ export class GirlLevel extends PlatformLevel {
         GameModel.gameRenderer.addModel(this.characterController.cloudParticles.particlesModel)
 
 
-
         let charRoot = SceneHandler.getSceneObject("charRoot");
         charRoot.x = this.startPos
         charRoot.y = 0.0
@@ -79,7 +78,8 @@ export class GirlLevel extends PlatformLevel {
 
             if (f.hitTriggerItem == HitTrigger.GIRL) {
                 f.triggerIsEnabled = false;
-
+                GameModel.conversationHandler.replaceMap.set("numCoins", GameModel.coinHandler.numCoins + "")
+                GameModel.conversationHandler.replaceMap.set("numFishsticks", GameModel.fishstickHandler.numFishsticks + "")
                 // 
                 this.isConversation = true
                 this.characterController.gotoAndIdle(new Vector3(this.girl.x - 1.0, 0, 0), 1, () => {
@@ -87,10 +87,25 @@ export class GirlLevel extends PlatformLevel {
                     GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 2.3]))
 
                     gsap.delayedCall(0.5, () => {
-                        GameModel.conversationHandler.startConversation("girlStrawberry")
+                        GameModel.conversationHandler.startConversation("girl")
 
                         GameModel.conversationHandler.doneCallBack = () => {
-                            LevelHandler.setLevel("Dock");
+
+                            if (GameModel.fishstickHandler.numFishsticks < 3) {
+                                GameModel.conversationHandler.startConversation("girlFishEnd")
+                            } else {
+                                GameModel.conversationHandler.startConversation("girlEnd")
+
+                            }
+                            GameModel.conversationHandler.doneCallBack = () => {
+                                if (GameModel.fishstickHandler.numFishsticks < 3) {
+                                    GameModel.fishstickHandler.addFishstick(1)
+
+                                }
+                                gsap.delayedCall(3, () => { LevelHandler.setLevel("Dock") });
+
+                            }
+
                         }
                     });
 

@@ -20,6 +20,7 @@ export default class SettingsUI {
     numCoins: number = 0;
     stickIcon: Sprite;
     scoreStickText: Text;
+    numFishsticks: number = 0;
 
     constructor(renderer: Renderer) {
         this.renderer = renderer;
@@ -139,6 +140,23 @@ export default class SettingsUI {
         gsap.to(this.coinIcon, { sx: 0.2, sy: 0.2, ease: "back.in", duration: 0.2 })
         gsap.to(this.scoreText, { alpha: 0.7, duration: 0.2 })
     }
+    setFishSticks(numFishsticks: number) {
+        this.numFishsticks = numFishsticks;
+        if (numFishsticks == 0) {
+            this.scoreStickText.visible = false
+            this.stickIcon.visible = false
+        } else {
+            this.scoreStickText.visible = true
+            this.stickIcon.visible = true
+            this.scoreStickText.setText(numFishsticks + "")
+            this.stickIcon.sx = this.stickIcon.sy = 0.25
+            this.scoreStickText.alpha = 1
+            gsap.to(this.stickIcon, { sx: 0.2, sy: 0.2, ease: "back.in", duration: 0.2 })
+            gsap.to(this.scoreStickText, { alpha: 0.7, duration: 0.2 })
+        }
+
+    }
+
     hideCoins() {
         this.scoreText.visible = false
         this.coinIcon.visible = false
@@ -148,8 +166,10 @@ export default class SettingsUI {
     showCoins() {
         this.scoreText.visible = true
         this.coinIcon.visible = true
-        this.scoreStickText.visible = true
-        this.stickIcon.visible = true
+        if (this.numFishsticks > 0) {
+            this.scoreStickText.visible = true
+            this.stickIcon.visible = true
+        }
     }
 
 }

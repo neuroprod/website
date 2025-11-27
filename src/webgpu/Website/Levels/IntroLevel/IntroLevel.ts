@@ -44,6 +44,7 @@ export class IntroLevel extends PlatformLevel {
 
     configScene() {
         super.configScene()
+        GameModel.fishstickHandler.reset()
         LoadHandler.onComplete = () => {
         }
         this.isConversation = true

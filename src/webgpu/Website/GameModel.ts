@@ -13,6 +13,7 @@ import { MainState } from "../Main.ts";
 import Renderer2D from "../lib/twoD/Renderer2D.ts";
 import GLFTLoader from "../lib/GLFTLoader.ts";
 import Camera from "../lib/Camera.ts";
+import FishstickHandler from "./handlers/FishstickHandler.ts";
 
 
 class GameModel {
@@ -38,10 +39,10 @@ class GameModel {
 
     gameCopy!: any;
     mainCamera!: Camera
-    hasFishsticks: boolean = false;
+
     happyEnd: boolean = false;
     singleCopy!: any;
-
+    fishstickHandler!: FishstickHandler;
 
     getCopy(key: string) {
         return this.singleCopy[key] + ""

@@ -11,6 +11,7 @@ import FightUI from "../Levels/FightLevel/FigthUI.ts";
 
 export default class UI2D {
 
+
     private renderer2D: Renderer2D;
     private root: Object2D;
     private menu: Menu;
@@ -54,6 +55,9 @@ export default class UI2D {
     }
     setCoins(displayCoins: number) {
         this.settings.setCoins(displayCoins)
+    }
+    setFishsticks(numFishsticks: number) {
+        this.settings.setFishSticks(numFishsticks)
     }
     showCoins() {
         this.settings.showCoins()
