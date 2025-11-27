@@ -123,7 +123,7 @@ export default class SettingsUI {
 
             this.backButton.visible = false
             this.settingsButton.visible = false
-
+            this.hideCoins()
         } else {
             this.settingsButton.visible = true
             this.backButton.visible = true
@@ -164,6 +164,7 @@ export default class SettingsUI {
         this.stickIcon.visible = false
     }
     showCoins() {
+
         this.scoreText.visible = true
         this.coinIcon.visible = true
         if (this.numFishsticks > 0) {

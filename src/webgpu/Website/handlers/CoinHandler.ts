@@ -1,10 +1,7 @@
 import Renderer from "../../lib/Renderer.ts";
 import SoundHandler from "../SoundHandler.ts";
 import Timer from "../../lib/Timer.ts";
-import Model from "../../lib/model/Model.ts";
-import TextBalloonFontMaterial from "../conversation/TextBalloonFontMaterial.ts";
-import TextBalloonFontMesh from "../conversation/TextBalloonFontMesh.ts";
-import ProjectData from "../../data/ProjectData.ts";
+
 import GameModel from "../GameModel.ts";
 
 export default class CoinHandler {

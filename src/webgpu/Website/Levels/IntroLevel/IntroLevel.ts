@@ -23,6 +23,7 @@ export class IntroLevel extends PlatformLevel {
 
     init() {
         super.init();
+        GameModel.coinHandler.hide()
         this.characterController = new CharacterController(GameModel.renderer)
         LoadHandler.onComplete = this.configScene.bind(this)
         LoadHandler.startLoading()
@@ -44,6 +45,7 @@ export class IntroLevel extends PlatformLevel {
 
     configScene() {
         super.configScene()
+
         GameModel.fishstickHandler.reset()
         LoadHandler.onComplete = () => {
         }
