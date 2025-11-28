@@ -36,7 +36,7 @@ export default class SettingsUI {
         this.backButton.alpha = 0.7
 
         this.backButton.onClick = () => {
-
+            // gsap.globalTimeline.clear()
             LevelHandler.setLevel("Home")
         }
         this.backButton.rollOver = () => {

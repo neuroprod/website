@@ -304,7 +304,7 @@
           0.8,
           0
         ],
-        "text": "A some Fish Sticks!"
+        "text": "Some fish sticks!\nBought to you by our\nsponser Billy's Industries"
       },
       {
         "text": "All the goodness of the sea\nprocessed into tasty, frozen blocks."
@@ -321,10 +321,10 @@
           0.8,
           0
         ],
-        "text": "A Non-Disclosure Agreement!.\nHow exiting!"
+        "text": "Some tech stock with a sky-high P/E ratio,\nso they must be good!"
       },
       {
-        "text": "Don't tell anyone!"
+        "text": "And you can hold the bag for only 3 coins!"
       }
     ]
   },
@@ -338,7 +338,7 @@
           0.82,
           0
         ],
-        "text": "Hi S,\nyou won't believe who I just met!"
+        "text": "Hi Sammy,\nyou won't believe who I just met!"
       }
     ]
   },
@@ -352,7 +352,7 @@
           0.82,
           0
         ],
-        "text": "Hi S,\nwant to sign my User Agreement?"
+        "text": "Hi Sammy,\nwant to sign my User Agreement?"
       }
     ]
   },
@@ -366,7 +366,7 @@
           0.82,
           0
         ],
-        "text": "Hi S,\nWant to sign my NDA?"
+        "text": "Hi Sammy,\nWant to sign my NDA?"
       }
     ]
   },
@@ -380,7 +380,7 @@
           0.82,
           0
         ],
-        "text": "Hi Se,\nGot me some fish for the sky guy."
+        "text": "Hi Sammy,\nGot me some fish for the sky guy."
       }
     ]
   },
@@ -394,7 +394,7 @@
           0.82,
           0
         ],
-        "text": "Hi S, Got an MBA!S\nWant me to do some layoffs\nfor a big bonus?"
+        "text": "Hi Sammy, Got an MBA!S\nWant me to do some layoffs\nfor a big bonus?"
       }
     ]
   },
@@ -447,7 +447,7 @@
           0.82,
           0
         ],
-        "text": "I don't know S, Seems wrong."
+        "text": "I don't know Sammy,\nseems wrong."
       },
       {
         "char": "rootSausage",
@@ -728,6 +728,56 @@
       },
       {
         "text": "It's part of Billy's Global Industries"
+      },
+      {
+        "char": "charRoot",
+        "pos": [
+          0.1,
+          0.8,
+          0
+        ],
+        "choice": [
+          {
+            "text": "Can you give me some coins.",
+            "callText": "fishBoyMoney"
+          },
+          {
+            "text": "Can I have some fishstick?",
+            "callText": "fishBoyFish"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "fishBoyFish",
+    "data": [
+      {
+        "char": "FishBoyRoot",
+        "pos": [
+          -0.1,
+          0.8,
+          0
+        ],
+        "callBack": "getFishSticks",
+        "text": "Sure, help yourself, I don't care."
+      }
+    ]
+  },
+  {
+    "name": "fishBoyMoney",
+    "data": [
+      {
+        "char": "FishBoyRoot",
+        "pos": [
+          -0.1,
+          0.8,
+          0
+        ],
+        "text": "Do I look like I have money kid?"
+      },
+      {
+        "text": "Now, get out of here! Authorized personnel only."
       }
     ]
   },

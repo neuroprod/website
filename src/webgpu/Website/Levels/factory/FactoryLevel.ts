@@ -31,6 +31,7 @@ export class FactoryLevel extends PlatformLevel {
     drinkTime = 0
     pullTime = 0
     fishRoot!: SceneObject3D;
+    takeFishsticks: boolean = false;
     init() {
         super.init();
         this.characterController = new CharacterController(GameModel.renderer)
@@ -54,6 +55,7 @@ export class FactoryLevel extends PlatformLevel {
 
     configScene() {
         super.configScene()
+        this.takeFishsticks = false
         LoadHandler.onComplete = () => {
         }
         this.isConversation = false
@@ -190,9 +192,21 @@ export class FactoryLevel extends PlatformLevel {
                     this.characterController.setAngle(1)
                     gsap.delayedCall(0.5, () => {
                         GameModel.conversationHandler.startConversation("fishBoy")
-
+                        GameModel.conversationHandler.dataCallBack = (data: string) => {
+                            console.log(data)
+                            this.takeFishsticks = true;
+                        }
                         GameModel.conversationHandler.doneCallBack = () => {
-                            LevelHandler.setLevel("Girl");
+
+                            if (this.takeFishsticks) {
+                                GameModel.fishstickHandler.addFishstick(3);
+                                gsap.delayedCall(2, () => { LevelHandler.setLevel("Girl"); })
+                            } else {
+
+                                LevelHandler.setLevel("Girl");
+                            }
+
+
                         }
                     });
 

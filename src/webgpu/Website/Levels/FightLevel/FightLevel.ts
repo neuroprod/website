@@ -255,7 +255,7 @@ export class FightLevel extends BaseLevel {
 
         let tl = this.getTimeline()
 
-        tl.to(this, { landlordLife: target }, 2)
+        tl.to(this, { landlordLife: target }, 1)
         if (target == 0) {
             tl.call(() => { this.fightUI.setInfoPanel("you win") }, [], 0)
             tl.call(() => {
