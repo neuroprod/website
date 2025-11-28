@@ -8,6 +8,7 @@ import { HitTrigger } from "../../data/HitTriggers.ts";
 import GameModel from "../GameModel.ts";
 import KeyInput from "../KeyInput.ts";
 import GameInput from "../GameInput.ts";
+import SoundHandler from "../SoundHandler.ts";
 
 export class PlatformLevel extends BaseLevel {
 
@@ -37,6 +38,7 @@ export class PlatformLevel extends BaseLevel {
         GameModel.gameRenderer.setLevelType("platform")
 
         GameModel.tweenToNonBlack()
+        SoundHandler.setBackgroundSounds(["sound/JuliaFlorida.mp3"])
     }
     update() {
 

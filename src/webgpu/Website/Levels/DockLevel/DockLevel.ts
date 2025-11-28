@@ -57,6 +57,7 @@ export class DockLevel extends PlatformLevel {
     configScene() {
 
         super.configScene()
+        SoundHandler.setBackgroundSounds(["sound/JuliaFlorida.mp3", "sound/653311__mfedward__relaxing-sea.mp3"])
         LoadHandler.onComplete = () => { }
         this.isConversation = false
         let foam = sceneHandler.getSceneObject("foamHolder")
@@ -101,7 +102,7 @@ export class DockLevel extends PlatformLevel {
 
         GameModel.gameCamera.setMinMaxX(-3, 100)
 
-        SoundHandler.playSeaSound()
+
 
     }
     conversationDataCallBack(data: string) {

@@ -77,7 +77,7 @@ export default class TextMesh extends Mesh {
 
         let centerX = posX + char.w * fontSize * 0.5
 
-        let centerY = this.startY - (fontSize * 42 / 2)
+        let centerY = this.startY + (fontSize * 42 / 2)
 
         this.posTemp.push(posX, (posY + char.h * fontSize), 0)
         this.posTemp.push(posX + char.w * fontSize, (posY + char.h * fontSize), 0)

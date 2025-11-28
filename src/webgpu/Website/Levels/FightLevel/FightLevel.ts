@@ -15,6 +15,7 @@ import UI from "../../../lib/UI/UI.ts";
 import FightUI from "./FigthUI.ts";
 import GameInput from "../../GameInput.ts";
 import LevelHandler from "../LevelHandler.ts";
+import SoundHandler from "../../SoundHandler.ts";
 
 
 enum FSTATE {
@@ -40,6 +41,7 @@ export class FightLevel extends BaseLevel {
     landlordLife: number = 1;
     nextFunction!: () => void;
     waitForNext = false;
+    armGun: SceneObject3D;
 
     init() {
         super.init();
@@ -92,17 +94,16 @@ export class FightLevel extends BaseLevel {
         this.landlord.y = 0
         this.landlord.z = 0;
 
-
-
+        this.armGun = sceneHandler.getSceneObject("LandlordArmGun")
+        this.armGun.rz = 0.7
         sceneHandler.getSceneObject("landlordArmPoint").hide()
 
-
+        GameModel.setBlack(0)
 
 
         let x = 0
         let y = 0.3
         GameModel.gameCamera.setLockedView(new Vector3(x, y, 0), new Vector3(x, y, 2))
-        GameModel.tweenToNonBlack()
 
         this.fightUI = GameModel.UI2D.fightUI;
         this.pirateLife = 1;
@@ -194,9 +195,16 @@ export class FightLevel extends BaseLevel {
         this.state = FSTATE.PAUZE
 
 
-        tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FShot")) }, [], 0)
-        tl.to(this, { pirateLife: 0.6 }, 1)
-        tl.call(() => { this.setNextCall(this.setFightPanel.bind(this)) }, [], 2)
+
+
+        tl.call(() => { SoundHandler.playGunShot() }, [], 1)
+        tl.call(() => { GameModel.tweenToNonBlack(1) }, [], 1)
+
+        tl.to(this.armGun, { rz: -0.3, duration: 3 }, 1)
+
+        tl.to(this, { pirateLife: 0.6, duration: 2 }, 2.5)
+        tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FShot")) }, [], 4)
+        tl.call(() => { this.setNextCall(this.setFightPanel.bind(this)) }, [], 5)
 
 
     }

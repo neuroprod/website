@@ -3,28 +3,28 @@ import PreLoader from "../PreLoader.ts";
 import Renderer from "../Renderer.ts";
 import Font from "./Font.ts";
 
-class FontPool{
-    private fontMap:Map<string,Font> =new Map()
+class FontPool {
+    private fontMap: Map<string, Font> = new Map()
 
     constructor() {
     }
 
 
 
-    loadFont(renderer:Renderer,preloader:PreLoader,name:string){
+    loadFont(renderer: Renderer, preloader: PreLoader, name: string) {
 
-        let font =new Font();
+        let font = new Font();
 
-       preloader.startLoad()
-        let fontTexture = new TextureLoader(renderer, "fonts/"+name+".png")
+        preloader.startLoad()
+        let fontTexture = new TextureLoader(renderer, "fonts/" + name + ".png")
         fontTexture.onComplete = () => {
             preloader.stopLoad()
         }
         preloader.startLoad()
-        this.loadFile("fonts/"+name+".json").then((data)=>{
+        this.loadFile("fonts/" + name + ".json").then((data) => {
 
-            font.setData(data,fontTexture)
-            this.fontMap.set(name,font)
+            font.setData(data, fontTexture)
+            this.fontMap.set(name, font)
             preloader.stopLoad()
         })
 
@@ -32,13 +32,14 @@ class FontPool{
 
 
     }
-    getFont(name:string){
+    getFont(name: string) {
+
         return this.fontMap.get(name)
 
     }
-    async loadFile(file:string){
+    async loadFile(file: string) {
 
-        const response = await fetch( file)
+        const response = await fetch(file)
 
         let text = await response.text();
         return JSON.parse(text);

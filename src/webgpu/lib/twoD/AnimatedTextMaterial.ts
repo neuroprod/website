@@ -50,10 +50,10 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
      let s  =1.0- smoothstep(uniforms.charPos,uniforms.charPos+4.0, aNormal.z);
     var pos =  aPos;
     pos.x -=aNormal.x;
-    pos.y +=aNormal.y;
+    pos.y -=aNormal.y;
     pos*=s;
      pos.x +=aNormal.x;
-    pos.y -=aNormal.y;
+    pos.y +=aNormal.y;
   
     output.position =camera2D.viewProjectionMatrix*uniforms.worldMatrix* vec4( pos,1.0);
 

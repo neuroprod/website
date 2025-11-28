@@ -72,11 +72,14 @@ export class SeaLevel extends PlatformLevel {
     }
     configScene() {
         super.configScene()
+
+
+        SoundHandler.setBackgroundSounds(["sound/JuliaFlorida.mp3", "sound/653311__mfedward__relaxing-sea.mp3"])
         LoadHandler.onComplete = () => {
         }
         this.isConversation = false
 
-        SoundHandler.playSeaSound()
+
         this.rootShip = sceneHandler.getSceneObject("rootShip")
         this.rootShip.x = -7
         this.rootShip.z = -0.7
@@ -207,7 +210,7 @@ export class SeaLevel extends PlatformLevel {
 
     destroy() {
         super.destroy()
-        SoundHandler.fadeSea()
+
         if (this.tl) this.tl.clear()
 
     }

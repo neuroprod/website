@@ -62,7 +62,7 @@ export default class GuageLevel extends BaseLevel {
             if (GameInput.space) {
                 this.textCount++
                 if (this.textCount > 3) {
-                    SoundHandler.playGunShot()
+
                     LevelHandler.setLevel("Fight")
                     this.waitTime = 100000
                 } else {

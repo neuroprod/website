@@ -1,12 +1,21 @@
 
 import { Vector3 } from '@math.gl/core';
 import { Howl } from 'howler';
+
+
+class SoundObject {
+    name: string = ""
+    sound!: Howl;
+    needsDelete = false;
+}
+
 class SoundHandler {
 
 
 
 
     public fxVolume = 1;
+    public musicVolume = 1
     private coin!: Howl;
     private step!: Howl;
     private hitFloor!: Howl;
@@ -15,7 +24,7 @@ class SoundHandler {
     playSound = true;
     private scroll!: Howl;
     private drip!: Howl;
-    bgSounds: Array<Howl> = [];
+    bgSounds: Array<SoundObject> = [];
     private fart!: Howl;
     private fartCount: number = -1;
     clock!: Howl;
@@ -36,10 +45,10 @@ class SoundHandler {
             talkSound["s" + i] = [i * 100, 100]
         }
 
-        this.sea = new Howl({
-            src: ['sound/653311__mfedward__relaxing-sea.mp3'],
-            loop: true
-        });
+        /* this.sea = new Howl({
+             src: ['sound/653311__mfedward__relaxing-sea.mp3'],
+             loop: true
+         });*/
         this.gun = new Howl({
             src: ['sound/465488__janthracite__1911-pistol-cocking.mp3'],
 
@@ -178,12 +187,12 @@ class SoundHandler {
             if (document.hidden) {
 
                 for (let s of this.bgSounds) {
-                    s.fade(1, 0, 1000)
+                    s.sound.fade(this.musicVolume, 0, 1000)
                 }
             } else {
                 // Resume playing if audio was "playing on hide"
                 for (let s of this.bgSounds) {
-                    s.fade(0, 1, 1000)
+                    s.sound.fade(0, this.musicVolume, 1000)
                 }
             }
         });
@@ -330,45 +339,81 @@ class SoundHandler {
     }
 
     setBackgroundSounds(sounds: string[]) {
-        this.killBackgroundSounds()
+
+        for (let bs of this.bgSounds) {
+            let found = false;
+            bs.needsDelete = true
+            let deleteName = ""
+            for (let s of sounds) {
+
+                if (bs.name == s) {
+                    found = true;
+                    deleteName = s;
+                }
+            }
+            if (found) {
+                sounds.splice(sounds.indexOf(deleteName), 1)
+                bs.needsDelete = false
+
+            } else {
+
+            }
+
+        }
+        console.log(sounds, this.bgSounds)
+        for (let i = 0; i < this.bgSounds.length; i++) {
+            let bs = this.bgSounds[i]
+            if (bs.needsDelete) {
+                bs.sound.unload()
+                this.bgSounds.splice(this.bgSounds.indexOf(bs), 1)
+                i--
+            }
+
+        }
+
         for (let s of sounds) {
-            let bgSound = new Howl({
+
+            let soundObject = new SoundObject()
+            soundObject.name = s
+            soundObject.needsDelete = false
+            soundObject.sound = new Howl({
                 src: [s],
                 loop: true,
                 autoplay: true,
                 onload: () => {
 
-                    bgSound.fade(0, 1, 2000);
+                    soundObject.sound.fade(0, this.musicVolume, 2000);
                 }
             });
-            this.bgSounds.push(bgSound);
+            this.bgSounds.push(soundObject);
 
         }
     }
     fadeBackground() {
         for (let s of this.bgSounds) {
-            s.fade(1, 0, 3000)
+            s.sound.fade(this.musicVolume, 0, 3000)
         }
     }
 
     killBackgroundSounds() {
         for (let s of this.bgSounds) {
-            s.unload()
+
+            s.sound.unload()
         }
         this.bgSounds = []
     }
-    playSeaSound() {
-        this.sea.play()
-        this.sea.volume(this.fxVolume * 0.1);
-    }
-    fadeSea() {
-        this.sea.fade(this.fxVolume * 0.1, 0, 1000)
-    }
+
     setSeaSoundTranstion(seaSoundTransition: number) {
         for (let s of this.bgSounds) {
-            s.volume(this.fxVolume * (1 - seaSoundTransition));
+            if (s.name == "sound/653311__mfedward__relaxing-sea.mp3") {
+                s.sound.volume(this.fxVolume * (seaSoundTransition) * 0.1);
+            }
+            else {
+                s.sound.volume(this.fxVolume * (1 - seaSoundTransition));
+            }
+            //  s.volume(this.fxVolume * (1 - seaSoundTransition));
         }
-        this.sea.volume(this.fxVolume * (seaSoundTransition) * 0.1);
+
     }
 
 }

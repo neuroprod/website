@@ -35,6 +35,7 @@ export default class GunLevel extends BaseLevel {
     private configScene() {
 
         LoadHandler.onComplete = () => { }
+        SoundHandler.setBackgroundSounds([])
 
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
 
@@ -56,7 +57,7 @@ export default class GunLevel extends BaseLevel {
         this.tl.to(this, { animationTime: 60, duration: 5 }, 5);
         this.tl.call(() => { LevelHandler.setLevel("Guage") }, [], 4)
         // SceneHandler.sceneAnimations[0].play = true
-        SoundHandler.fadeSea()
+
 
     }
 

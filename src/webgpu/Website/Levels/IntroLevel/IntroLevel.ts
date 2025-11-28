@@ -50,7 +50,7 @@ export class IntroLevel extends PlatformLevel {
         LoadHandler.onComplete = () => {
         }
         this.isConversation = true
-        SoundHandler.setBackgroundSounds(["sound/JuliaFlorida.mp3"])
+
         GameModel.gameCamera.setCharacter()
 
         GameModel.gameRenderer.setModels(SceneHandler.allModels)

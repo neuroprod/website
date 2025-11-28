@@ -8,7 +8,7 @@ export default class FightPanel {
 
     root = new Object2D()
 
-    private fightOptionsCopy = ["FIGHT", "HEAL", "RUN"]
+    private fightOptionsCopy = ["Fight", "Heal", "Run"]
     private fightOptions: Array<Text> = []
     constructor(renderer: Renderer) {
 
@@ -19,7 +19,7 @@ export default class FightPanel {
 
 
 
-            let text = new Text(renderer, font, 30, op)
+            let text = new Text(renderer, font, 25, op)
 
             text.x = -700 / 2 + 20 + 40
             text.y = -150 / 2 + 20 + spacing;

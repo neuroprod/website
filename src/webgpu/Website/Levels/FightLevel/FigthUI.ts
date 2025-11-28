@@ -94,6 +94,7 @@ export default class FightUI {
         this.root.x = this.renderer.htmlWidth / 2
         this.root.y = this.renderer.htmlHeight / 2
         this.infoHolder.y = this.renderer.htmlHeight / 3
+        this.infoPanel.update()
     }
 
 }
