@@ -23,7 +23,12 @@ export class GodLevel extends PlatformLevel {
     charFaceHandler!: FaceHandler;
     godFaceHandler!: FaceHandler;
     treeFaceHandler!: FaceHandler;
-
+    treeEyeLook: boolean = false;
+    charRoot!: SceneObject3D;
+    pupilRightTree!: SceneObject3D;
+    pupilLeftTree!: SceneObject3D;
+    treeEyeLeft!: SceneObject3D;
+    treeEyeRight!: SceneObject3D;
     init() {
         super.init();
         LoadHandler.onComplete = this.configScene.bind(this)
@@ -94,6 +99,7 @@ export class GodLevel extends PlatformLevel {
         charRoot.x = this.startPos - 2
         charRoot.y = 0.15
         charRoot.setScaler(1.2)
+        this.charRoot = charRoot
         this.characterController.setCharacter()
         this.characterController.gotoAndIdle(new Vector3(this.startPos, 0.1, 0), 3, () => {
             this.playIntro();
@@ -104,14 +110,20 @@ export class GodLevel extends PlatformLevel {
         GameModel.gameCamera.setMinMaxX(this.startPos + 0.5, 17)
 
 
-        GameModel.gameCamera.setForCharPos(new Vector3(this.startPos + 0.5, 0, 0))
+        this.pupilRightTree = SceneHandler.getSceneObject("pupilRightTree");
+        this.pupilLeftTree = SceneHandler.getSceneObject("pupilLeftTree");
+        this.treeEyeLeft = SceneHandler.getSceneObject("treeEyeLeft");
+        this.treeEyeRight = SceneHandler.getSceneObject("treeEyeRight");
 
+        GameModel.gameCamera.setForCharPos(new Vector3(this.startPos + 0.5, 0, 0))
+        this.treeEyeLook = true
 
     }
     onUI() {
         this.charFaceHandler?.onUI()
         this.godFaceHandler?.onUI()
-        this.treeFaceHandler?.onUI()
+        if (!this.treeEyeLook)
+            this.treeFaceHandler?.onUI()
     }
     conversationDataCallBack(data: string) {
         super.conversationDataCallBack(data);
@@ -164,6 +176,7 @@ export class GodLevel extends PlatformLevel {
 
             if (f.hitTriggerItem == HitTrigger.TREE) {
 
+                this.treeEyeLook = false
                 f.triggerIsEnabled = false;
 
                 let target = this.tree.getWorldPos().add([-0.5, 0.55, 0])
@@ -186,10 +199,11 @@ export class GodLevel extends PlatformLevel {
                             GameModel.gameCamera.camDistance = 2.5;
                             GameModel.gameCamera.heightOffset = 0.7
                             this.characterController.setAngle(0.0)
-
+                            this.treeEyeLook = true
                             gsap.delayedCall(0.5, () => {
                                 this.isConversation = false
                                 this.charFaceHandler.setState("default")
+                                this.treeEyeLook = true
                             })
 
                         }
@@ -211,6 +225,29 @@ export class GodLevel extends PlatformLevel {
     update() {
         super.update()
         this.godController.update()
+
+        if (this.treeEyeLook) {
+
+            let worldPos = this.charRoot.getPosition().clone()
+            worldPos.y += 0.6
+            let offR = this.treeEyeRight.getLocalPos(worldPos)
+            let angleR = Math.atan2(offR.y, offR.x)
+
+            this.pupilRightTree.x = Math.cos(angleR) * 0.012
+            this.pupilRightTree.y = Math.sin(angleR) * 0.019
+
+
+            let offL = this.treeEyeLeft.getLocalPos(worldPos)
+            let angleL = Math.atan2(offR.y, offR.x)
+
+            this.pupilLeftTree.x = Math.cos(angleL) * 0.012
+            this.pupilLeftTree.y = Math.sin(angleL) * 0.019
+
+        }
+
+
+
+
     }
 
     destroy() {
