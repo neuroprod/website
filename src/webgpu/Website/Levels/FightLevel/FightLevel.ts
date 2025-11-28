@@ -41,7 +41,7 @@ export class FightLevel extends BaseLevel {
     landlordLife: number = 1;
     nextFunction!: () => void;
     waitForNext = false;
-    armGun: SceneObject3D;
+    armGun!: SceneObject3D;
 
     init() {
         super.init();

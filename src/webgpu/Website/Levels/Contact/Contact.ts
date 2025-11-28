@@ -154,7 +154,7 @@ export default class Contact extends NavigationLevel {
 
     public update() {
         super.update()
-        let seek = SoundHandler.bgSounds[0].seek()
+        let seek = SoundHandler.bgSounds[0].sound.seek()
         if (seek < this.prevSeek) {
             this.beatCount = 0
 
@@ -162,7 +162,7 @@ export default class Contact extends NavigationLevel {
 
         }
         this.prevSeek = seek;
-        let s = Math.round(SoundHandler.bgSounds[0].seek() * 1000) + 200
+        let s = Math.round(SoundHandler.bgSounds[0].sound.seek() * 1000) + 200
         s %= 462;
         s /= 462;
         if (s < this.prevBeat) {

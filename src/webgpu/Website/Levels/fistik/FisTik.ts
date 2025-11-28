@@ -60,7 +60,7 @@ export default class FisTik extends NavigationLevel {
     public update() {
         super.update()
         SceneHandler.sceneAnimations[0].autoPlay(Timer.delta)
-        let beat = (SoundHandler.bgSounds[0].seek() * 1000) % 753;
+        let beat = (SoundHandler.bgSounds[0].sound.seek() * 1000) % 753;
         if (beat < this.prevBeat) {
             this.beat()
 
