@@ -121,7 +121,7 @@ export class StrawberryLevel extends PlatformLevel {
                                 GameModel.fishstickHandler.addFishstick(2)
                                 gsap.delayedCall(2, () => { LevelHandler.setLevel("Hand") });
                             } else {
-
+                                gsap.delayedCall(1, () => { LevelHandler.setLevel("Hand") });
                             }
                         }
                     });

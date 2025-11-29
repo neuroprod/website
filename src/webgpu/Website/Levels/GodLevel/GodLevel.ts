@@ -156,13 +156,13 @@ export class GodLevel extends PlatformLevel {
 
                                 if (this.skipGodChoice) {
                                     gsap.delayedCall(2, () => {
-                                        LevelHandler.setLevel("Cookie")
+                                        LevelHandler.setLevel("Sausage")
                                     })
                                     //GameModel.coinHandeler.show()
                                     GameModel.coinHandler.addCoins(5)
 
                                 } else {
-                                    LevelHandler.setLevel("GodChoice")
+                                    LevelHandler.setLevel("GodPresent")
                                 }
 
                             })

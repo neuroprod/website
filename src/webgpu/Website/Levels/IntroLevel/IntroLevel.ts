@@ -135,7 +135,7 @@ export class IntroLevel extends PlatformLevel {
             GameModel.conversationHandler.doneCallBack = () => {
                 this.characterController.setAngle(0)
                 this.characterController.gotoAndIdle(new Vector3(this.startPos + 1, 0.1, 0), 1, () => {
-                    LevelHandler.setLevel("God")
+                    LevelHandler.setLevel("Tree")
 
                 })
             }

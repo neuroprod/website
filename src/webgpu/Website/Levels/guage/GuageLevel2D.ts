@@ -69,7 +69,7 @@ export default class GuageLevel2D {
     setLevel(key: string) {
 
 
-        if (key == "Guage") {
+        if (key == "ScreenText") {
             this.root.visible = true
 
 

@@ -46,6 +46,7 @@ export default class GuageLevel extends BaseLevel {
         this.count = 0
         this.textCount = 0
         this.waitTime = this.guageLevel2D.setTick(0)
+
     }
 
 

@@ -136,7 +136,7 @@ export class CookieLevel extends PlatformLevel {
                                 setTimeout(() => {
                                     this.isConversation = false
 
-                                    LevelHandler.setLevel("CookieGame")
+                                    LevelHandler.setLevel("SausageGame")
 
                                 }, 500)
                             }

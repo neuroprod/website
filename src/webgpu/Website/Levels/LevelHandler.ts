@@ -47,12 +47,29 @@ class LevelHandler {
     public navigationLevels: Array<string> = ["Worries", "Me", "Smullen", "Food", "Shaders", "Clients", "Robot", "This", "Invasion", "Friends", "Lab101", "Macaroni", "Social", "Contact"]
     private currentLevelName: string = "";
     init() {
-        this.addLevel("Fight", new FightLevel())
-        this.addLevel("Factory", new FactoryLevel())
         this.addLevel("Home", new StartLevel())
-        this.addLevel("Dead", new DeadLevel());
+
+        this.addLevel("Intro", new IntroLevel())
+        this.addLevel("Tree", new GodLevel())
+        this.addLevel("GodPresent", new GodChoiceLevel())
+        this.addLevel("Sausage", new CookieLevel())
+        this.addLevel("SausageGame", new CookieGame())
+
+        this.addLevel("StrawBerry", new StrawberryLevel())
+        this.addLevel("Hand", new HandLevel())
+
+        this.addLevel("Factory", new FactoryLevel())
+        this.addLevel("Girl", new GirlLevel())
+        this.addLevel("Dock", new DockLevel())
         this.addLevel("Gun", new GunLevel());
-        this.addLevel("Guage", new GuageLevel());
+        this.addLevel("ScreenText", new GuageLevel());
+        this.addLevel("Fight", new FightLevel())
+        this.addLevel("Sea", new SeaLevel())
+        this.addLevel("Dead", new DeadLevel());
+
+
+
+
         this.addLevel("Macaroni", new Internet())
         this.addLevel("Me", new GraphicDev())
         //this.addLevel("Peeler", new Peeler())
@@ -68,18 +85,12 @@ class LevelHandler {
         this.addLevel("Worries", new Scroll())
         this.addLevel("Lab101", new Lab101())
         this.addLevel("Contact", new Contact())
-        this.addLevel("Intro", new IntroLevel())
-        this.addLevel("God", new GodLevel())
-        this.addLevel("GodChoice", new GodChoiceLevel())
-        this.addLevel("Cookie", new CookieLevel())
-        this.addLevel("CookieGame", new CookieGame())
 
-        this.addLevel("StrawBerry", new StrawberryLevel())
-        this.addLevel("Hand", new HandLevel())
 
-        this.addLevel("Girl", new GirlLevel())
-        this.addLevel("Dock", new DockLevel())
-        this.addLevel("Sea", new SeaLevel())
+
+
+
+
     }
 
     setLevel(key: string) {
