@@ -25,6 +25,9 @@ export default class LightMaterial extends Material {
         uniforms.addUniform("shadowCameraPosition", new Vector4(0.5, 1, 0.5, 0.0));
         uniforms.addUniform("lightDir", new Vector4(0.5, 1, 0.5, 0.0));
         uniforms.addUniform("lightColor", new Vector4(1, 0.7, 0.7, 5));
+        uniforms.addUniform("fogColor", new Vector4(0.3725, 0.5569, 0.6471, 0.0));
+        uniforms.addUniform("fogMin", 1000);
+        uniforms.addUniform("fogMax", 10000);
         uniforms.addUniform("needsAO", 0);
         uniforms.addUniform("needsShadow", 0);
 
@@ -144,7 +147,8 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
        let roughness = 0.7;
        let metallic = 0.0;
        let N=normalize(rawNormal.xyz*2.0-1.0); 
-       let V = normalize(camera.worldPosition.xyz - world);
+       let distV = camera.worldPosition.xyz - world;
+       let V = normalize(distV);
        let F0 = mix(vec3(0.04), albedo, metallic);
        var color =albedo*vec3(0.7,0.7,0.8)*0.9*aoM;
        var shadowS =1.0;
@@ -154,7 +158,7 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
        
     
        color +=dirLight(normalize(uniforms.lightDir.xyz),uniforms.lightColor,albedo,N,V,F0,roughness)*shadowS*aoM;
-
+color =mix(color,uniforms.fogColor.xyz,smoothstep(uniforms.fogMin,uniforms.fogMax,length(distV)));
       //let dist = distance( uv0, vec2(0.5, 0.5));
       //let fall =0.3;
     //color =color* smoothstep(0.8, fall * 0.799, dist * (0.6+ fall));

@@ -312,7 +312,16 @@ export default class GameRenderer {
 
 
         let color = UI.LColor("bgcolor", new ColorV(0.3725, 0.5569, 0.6471, 0.0))
-        this.backgroundPass.setColor(color)
+        let fogColor = UI.LColor("fogcolor", new ColorV(0.3725, 0.5569, 0.6471, 0.0))
+        let fogMin = UI.LFloat("fogMin", 3, "fogMin");
+        let fogMax = UI.LFloat("fogMax", 10, "fogMax");
+        let autoUpdate = UI.LBool("autoUpdate", false)
+        if (autoUpdate) {
+            this.backgroundPass.setColor(color)
+            this.lightPass.setFog(fogColor, fogMin, fogMax)
+
+        }
+
         let value = UI.LSelect("Render Pass", this.passSelect)
         if (value != this.currentValue) {
             this.currentValue = value;

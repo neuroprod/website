@@ -8,9 +8,11 @@ import LightMaterial from "./LightMaterial.ts";
 import Blit from "../../lib/blit/Blit.ts";
 import Camera from "../../lib/Camera.ts";
 import DirectionalLight from "../lights/DirectionalLight.ts";
+import ColorV from "../../lib/ColorV.ts";
 
 
 export default class LightRenderPass extends RenderPass {
+
     private colorTarget: RenderTexture;
     private colorAttachment: ColorAttachment;
     lightMaterial: LightMaterial;
@@ -41,7 +43,12 @@ export default class LightRenderPass extends RenderPass {
         this.blit = new Blit(renderer, "blitLight", this.lightMaterial)
 
     }
+    setFog(fogColor: ColorV, fogMin: number, fogMax: number) {
 
+        this.lightMaterial.setUniform("fogColor", fogColor)
+        this.lightMaterial.setUniform("fogMin", fogMin)
+        this.lightMaterial.setUniform("fogMax", fogMax)
+    }
     update(needsAOInt: boolean, needsShadowInt: boolean) {
         if (needsAOInt) {
 
