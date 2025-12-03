@@ -67,7 +67,10 @@ export default class CharacterController {
     private browLeft!: SceneObject3D;
     private browRight!: SceneObject3D;
     private feetToFloor = 0.1;// 0.06/1.2
-    fishTicks!: SceneObject3D;
+    fishTicks: Array<SceneObject3D> = [];
+
+
+
     constructor(renderer: Renderer) {
         this.renderer = renderer;
 
@@ -111,7 +114,14 @@ export default class CharacterController {
         if (this.waveTL) this.waveTL.clear()
 
         SceneHandler.getSceneObject("patch").hide();
+        SceneHandler.getSceneObject("fishTrow").hide();
 
+        this.fishTicks = []
+        this.fishTicks.push(SceneHandler.getSceneObject("fish1"))
+        this.fishTicks.push(SceneHandler.getSceneObject("fish2"))
+        this.fishTicks.push(SceneHandler.getSceneObject("fish3"))
+        this.fishTicks.push(SceneHandler.getSceneObject("fish4"))
+        this.fishTicks.reverse()
         this.charRoot = SceneHandler.getSceneObject("charRoot");
         this.charBody = SceneHandler.getSceneObject("body");
         this.charBody.y = 0.15
@@ -127,6 +137,20 @@ export default class CharacterController {
 
 
         this.velocity.x = 0.1
+
+        this.setNumFishsticks(GameModel.fishstickHandler.numFishsticks)
+    }
+    setNumFishsticks(n: number) {
+
+        for (let i = 0; i < this.fishTicks.length; i++) {
+            if (i <= n - 1) {
+                this.fishTicks[i].show()
+            }
+            else {
+                this.fishTicks[i].hide()
+            }
+        }
+
     }
     gotoAndIdle(worldPos: Vector3, dir: number = 1, gotoDone: () => void) {
         this.gotoDone = gotoDone;

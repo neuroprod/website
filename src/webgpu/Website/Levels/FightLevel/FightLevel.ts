@@ -47,7 +47,8 @@ export class FightLevel extends BaseLevel {
     landlordFrame = 0
     charGotHitAnimation!: Animation;
     kickSplash!: SceneObject3D;
-
+    fishTrowAnimation!: Animation;
+    fishTrow!: SceneObject3D;
     init() {
         super.init();
         LoadHandler.onComplete = this.configScene.bind(this)
@@ -118,6 +119,9 @@ export class FightLevel extends BaseLevel {
         this.landlordLife = 1;
         this.kickAnimation = SceneHandler.sceneAnimationsByName.get("kick") as Animation;
         this.charGotHitAnimation = SceneHandler.sceneAnimationsByName.get("charGotHit2") as Animation;
+        this.fishTrowAnimation = SceneHandler.sceneAnimationsByName.get("fishTrow4") as Animation;
+        this.fishTrow = sceneHandler.getSceneObject("fishTrow")
+        this.fishTrow.hide()
         this.setFirstShot()
     }
 
@@ -275,6 +279,7 @@ export class FightLevel extends BaseLevel {
         tl.to(this, { pirateFrame: 8, duration: 0.2 }, 1.6)
         tl.call(() => { this.fightUI.setInfoPanel("billy fight succes") }, [], 3)
         //prep
+
         tl.to(this, { landlordFrame: 5 }, 0.5)
 
 
@@ -319,17 +324,35 @@ export class FightLevel extends BaseLevel {
         this.state = FSTATE.PAUZE
 
         let target = Math.max(this.landlordLife - 0.34, 0);
+        this.pirateFrame = 0
+
+        this.kickSplash.setPosition(-0.38, 0.38, 0.08)
+        this.kickSplash.sx = this.kickSplash.sy = 1
+        this.kickSplash.hide()
+
+        let tl = this.getTimeline(() => {
+
+            this.fishTrowAnimation.setTime(this.pirateFrame)
+        })
+
+        tl.to(this, { pirateFrame: 8, duration: 1 }, 1)
+        tl.call(() => { this.fishTrow.show() }, [], 1.8)
+        tl.to(this, { pirateFrame: 19, duration: 0.5, ease: "power2.in" }, 2.5)
+        tl.call(() => { SoundHandler.playKick() }, [], 2.9)
+        tl.call(() => { this.kickSplash.show(); this.fishTrow.hide() }, [], 3)
+
+        tl.to(this.kickSplash, { sx: 3, sy: 3, duration: 0.2, ease: "power2.out" }, 3)
+        tl.call(() => { this.kickSplash.hide() }, [], 3.2)
 
 
-        let tl = this.getTimeline()
-
-        tl.to(this, { landlordLife: target }, 1)
+        tl.to(this, { pirateFrame: 60, duration: 1, ease: "power2.in" }, 3.2)
+        tl.to(this, { landlordLife: target }, 3)
         if (target == 0) {
-            tl.call(() => { this.fightUI.setInfoPanel("you win") }, [], 0)
+            tl.call(() => { this.fightUI.setInfoPanel("you win") }, [], 3)
             tl.call(() => {
                 GameModel.happyEnd = true;
                 this.setNextCall(this.doWin.bind(this))
-            }, [], 2)
+            }, [], 5)
         } else {
 
 

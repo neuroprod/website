@@ -17,7 +17,13 @@ export default class FishstickHandler {
         this.tl = gsap.timeline()
         GameModel.UI2D.setFishsticks(temp++)
         for (let i = 1; i <= value; i++) {
-            this.tl.call(() => { GameModel.UI2D.setFishsticks(temp++); SoundHandler.playCoin() }, [], i * 0.5)
+            this.tl.call(() => {
+                GameModel.UI2D.setFishsticks(temp++); SoundHandler.playCoin()
+
+
+
+
+            }, [], i * 0.5)
         }
 
 
