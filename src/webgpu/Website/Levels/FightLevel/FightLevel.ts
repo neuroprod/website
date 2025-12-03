@@ -50,6 +50,7 @@ export class FightLevel extends BaseLevel {
     hitLandAnimation!: Animation;
     fishTrowAnimation!: Animation;
     fishTrow!: SceneObject3D;
+    billyDeadAnimation!: Animation;
     init() {
         super.init();
         LoadHandler.onComplete = this.configScene.bind(this)
@@ -121,8 +122,12 @@ export class FightLevel extends BaseLevel {
         this.charGotHitAnimation = SceneHandler.sceneAnimationsByName.get("charGotHit2") as Animation;
         this.fishTrowAnimation = SceneHandler.sceneAnimationsByName.get("fishTrow4") as Animation;
         this.hitLandAnimation = SceneHandler.sceneAnimationsByName.get("hitLand") as Animation;
+
+
         this.fishTrow = sceneHandler.getSceneObject("fishTrow")
         this.fishTrow.hide()
+
+        this.billyDeadAnimation = SceneHandler.sceneAnimationsByName.get("billyDead") as Animation;
         this.setFirstShot()
     }
 
@@ -332,7 +337,12 @@ export class FightLevel extends BaseLevel {
         this.kickSplash.hide()
 
         let tl = this.getTimeline(() => {
-            this.hitLandAnimation.setTime(this.landlordFrame)
+
+            if (target == 0) {
+                this.billyDeadAnimation.setTime(this.landlordFrame)
+            } else {
+                this.hitLandAnimation.setTime(this.landlordFrame)
+            }
             this.fishTrowAnimation.setTime(this.pirateFrame)
         })
 
@@ -340,13 +350,21 @@ export class FightLevel extends BaseLevel {
         tl.call(() => { this.fishTrow.show() }, [], 1.3)
         tl.to(this, { pirateFrame: 19, duration: 0.5, ease: "power2.in" }, 2.5)
         tl.call(() => { SoundHandler.playKick() }, [], 2.9)
-        tl.to(this, { landlordFrame: 10, duration: 0.05, ease: "power2.out" }, 3)
+        if (target != 0) {
+            tl.to(this, { landlordFrame: 10, duration: 0.05, ease: "power2.out" }, 3)
+        }
         tl.call(() => { this.kickSplash.show(); this.fishTrow.hide() }, [], 3)
 
         tl.to(this.kickSplash, { sx: 3, sy: 3, duration: 0.2, ease: "power2.out" }, 3)
         tl.call(() => { this.kickSplash.hide() }, [], 3.2)
+        if (target == 0) {
+            tl.to(this, { landlordFrame: 30, duration: 1.5, ease: "power2.out" }, 3)
+            tl.to(this, { landlordFrame: 39, duration: 2, ease: "power2.inout" }, 5)
+            tl.to(this, { landlordFrame: 40, duration: 0.2, ease: "power2.inout" }, 7)
+        } else {
+            tl.to(this, { landlordFrame: 0, duration: 1.5, ease: "power2.inout" }, 3.4)
+        }
 
-        tl.to(this, { landlordFrame: 0, duration: 1.5, ease: "power2.inout" }, 3.4)
         tl.to(this, { pirateFrame: 60, duration: 1, ease: "power2.in" }, 3.2)
         tl.to(this, { landlordLife: target }, 3)
         if (target == 0) {
@@ -354,7 +372,7 @@ export class FightLevel extends BaseLevel {
             tl.call(() => {
                 GameModel.happyEnd = true;
                 this.setNextCall(this.doWin.bind(this))
-            }, [], 5)
+            }, [], 9)
         } else {
 
 
