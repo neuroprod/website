@@ -242,6 +242,7 @@ class SceneEditor {
 
             setNewPopup("+ Add new Anime to " + this.currentModel.label, "new_anime", (name: string) => {
                 if (!this.currentModel) return;
+                console.log(this.currentModel)
                 let anime = new Animation(this.renderer, name, this.currentModel)
                 SceneHandler.addAnimation(anime)
 

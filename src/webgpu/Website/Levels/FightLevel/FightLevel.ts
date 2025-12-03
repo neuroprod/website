@@ -47,6 +47,7 @@ export class FightLevel extends BaseLevel {
     landlordFrame = 0
     charGotHitAnimation!: Animation;
     kickSplash!: SceneObject3D;
+    hitLandAnimation!: Animation;
     fishTrowAnimation!: Animation;
     fishTrow!: SceneObject3D;
     init() {
@@ -103,8 +104,7 @@ export class FightLevel extends BaseLevel {
 
         this.kickSplash = sceneHandler.getSceneObject("kickSplash")
 
-        this.armGun = sceneHandler.getSceneObject("LandlordArmGun")
-        this.armGun.rz = 0.7
+
         sceneHandler.getSceneObject("landlordArmPoint").hide()
 
         GameModel.setBlack(0)
@@ -120,6 +120,7 @@ export class FightLevel extends BaseLevel {
         this.kickAnimation = SceneHandler.sceneAnimationsByName.get("kick") as Animation;
         this.charGotHitAnimation = SceneHandler.sceneAnimationsByName.get("charGotHit2") as Animation;
         this.fishTrowAnimation = SceneHandler.sceneAnimationsByName.get("fishTrow4") as Animation;
+        this.hitLandAnimation = SceneHandler.sceneAnimationsByName.get("hitLand") as Animation;
         this.fishTrow = sceneHandler.getSceneObject("fishTrow")
         this.fishTrow.hide()
         this.setFirstShot()
@@ -236,7 +237,7 @@ export class FightLevel extends BaseLevel {
         tl.call(() => { SoundHandler.playGunShot() }, [], 1)
         tl.call(() => { GameModel.tweenToNonBlack(1) }, [], 1)
 
-        tl.to(this.armGun, { rz: -0.3, duration: 3 }, 1)
+
 
         tl.to(this, { pirateLife: 0.6, duration: 2 }, 2.5)
         tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FShot")) }, [], 4)
@@ -325,26 +326,27 @@ export class FightLevel extends BaseLevel {
 
         let target = Math.max(this.landlordLife - 0.34, 0);
         this.pirateFrame = 0
-
-        this.kickSplash.setPosition(-0.38, 0.38, 0.08)
+        this.landlordFrame = 0
+        this.kickSplash.setPosition(-0.4, 0.38, 0.08)
         this.kickSplash.sx = this.kickSplash.sy = 1
         this.kickSplash.hide()
 
         let tl = this.getTimeline(() => {
-
+            this.hitLandAnimation.setTime(this.landlordFrame)
             this.fishTrowAnimation.setTime(this.pirateFrame)
         })
 
-        tl.to(this, { pirateFrame: 8, duration: 1 }, 1)
-        tl.call(() => { this.fishTrow.show() }, [], 1.8)
+        tl.to(this, { pirateFrame: 8, duration: 0.5, ease: "power3.out" }, 1)
+        tl.call(() => { this.fishTrow.show() }, [], 1.3)
         tl.to(this, { pirateFrame: 19, duration: 0.5, ease: "power2.in" }, 2.5)
         tl.call(() => { SoundHandler.playKick() }, [], 2.9)
+        tl.to(this, { landlordFrame: 10, duration: 0.05, ease: "power2.out" }, 3)
         tl.call(() => { this.kickSplash.show(); this.fishTrow.hide() }, [], 3)
 
         tl.to(this.kickSplash, { sx: 3, sy: 3, duration: 0.2, ease: "power2.out" }, 3)
         tl.call(() => { this.kickSplash.hide() }, [], 3.2)
 
-
+        tl.to(this, { landlordFrame: 0, duration: 1.5, ease: "power2.inout" }, 3.4)
         tl.to(this, { pirateFrame: 60, duration: 1, ease: "power2.in" }, 3.2)
         tl.to(this, { landlordLife: target }, 3)
         if (target == 0) {
