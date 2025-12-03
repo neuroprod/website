@@ -16,7 +16,7 @@ import FightUI from "./FigthUI.ts";
 import GameInput from "../../GameInput.ts";
 import LevelHandler from "../LevelHandler.ts";
 import SoundHandler from "../../SoundHandler.ts";
-
+import Animation from "../../../sceneEditor/timeline/animation/Animation.ts";
 
 enum FSTATE {
     START,
@@ -42,6 +42,11 @@ export class FightLevel extends BaseLevel {
     nextFunction!: () => void;
     waitForNext = false;
     armGun!: SceneObject3D;
+    kickAnimation!: Animation
+    pirateFrame = 0
+    landlordFrame = 0
+    charGotHitAnimation!: Animation;
+    kickSplash!: SceneObject3D;
 
     init() {
         super.init();
@@ -94,6 +99,9 @@ export class FightLevel extends BaseLevel {
         this.landlord.y = 0
         this.landlord.z = 0;
 
+
+        this.kickSplash = sceneHandler.getSceneObject("kickSplash")
+
         this.armGun = sceneHandler.getSceneObject("LandlordArmGun")
         this.armGun.rz = 0.7
         sceneHandler.getSceneObject("landlordArmPoint").hide()
@@ -108,11 +116,24 @@ export class FightLevel extends BaseLevel {
         this.fightUI = GameModel.UI2D.fightUI;
         this.pirateLife = 1;
         this.landlordLife = 1;
-
+        this.kickAnimation = SceneHandler.sceneAnimationsByName.get("kick") as Animation;
+        this.charGotHitAnimation = SceneHandler.sceneAnimationsByName.get("charGotHit2") as Animation;
         this.setFirstShot()
     }
 
     onUI(): void {
+        if (UI.LBool("moveBilly", false)) {
+            UI.LFloat(this.landlord, "y", "y")
+            UI.LFloat(this.landlord, "x", "x")
+
+        }
+        if (UI.LBool("moveSplash", false)) {
+            UI.LFloat(this.kickSplash, "x", "x")
+            UI.LFloat(this.kickSplash, "y", "y")
+
+            UI.LFloat(this.kickSplash, "z", "z")
+        }
+
         if (UI.LButton("fightSucces",)) {
             this.doPirateFightSucces()
         }
@@ -125,11 +146,20 @@ export class FightLevel extends BaseLevel {
         if (UI.LButton("healFail",)) {
             this.doPirateHealFail()
         }
+        if (UI.LButton("billyFightSucc",)) {
+            this.doLandlordFightSucces()
+        }
     }
 
-    getTimeline() {
+    getTimeline(updateFuction: any = null) {
         if (this.tl) this.tl.clear()
-        this.tl = gsap.timeline()
+
+        if (updateFuction) {
+            this.tl = gsap.timeline({ onUpdate: updateFuction })
+        } else {
+            this.tl = gsap.timeline()
+        }
+
         return this.tl;
     }
     setFightPanel() {
@@ -148,12 +178,14 @@ export class FightLevel extends BaseLevel {
         super.update();
 
 
-        let pPos = this.pirate.getWorldPos().add([0, -0.3, 0])
+        let pPos = this.pirate.getWorldPos().add([0, 0.3, 0])
+        pPos.y *= -1
         pPos.transform(GameModel.gameCamera.camera.viewProjection)
 
 
 
-        let lPos = this.landlord.getWorldPos().add([0, -0.2, 0])
+        let lPos = this.landlord.getWorldPos().add([0, 0.2, 0])
+        lPos.y *= -1
         lPos.transform(GameModel.gameCamera.camera.viewProjection)
 
         this.fightUI.setCharPositionsLife(pPos, this.pirateLife, lPos, this.landlordLife)
@@ -231,18 +263,46 @@ export class FightLevel extends BaseLevel {
 
         let target = Math.max(this.pirateLife - 0.2, 0);
 
+        this.pirateFrame = 0
+        this.landlordFrame = 0
+        let tl = this.getTimeline(() => {
+            this.kickAnimation.setTime(this.landlordFrame)
+            this.charGotHitAnimation.setTime(this.pirateFrame)
+        })
+        this.kickSplash.setPosition(0.47, 0.46, 0.06)
+        this.kickSplash.hide()
+        this.kickSplash.sx = this.kickSplash.sy = 1
+        tl.to(this, { pirateFrame: 8, duration: 0.2 }, 1.6)
+        tl.call(() => { this.fightUI.setInfoPanel("billy fight succes") }, [], 3)
+        //prep
+        tl.to(this, { landlordFrame: 5 }, 0.5)
 
-        let tl = this.getTimeline()
-        tl.call(() => { this.fightUI.setInfoPanel("billy fight succes") }, [], 0)
-        tl.to(this, { pirateLife: target }, 2)
+
+        //hit
+        tl.to(this, { landlordFrame: 18, duration: 0.2 }, 1.5)
+        tl.to(this.landlord, { x: 0.2, y: 0.185, duration: 0.2 }, 1.5)
+        tl.call(() => { SoundHandler.playKick() }, [], 1.5)
+        tl.call(() => { this.kickSplash.show() }, [], 1.6)
+        tl.to(this, { pirateFrame: 8, duration: 0.2 }, 1.6)
+        tl.to(this.kickSplash, { sx: 3, sy: 3, duration: 0.2 }, 1.6)
+        tl.call(() => { this.kickSplash.hide() }, [], 1.8)
+
+
+        tl.to(this, { pirateFrame: 0, duration: 0.5 }, 2.7)
+        tl.to(this, { landlordFrame: 60, duration: 0.3 }, 2.7)
+        tl.to(this.landlord, { x: -0.6, y: 0, duration: 0.3, ease: "power4.out" }, 2.7)
+        tl.to(this, { pirateLife: target }, 2.2)
+
+
+
         if (target == 0) {
 
             tl.call(() => {
                 GameModel.happyEnd = false;
                 this.setNextCall(this.doLose.bind(this))
-            }, [], 2)
+            }, [], 3)
         } else {
-            tl.call(() => { this.setNextCall(this.setFightPanel.bind(this)) }, [], 2)
+            tl.call(() => { this.setNextCall(this.setFightPanel.bind(this)) }, [], 4)
 
         }
 

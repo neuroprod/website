@@ -36,6 +36,7 @@ class SoundHandler {
     squatch!: Howl;
     lever!: Howl;
     drink!: Howl;
+    kick!: Howl;
 
     init() {
 
@@ -73,6 +74,10 @@ class SoundHandler {
         this.drink = new Howl({
             src: ['sound/776763__limofeus__soda-can-open-drink-drop.mp3'],
         })
+        this.kick = new Howl({
+            src: ['sound/488720__tiliadesign__fight-perfect-punchhitkickstroke.mp3'],
+        })
+
 
         this.talking = new Howl({
             src: ['sound/talking.mp3'],
@@ -220,8 +225,16 @@ class SoundHandler {
         this.clock.play("s" + count % 6)
 
     }
+    playKick() {
+        if (!this.playSound) return
 
 
+        console.log("play")
+        this.kick.volume(this.fxVolume);
+        this.kick.play()
+
+
+    }
     playCoin() {
         if (!this.playSound) return
 

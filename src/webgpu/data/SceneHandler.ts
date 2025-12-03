@@ -8,8 +8,8 @@ import Model from "../lib/model/Model.ts";
 
 import MathUtils from "../lib/MathUtils.ts";
 import Animation from "../sceneEditor/timeline/animation/Animation.ts";
-import AnimationChannel, {Key} from "../sceneEditor/timeline/animation/AnimationChannel.ts";
-import {Quaternion, Vector3} from "@math.gl/core";
+import AnimationChannel, { Key } from "../sceneEditor/timeline/animation/AnimationChannel.ts";
+import { Quaternion, Vector3 } from "@math.gl/core";
 
 class SceneHandler {
     public scenesData: Array<any> = [];
@@ -20,18 +20,18 @@ class SceneHandler {
     public sceneObjectsByName: Map<string, SceneObject3D> = new Map<string, SceneObject3D>()
     allModels: Array<Model> = [];
 
-  //  usedModels: Array<Model> = [];
-   // usedModelsTrans: Array<Model> = [];
+    //  usedModels: Array<Model> = [];
+    // usedModelsTrans: Array<Model> = [];
     root!: SceneObject3D;
     private renderer!: Renderer;
-    private currentSceneID: string="";
+    private currentSceneID: string = "";
     private sceneData: any;
     hitTestModels: Array<Model> = [];
     triggerModels: Array<SceneObject3D> = [];
     mouseHitModels: Array<Model> = [];
 
-    sceneAnimations:Array<Animation>=[]
-
+    sceneAnimations: Array<Animation> = []
+    sceneAnimationsByName: Map<string, Animation> = new Map<string, Animation>()
     async init(renderer: Renderer, preloader: PreLoader) {
         this.renderer = renderer;
         this.root = new SceneObject3D(renderer, "MainRoot")
@@ -66,11 +66,11 @@ class SceneHandler {
         }
     }
 
-    getSceneIDByName(name:string){
-            for(let s of this.scenesData){
-                if(s.name==name)return s.id;
-            }
-            return ""
+    getSceneIDByName(name: string) {
+        for (let s of this.scenesData) {
+            if (s.name == name) return s.id;
+        }
+        return ""
     }
     async setScene(sceneId: string) {
         //save currentscenes?
@@ -79,10 +79,10 @@ class SceneHandler {
         this.root.removeAllChildren()
         this.allModels = [];
 
-        this.hitTestModels =[];
-        this.triggerModels =[];
-        this.mouseHitModels =[];
-        this.sceneAnimations=[];
+        this.hitTestModels = [];
+        this.triggerModels = [];
+        this.mouseHitModels = [];
+        this.sceneAnimations = [];
         this.sceneObjectsByLoadID.clear()
         this.sceneObjectsByName.clear()
 
@@ -90,10 +90,10 @@ class SceneHandler {
         this.sceneData = this.sceneDataByID.get(sceneId)
 
         this.currentSceneID = sceneId;
-        if ( this.sceneData ) {
+        if (this.sceneData) {
 
-            this.parseSceneData( this.sceneData.scene,true)
-            this.parseSceneAnimations( this.sceneData.animations)
+            this.parseSceneData(this.sceneData.scene, true)
+            this.parseSceneAnimations(this.sceneData.animations)
         }
 
 
@@ -101,31 +101,31 @@ class SceneHandler {
     async addScene(sceneId: string) {
         this.sceneData = this.sceneDataByID.get(sceneId)
         this.currentSceneID = sceneId;
-        if ( this.sceneData ) {
+        if (this.sceneData) {
 
-            this.parseSceneData( this.sceneData.scene,true)
-            this.parseSceneAnimations( this.sceneData.animations)
+            this.parseSceneData(this.sceneData.scene, true)
+            this.parseSceneAnimations(this.sceneData.animations)
         }
     }
     saveCurrentScene() {
-        if(! this.sceneData){return }
+        if (!this.sceneData) { return }
 
-        let sceneRoot =this.sceneObjectsByLoadID.get( this.sceneData.scene[0].id);
-        if(!sceneRoot)return;
-        let sData:Array<any> =[]
+        let sceneRoot = this.sceneObjectsByLoadID.get(this.sceneData.scene[0].id);
+        if (!sceneRoot) return;
+        let sData: Array<any> = []
         sceneRoot.getObjectData(sData);
 
-        this.sceneData.animations =[]
-        for(let a of this.sceneAnimations){
-            a.getAnimationData( this.sceneData.animations)
+        this.sceneData.animations = []
+        for (let a of this.sceneAnimations) {
+            a.getAnimationData(this.sceneData.animations)
         }
 
 
 
-        this.sceneData.scene =sData;
+        this.sceneData.scene = sData;
     }
 
-    private parseSceneData(sceneData: any,isRoot:boolean) {
+    private parseSceneData(sceneData: any, isRoot: boolean) {
 
         for (let d of sceneData) {
 
@@ -137,7 +137,7 @@ class SceneHandler {
 
             } else if (d.isText) {
 
-                sceneObj = ProjectData.makeSceneObjectWithText(d.label, d.text,d.textSpacing)
+                sceneObj = ProjectData.makeSceneObjectWithText(d.label, d.text, d.textSpacing)
             } else {
                 sceneObj = new SceneObject3D(this.renderer, d.label)
                 sceneObj.UUID = d.id;
@@ -156,7 +156,7 @@ class SceneHandler {
                 if (!parent) parent = this.root;
                 parent.addChild(sceneObj)
 
-                this.sceneObjectsByName.set(sceneObj.label,sceneObj)
+                this.sceneObjectsByName.set(sceneObj.label, sceneObj)
 
                 if (sceneObj.model) {
                     if (d.scale) {
@@ -176,7 +176,7 @@ class SceneHandler {
                     }
 
 
-                        this.allModels.push(sceneObj.model);
+                    this.allModels.push(sceneObj.model);
 
 
 
@@ -190,11 +190,12 @@ class SceneHandler {
     addNewScene(name: string) {
         let uid = MathUtils.generateUUID()
         let uid2 = MathUtils.generateUUID()
-        let sceneData:any={
-            id:uid,
-            name:name,
-            "scene":[{"id":uid2,"needsHitTest":false,"label":"root","meshId":"","projectId":"","isText":false,"text":"","needsTrigger":false,"triggerRadius":0.2,"position":[0,0,0],"rotation":[0,0,0,1],"hitTriggerItem":0}],
-            "animations":[]}
+        let sceneData: any = {
+            id: uid,
+            name: name,
+            "scene": [{ "id": uid2, "needsHitTest": false, "label": "root", "meshId": "", "projectId": "", "isText": false, "text": "", "needsTrigger": false, "triggerRadius": 0.2, "position": [0, 0, 0], "rotation": [0, 0, 0, 1], "hitTriggerItem": 0 }],
+            "animations": []
+        }
         this.scenesData.push(sceneData);
         this.sceneDataByID.set(sceneData.id, sceneData)
         return uid;
@@ -203,8 +204,8 @@ class SceneHandler {
 
     getSceneObject(name: string) {
 
-        if(!this.sceneObjectsByName.has(name)){
-            console.log(name+ " doesnt exist in level")
+        if (!this.sceneObjectsByName.has(name)) {
+            console.log(name + " doesnt exist in level")
 
         }
 
@@ -212,8 +213,8 @@ class SceneHandler {
     }
 
     private parseSceneAnimations(animations: any[]) {
-if(!animations)return
-        for(let anime of animations){
+        if (!animations) return
+        for (let anime of animations) {
 
             let animation = new Animation(this.renderer, anime.label, this.sceneObjectsByLoadID.get(anime.rootID) as SceneObject3D)
             animation.frameTime = anime.frameTime;
@@ -225,36 +226,38 @@ if(!animations)return
                 for (let i = 0; i < channelData.frames.length; i++) {
                     let key = new Key()
                     key.frame = channelData.frames[i]
-                    let keyData =channelData.values[i]
-                    if(keyData){
-                    if(keyData.length==3){
-                        key.data =new Vector3( channelData.values[i]   )
-                    } if(keyData.length==4){
-                        key.data =new Quaternion( channelData.values[i]   )
+                    let keyData = channelData.values[i]
+                    if (keyData) {
+                        if (keyData.length == 3) {
+                            key.data = new Vector3(channelData.values[i])
+                        } if (keyData.length == 4) {
+                            key.data = new Quaternion(channelData.values[i])
+                        }
+
+
+                        channel.keys.push(key);
                     }
-
-
-                    channel.keys.push(key);}
                 }
-                channel.lastKeyIndex = channel.keys.length-1;
+                channel.lastKeyIndex = channel.keys.length - 1;
                 animation.channels.push(channel)
 
             }
+            this.sceneAnimationsByName.set(anime.label, animation)
             this.sceneAnimations.push(animation)
 
-           // let animation =new Animation(this.renderer,)
+            // let animation =new Animation(this.renderer,)
 
         }
     }
-    addAnimation(animation:Animation){
-     this.sceneAnimations.push(animation)
+    addAnimation(animation: Animation) {
+        this.sceneAnimations.push(animation)
 
+    }
+    removeAnimation(animation: Animation) {
+        let i = this.sceneAnimations.indexOf(animation)
+        if (i > -1) {
+            this.sceneAnimations.splice(i, 1)
         }
-   removeAnimation(animation:Animation){
-       let i =  this.sceneAnimations.indexOf(animation)
-       if(i>-1){
-           this.sceneAnimations.splice(i,1)
-       }
 
     }
 
