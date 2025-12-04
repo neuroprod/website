@@ -785,10 +785,10 @@
     "name": "girl",
     "data": [
       {
-        "char": "girl",
+        "char": "rootFairy",
         "pos": [
-          0.01,
-          0.8,
+          -0.35,
+          0.37,
           0
         ],
         "text": "Hi Pirate, what's up?"
@@ -796,8 +796,8 @@
       {
         "char": "charRoot",
         "pos": [
-          -0.1,
-          0.8,
+          0.1,
+          0.85,
           0
         ],
         "text": "I don't know Miss...\nI can't seem to collect enough\ncoins these days."
@@ -806,10 +806,10 @@
         "text": "Feels like the game\nis rigged against me."
       },
       {
-        "char": "girl",
+        "char": "rootFairy",
         "pos": [
-          0.01,
-          0.8,
+          -0.35,
+          0.37,
           0
         ],
         "text": "If the game is rigged,\nyou shouldn't play by the\nrules Pirate."
@@ -817,17 +817,17 @@
       {
         "char": "charRoot",
         "pos": [
-          -0.1,
-          0.8,
+          0.1,
+          0.85,
           0
         ],
         "text": "I'm afraid I don't\nhave much of a choise Miss... "
       },
       {
-        "char": "girl",
+        "char": "rootFairy",
         "pos": [
-          0.01,
-          0.8,
+          -0.35,
+          0.37,
           0
         ],
         "text": "There is always a\nchoise Pirate."
@@ -838,8 +838,8 @@
       {
         "char": "charRoot",
         "pos": [
-          -0.1,
-          0.8,
+          0.1,
+          0.85,
           0
         ],
         "text": "Sigh... I only got #numCoins of the 30 coins."
@@ -853,10 +853,10 @@
     "name": "girlEnd",
     "data": [
       {
-        "char": "girl",
+        "char": "rootFairy",
         "pos": [
-          0.01,
-          0.8,
+          -0.35,
+          0.37,
           0
         ],
         "text": "Thats all you need Pirate!\n...thats al you need!"
@@ -867,10 +867,10 @@
     "name": "girlFishEnd",
     "data": [
       {
-        "char": "girl",
+        "char": "rootFairy",
         "pos": [
-          0.01,
-          0.8,
+          -0.35,
+          0.37,
           0
         ],
         "text": "A man needs at least 3 fish sticks,\nhave one of mine!"
