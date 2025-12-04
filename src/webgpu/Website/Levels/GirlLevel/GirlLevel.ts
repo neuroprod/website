@@ -122,6 +122,7 @@ export class GirlLevel extends PlatformLevel {
                                     GameModel.fishstickHandler.addFishstick(1)
 
                                 }
+                                gsap.to(this.girl, { y: 3, ry: 0, ease: "power2.in", duration: 4 })
                                 gsap.delayedCall(3, () => { LevelHandler.setLevel("Dock") });
 
                             }

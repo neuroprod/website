@@ -14,7 +14,7 @@ import gsap from "gsap";
 import LevelHandler from "../LevelHandler.ts";
 import Timer from "../../../lib/Timer.ts";
 import SoundHandler from "../../SoundHandler.ts";
-
+import Animation from "../../../sceneEditor/timeline/animation/Animation.ts";
 
 export class FactoryLevel extends PlatformLevel {
     private startPos: number = -3;
@@ -32,6 +32,8 @@ export class FactoryLevel extends PlatformLevel {
     pullTime = 0
     fishRoot!: SceneObject3D;
     takeFishsticks: boolean = false;
+    handPullAnimation!: Animation;
+    drinkAnimation!: Animation;
     init() {
         super.init();
         this.characterController = new CharacterController(GameModel.renderer)
@@ -135,6 +137,10 @@ export class FactoryLevel extends PlatformLevel {
         let gateDown = SceneHandler.getSceneObject("gateDown");
         gateDown.y = 0.12
 
+
+        this.handPullAnimation = SceneHandler.sceneAnimationsByName.get("handPull") as Animation
+        this.drinkAnimation = SceneHandler.sceneAnimationsByName.get("drink") as Animation
+
         let gatePos = gateUp.getWorldPos()
         let pack1 = SceneHandler.getSceneObject("pack1");
         this.tlLever = gsap.timeline({ repeat: -1 })
@@ -170,6 +176,9 @@ export class FactoryLevel extends PlatformLevel {
             SoundHandler.playDrink(fishPos.clone().subtract(GameModel.gameCamera.cameraWorld));
         }, [], 4)
         this.tlDrink.to(this, { drinkTime: 0, ease: "power2.inOut" }, 5)
+
+
+
     }
 
     setFishLoop() {
@@ -236,8 +245,9 @@ export class FactoryLevel extends PlatformLevel {
 
             r.children[0].rz -= 5 * Timer.delta;
         }
-        SceneHandler.sceneAnimations[0].setTime(this.pullTime)
-        SceneHandler.sceneAnimations[1].setTime(this.drinkTime)
+        this.handPullAnimation.setTime(this.pullTime)
+
+        this.drinkAnimation.setTime(this.drinkTime)
     }
 
     destroy() {
