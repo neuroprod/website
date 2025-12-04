@@ -66,7 +66,7 @@ export class GirlLevel extends PlatformLevel {
 
         this.girl = SceneHandler.getSceneObject("rootFairy");
         this.girl.x = 5
-        this.girl.y = 0.6
+        this.girl.y = 3
         this.girl.ry = -0.3
         this.girl.setScaler(1.2)
         GameModel.gameCamera.setMinMaxX(this.startPos, this.girl.x + 2 + 5)
@@ -95,10 +95,17 @@ export class GirlLevel extends PlatformLevel {
                 // 
                 this.isConversation = true
                 this.characterController.gotoAndIdle(new Vector3(this.girl.x - 1.0, 0, 0), 1, () => {
+
                     let target = new Vector3(this.girl.x - 0.5, 0.6, 0)
                     GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 1.9]))
+                    this.girl.rz = 0.2
 
-                    gsap.delayedCall(0.5, () => {
+                    gsap.to(this.girl, { y: 0.6, rz: 0, ease: "elastic.out(1,1)", duration: 4 })
+
+
+
+
+                    gsap.delayedCall(4.5, () => {
                         this.charFaceHandler.setState("lookGirl")
                         GameModel.conversationHandler.startConversation("girl")
 
