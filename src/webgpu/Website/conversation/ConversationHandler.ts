@@ -4,7 +4,7 @@ import TextBalloonHandler from "./TextBalloonHandler.ts";
 import Renderer from "../../lib/Renderer.ts";
 import SceneHandler from "../../data/SceneHandler.ts";
 import GameModel from "../GameModel.ts";
-
+import gsap from "gsap";
 export default class ConversationHandler {
     textReady: boolean = false;
     private textBalloonHandler: TextBalloonHandler;
@@ -20,6 +20,7 @@ export default class ConversationHandler {
     doneCallBack!: () => void;
     dataCallBack!: (data: string) => void;
     private data: any;
+    tl!: gsap.core.Timeline;
     constructor(renderer: Renderer, textBalloonHandler: TextBalloonHandler) {
         this.renderer = renderer;
         this.textBalloonHandler = textBalloonHandler;
@@ -73,8 +74,11 @@ export default class ConversationHandler {
             this.setChoice()
         } else {
 
+            let delay = 0
 
-            this.displayText(data.text, 0, 0)
+            if (this.currentData.delay) delay = this.currentData.delay;
+
+            this.displayText(data.text, 0, 0, delay)
             this.dataIndex++;
         }
 
@@ -83,13 +87,24 @@ export default class ConversationHandler {
 
     }
 
-    displayText(text: string, numAnswers: number, currentAnswer: number) {
+    displayText(text: string, numAnswers: number, currentAnswer: number, delay = 0) {
 
         this.textReady = false
-        this.textBalloonHandler.setText(this.replace(text), numAnswers, currentAnswer)
-        setTimeout(() => {
-            this.textReady = true
-        }, 800)
+        if (this.tl) this.tl.clear()
+
+
+        this.tl = gsap.timeline()
+        if (delay != 0) {
+            this.textBalloonHandler.hideText()
+            this.tl.call(() => { this.textBalloonHandler.setText(this.replace(text), numAnswers, currentAnswer) }, [], delay)
+        }
+        else {
+            this.textBalloonHandler.setText(this.replace(text), numAnswers, currentAnswer)
+        }
+
+
+        this.tl.call(() => { this.textReady = true }, [], delay + 0.5)
+
 
     }
 
@@ -109,7 +124,7 @@ export default class ConversationHandler {
 
         }
         if (this.isChoice) {
-            console.log("this is choise")
+
             let s = 0;
             if (hInput > 0) {
                 s = 1

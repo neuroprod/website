@@ -13,15 +13,20 @@ import { HitTrigger } from "../../../data/HitTriggers.ts";
 import gsap from "gsap";
 import LevelHandler from "../LevelHandler.ts";
 import FaceHandler from "../../handlers/FaceHandler.ts";
+import Timer from "../../../lib/Timer.ts";
+import Animation from "../../../sceneEditor/timeline/animation/Animation.ts";
 
 
 export class GirlLevel extends PlatformLevel {
+    private tl!: gsap.core.Timeline;
     private startPos: number = -10;
     girl!: SceneObject3D;
     charFaceHandler!: FaceHandler;
-
-
-
+    girlLegL!: SceneObject3D;
+    girlLegR!: SceneObject3D;
+    girlBody!: SceneObject3D;
+    girlPhoneAnimation!: Animation;
+    girlFrame = 10
     init() {
         super.init();
         this.characterController = new CharacterController(GameModel.renderer)
@@ -65,8 +70,13 @@ export class GirlLevel extends PlatformLevel {
         this.characterController.gotoAndIdle(new Vector3(this.startPos + 0.5, 0, 0), 1, () => { this.isConversation = false })
 
         this.girl = SceneHandler.getSceneObject("rootFairy");
+
+        this.girlLegL = SceneHandler.getSceneObject("legFL");
+        this.girlLegR = SceneHandler.getSceneObject("legFR");
+        this.girlBody = SceneHandler.getSceneObject("bodyFairy");
+
         this.girl.x = 5
-        this.girl.y = 3
+        this.girl.y = 2.2
         this.girl.ry = -0.3
         this.girl.setScaler(1.2)
         GameModel.gameCamera.setMinMaxX(this.startPos, this.girl.x + 2 + 5)
@@ -76,9 +86,32 @@ export class GirlLevel extends PlatformLevel {
 
         this.charFaceHandler = new FaceHandler(charRoot)
         this.charFaceHandler.setState("default")
+
+
+        this.girlPhoneAnimation = SceneHandler.sceneAnimationsByName.get("lookPhone") as Animation;
+
+        this.girlFrame = 10
+        this.girlPhoneAnimation.setTime(this.girlFrame)
     }
     onUI(): void {
         this.charFaceHandler?.onUI()
+    }
+    conversationDataCallBack(data: string) {
+        super.conversationDataCallBack(data);
+        if (data == "lookDown") {
+            let tl = this.getTimeline(() => {
+                this.girlPhoneAnimation.setTime(this.girlFrame)
+
+            })
+            tl.to(this, { girlFrame: 10, duration: 2, ease: "power2.inOut" }, 0.0)
+        }
+        if (data == "lookUp") {
+            let tl = this.getTimeline(() => {
+                this.girlPhoneAnimation.setTime(this.girlFrame)
+
+            })
+            tl.to(this, { girlFrame: 0, duration: 1, ease: "power2.inOut" }, 0.0)
+        }
     }
     resolveHitTrigger(f: SceneObject3D) {
         if (!super.resolveHitTrigger(f)) {
@@ -96,17 +129,26 @@ export class GirlLevel extends PlatformLevel {
                 this.isConversation = true
                 this.characterController.gotoAndIdle(new Vector3(this.girl.x - 1.0, 0, 0), 1, () => {
 
-                    let target = new Vector3(this.girl.x - 0.5, 0.6, 0)
+                    let target = new Vector3(this.girl.x - 0.5, 0.5, 0)
                     GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 1.9]))
-                    this.girl.rz = 0.2
 
-                    gsap.to(this.girl, { y: 0.6, rz: 0, ease: "elastic.out(1,1)", duration: 4 })
+                    this.charFaceHandler.setState("lookGirl")
+                    let tl = this.getTimeline(() => {
+                        this.girlPhoneAnimation.setTime(this.girlFrame)
+
+                    })
+
+                    tl.to(this, { girlFrame: 0, duration: 2, ease: "power2.inOut" }, 3.5)
+
+                    //this.girl.rz = 0.2
+
+                    // gsap.to(this.girl, { y: 0.6, rz: 0, ease: "elastic.out(1,1)", duration: 4 })
 
 
 
 
-                    gsap.delayedCall(4.5, () => {
-                        this.charFaceHandler.setState("lookGirl")
+                    gsap.delayedCall(6.5, () => {
+
                         GameModel.conversationHandler.startConversation("girl")
 
                         GameModel.conversationHandler.doneCallBack = () => {
@@ -122,8 +164,13 @@ export class GirlLevel extends PlatformLevel {
                                     GameModel.fishstickHandler.addFishstick(1)
 
                                 }
-                                gsap.to(this.girl, { y: 3, ry: 0, ease: "power2.in", duration: 4 })
-                                gsap.delayedCall(3, () => { LevelHandler.setLevel("Dock") });
+                                let tl = this.getTimeline(() => {
+                                    this.girlPhoneAnimation.setTime(this.girlFrame)
+
+                                })
+
+                                tl.to(this, { girlFrame: 10, duration: 2, ease: "power2.inOut" }, 2)
+                                gsap.delayedCall(5, () => { LevelHandler.setLevel("Dock") });
 
                             }
 
@@ -138,14 +185,32 @@ export class GirlLevel extends PlatformLevel {
 
         return false;
     }
+    getTimeline(updateFuction: any = null) {
+        if (this.tl) this.tl.clear()
+
+        if (updateFuction) {
+            this.tl = gsap.timeline({ onUpdate: updateFuction })
+        } else {
+            this.tl = gsap.timeline()
+        }
+
+        return this.tl;
+    }
     update() {
         super.update();
+        let t = Timer.time
+        this.girl.rz = Math.sin(t) * 0.02
 
-
+        this.girlBody.rz = Math.sin(t - 1) * 0.01 - 0.05
+        t -= 2.2
+        this.girlLegL.rz = Math.sin(t) * 0.05 - 0.05
+        t += 0.4
+        this.girlLegR.rz = Math.sin(t) * 0.06 - 0.05
     }
 
     destroy() {
         super.destroy();
+        if (this.tl) this.tl.clear()
     }
 
 

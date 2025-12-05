@@ -130,7 +130,8 @@ export default class CharacterController {
         this.armLeft = SceneHandler.getSceneObject("armLeft");
         this.browLeft = SceneHandler.getSceneObject("browLeft");
         this.browRight = SceneHandler.getSceneObject("browRight");
-        this.bodyBasePos = this.charBody.getPosition().clone()
+        this.bodyBasePos = new Vector3(0.010715560540710097, 0.14, 0.006523502270595112)
+
         this.autoWalk = false;
         this.cloudParticles.init()
         this.targetPos.copy(this.charRoot.getPosition() as NumericArray)
@@ -295,10 +296,11 @@ export default class CharacterController {
 
         this.charBody.rz = -Math.abs(this.velocity.x) / 20;
         //this.charHat.rz = -Math.abs(this.velocity.x) / 30;
-        this.charBody.y = lerp(this.charBody.y, this.bodyBasePos.y, lerpValueDelta(0.002, delta))
-        this.charBody.y += Math.sin(this.idleTime) * 0.001
+
+        this.charBody.y = lerp(this.charBody.y, this.bodyBasePos.y, 0.9);// lerpValueDelta(0.002, delta))
+        this.charBody.y += Math.sin(this.idleTime) * 0.01
         //this.charHat.y = lerp(this.charHat.y, this.hatBasePos.y, lerpValueDelta(0.002, delta))
-        this.charBody.sy = lerp(this.charBody.sy, 1, lerpValueDelta(0.001, delta))
+        this.charBody.sy = lerp(this.charBody.sy, 1, 0.9);// lerpValueDelta(0.001, delta))
 
         this.charHitTopWorld = this.charBody.getWorldPos(this.charHitTop)
         this.charHitBottomWorld = this.charRoot.getWorldPos(this.charHitBottom)

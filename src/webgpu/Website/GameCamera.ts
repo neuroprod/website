@@ -194,8 +194,8 @@ export default class GameCamera {
     }
     TweenToLockedView(camLookAt: Vector3, camPosition: Vector3, duration = 1.5) {
         this.tl = gsap.timeline()
-        this.tl.to(this.cameraWorld, { x: camPosition.x, y: camPosition.y, z: camPosition.z, duration: duration, ease: "power2.out" }, 0)
-        this.tl.to(this.cameraLookAt, { x: camLookAt.x, y: camLookAt.y, z: camLookAt.z, duration: duration, ease: "power2.out" }, 0)
+        this.tl.to(this.cameraWorld, { x: camPosition.x, y: camPosition.y, z: camPosition.z, duration: duration, ease: "power3.inout" }, 0)
+        this.tl.to(this.cameraLookAt, { x: camLookAt.x, y: camLookAt.y, z: camLookAt.z, duration: duration, ease: "power3.inout" }, 0)
         this.cameraState = CameraState.Locked;
     }
 
