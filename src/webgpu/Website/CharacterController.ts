@@ -298,7 +298,7 @@ export default class CharacterController {
         //this.charHat.rz = -Math.abs(this.velocity.x) / 30;
 
         this.charBody.y = lerp(this.charBody.y, this.bodyBasePos.y, 0.9);// lerpValueDelta(0.002, delta))
-        this.charBody.y += Math.sin(this.idleTime) * 0.01
+        this.charBody.y += Math.sin(this.idleTime) * 0.005
         //this.charHat.y = lerp(this.charHat.y, this.hatBasePos.y, lerpValueDelta(0.002, delta))
         this.charBody.sy = lerp(this.charBody.sy, 1, 0.9);// lerpValueDelta(0.001, delta))
 
@@ -389,15 +389,15 @@ export default class CharacterController {
         if (this.distanceToFloor > 0.3 && this.velocity.y > 0) {
 
 
-            this.leftLeg.rz = lerp(this.leftLeg.rz, 1.2 * tScale, lerpValueDelta(0.01, delta));
-            this.rightLeg.rz = lerp(this.rightLeg.rz, -1.2 * tScale, lerpValueDelta(0.01, delta));
+            this.leftLeg.rz = lerp(this.leftLeg.rz, 1.2 * tScale, 0.1)// lerpValueDelta(0.01, delta));
+            this.rightLeg.rz = lerp(this.rightLeg.rz, -1.2 * tScale, 0.1)// lerpValueDelta(0.01, delta));
         } else {
-            this.leftLeg.rz = lerp(this.leftLeg.rz, 0, lerpValueDelta(0.001, delta));
-            this.rightLeg.rz = lerp(this.rightLeg.rz, 0, lerpValueDelta(0.001, delta));
+            this.leftLeg.rz = lerp(this.leftLeg.rz, 0, 0.1);
+            this.rightLeg.rz = lerp(this.rightLeg.rz, 0, 0.1)//lerpValueDelta(0.001, delta));
         }
         if (Math.abs(this.velocity.x) < 0.01 || !this.isGrounded) {
-            let lerpVal = lerpValueDelta(0.002, delta)
-
+            let lerpVal = 0.1;// lerpValueDelta(0.002, delta)
+            this.stepLength = 0.20
             this.feetPos1.x = lerp(this.feetPos1.x, tScale * (this.stepLength / 2), lerpVal);
             this.feetPos1.y = lerp(this.feetPos1.y, this.feetToFloor, lerpVal)
 
@@ -409,6 +409,7 @@ export default class CharacterController {
             this.leftLeg.setPositionV(this.feetPos1)
             this.rightLeg.setPositionV(this.feetPos2)
             this.feetStep = 0;
+
         } else {
 
             this.stepLength = 0.20 + Math.abs(this.velocity.x) / 30
