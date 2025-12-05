@@ -32,14 +32,16 @@ export class HandLevel extends PlatformLevel {
         LoadHandler.onComplete = this.configScene.bind(this)
         LoadHandler.startLoading()
         LoadHandler.startLoading()
-
+        LoadHandler.startLoading()
 
         SceneHandler.setScene("2de5b0dc-f37a-4e59").then(() => {
 
             SceneHandler.addScene("1234").then(() => {
                 LoadHandler.stopLoading()
             });
-
+            SceneHandler.addScene("263ba4bf-2df4-4065").then(() => {
+                LoadHandler.stopLoading()
+            });
 
 
             LoadHandler.stopLoading()
@@ -64,8 +66,10 @@ export class HandLevel extends PlatformLevel {
         char.x = 0
 
         this.hand = sceneHandler.getSceneObject("rootHand")
-
-
+        this.hand.setScaler(1.2)
+        this.hand.x = 5
+        this.hand.y = -0.04
+        this.hand.ry = -0.4
         GameModel.gameCamera.setMinMaxX(-0.3, 100)
 
         this.charFaceHandler = new FaceHandler(char)
@@ -96,7 +100,7 @@ export class HandLevel extends PlatformLevel {
             if (f.hitTriggerItem == HitTrigger.HAND) {
                 f.triggerIsEnabled = false;
 
-                let target = this.hand.getWorldPos().add([-0.35, 0.3, 0])
+                let target = this.hand.getWorldPos().add([-0.35, 0.45, 0])
                 GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 2]))
                 this.isConversation = true
                 this.charFaceHandler.setState("lookHand")
