@@ -24,7 +24,7 @@ export default class GBufferMaterial extends Material {
         this.addUniformGroup(uniforms, true);
 
         uniforms.addTexture("colorTexture", DefaultTextures.getWhite(this.renderer))
-        uniforms.addSampler("mySampler")
+        uniforms.addSampler("mySampler", { maxAnisotropy: 4 })
 
         //this.logShader =true;
     }

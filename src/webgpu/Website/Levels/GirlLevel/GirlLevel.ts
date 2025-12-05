@@ -169,7 +169,7 @@ export class GirlLevel extends PlatformLevel {
 
                                 })
 
-                                tl.to(this, { girlFrame: 10, duration: 2, ease: "power2.inOut" }, 2)
+                                tl.to(this, { girlFrame: 10, duration: 2, ease: "power2.inOut" }, 0.3)
                                 gsap.delayedCall(5, () => { LevelHandler.setLevel("Dock") });
 
                             }
