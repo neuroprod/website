@@ -8,6 +8,7 @@ import { TextureFormat } from "../../lib/WebGPUConstants";
 import DOFPrepMaterial from "./DofPrepMaterial";
 
 export default class DofPrepPass extends RenderPass {
+
     colorTarget: RenderTexture;
     colorAttachment: ColorAttachment;
     blit: Blit;
@@ -28,7 +29,10 @@ export default class DofPrepPass extends RenderPass {
         this.blit = new Blit(renderer, "blitDOFPrep", this.dofPrepMaterial)
 
     }
-
+    setMinMax(dofMin: number, dofMax: number) {
+        this.dofPrepMaterial.setUniform("dofMin", dofMin)
+        this.dofPrepMaterial.setUniform("dofMax", dofMax)
+    }
 
     draw() {
 

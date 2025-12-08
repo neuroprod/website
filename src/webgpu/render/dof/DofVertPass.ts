@@ -9,6 +9,7 @@ import DofBlurMaterial from "./DofBlurMaterial";
 
 export default class DofVertPass extends RenderPass {
 
+
     colorAttachment: ColorAttachment;
     blit: Blit;
     dofBlurMaterial: DofBlurMaterial
@@ -25,7 +26,9 @@ export default class DofVertPass extends RenderPass {
 
     }
 
-
+    setSize(dofSize: number) {
+        this.dofBlurMaterial.setUniform("size", dofSize)
+    }
     draw() {
 
         this.blit.draw(this)

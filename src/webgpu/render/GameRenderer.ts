@@ -34,7 +34,133 @@ import DofPrepPass from "./dof/DofPrepPass.ts";
 import DofHorPass from "./dof/DofHorPass.ts";
 import DofVertPass from "./dof/DofVertPass.ts";
 
+
+
+
+
+export type RenderOptions = {
+    backgroundColor: ColorV,
+    fogColor: ColorV,
+    fogMin: number,
+    fogMax: number,
+
+
+    exposure: number,
+    contrast: number,
+    brightness: number,
+
+    vinFalloff: number,
+    vinAmount: number
+
+    dofMin: number
+    dofMax: number
+    dofSize: number
+    curveRed: number
+    curveGreen: number
+    curveBlue: number
+
+
+}
+export const RenderOptionsDefault: RenderOptions = {
+    backgroundColor: new ColorV(0.3725, 0.5569, 0.6471, 0.0),
+    fogColor: new ColorV(0.3725, 0.5569, 0.6471, 0.0),
+    fogMin: 4,
+    fogMax: 20,
+
+
+    dofMin: 0.9,
+    dofMax: 1,
+    dofSize: 3,
+
+    exposure: 1,
+    contrast: 1,
+    brightness: 0,
+
+    vinFalloff: 0.3,
+    vinAmount: 0.7,
+
+
+
+    curveRed: 1,
+    curveGreen: 1,
+    curveBlue: 1,
+
+}
+
+
+
+
+
+
+
+
 export default class GameRenderer {
+
+
+    onUI() {
+        UI.LText("fps:" + Timer.fps)
+        this.needsAO = UI.LBool(this, "needsAO")
+        UI.LText("ao:" + this.needsAOInt)
+        this.needsShadow = UI.LBool(this, "needsShadow")
+        UI.LText("shadow:" + this.needsShadowInt)
+        this.needsDof = UI.LBool(this, "needsDof")
+        UI.LText("dof:" + this.needsDof)
+
+        this.options.backgroundColor = UI.LColor("bgcolor", this.options.backgroundColor)
+        this.options.fogColor = UI.LColor("fogcolor", this.options.fogColor)
+        this.options.fogMin = UI.LFloat("fogMin", this.options.fogMin, "fogMin");
+        this.options.fogMax = UI.LFloat("fogMax", this.options.fogMax, "fogMax");
+
+
+        this.options.dofMin = UI.LFloat("dofMin", this.options.dofMin, "dofMin");
+        this.options.dofMax = UI.LFloat("dofMax", this.options.dofMax, "dofMax");
+        this.options.dofSize = UI.LFloat("dofSize", this.options.dofSize, "dofSize");
+
+
+        this.options.exposure = UI.LFloat("exposure", this.options.exposure, "exposure");
+
+        this.options.vinFalloff = UI.LFloat("vinFalloff", this.options.vinFalloff, "vinFalloff");
+        this.options.vinAmount = UI.LFloat("vinAmount", this.options.vinAmount, "vinAmount");
+
+
+        this.options.brightness = UI.LFloat("brightness", this.options.brightness, "brightness");
+        this.options.contrast = UI.LFloat("contrast", this.options.contrast, "contrast");
+
+        this.options.curveRed = UI.LFloat("curveRed", this.options.curveRed, "curveRed");
+        this.options.curveGreen = UI.LFloat("curveGreen", this.options.curveGreen, "curveGreen");
+        this.options.curveBlue = UI.LFloat("curveBlue", this.options.curveBlue, "curveBlue");
+
+        let autoUpdate = UI.LBool("autoUpdate", false)
+        if (autoUpdate) {
+
+            this.setRenderSetting(this.options)
+        }
+
+        let value = UI.LSelect("Render Pass", this.passSelect)
+        if (value != this.currentValue) {
+            this.currentValue = value;
+
+            this.debugTextureMaterial.setTexture("colorTexture", this.renderer.getTexture(this.currentValue.texture));
+            this.debugTextureMaterial.setUniform("renderType", this.currentValue.type)
+
+        }
+        // this.dripPass.unUI();
+    }
+    setRenderSetting(options: Partial<RenderOptions>) {
+
+
+        this.options = { ...RenderOptionsDefault, ...options };
+        this.backgroundPass.setColor(this.options.backgroundColor)
+        this.lightPass.setFog(this.options.fogColor, this.options.fogMin, this.options.fogMax)
+        this.gradingPass.setSettings(this.options)
+        this.dofPrepPass.setMinMax(this.options.dofMin, this.options.dofMax)
+        this.dofHorPass.setSize(this.options.dofSize)
+        this.dofVertPass.setSize(this.options.dofSize)
+
+
+
+    }
+
     public needsAO: boolean = true;
     public allModels: Array<Model> = []
     gBufferPass: GBufferRenderPass;
@@ -77,8 +203,12 @@ export default class GameRenderer {
     dofPrepPass: DofPrepPass;
     dofHorPass: DofHorPass;
     dofVertPass: DofVertPass;
+    options!: RenderOptions;
 
     constructor(renderer: Renderer, camera: Camera) {
+
+
+
         this.renderer = renderer;
         this.sunLight = new DirectionalLight(renderer, camera)
 
@@ -161,7 +291,7 @@ export default class GameRenderer {
         this.debugTextureMaterial.setTexture("colorTexture", this.renderer.getTexture(this.currentValue.texture));
         this.debugTextureMaterial.setUniform("renderType", this.currentValue.type)
 
-
+        this.setRenderSetting({})
     }
 
     private _fxEnabled: boolean = false;
@@ -317,40 +447,6 @@ export default class GameRenderer {
         }
     }
 
-    onUI() {
-        UI.LText("fps:" + Timer.fps)
-        this.needsAO = UI.LBool(this, "needsAO")
-        UI.LText("ao:" + this.needsAOInt)
-        this.needsShadow = UI.LBool(this, "needsShadow")
-        UI.LText("shadow:" + this.needsShadowInt)
-        this.needsDof = UI.LBool(this, "needsDof")
-        UI.LText("dof:" + this.needsDof)
-
-        let color = UI.LColor("bgcolor", new ColorV(0.3725, 0.5569, 0.6471, 0.0))
-        let fogColor = UI.LColor("fogcolor", new ColorV(0.3725, 0.5569, 0.6471, 0.0))
-        let fogMin = UI.LFloat("fogMin", 3, "fogMin");
-        let fogMax = UI.LFloat("fogMax", 10, "fogMax");
-
-
-
-
-        let autoUpdate = UI.LBool("autoUpdate", false)
-        if (autoUpdate) {
-            this.backgroundPass.setColor(color)
-            this.lightPass.setFog(fogColor, fogMin, fogMax)
-
-        }
-
-        let value = UI.LSelect("Render Pass", this.passSelect)
-        if (value != this.currentValue) {
-            this.currentValue = value;
-
-            this.debugTextureMaterial.setTexture("colorTexture", this.renderer.getTexture(this.currentValue.texture));
-            this.debugTextureMaterial.setUniform("renderType", this.currentValue.type)
-
-        }
-        // this.dripPass.unUI();
-    }
 
     //doPasses
     draw() {

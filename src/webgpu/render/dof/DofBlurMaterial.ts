@@ -7,7 +7,7 @@ import { TextureSampleType } from "../../lib/WebGPUConstants.ts";
 
 import { Textures } from "../../data/Textures.ts";
 
-export default class DOFPrepMaterial extends Material {
+export default class DOFBlurMaterial extends Material {
     horizontal: boolean = true
     setup() {
         this.addAttribute("aPos", ShaderType.vec3);
@@ -17,8 +17,8 @@ export default class DOFPrepMaterial extends Material {
         let uniforms = new UniformGroup(this.renderer, "uniforms");
         this.addUniformGroup(uniforms, true);
 
-        uniforms.addUniform("dofMin", 1)
-        uniforms.addUniform("dofMax", 3)
+        uniforms.addUniform("size", 3)
+
         uniforms.addTexture("inputTexture", this.renderer.getTexture(Textures.DOF_PREP), { sampleType: TextureSampleType.Float })
         uniforms.addSampler("mySampler")
         this.depthWrite = false;
@@ -67,7 +67,7 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
     
 
     let dir =vec2(${this.getDir()})*pixelSize*color.w;
-    let stepp =3.0;
+    let stepp =uniforms.size;
     for(var i=-stepp;i<(stepp+1.0);i+=1.0)
     {
         

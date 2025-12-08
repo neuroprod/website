@@ -18,6 +18,22 @@ export default class GradingMaterial extends Material {
         this.addUniformGroup(uniforms, true);
 
 
+        uniforms.addUniform("exposure", 1)
+        uniforms.addUniform("contrast", 1)
+        uniforms.addUniform("brightness", 1)
+
+        uniforms.addUniform("vinFalloff", 1)
+        uniforms.addUniform("vinAmount", 1)
+
+        uniforms.addUniform("curveRed", 1)
+        uniforms.addUniform("curveGreen", 1)
+        uniforms.addUniform("curveBlue", 1)
+
+
+
+
+
+
         uniforms.addTexture("colorTexture", this.renderer.getTexture(Textures.LIGHT), { sampleType: TextureSampleType.UnfilterableFloat })
         this.depthWrite = false;
         this.depthCompare = "always"
@@ -72,12 +88,26 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
        let dist = distance( uv0, vec2(0.5, 0.5));
         
        let fall =0.3;
-        color =color* smoothstep(0.8, fall * 0.799, dist * (0.6+ fall));
+        color = color * pow( uniforms.exposure,2.0);
+        color =color* smoothstep(0.8, uniforms.vinFalloff * 0.799, dist * (uniforms.vinAmount + uniforms.vinFalloff));
+
       
 
+        var color3 = acestonemap(color.xyz);
+
+        color3 = pow(color3,vec3(2.2));
+        color3=  color3 * uniforms.contrast;
+        color3 =  color3 + vec3(uniforms.brightness);
 
 
-     return vec4(acestonemap(color.xyz),1.0) ;
+
+    //color3.z = 1.0-color3.z;
+    color3 = pow(color3,vec3(uniforms.curveRed,uniforms.curveGreen,uniforms.curveBlue));
+   // color3.z = 1.0-color3.z;
+    color3 = pow(color3,vec3(1.0/2.2));
+    
+    
+    return vec4(color3,1.0) ;
 }
 ///////////////////////////////////////////////////////////
         `

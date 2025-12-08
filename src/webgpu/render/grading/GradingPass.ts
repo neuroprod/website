@@ -11,9 +11,11 @@ import DirectionalLight from "../lights/DirectionalLight.ts";
 import { Vector4 } from "@math.gl/core";
 import GradingMaterial from "./GradingMaterial.ts";
 import Texture from "../../lib/textures/Texture.ts";
+import { RenderOptions } from "../GameRenderer.ts";
 
 
 export default class GradingRenderPass extends RenderPass {
+
     private colorTarget: RenderTexture;
     private colorAttachment: ColorAttachment;
 
@@ -37,6 +39,22 @@ export default class GradingRenderPass extends RenderPass {
 
 
         this.blit = new Blit(renderer, "blitGrading", this.gradingMaterial)
+
+    }
+    setSettings(options: RenderOptions) {
+
+
+
+        this.gradingMaterial.setUniform("exposure", options.exposure)
+        this.gradingMaterial.setUniform("contrast", options.contrast)
+        this.gradingMaterial.setUniform("brightness", options.brightness)
+        console.log(options.brightness)
+        this.gradingMaterial.setUniform("vinFalloff", options.vinFalloff)
+        this.gradingMaterial.setUniform("vinAmount", options.vinAmount)
+
+        this.gradingMaterial.setUniform("curveRed", options.curveRed)
+        this.gradingMaterial.setUniform("curveGreen", options.curveGreen)
+        this.gradingMaterial.setUniform("curveBlue", options.curveBlue)
 
     }
     setBaseTexture(t: Texture) {
