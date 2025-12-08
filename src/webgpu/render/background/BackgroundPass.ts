@@ -23,7 +23,7 @@ export default class BackgroundPass extends RenderPass {
 
     private colorAttachment: ColorAttachment;
 
-    private blit: Blit;
+    //private blit: Blit;
 
     blackValue = 1;
     backgroundMaterial: BackgroundMaterial;
@@ -39,7 +39,7 @@ export default class BackgroundPass extends RenderPass {
         this.backgroundMaterial = new BackgroundMaterial(renderer, "backgroundMaterial")
 
 
-        this.blit = new Blit(renderer, "blitBackground", this.backgroundMaterial)
+        //    this.blit = new Blit(renderer, "blitBackground", this.backgroundMaterial)
         this.model = new Model(renderer, "bg");
         this.model.mesh = new Plane(renderer, 160, 80, 1, 1, false)
 

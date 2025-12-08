@@ -19,6 +19,7 @@ export class BaseLevel {
     mouseDownObject: MouseInteractionWrapper | null = null
 
     constructor() {
+
     }
 
     initObjects() {

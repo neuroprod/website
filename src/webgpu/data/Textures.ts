@@ -16,6 +16,10 @@ export const Textures = {
     DEPTH_DIFF: "Depth_Diff",
     GTAO_DENOISE: "GTAO_DENOISE",
     SHADOW: "shadow",
+
+    DOF_PREP: "dofPrep",
+    DOF_HORIZONTAL: "dofHorizontal",
+
     PREVIEW_MODEL: "previewModel",
     DRAWING_BUFFER_TEMP: "drawingBufferTemp",
     MAINFONT: "bold.png",
@@ -39,4 +43,7 @@ export const Textures = {
     COIN_ICON: "iconCoin.png",
     STICK_ICON: "iconStick.png",
     TRIANGLE: "triangle.png"
+
+
+
 }

@@ -16,7 +16,7 @@ export default class NavigationLevel extends BaseLevel {
     }
     configScene() {
 
-
+        GameModel.gameRenderer.needsDof = false
         setTimeout(() => {
             this.setScrollPos();
         }, 1000)

@@ -36,7 +36,7 @@ export class PlatformLevel extends BaseLevel {
         GameModel.conversationHandler.dataCallBack = this.conversationDataCallBack.bind(this)
         GameInput.blockInput = false;
         GameModel.gameRenderer.setLevelType("platform")
-
+        GameModel.gameRenderer.needsDof = true
         GameModel.tweenToNonBlack()
         SoundHandler.setBackgroundSounds(["sound/JuliaFlorida.mp3"])
     }

@@ -399,7 +399,7 @@ export class FightLevel extends BaseLevel {
 
     }
     doPirateHeal() {
-        if (Math.random() > 0.5 || this.pirateLife < 0.3) {
+        if (Math.random() > 0.2 || this.pirateLife < 0.3) {
             this.doPirateHealSucces()
         } else {
             this.doPirateHealFail()
@@ -411,7 +411,7 @@ export class FightLevel extends BaseLevel {
         this.state = FSTATE.PAUZE
         let tl = this.getTimeline()
         tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FHealSucces")) }, [], 0)
-        let target = Math.min(this.pirateLife + 0.3, 1);
+        let target = Math.min(this.pirateLife + 0.6, 1);
 
         tl.to(this, { pirateLife: target }, 2)
 

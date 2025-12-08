@@ -30,6 +30,9 @@ import Timer from "../lib/Timer.ts";
 import BackgroundPass from "./background/BackgroundPass.ts";
 import AsciiPass from "./ascii/AsciiPass.ts";
 import ColorV from "../lib/ColorV.ts";
+import DofPrepPass from "./dof/DofPrepPass.ts";
+import DofHorPass from "./dof/DofHorPass.ts";
+import DofVertPass from "./dof/DofVertPass.ts";
 
 export default class GameRenderer {
     public needsAO: boolean = true;
@@ -49,7 +52,7 @@ export default class GameRenderer {
     private lightPass: LightRenderPass;
     private sunLight: DirectionalLight;
 
-    private shadowBlurPass: ShadowBlurRenderPass;
+    // private shadowBlurPass: ShadowBlurRenderPass;
 
     private shadowPass: ShadowRenderPass;
     private AOPreDept!: AOPreprocessDepth;
@@ -65,7 +68,15 @@ export default class GameRenderer {
     private inGameFXPass: InGameFXPass;
     private maskRenderPass: MaskRenderPass;
     backgroundPass: BackgroundPass;
+
+
     ascciPass: AsciiPass;
+
+
+    needsDof = true
+    dofPrepPass: DofPrepPass;
+    dofHorPass: DofHorPass;
+    dofVertPass: DofVertPass;
 
     constructor(renderer: Renderer, camera: Camera) {
         this.renderer = renderer;
@@ -74,7 +85,7 @@ export default class GameRenderer {
         this.ascciPass = new AsciiPass(renderer)
 
         this.shadowMapPass = new ShadowMapRenderPass(renderer, this.sunLight)
-        this.shadowBlurPass = new ShadowBlurRenderPass(renderer);
+        // this.shadowBlurPass = new ShadowBlurRenderPass(renderer);
         this.gBufferPass = new GBufferRenderPass(renderer, camera);
         // this.preProcessDepth = new PreProcessDepth(renderer);
 
@@ -102,6 +113,9 @@ export default class GameRenderer {
         this.maskRenderPass = new MaskRenderPass(renderer, camera)
         this.inGameFXPass = new InGameFXPass(renderer)
 
+        this.dofPrepPass = new DofPrepPass(renderer)
+        this.dofHorPass = new DofHorPass(renderer)
+        this.dofVertPass = new DofVertPass(renderer)
         this.gradingPass = new GradingRenderPass(renderer)
 
         this.postLightModelRenderer = new ModelRenderer(this.renderer, "postLight", camera)
@@ -113,7 +127,7 @@ export default class GameRenderer {
         // this.passSelect.push(new SelectItem(Textures.DRIP, {texture: Textures.DRIP, type: 0}));
 
 
-
+        // this.passSelect.push(new SelectItem(Textures.DOF_PREP, { texture: Textures.DOF_PREP, type: 0 }));
         this.passSelect.push(new SelectItem(Textures.GRADING, { texture: Textures.GRADING, type: 0 }));
         this.passSelect.push(new SelectItem(Textures.ASCII, { texture: Textures.ASCII, type: 0 }));
         if (this.renderer.hasFloat32Filterable) {
@@ -309,12 +323,17 @@ export default class GameRenderer {
         UI.LText("ao:" + this.needsAOInt)
         this.needsShadow = UI.LBool(this, "needsShadow")
         UI.LText("shadow:" + this.needsShadowInt)
-
+        this.needsDof = UI.LBool(this, "needsDof")
+        UI.LText("dof:" + this.needsDof)
 
         let color = UI.LColor("bgcolor", new ColorV(0.3725, 0.5569, 0.6471, 0.0))
         let fogColor = UI.LColor("fogcolor", new ColorV(0.3725, 0.5569, 0.6471, 0.0))
         let fogMin = UI.LFloat("fogMin", 3, "fogMin");
         let fogMax = UI.LFloat("fogMax", 10, "fogMax");
+
+
+
+
         let autoUpdate = UI.LBool("autoUpdate", false)
         if (autoUpdate) {
             this.backgroundPass.setColor(color)
@@ -362,10 +381,21 @@ export default class GameRenderer {
         this.lightPass.add();
         this.backgroundPass.add();
         this.transparentPass.add();
+
+        if (this.needsDof) {
+            //dof pass
+            this.dofPrepPass.add()
+            this.dofHorPass.add()
+            this.dofVertPass.add()
+        }
+
+
         if (this._fxEnabled) {
             this.maskRenderPass.add()
             this.inGameFXPass.add()
         }
+
+
         this.gradingPass.add()
 
         if (this.postLightPass.modelRenderer.models.length) {
