@@ -12,6 +12,7 @@ import Model from "../../../lib/model/Model.ts";
 import GBufferMaterial from "../../../render/GBuffer/GBufferMaterial.ts";
 import Plane from "../../../lib/mesh/geometry/Plane.ts";
 import Timer from "../../../lib/Timer.ts";
+import ColorV from "../../../lib/ColorV.ts";
 
 
 
@@ -72,6 +73,8 @@ export default class ArduinoGame extends NavigationLevel {
         fv.addChild(m)
         GameModel.gameRenderer.addModel(m)
         this.arduino = SceneHandler.getSceneObject("arduino")
+
+        GameModel.gameRenderer.setRenderSettingsNeutral({ backgroundColor: new ColorV(0.04, 0.05, 0.07, 0.00) })
     }
 
     public update() {

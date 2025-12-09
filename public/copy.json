@@ -47,6 +47,9 @@
         "callBack": "moveHand"
       },
       {
+        "text": "Ungrateful, lazy Bunch."
+      },
+      {
         "text": "Now get me those\nthirty coins you owe me.",
         "callBack": "raiseHandCoins"
       },
@@ -57,7 +60,7 @@
           0.8,
           0
         ],
-        "text": "I'm on my way!"
+        "text": "I'm on my way!\nIn search of great treasure."
       }
     ]
   },
@@ -85,7 +88,7 @@
           0.9,
           0
         ],
-        "text": "Hi pirate. Are you ready to\ngo on an adventure!?"
+        "text": "Hi Pirate. Are you ready to\ngo on an adventure!?"
       },
       {
         "char": "charRoot",
@@ -107,6 +110,9 @@
           0
         ],
         "text": "Sigh... There's more to life than rent, you know."
+      },
+      {
+        "text": "Breathe in and smell the roses.\nFeel that sweet rest and relaxation."
       },
       {
         "text": "Climb my branches,\nand discover what it's all about."
@@ -138,7 +144,7 @@
           0.9,
           0
         ],
-        "text": "Why didn't you say that earlier?\nI'm on my way!"
+        "text": "Coins? Could've mentioned that earlier.\nI'm on my way!"
       }
     ]
   },
@@ -179,19 +185,19 @@
         "text": "Nooo, my child!"
       },
       {
-        "text": "I am the Man in the Sky!"
+        "text": "I am the Man in the Sky,\nthe All-Seeing Eye."
       },
       {
-        "text": "Every year I bring presents\nto the children!"
+        "text": "I observe your deeds and\nbring presents to worthy children..."
       },
       {
-        "text": "If there parents can afford it, that is..."
+        "text": "If their parents can afford it, that is."
       },
       {
-        "text": "It's the Miracle of Economics!"
+        "text": "It's the Miracle of Economics!\nAnd omnipresent surveillance."
       },
       {
-        "text": "Anyway, would you like a present?"
+        "text": "Would you like a present?"
       },
       {
         "char": "charRoot",
@@ -256,7 +262,7 @@
           0.8,
           0
         ],
-        "text": "get ready!"
+        "text": "Get ready!"
       }
     ]
   },
@@ -287,10 +293,17 @@
           0.8,
           0
         ],
-        "text": "An MBA in business administration!\nYou can use it to maximise shareholder value..."
+        "text": "An MBA in business administration!\nYou can use it to maximize shareholder value."
       },
       {
-        "text": "or something silly like that."
+        "text": "You can use it to maximize shareholder value. "
+      },
+      {
+        "text": "Which will trickle down before you can say 'I'll pick myself up by my bootstraps."
+      },
+      {
+        "delay": 1,
+        "text": "Trickling down not guaranteed."
       }
     ]
   },
@@ -308,6 +321,9 @@
       },
       {
         "text": "All the goodness of the sea\nprocessed into tasty, frozen blocks."
+      },
+      {
+        "text": "bbllblblb"
       }
     ]
   },

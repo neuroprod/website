@@ -37,6 +37,7 @@ class SoundHandler {
     lever!: Howl;
     drink!: Howl;
     kick!: Howl;
+    bush!: Howl;
 
     init() {
 
@@ -77,8 +78,9 @@ class SoundHandler {
         this.kick = new Howl({
             src: ['sound/488720__tiliadesign__fight-perfect-punchhitkickstroke.mp3'],
         })
-
-
+        this.bush = new Howl({
+            src: ['sound/581016__yake01__s_amb_hittingbushes_mono_02.mp3'],
+        })
         this.talking = new Howl({
             src: ['sound/talking.mp3'],
             sprite: talkSound
@@ -223,6 +225,16 @@ class SoundHandler {
 
         this.clock.pos(count % 2 - 0.5, 0, -0.5);
         this.clock.play("s" + count % 6)
+
+    }
+    playBush() {
+        if (!this.playSound) return
+
+
+
+        this.bush.volume(this.fxVolume);
+        this.bush.play()
+
 
     }
     playKick() {

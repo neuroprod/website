@@ -29,9 +29,10 @@ export default class GradingMaterial extends Material {
         uniforms.addUniform("curveGreen", 1)
         uniforms.addUniform("curveBlue", 1)
 
+        uniforms.addUniform("grain", 0.5)
 
 
-
+        uniforms.addTexture("grainTexture", this.renderer.getTexture(Textures.GRAIN), { sampleType: TextureSampleType.UnfilterableFloat })
 
 
         uniforms.addTexture("colorTexture", this.renderer.getTexture(Textures.LIGHT), { sampleType: TextureSampleType.UnfilterableFloat })
@@ -83,20 +84,25 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
    
       let textureSize =vec2<f32>( textureDimensions(colorTexture));
       let uvPos = vec2<i32>(floor(uv0*textureSize));
-      var color=textureLoad(colorTexture,  uvPos ,0); ;
+      var color=textureLoad(colorTexture,  uvPos ,0); 
   
+  let modF =(uvPos/2)% vec2<i32>(512,512);
+        let grain=  ((textureLoad(grainTexture, modF,0).x-0.5)*uniforms.grain) +1.0;
+
+
        let dist = distance( uv0, vec2(0.5, 0.5));
         
        let fall =0.3;
         color = color * pow( uniforms.exposure,2.0);
         color =color* smoothstep(0.8, uniforms.vinFalloff * 0.799, dist * (uniforms.vinAmount + uniforms.vinFalloff));
 
-      
+      // color = color*grain;
 
         var color3 = acestonemap(color.xyz);
 
         color3 = pow(color3,vec3(2.2));
         color3=  color3 * uniforms.contrast;
+        color3 = color3*grain;
         color3 =  color3 + vec3(uniforms.brightness);
 
 

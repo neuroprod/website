@@ -37,7 +37,7 @@ export const Textures = {
     ASCII_FONT: "ascii.png",
     ASCII: "ascii",
 
-
+    GRAIN: "grain.png",
     BACK_BTN: "iconBack.png",
     SETTINGS_BTN: "iconSettings.png",
     COIN_ICON: "iconCoin.png",

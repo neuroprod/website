@@ -55,6 +55,8 @@ export type RenderOptions = {
     dofMin: number
     dofMax: number
     dofSize: number
+
+    grain: number
     curveRed: number
     curveGreen: number
     curveBlue: number
@@ -73,13 +75,39 @@ export const RenderOptionsDefault: RenderOptions = {
     dofSize: 3,
 
     exposure: 1,
+    contrast: 1.3,
+    brightness: -0.02,
+
+    vinFalloff: 0.06,
+    vinAmount: 0.85,
+
+    grain: 0.5,
+
+    curveRed: 0.76,
+    curveGreen: 1,
+    curveBlue: 1.25,
+
+}
+
+export const RenderOptionsNeutral: RenderOptions = {
+    backgroundColor: new ColorV(0.3725, 0.5569, 0.6471, 0.0),
+    fogColor: new ColorV(0.3725, 0.5569, 0.6471, 0.0),
+    fogMin: 4,
+    fogMax: 20,
+
+
+    dofMin: 1,
+    dofMax: 1,
+    dofSize: 3,
+
+    exposure: 1,
     contrast: 1,
     brightness: 0,
 
-    vinFalloff: 0.3,
-    vinAmount: 0.7,
+    vinFalloff: 0.06,
+    vinAmount: 0.85,
 
-
+    grain: 0.0,
 
     curveRed: 1,
     curveGreen: 1,
@@ -92,47 +120,43 @@ export const RenderOptionsDefault: RenderOptions = {
 
 
 
-
-
 export default class GameRenderer {
 
 
     onUI() {
+
+
+
         UI.LText("fps:" + Timer.fps)
-        this.needsAO = UI.LBool(this, "needsAO")
-        UI.LText("ao:" + this.needsAOInt)
-        this.needsShadow = UI.LBool(this, "needsShadow")
-        UI.LText("shadow:" + this.needsShadowInt)
-        this.needsDof = UI.LBool(this, "needsDof")
-        UI.LText("dof:" + this.needsDof)
-
-        this.options.backgroundColor = UI.LColor("bgcolor", this.options.backgroundColor)
-        this.options.fogColor = UI.LColor("fogcolor", this.options.fogColor)
-        this.options.fogMin = UI.LFloat("fogMin", this.options.fogMin, "fogMin");
-        this.options.fogMax = UI.LFloat("fogMax", this.options.fogMax, "fogMax");
-
-
-        this.options.dofMin = UI.LFloat("dofMin", this.options.dofMin, "dofMin");
-        this.options.dofMax = UI.LFloat("dofMax", this.options.dofMax, "dofMax");
-        this.options.dofSize = UI.LFloat("dofSize", this.options.dofSize, "dofSize");
-
-
-        this.options.exposure = UI.LFloat("exposure", this.options.exposure, "exposure");
-
-        this.options.vinFalloff = UI.LFloat("vinFalloff", this.options.vinFalloff, "vinFalloff");
-        this.options.vinAmount = UI.LFloat("vinAmount", this.options.vinAmount, "vinAmount");
-
-
-        this.options.brightness = UI.LFloat("brightness", this.options.brightness, "brightness");
-        this.options.contrast = UI.LFloat("contrast", this.options.contrast, "contrast");
-
-        this.options.curveRed = UI.LFloat("curveRed", this.options.curveRed, "curveRed");
-        this.options.curveGreen = UI.LFloat("curveGreen", this.options.curveGreen, "curveGreen");
-        this.options.curveBlue = UI.LFloat("curveBlue", this.options.curveBlue, "curveBlue");
-
-        let autoUpdate = UI.LBool("autoUpdate", false)
+        let autoUpdate = UI.LBool("edit renderSettings", false)
         if (autoUpdate) {
 
+
+
+
+            this.options.backgroundColor = UI.LColor("bgcolor", this.options.backgroundColor)
+            this.options.fogColor = UI.LColor("fogcolor", this.options.fogColor)
+            this.options.fogMin = UI.LFloat("fogMin", this.options.fogMin, "fogMin");
+            this.options.fogMax = UI.LFloat("fogMax", this.options.fogMax, "fogMax");
+
+
+            this.options.dofMin = UI.LFloat("dofMin", this.options.dofMin, "dofMin");
+            this.options.dofMax = UI.LFloat("dofMax", this.options.dofMax, "dofMax");
+            this.options.dofSize = UI.LFloat("dofSize", this.options.dofSize, "dofSize");
+
+            this.options.grain = UI.LFloat("grain", this.options.grain, "grain");
+            this.options.exposure = UI.LFloat("exposure", this.options.exposure, "exposure");
+
+            this.options.vinFalloff = UI.LFloat("vinFalloff", this.options.vinFalloff, "vinFalloff");
+            this.options.vinAmount = UI.LFloat("vinAmount", this.options.vinAmount, "vinAmount");
+
+
+            this.options.brightness = UI.LFloat("brightness", this.options.brightness, "brightness");
+            this.options.contrast = UI.LFloat("contrast", this.options.contrast, "contrast");
+
+            this.options.curveRed = UI.LFloat("curveRed", this.options.curveRed, "curveRed");
+            this.options.curveGreen = UI.LFloat("curveGreen", this.options.curveGreen, "curveGreen");
+            this.options.curveBlue = UI.LFloat("curveBlue", this.options.curveBlue, "curveBlue");
             this.setRenderSetting(this.options)
         }
 
@@ -144,12 +168,30 @@ export default class GameRenderer {
             this.debugTextureMaterial.setUniform("renderType", this.currentValue.type)
 
         }
+
+
+        this.needsAO = UI.LBool(this, "needsAO")
+        UI.LText("ao:" + this.needsAOInt)
+        this.needsShadow = UI.LBool(this, "needsShadow")
+        UI.LText("shadow:" + this.needsShadowInt)
+        this.needsDof = UI.LBool(this, "needsDof")
+        UI.LText("dof:" + this.needsDof)
         // this.dripPass.unUI();
     }
+
+
+
+    setRenderSettingsNeutral(options: Partial<RenderOptions>) {
+        let optionss = { ...RenderOptionsNeutral, ...options };
+        this.setRenderSetting(optionss)
+    }
+
+
     setRenderSetting(options: Partial<RenderOptions>) {
 
 
         this.options = { ...RenderOptionsDefault, ...options };
+
         this.backgroundPass.setColor(this.options.backgroundColor)
         this.lightPass.setFog(this.options.fogColor, this.options.fogMin, this.options.fogMax)
         this.gradingPass.setSettings(this.options)

@@ -48,7 +48,7 @@ export default class GradingRenderPass extends RenderPass {
         this.gradingMaterial.setUniform("exposure", options.exposure)
         this.gradingMaterial.setUniform("contrast", options.contrast)
         this.gradingMaterial.setUniform("brightness", options.brightness)
-        console.log(options.brightness)
+        this.gradingMaterial.setUniform("grain", options.grain)
         this.gradingMaterial.setUniform("vinFalloff", options.vinFalloff)
         this.gradingMaterial.setUniform("vinAmount", options.vinAmount)
 

@@ -16,7 +16,7 @@ export class IntroLevel extends PlatformLevel {
     private landlord!: SceneObject3D;
 
 
-    private startPos = 0
+    private startPos = -2
     private landlordHand!: SceneObject3D;
     tl!: gsap.core.Timeline;
 
@@ -65,24 +65,25 @@ export class IntroLevel extends PlatformLevel {
         this.landlord.ry = 0
         sceneHandler.getSceneObject("LandlordArmGun").hide()
         this.landlordHand = sceneHandler.getSceneObject("landlordArmPoint")
-        this.landlordHand.rz = -1
-        this.landlordHand.x = 0.01
+        this.landlordHand.rz = -0.8
+        this.landlordHand.x = 0.03
         let charRoot = SceneHandler.getSceneObject("charRoot");
         charRoot.x = this.startPos - 3
         charRoot.y = 0.15
         charRoot.setScaler(1.2)
         this.characterController.setCharacter()
-        this.characterController.gotoAndIdle(new Vector3(this.startPos - 0.5, 0.1, 0), 1, () => {
-            gsap.delayedCall(0.5, this.playIntro.bind(this));
+        this.characterController.gotoAndIdle(new Vector3(- 0.5, 0.1, 0), 1, () => {
+
 
         })
-        GameModel.gameCamera.camDistance = 1.4;
+        gsap.delayedCall(3, this.playIntro.bind(this));
+        GameModel.gameCamera.camDistance = 2;
         GameModel.gameCamera.heightOffset = 0.4
         GameModel.gameCamera.setMinMaxX(this.startPos - 0.5, this.startPos + 5)
 
         GameModel.coinHandler.hide()
         GameModel.gameCamera.setForCharPos(new Vector3(this.startPos - 0.5, 0, 0))
-
+        GameModel.gameRenderer.setRenderSetting({ dofMin: 0.83, dofSize: 5 })
 
     }
 
@@ -100,15 +101,16 @@ export class IntroLevel extends PlatformLevel {
 
         // this.landlord.x = -1.5
         let tl = gsap.timeline()
-        GameModel.gameCamera.TweenToLockedView(new Vector3(-1.0, 0.5, 0), new Vector3(-1.0, 0.5, 2), 3)
-        tl.to(this.landlord, { x: -1.5, ry: -0.1 }, 0)
-        tl.to(this.landlordHand, { rz: -0.7, x: 0.05, y: 0.12 }, 0)
+        SoundHandler.playBush()
+        GameModel.gameCamera.TweenToLockedView(new Vector3(-1.0, 0.5, 0), new Vector3(-1.0, 0.5, 1.5), 3)
+        tl.to(this.landlord, { x: -1.5, ry: -0.1, duration: 1.5 }, 0)
+        // tl.to(this.landlordHand, { rz: -0.7, x: 0.05, y: 0.12 }, 1)
         // GameModel.gameCamera.TweenToLockedView()
 
 
-        this.characterController.setAngle(-Math.PI - 0.2, 0.7, 0.7)
+        this.characterController.setAngle(-Math.PI - 0.3, 0.7, 1.7)
         let count = 0;
-        gsap.delayedCall(2, () => {
+        gsap.delayedCall(3, () => {
             GameModel.conversationHandler.startConversation("mrLoathsome")
             GameModel.conversationHandler.dataCallBack = (data: string) => {
                 if (this.tl) this.tl.clear();
@@ -134,7 +136,7 @@ export class IntroLevel extends PlatformLevel {
             }
             GameModel.conversationHandler.doneCallBack = () => {
                 this.characterController.setAngle(0)
-                this.characterController.gotoAndIdle(new Vector3(this.startPos + 1, 0.1, 0), 1, () => {
+                this.characterController.gotoAndIdle(new Vector3(2, 0.1, 0), 1, () => {
                     LevelHandler.setLevel("Tree")
 
                 })

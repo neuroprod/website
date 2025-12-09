@@ -142,9 +142,9 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
        var aoM =1.0;
        if(uniforms.needsAO>0.5){
        let ao=textureLoad(aoTexture,  uvPos ,0).x; 
-       aoM = ao;
+       aoM = ao*0.7+0.3;
        }
-       let roughness = 0.7;
+       let roughness = 0.5;
        let metallic = 0.0;
        let N=normalize(rawNormal.xyz*2.0-1.0); 
        let distV = camera.worldPosition.xyz - world;

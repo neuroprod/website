@@ -147,7 +147,7 @@ export class GodLevel extends PlatformLevel {
                 this.characterController.gotoAndIdle(this.tree.getWorldPos(), 1, () => {
                     this.characterController.setAngle(0.6)
                     this.godController.show(() => {
-
+                        this.charFaceHandler.setState("lookGod")
                         GameModel.conversationHandler.startConversation("god")
                         GameModel.conversationHandler.dataCallBack = this.conversationDataCallBack.bind(this)
                         GameModel.conversationHandler.doneCallBack = () => {
