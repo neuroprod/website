@@ -70,12 +70,12 @@ export class CookieLevel extends PlatformLevel {
 
         let char = sceneHandler.getSceneObject("charRoot")
         char.setScaler(1.2)
-
+        char.x = 0
         this.rootSausage = sceneHandler.getSceneObject("rootSausage")
         this.rootSausage.setScaler(1.4)
 
         this.rootSausage.z = -0.1
-        this.rootSausage.x = 5
+        this.rootSausage.x = 7
         this.rootSausage.ry = -0.2
 
 
