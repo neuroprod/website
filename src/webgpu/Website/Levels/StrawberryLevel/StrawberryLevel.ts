@@ -73,6 +73,7 @@ export class StrawberryLevel extends PlatformLevel {
         this.strawBerry.ry = -0.4
 
         GameModel.gameCamera.setMinMaxX(startX - 0.3, 100)
+        GameModel.gameRenderer.setRenderSetting({})
         //
         this.gaveCoins = false;
     }

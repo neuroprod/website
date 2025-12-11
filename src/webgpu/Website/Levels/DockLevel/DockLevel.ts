@@ -13,6 +13,7 @@ import { HitTrigger } from "../../../data/HitTriggers.ts";
 import { Vector3 } from "@math.gl/core";
 import LevelHandler from "../LevelHandler.ts";
 import SoundHandler from "../../SoundHandler.ts";
+import FaceHandler from "../../handlers/FaceHandler.ts";
 
 
 
@@ -21,6 +22,7 @@ export class DockLevel extends PlatformLevel {
     private sea!: Sea;
     private rootShip!: SceneObject3D;
     private landlord!: SceneObject3D;
+    charFaceHandler!: FaceHandler;
 
 
 
@@ -54,6 +56,9 @@ export class DockLevel extends PlatformLevel {
         })
 
     }
+    onUI(): void {
+        this.charFaceHandler?.onUI()
+    }
     configScene() {
 
         super.configScene()
@@ -72,6 +77,10 @@ export class DockLevel extends PlatformLevel {
         char.x = -4;
         char.y = 1;
         char.setScaler(1.2)
+
+        this.charFaceHandler = new FaceHandler(char)
+        this.charFaceHandler.setState("default")
+
 
         this.landlord = sceneHandler.getSceneObject("rootLandlord")
         this.landlord.setScaler(1.2)

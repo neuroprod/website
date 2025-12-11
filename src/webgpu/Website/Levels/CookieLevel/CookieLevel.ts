@@ -9,6 +9,7 @@ import { HitTrigger } from "../../../data/HitTriggers.ts";
 import GameModel from "../../GameModel.ts";
 import LevelHandler from "../LevelHandler.ts";
 import CoinHandler from "../../handlers/CoinHandler.ts";
+import FaceHandler from "../../handlers/FaceHandler.ts";
 
 
 
@@ -18,6 +19,7 @@ export class CookieLevel extends PlatformLevel {
 
     private tree!: SceneObject3D;
     rootSausage!: SceneObject3D;
+    charFaceHandler!: FaceHandler;
 
 
 
@@ -78,12 +80,16 @@ export class CookieLevel extends PlatformLevel {
         this.rootSausage.x = 7
         this.rootSausage.ry = -0.2
 
-
+        this.charFaceHandler = new FaceHandler(char)
+        this.charFaceHandler.setState("default")
 
         GameModel.gameCamera.setMinMaxX(-0.3, 100)
 
+        GameModel.gameRenderer.setRenderSetting({})
 
-
+    }
+    onUI(): void {
+        this.charFaceHandler?.onUI()
     }
     conversationDataCallBack(data: string) {
         super.conversationDataCallBack(data);
@@ -98,7 +104,7 @@ export class CookieLevel extends PlatformLevel {
 
             if (f.hitTriggerItem == HitTrigger.COOKIE) {
                 f.triggerIsEnabled = false;
-
+                this.charFaceHandler.setState("lookGirl")
                 let target = this.rootSausage.getWorldPos().add([-0.4, 0.52, 0])
                 GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 1.9]))
                 this.isConversation = true

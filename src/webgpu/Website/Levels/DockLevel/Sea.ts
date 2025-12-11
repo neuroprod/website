@@ -2,7 +2,7 @@ import ProjectData from "../../../data/ProjectData.ts";
 import Model from "../../../lib/model/Model.ts";
 import Mesh from "../../../lib/mesh/Mesh.ts";
 import Renderer from "../../../lib/Renderer.ts";
-import {Matrix4, Vector3} from "@math.gl/core";
+import { Matrix4, Vector3 } from "@math.gl/core";
 import Texture from "../../../lib/textures/Texture.ts";
 import Timer from "../../../lib/Timer.ts";
 import GBufferWaveMaterial from "../../../render/GBuffer/GBufferWaveMaterial.ts";
@@ -14,7 +14,7 @@ class WaveParticle {
     public timeOffset = Math.random()
     private scale: number = 2
     private m: Matrix4 = new Matrix4()
-    color: number=0;
+    color: number = 0;
 
     constructor() {
 
@@ -25,7 +25,7 @@ class WaveParticle {
         this.m.identity()
         this.m.translate(this.positionDraw)
 
-        this.m.scale([this.scale,this.scale,4])
+        this.m.scale([this.scale, this.scale, 4])
         return this.m;
     }
 
@@ -57,17 +57,17 @@ export default class Sea {
 
 
         }
-        for (let y = 0; y < 20; y++) {
-            let timeOffset = Math.random()*10
-            let color =Math.random()*0.05+0.5
-            for (let x = 0; x < 6; x++) {
+        for (let y = 0; y < 30; y++) {
+            let timeOffset = Math.random() * 10
+            let color = Math.random() * 0.05 + 0.5
+            for (let x = 0; x < 8; x++) {
 
                 let waveParticle = new WaveParticle()
                 if (y % 2) {
                     waveParticle.dir = -1;
                 }
 
-                waveParticle.timeOffset =  timeOffset
+                waveParticle.timeOffset = timeOffset
                 waveParticle.color = color;
                 waveParticle.position.x = (x * 2) - 2 + (y % 2) / 2
                 waveParticle.position.z = -y / 4 + 2
@@ -94,7 +94,7 @@ export default class Sea {
             matrices1 = matrices1.concat(m.getColumn(1));
             matrices2 = matrices2.concat(m.getColumn(2));
             matrices3 = matrices3.concat(m.getColumn(3));
-            colors = colors.concat(p.color,0,0,0);
+            colors = colors.concat(p.color, 0, 0, 0);
         }
 
         this.seaModel.createBuffer(new Float32Array(colors), "colors");

@@ -247,6 +247,8 @@ export default class CookieGame extends BaseLevel {
             GameModel.textBalloonHandler.setText("Now, Get those fruits!")
             this.playGame = true
         });
+
+        GameModel.gameRenderer.setRenderSetting({ dofSize: 6, dofMax: 0.9, dofMin: 0.84 })
     }
 
     private endGame() {

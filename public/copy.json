@@ -197,7 +197,7 @@
         "text": "It's the Miracle of Economics!\nAnd omnipresent surveillance."
       },
       {
-        "text": "Would you like a present?"
+        "text": "Would you like a present child?"
       },
       {
         "char": "charRoot",
@@ -317,7 +317,7 @@
           0.8,
           0
         ],
-        "text": "Some fish sticks!\nBought to you by our\nsponser Fish-Boy Fish Sticks"
+        "text": "Some Fish Sticks!\nBought to you by our\nsponser Fish-Boy Fish Sticks"
       },
       {
         "text": "All the goodness of the sea\nprocessed into tasty, frozen blocks."
@@ -410,7 +410,7 @@
           0.82,
           0
         ],
-        "text": "Hi Sammy, Got an MBA!S\nWant me to do some layoffs\nfor a big bonus?"
+        "text": "Hi Sammy, Got an MBA!\nWant me to do some layoffs\nfor a big bonus?"
       }
     ]
   },
@@ -454,7 +454,7 @@
         "text": "Now I just smash stuff!"
       },
       {
-        "text": "You should try it, it feels great!\n...It really gives my life a purpose!"
+        "text": "You should try it, it feels great!\n...It really gives your life a purpose!"
       },
       {
         "char": "charRoot",
@@ -481,7 +481,7 @@
           0.82,
           0
         ],
-        "text": "...Okay. If you put it that way."
+        "text": "If you put it that way.\nI wouldn't mind blowing\noff some steam..."
       },
       {
         "char": "rootSausage",
@@ -490,7 +490,7 @@
           1.0,
           0
         ],
-        "text": "Great! That will be 5 coins."
+        "text": "Great! That will be 5 coins.\nSmash 4 fruit and you get the prize."
       },
       {
         "char": "charRoot",
@@ -499,7 +499,7 @@
           0.82,
           0
         ],
-        "text": "Ow...",
+        "text": "More coins?",
         "callBack": "payCookie"
       },
       {
@@ -509,7 +509,7 @@
           1.0,
           0
         ],
-        "text": "You get a prize if you hit 4 of them."
+        "text": "We'll see..."
       }
     ]
   },
@@ -602,7 +602,7 @@
           0.8,
           0
         ],
-        "text": "You're alright, Pirate.\nHey, take some of my fish sticks!"
+        "text": "You're alright, Pirate.\nHey, take some of my Fish Sticks!"
       }
     ]
   },
@@ -678,7 +678,7 @@
         "text": "I don't even own a sword, or a ship..."
       },
       {
-        "text": "All I have is a couple of fish sticks..."
+        "text": "All I have is a couple of Fish Sticks..."
       },
       {
         "char": "rootHand",
@@ -713,7 +713,7 @@
         "text": "Wow! You're Fish Boy!"
       },
       {
-        "text": "The world's most famous\ncelebrity fishstick!"
+        "text": "The world's most famous\ncelebrity Fish Stick!"
       },
       {
         "char": "FishBoyRoot",
@@ -839,7 +839,7 @@
           0.85,
           0
         ],
-        "text": "I'm afraid I don't\nhave much of a choise Miss... ",
+        "text": "I'm afraid I don't have\nmuch of a choise Miss... ",
         "callBack": "lookUp"
       },
       {
@@ -865,7 +865,7 @@
         "text": "Sigh... I only got #numCoins of the 30 coins."
       },
       {
-        "text": "and #numFishsticks fish sticks\nfor some reason..."
+        "text": "and #numFishsticks Fish Sticks\nfor some reason..."
       }
     ]
   },
@@ -893,7 +893,7 @@
           0.135,
           0
         ],
-        "text": "A man needs at least 3 fish sticks,\nhave one of mine!"
+        "text": "A man needs at least 3 Fish Sticks,\nhave one of mine!"
       }
     ]
   },
@@ -959,7 +959,7 @@
             "callBack": "endCall"
           },
           {
-            "text": "I have some fish sticks you can have?",
+            "text": "I have some Fish Sticks you can have?",
             "callBack": "endCall"
           }
         ]

@@ -138,7 +138,7 @@ export class GirlLevel extends PlatformLevel {
 
                     })
 
-                    tl.to(this, { girlFrame: 0, duration: 2, ease: "power2.inOut" }, 3.5)
+                    tl.to(this, { girlFrame: 0, duration: 1, ease: "power2.inOut" }, 2.5)
 
                     //this.girl.rz = 0.2
 
@@ -147,7 +147,7 @@ export class GirlLevel extends PlatformLevel {
 
 
 
-                    gsap.delayedCall(6.5, () => {
+                    gsap.delayedCall(4.5, () => {
 
                         GameModel.conversationHandler.startConversation("girl")
 

@@ -4,7 +4,7 @@ import Object3D from "../../lib/model/Object3D";
 import { saveFace } from "../../lib/SaveUtils";
 import SelectItem from "../../lib/UI/math/SelectItem";
 import UI from "../../lib/UI/UI";
-
+import gsap from "gsap";
 export default class FaceHandler {
 
 
@@ -18,6 +18,8 @@ export default class FaceHandler {
 
     countID = 0;
     statename: string = "";
+    tween: boolean = false;
+
     constructor(char: SceneObject3D) {
 
         this.name = char.label
@@ -33,7 +35,7 @@ export default class FaceHandler {
         this.updateSelect()
     }
     onUI() {
-
+        if (this.tween) return
         UI.pushGroup(this.name)
         UI.pushID(this.countID + "");
         if (this.selectItems.length) {
@@ -96,28 +98,36 @@ export default class FaceHandler {
 
     }
     setState(state: string) {
+
+        let tl = gsap.timeline();
         this.countID++
         let s = this.getStateByName(state)
         this.statename = s.state;
+        this.tween = true
         for (let prop of s.props) {
-            let obj = this.getObjectByID(prop.id)
+            let obj = this.getObjectByID(prop.id) as SceneObject3D
             if (obj) {
-
+                gsap.killTweensOf(obj)
 
                 if (prop.x) {
-                    obj.x = prop.x
+                    gsap.to(obj, { x: prop.x, ease: "power2.out", duration: 0.5 })
+                    // obj.x = prop.x
+
                 }
                 if (prop.y) {
-                    obj.y = prop.y
+                    gsap.to(obj, { y: prop.y, ease: "power2.out", duration: 0.5 })
+                    // obj.y = prop.y
                 }
                 if (prop.rz) {
-                    obj.rz = prop.rz
+                    gsap.to(obj, { rz: prop.rz, ease: "power2.out", duration: 0.5 })
+                    // obj.rz = prop.rz
                 }
 
             }
 
         }
 
+        setTimeout(() => { this.tween = false }, 500)
     }
     getObjectByID(id: string) {
         for (let f of this.objects) {

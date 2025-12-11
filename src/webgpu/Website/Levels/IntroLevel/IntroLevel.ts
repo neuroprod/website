@@ -102,7 +102,7 @@ export class IntroLevel extends PlatformLevel {
         // this.landlord.x = -1.5
         let tl = gsap.timeline()
         SoundHandler.playBush()
-        GameModel.gameCamera.TweenToLockedView(new Vector3(-1.0, 0.5, 0), new Vector3(-1.0, 0.5, 1.5), 3)
+        GameModel.gameCamera.TweenToLockedView(new Vector3(-1.0, 0.4, 0), new Vector3(-1.0, 0.4, 1.5), 3)
         tl.to(this.landlord, { x: -1.5, ry: -0.1, duration: 1.5 }, 0)
         // tl.to(this.landlordHand, { rz: -0.7, x: 0.05, y: 0.12 }, 1)
         // GameModel.gameCamera.TweenToLockedView()

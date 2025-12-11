@@ -117,7 +117,7 @@ export class GodLevel extends PlatformLevel {
 
         GameModel.gameCamera.setForCharPos(new Vector3(this.startPos + 0.5, 0, 0))
         this.treeEyeLook = true
-
+        GameModel.gameRenderer.setRenderSetting({})
     }
     onUI() {
         this.charFaceHandler?.onUI()
