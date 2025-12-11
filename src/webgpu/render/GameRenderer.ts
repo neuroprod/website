@@ -92,8 +92,8 @@ export const RenderOptionsDefault: RenderOptions = {
 export const RenderOptionsNeutral: RenderOptions = {
     backgroundColor: new ColorV(0.3725, 0.5569, 0.6471, 0.0),
     fogColor: new ColorV(0.3725, 0.5569, 0.6471, 0.0),
-    fogMin: 4,
-    fogMax: 20,
+    fogMin: 100,
+    fogMax: 1000,
 
 
     dofMin: 1,

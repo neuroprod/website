@@ -203,6 +203,7 @@ export default class Main {
             this.modelMaker.saveTemp()
         }
         if (this.currentMainState == MainState.editor) {
+
             SceneEditor.saveTemp()
         }
         if (this.currentMainState == MainState.game) {
@@ -214,6 +215,8 @@ export default class Main {
         }
         if (state == MainState.editor) {
             SceneEditor.setActive()
+            this.gameRenderer.setRenderSettingsNeutral({})
+            this.gameRenderer.needsDof = false;
         }
         if (state == MainState.game) {
             this.game.setActive()
