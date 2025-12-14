@@ -25,6 +25,8 @@ export default class LightMaterial extends Material {
         uniforms.addUniform("shadowCameraPosition", new Vector4(0.5, 1, 0.5, 0.0));
         uniforms.addUniform("lightDir", new Vector4(0.5, 1, 0.5, 0.0));
         uniforms.addUniform("lightColor", new Vector4(1, 0.7, 0.7, 5));
+
+        uniforms.addUniform("globalColor", new Vector4(1, 0.7, 0.7, 0));
         uniforms.addUniform("fogColor", new Vector4(0.3725, 0.5569, 0.6471, 0.0));
         uniforms.addUniform("fogMin", 1000);
         uniforms.addUniform("fogMax", 10000);
@@ -144,13 +146,13 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
        let ao=textureLoad(aoTexture,  uvPos ,0).x; 
        aoM = ao*0.7+0.3;
        }
-       let roughness = 0.5;
+       let roughness = 0.99;
        let metallic = 0.0;
        let N=normalize(rawNormal.xyz*2.0-1.0); 
        let distV = camera.worldPosition.xyz - world;
        let V = normalize(distV);
        let F0 = mix(vec3(0.04), albedo, metallic);
-       var color =albedo*vec3(0.7,0.7,0.8)*0.9*aoM;
+       var color =albedo*uniforms.globalColor.xyz*aoM;
        var shadowS =1.0;
        if(uniforms.needsShadow>0.5){
             shadowS=textureLoad(shadow,  uvPos ,0).x;

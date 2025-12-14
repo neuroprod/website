@@ -26,7 +26,7 @@ export default class GradingRenderPass extends RenderPass {
     constructor(renderer: Renderer) {
         super(renderer, "lightRenderPass");
         this.colorTarget = new RenderTexture(renderer, Textures.GRADING, {
-            format: TextureFormat.RGBA8Unorm,
+            format: TextureFormat.RGBA16Float,
             sampleCount: this.sampleCount,
             scaleToCanvas: true,
 

@@ -8,6 +8,7 @@ import TimeStampQuery from "./TimeStampQuery.ts";
 import Texture from "./textures/Texture.ts";
 import MipMapQueue from "./textures/MipMapQueue.ts";
 import UI from "./UI/UI.ts";
+import { TextureFormat } from "./WebGPUConstants.ts";
 
 
 export default class Renderer {
@@ -41,6 +42,7 @@ export default class Renderer {
     mipmapQueue!: MipMapQueue;
 
     hasFloat32Filterable = false;
+    updateBufferCount = 0;
     constructor() {
 
     }
@@ -79,10 +81,10 @@ export default class Renderer {
 
             this.device = await adapter.requestDevice({ requiredFeatures: requiredFeatures });
 
-            console.log(this.device)
+
             this.context = this.canvas.getContext("webgpu") as GPUCanvasContext;
             this.presentationFormat = navigator.gpu.getPreferredCanvasFormat();
-            this.presentationFormat = 'rgba16float';
+            //  this.presentationFormat = TextureFormat.RGBA16Float;//;
             this.context.configure({
                 device: this.device,
                 format: this.presentationFormat,
@@ -106,6 +108,7 @@ export default class Renderer {
     public update(setCommands: () => void) {
 
         Timer.update();
+        this.updateBufferCount = 0
         this.canvasTextureView = this.context.getCurrentTexture();
         this.canvasColorAttachment.setTarget(this.canvasTextureView.createView())
         this.updateSize();
@@ -113,7 +116,7 @@ export default class Renderer {
         this.updateUniformGroups()
 
 
-
+        console.log(this.updateBufferCount)
 
 
 

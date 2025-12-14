@@ -13,6 +13,7 @@ import ColorV from "../../lib/ColorV.ts";
 
 export default class LightRenderPass extends RenderPass {
 
+
     private colorTarget: RenderTexture;
     private colorAttachment: ColorAttachment;
     lightMaterial: LightMaterial;
@@ -42,6 +43,11 @@ export default class LightRenderPass extends RenderPass {
 
         this.blit = new Blit(renderer, "blitLight", this.lightMaterial)
 
+    }
+    setLight(sunColor: ColorV, sunStrength: number, globalColor: ColorV) {
+
+        this.lightMaterial.setUniform("lightColor", [sunColor.x, sunColor.y, sunColor.z, sunStrength]);
+        this.lightMaterial.setUniform("globalColor", globalColor)
     }
     setFog(fogColor: ColorV, fogMin: number, fogMax: number) {
 

@@ -43,8 +43,9 @@ export type RenderOptions = {
     fogColor: ColorV,
     fogMin: number,
     fogMax: number,
-
-
+    sunColor: ColorV,
+    sunStrength: number,
+    globalColor: ColorV,
     exposure: number,
     contrast: number,
     brightness: number,
@@ -69,6 +70,9 @@ export const RenderOptionsDefault: RenderOptions = {
     fogMin: 4,
     fogMax: 20,
 
+    sunColor: new ColorV(1, 1, 1, 0.0),
+    sunStrength: 6,
+    globalColor: new ColorV(0.59, 0.67, 0.86, 0.00),
 
     dofMin: 0.9,
     dofMax: 1,
@@ -95,6 +99,9 @@ export const RenderOptionsNeutral: RenderOptions = {
     fogMin: 100,
     fogMax: 1000,
 
+    sunColor: new ColorV(1, 1, 1, 0.0),
+    sunStrength: 6,
+    globalColor: new ColorV(0.59, 0.67, 0.86, 0.00),
 
     dofMin: 1,
     dofMax: 1,
@@ -138,6 +145,13 @@ export default class GameRenderer {
             this.options.fogColor = UI.LColor("fogcolor", this.options.fogColor)
             this.options.fogMin = UI.LFloat("fogMin", this.options.fogMin, "fogMin");
             this.options.fogMax = UI.LFloat("fogMax", this.options.fogMax, "fogMax");
+
+            this.options.sunColor = UI.LColor("suncolor", this.options.sunColor)
+            this.options.sunStrength = UI.LFloat("sunStrength", this.options.sunStrength, "sunStrength");
+            this.options.globalColor = UI.LColor("globalColor", this.options.globalColor)
+
+
+
 
 
             this.options.dofMin = UI.LFloat("dofMin", this.options.dofMin, "dofMin");
@@ -194,6 +208,8 @@ export default class GameRenderer {
 
         this.backgroundPass.setColor(this.options.backgroundColor)
         this.lightPass.setFog(this.options.fogColor, this.options.fogMin, this.options.fogMax)
+
+        this.lightPass.setLight(this.options.sunColor, this.options.sunStrength, this.options.globalColor)
         this.gradingPass.setSettings(this.options)
         this.dofPrepPass.setMinMax(this.options.dofMin, this.options.dofMax)
         this.dofHorPass.setSize(this.options.dofSize)

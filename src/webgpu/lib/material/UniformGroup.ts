@@ -294,6 +294,7 @@ export default class UniformGroup extends ObjectGPU {
             if (this.isBufferDirty) {
 
                 this.updateBuffer();
+                //     this.renderer.updateBufferCount++
             }
 
 
