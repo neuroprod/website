@@ -79,6 +79,9 @@ export class StartLevel extends BaseLevel {
         GameModel.coinHandler.displayCoins = 0
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         GameModel.gameRenderer.setLevelType("platform")
+
+        GameModel.gameRenderer.setRenderSetting({ curveRed: 0.85, curveBlue: 1.17 })
+
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
         SoundHandler.setBackgroundSounds([])

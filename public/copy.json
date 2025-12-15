@@ -50,7 +50,7 @@
         "text": "Ungrateful, lazy Bunch."
       },
       {
-        "text": "Now get me those\nthirty coins you owe me.",
+        "text": "Now, get me those\nthirty coins you owe me.",
         "callBack": "raiseHandCoins"
       },
       {
@@ -60,7 +60,7 @@
           0.8,
           0
         ],
-        "text": "I'm on my way!\nIn search of great treasure."
+        "text": "I'm on my way!"
       }
     ]
   },
@@ -382,7 +382,7 @@
           0.82,
           0
         ],
-        "text": "Hi Sammy,\nWant to sign my NDA?"
+        "text": "Hi Sammy,\nWan't to see my gains?"
       }
     ]
   },
@@ -754,11 +754,11 @@
         ],
         "choice": [
           {
-            "text": "Can you give me some coins.",
+            "text": "Can you lend me some coins.",
             "callText": "fishBoyMoney"
           },
           {
-            "text": "Can I have some fishstick?",
+            "text": "Can I have some Fish Sticks?",
             "callText": "fishBoyFish"
           }
         ]
