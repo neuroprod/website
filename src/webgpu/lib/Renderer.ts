@@ -116,7 +116,7 @@ export default class Renderer {
         this.updateUniformGroups()
 
 
-        console.log(this.updateBufferCount)
+
 
 
 

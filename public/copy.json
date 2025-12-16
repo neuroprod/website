@@ -616,7 +616,7 @@
           0.8,
           0
         ],
-        "text": "Thats ok, I'm sure Mister Billy needs it more then I do."
+        "text": "Thats ok, I'm sure Mister Billy\nneeds it more then I do."
       }
     ]
   },
@@ -651,7 +651,10 @@
         "text": "Yeah... seems everyone's broke now."
       },
       {
-        "text": "Hey, maybe you can help me\nMister Billy took my fingers.\nSaid I didn't make him enough money."
+        "text": "Hey, maybe you can help me!"
+      },
+      {
+        "text": "Mister Billy took my fingers.\nSaid I didn't make him enough money."
       },
       {
         "text": "Some of my clients really miss them."
@@ -793,7 +796,7 @@
         "text": "Do I look like I have money kid?"
       },
       {
-        "text": "Now, get out of here! Authorized personnel only."
+        "text": "Now, get out of here!/nAuthorized personnel only."
       }
     ]
   },
@@ -862,7 +865,7 @@
           0.85,
           0
         ],
-        "text": "Sigh... I only got #numCoins of the 30 coins."
+        "text": "Sigh... I only got #numCoins of\nthe 30 coins I need."
       },
       {
         "text": "and #numFishsticks Fish Sticks\nfor some reason..."
