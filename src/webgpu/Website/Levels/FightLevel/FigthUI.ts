@@ -15,6 +15,7 @@ import LifeBar from "./LifeBar.ts";
 export default class FightUI {
 
 
+
     root = new Object2D()
     private renderer: Renderer;
     backPanel: Sprite;
@@ -74,13 +75,19 @@ export default class FightUI {
     setFightPannel(index: number) {
         this.infoPanel.hide()
         this.fightPannel.show(index)
-        console.log("setPannelIndex", index)
+
+    }
+    show() {
+
+        this.root.visible = true
+
+
     }
     setLevel(key: string) {
 
 
         if (key == "Fight") {
-            this.root.visible = true
+
 
 
         } else {

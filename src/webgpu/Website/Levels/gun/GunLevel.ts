@@ -55,7 +55,7 @@ export default class GunLevel extends BaseLevel {
         this.tl.to(this, { animationTime: 30, duration: 1 }, 3.5);
         this.tl.call(() => { SoundHandler.playGun() }, [], 3.6)
         this.tl.to(this, { animationTime: 60, duration: 5 }, 5);
-        this.tl.call(() => { LevelHandler.setLevel("ScreenText") }, [], 4)
+        this.tl.call(() => { LevelHandler.setLevel("Fight") }, [], 4)
         // SceneHandler.sceneAnimations[0].play = true
 
 

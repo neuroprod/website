@@ -17,6 +17,7 @@ import GameInput from "../../GameInput.ts";
 import LevelHandler from "../LevelHandler.ts";
 import SoundHandler from "../../SoundHandler.ts";
 import Animation from "../../../sceneEditor/timeline/animation/Animation.ts";
+import GameCamera from "../../GameCamera.ts";
 
 enum FSTATE {
     START,
@@ -51,6 +52,11 @@ export class FightLevel extends BaseLevel {
     fishTrowAnimation!: Animation;
     fishTrow!: SceneObject3D;
     billyDeadAnimation!: Animation;
+    eyeLeft!: SceneObject3D;
+    pupilLeft!: SceneObject3D;
+    bullet!: SceneObject3D;
+    landlordArm!: SceneObject3D;
+    splash!: SceneObject3D;
     init() {
         super.init();
         LoadHandler.onComplete = this.configScene.bind(this)
@@ -92,10 +98,10 @@ export class FightLevel extends BaseLevel {
         char.ry = Math.PI - 0.2
         char.setScaler(1.2)
         this.pirate = char;
-        let eyeLeft = sceneHandler.getSceneObject("eyeLeft")
-        eyeLeft.hide()
-        let pupilLeft = sceneHandler.getSceneObject("pupilLeft")
-        pupilLeft.hide()
+        this.eyeLeft = sceneHandler.getSceneObject("eyeLeft")
+        // eyeLeft.hide()
+        this.pupilLeft = sceneHandler.getSceneObject("pupilLeft")
+        // pupilLeft.hide()
         this.landlord = sceneHandler.getSceneObject("rootLandlord")
         this.landlord.setScaler(1.2)
         this.landlord.x = -0.6
@@ -104,16 +110,21 @@ export class FightLevel extends BaseLevel {
 
 
         this.kickSplash = sceneHandler.getSceneObject("kickSplash")
-
-
+        this.kickSplash.hide()
+        this.bullet = sceneHandler.getSceneObject("bullet")
+        this.bullet.x = 0
+        this.bullet.y = 0.3284
+        this.splash = sceneHandler.getSceneObject("splash")
+        this.splash.hide();
         sceneHandler.getSceneObject("landlordArmPoint").hide()
 
         GameModel.setBlack(0)
 
 
         let x = 0
-        let y = 0.3
-        GameModel.gameCamera.setLockedView(new Vector3(x, y, 0), new Vector3(x, y, 2))
+        let y = this.bullet.y
+        GameModel.gameCamera.camera.near = 0.1
+        GameModel.gameCamera.setLockedView(new Vector3(x, y, 0), new Vector3(x, y, 0.2))
 
         this.fightUI = GameModel.UI2D.fightUI;
         this.pirateLife = 1;
@@ -123,7 +134,8 @@ export class FightLevel extends BaseLevel {
         this.fishTrowAnimation = SceneHandler.sceneAnimationsByName.get("fishTrow4") as Animation;
         this.hitLandAnimation = SceneHandler.sceneAnimationsByName.get("hitLand") as Animation;
 
-
+        this.landlordArm = sceneHandler.getSceneObject("LandlordArmGun")
+        this.landlordArm.rz = 0.21
         this.fishTrow = sceneHandler.getSceneObject("fishTrow")
         this.fishTrow.hide()
 
@@ -237,16 +249,42 @@ export class FightLevel extends BaseLevel {
         this.state = FSTATE.PAUZE
 
 
+        this.fightUI.show()
+        let time = 0
+        tl.call(() => { SoundHandler.playGunShot() }, [], time)
+        tl.call(() => { GameModel.tweenToNonBlack(1) }, [], time)
+
+        this.bullet.x = -0.03
+        tl.to(this.bullet, { x: 0, duration: 3.3, ease: "power1.in" }, time)
+        time += 3
+        tl.call(() => {
+            let x = 0
+            let y = 0.3
+            GameModel.gameCamera.camera.near = 0.1
+            GameModel.gameCamera.TweenToLockedView(new Vector3(x, y, 0), new Vector3(x, y, 2), 0.5)
+        }, [], time)
+        tl.to(this.bullet, { rz: 0.21, duration: 0.3 }, time)
+        tl.to(GameModel.gameCamera.camera, { near: 0.3, duration: 0.5 }, time)
+        let eyeWorld = this.eyeLeft.getWorldPos()
+        this.splash.setPosition(eyeWorld.x - 0.01, eyeWorld.y - 0.01, eyeWorld.z + 0.1)
+        this.splash.sx = this.splash.sy = 1
+        time += 0.3
+        tl.to(this.bullet, { x: eyeWorld.x, y: eyeWorld.y, z: eyeWorld.z + 0.1, duration: 0.5, ease: "power4.in" }, time)
+        time += 0.5
+        tl.call(() => { this.bullet.hide(); this.pupilLeft.hide(); this.eyeLeft.hide(); this.splash.show(); SoundHandler.playEyeHit(), GameModel.gameCamera.screenShakeHit(-0.01) }, [], time)
+        tl.to(this.splash, { sx: 1.2, sy: 1.2, duration: 0.1, ease: "power3.out" }, time)
 
 
-        tl.call(() => { SoundHandler.playGunShot() }, [], 1)
-        tl.call(() => { GameModel.tweenToNonBlack(1) }, [], 1)
+        time += 0.1
+        tl.call(() => { this.splash.hide() }, [], time)
+        time += 1
+        tl.to(this.landlordArm, { rz: 0, duration: 1.5, ease: "power2.inout" }, time)
+        time += 1
+        tl.to(this, { pirateLife: 0.6, duration: 2 }, time)
+        time += 1
 
-
-
-        tl.to(this, { pirateLife: 0.6, duration: 2 }, 2.5)
-        tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FShot")) }, [], 4)
-        tl.call(() => { this.setNextCall(this.setFightPanel.bind(this)) }, [], 5)
+        tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FShot")) }, [], time)
+        tl.call(() => { this.setNextCall(this.setFightPanel.bind(this)) }, [], time)
 
 
     }
@@ -453,6 +491,10 @@ export class FightLevel extends BaseLevel {
     }
     destroy() {
         super.destroy()
+
+        GameModel.gameCamera.camera.near = 0.3
+
+
         if (this.tl) this.tl.clear()
 
     }

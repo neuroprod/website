@@ -37,6 +37,7 @@ export default class GameCamera {
 
     private cameraState: CameraState = CameraState.Locked
     private shakeY: number = 0;
+    private shakeX: number = 0;
     private minX: number = -100;
     private maxX: number = 100;
     private tl!: gsap.core.Timeline;
@@ -111,6 +112,9 @@ export default class GameCamera {
         this.camera.cameraWorld.copy(this.cameraWorldTemp as NumericArray);
         this.camera.cameraWorld.y += this.shakeY;
         this.camera.cameraLookAt.y += this.shakeY * 0.5
+        this.camera.cameraWorld.x += this.shakeX;
+        this.camera.cameraLookAt.x += this.shakeX * 0.5
+
         this.camera.cameraUp.set(0, 1, 0)
         this.camera.update()
 
@@ -206,6 +210,19 @@ export default class GameCamera {
 
             gsap.to(this, {
                 shakeY: 0,
+                ease: "rough({template:none.out,strength: 10,points:20,taper:none,randomize:true,clamp:false})",
+                duration: 0.3
+            })
+        })
+
+    }
+    screenShakeHit(value: number) {
+        gsap.delayedCall(0.1, () => {
+
+            this.shakeX = value
+            gsap.to(this, {
+
+                shakeX: 0,
                 ease: "rough({template:none.out,strength: 10,points:20,taper:none,randomize:true,clamp:false})",
                 duration: 0.3
             })

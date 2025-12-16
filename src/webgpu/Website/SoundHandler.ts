@@ -38,6 +38,7 @@ class SoundHandler {
     drink!: Howl;
     kick!: Howl;
     bush!: Howl;
+    eyeHit!: Howl;
 
     init() {
 
@@ -59,6 +60,12 @@ class SoundHandler {
             src: ['sound/416417__superphat__automatic-assault-rifle.mp3'],
 
         });
+        this.eyeHit = new Howl({
+            src: ['sound/641040__magnuswaker__gross-impact.mp3'],
+
+        });
+
+
         this.splash = new Howl({
             src: ['sound/442773__qubodup__big-water-splash.mp3'],
 
@@ -225,6 +232,16 @@ class SoundHandler {
 
         this.clock.pos(count % 2 - 0.5, 0, -0.5);
         this.clock.play("s" + count % 6)
+
+    }
+    playEyeHit() {
+        if (!this.playSound) return
+
+
+
+        this.eyeHit.volume(this.fxVolume * 0.5);
+        this.eyeHit.play()
+
 
     }
     playBush() {
