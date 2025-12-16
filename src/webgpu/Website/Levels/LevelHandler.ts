@@ -30,9 +30,9 @@ import Clients from "./clients/Clients.ts";
 import Friends from "./friends/Friends.ts";
 import Social from "./social/Social.ts";
 import Robots from "./robots/Robots.ts";
-import Peeler from "./peeler/Peeler.ts";
+
 import Internet from "./internet/Internet.ts";
-import GuageLevel from "./guage/GuageLevel.ts";
+
 import GunLevel from "./gun/GunLevel.ts";
 import DeadLevel from "./dead/DeadLevel.ts";
 import { FactoryLevel } from "./factory/FactoryLevel.ts";
@@ -62,7 +62,7 @@ class LevelHandler {
         this.addLevel("Girl", new GirlLevel())
         this.addLevel("Dock", new DockLevel())
         this.addLevel("Gun", new GunLevel());
-        this.addLevel("ScreenText", new GuageLevel());
+        // this.addLevel("ScreenText", new GuageLevel());
         this.addLevel("Fight", new FightLevel())
         this.addLevel("Sea", new SeaLevel())
         this.addLevel("Dead", new DeadLevel());
