@@ -11,6 +11,7 @@ import Strawberry from "./Strawberry.ts";
 import GameModel from "../../GameModel.ts";
 import LevelHandler from "../LevelHandler.ts";
 import FaceHandler from "../../handlers/FaceHandler.ts";
+import { Vector3 } from "@math.gl/core";
 
 
 export class StrawberryLevel extends PlatformLevel {
@@ -48,7 +49,7 @@ export class StrawberryLevel extends PlatformLevel {
         super.configScene()
         LoadHandler.onComplete = () => {
         }
-        this.isConversation = false
+        this.isConversation = true
         this.characterController.setCharacter()
         GameModel.gameCamera.setCharacter()
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
@@ -60,11 +61,11 @@ export class StrawberryLevel extends PlatformLevel {
 
         this.charFaceHandler = new FaceHandler(char);
         char.setScaler(1.2)
-        char.x = startX
+        char.x = startX - 2
         GameModel.gameCamera.camDistance = 2.3;
         GameModel.gameCamera.heightOffset = 0.5
 
-
+        // GameModel.gameCamera.setLockedView(this.camTarget.add([0, 0, 0]), this.camPos.clone().add([0, 0, 1]))
         this.strawBerry = sceneHandler.getSceneObject("strawberryRoot")
         this.strawBerry.setScaler(1.1)
         this.strawBerry.z = 0
@@ -72,10 +73,14 @@ export class StrawberryLevel extends PlatformLevel {
         this.strawBerry.y = 1.055
         this.strawBerry.ry = -0.4
 
-        GameModel.gameCamera.setMinMaxX(startX - 0.3, 100)
+        GameModel.gameCamera.setMinMaxX(startX, 100)
         GameModel.gameRenderer.setRenderSetting({})
         //
         this.gaveCoins = false;
+        console.log("configdone")
+        this.characterController.gotoAndIdle(new Vector3(startX, 0.1, 0), 1, () => {
+            this.isConversation = false
+        })
     }
     onUI() {
         if (this.charFaceHandler) this.charFaceHandler.onUI()
