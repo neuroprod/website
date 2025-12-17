@@ -133,17 +133,39 @@ export default class GameCamera {
 
     setForCharPos(charPos: Vector3) {
         charPos.y += this.heightOffset
-        if (charPos.x < this.minX) charPos.x = this.minX
-        if (charPos.x > this.maxX) charPos.x = this.maxX
+        if (charPos.x < this.minX) {
+            charPos.x = this.minX
+
+        }
+        if (charPos.x > this.maxX) {
+            charPos.x = this.maxX
+
+        }
+
         this.cameraLookAt.lerp(charPos, 1)
         this.camPos.copy(this.cameraLookAt);
         this.camPos.z += this.camDistance;
 
-        this.camPos.y += 0;
+        // this.camPos.y += 0;
 
         this.cameraWorld.lerp(this.camPos as NumericArray, 1)
     }
+    getScreenEdge() {
+        let campos = new Vector2(this.cameraWorld.x, this.cameraWorld.z)
 
+
+        let n = new Vector2(0, -1)
+        let hFov = this.camera.hfov / 2
+
+        let edgeDirL = new Vector2(Math.sin(hFov), Math.cos(hFov))
+        let edgeDirR = new Vector2(-edgeDirL.x, edgeDirL.y)
+        let denom = n.dot(edgeDirL);
+        let t = -(campos.dot(n)) / denom;
+        edgeDirR.scale(t).add(campos)
+        edgeDirL.scale(t).add(campos)
+
+        return new Vector2(edgeDirL.x, edgeDirR.x)
+    }
     updateCharCamera() {
         let delta = Timer.delta;
         let charPos = this.charRoot.getWorldPos()

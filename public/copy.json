@@ -293,13 +293,13 @@
           0.8,
           0
         ],
-        "text": "An MBA in business administration!\nYou can use it to maximize shareholder value."
+        "text": "An MBA in business administration!\n"
       },
       {
         "text": "You can use it to maximize shareholder value. "
       },
       {
-        "text": "Which will trickle down before you can say 'I'll pick myself up by my bootstraps."
+        "text": "Which will trickle down before\nyou can say 'I'll pick myself\nup by my bootstraps."
       },
       {
         "delay": 1,
@@ -317,13 +317,13 @@
           0.8,
           0
         ],
-        "text": "Some Fish Sticks!\nBought to you by our\nsponser Fish-Boy Fish Sticks"
+        "text": "Some Fish Sticks!"
+      },
+      {
+        "text": "Bought to you by our\nsponser Fish-Boy Fish Sticks"
       },
       {
         "text": "All the goodness of the sea\nprocessed into tasty, frozen blocks."
-      },
-      {
-        "text": "bbllblblb"
       }
     ]
   },

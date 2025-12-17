@@ -52,6 +52,14 @@ export default class ModelRenderer {
             return 1;
         })
     }
+    checkCulling() {
+        for (let model of this.models) {
+            if (model.needCulling) {
+                model.frustumCull = !this.camera.modelInFrustum(model)
+            }
+        }
+
+    }
     draw(pass: RenderPass) {
 
 
@@ -86,7 +94,8 @@ export default class ModelRenderer {
                 this.models.splice(i, 1)
                 return;
             }
-            if (!model.visible) continue
+            if (model.frustumCull) continue;
+            if (!model.visible) continue;
             if (!model.mesh) continue;
             if (!model.mesh.positions) continue;
 

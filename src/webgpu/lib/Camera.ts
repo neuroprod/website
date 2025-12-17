@@ -76,7 +76,12 @@ export default class Camera extends UniformGroup {
         // this.far =far;
         this.perspective = false
     }
+    get hfov() {
+        if (this.ratio < 1) return this.fovy
 
+
+        return 2 * Math.atan(Math.tan(this.fovy / 2) * this.ratio);
+    }
     public modelInFrustum(model: Model): boolean {
 
         for (let i: number = 0; i < 6; i++) {

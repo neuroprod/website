@@ -288,7 +288,7 @@ export default class CharacterController {
 
         //
         //console.log(SceneData.hitTestModels)
-
+        this.checkCameraEdge()
         //if(Timer.frame%10==0)console.log(this.targetPos)
         this.charRoot.setPositionV(this.targetPos)
         this.setFeet(delta)
@@ -304,8 +304,16 @@ export default class CharacterController {
 
         this.charHitTopWorld = this.charBody.getWorldPos(this.charHitTop)
         this.charHitBottomWorld = this.charRoot.getWorldPos(this.charHitBottom)
+
+
+
         DebugDraw.drawCircle(this.charHitTopWorld, this.charHitRadius);
         DebugDraw.drawCircle(this.charHitBottomWorld, this.charHitRadius);
+    }
+    checkCameraEdge() {
+        let minMax = GameModel.gameCamera.getScreenEdge();
+        this.targetPos.x = Math.max(minMax.x + 0.35, this.targetPos.x);
+        this.targetPos.x = Math.min(minMax.y - 0.35, this.targetPos.x);
     }
 
     drawCross(position: Vector3) {

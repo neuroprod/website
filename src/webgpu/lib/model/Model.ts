@@ -30,6 +30,7 @@ export default class Model extends Object3D {
     center: Vector3 = new Vector3()
     radius: number = 1;
     static: boolean = false;
+    frustumCull: boolean = false;
 
 
     constructor(renderer: Renderer, label: string) {
@@ -50,12 +51,25 @@ export default class Model extends Object3D {
     public update() {
         if (!this._drawDirty) return;
         if (!this.visible) return;
+
         this._drawDirty = false;
 
 
 
         this.modelTransform.setWorldMatrix(this.worldMatrix);
+        if (!this.static && this.needCulling) {
+            if (!this.mesh) return;
+            if (!this.mesh.positions) return;
+            this.min.from(this.mesh.min)
+            this.max.from(this.mesh.max)
+            this.min.transform(this.worldMatrix)
+            this.max.transform(this.worldMatrix)
+            this.center.from(this.min)
+            this.center.add(this.max)
+            this.center.scale(0.5);
 
+            this.radius = this.center.distance(this.max);
+        }
     }
 
     public setStatic() {
