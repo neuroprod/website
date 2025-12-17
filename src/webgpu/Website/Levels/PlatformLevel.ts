@@ -14,8 +14,14 @@ export class PlatformLevel extends BaseLevel {
 
     public characterController!: CharacterController;
     private coinHandler!: CoinGrabber;
-    isConversation: boolean = false;
-
+    private _isConversation: boolean = false;
+    get isConversation() {
+        return this._isConversation
+    }
+    set isConversation(val: boolean) {
+        this._isConversation = val;
+        GameInput.reset()
+    }
 
 
     init() {

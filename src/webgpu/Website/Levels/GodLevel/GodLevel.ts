@@ -258,11 +258,12 @@ export class GodLevel extends PlatformLevel {
     }
 
     private playIntro() {
-        console.log('startFront')
+        this.isConversation = true
         this.charFaceHandler.setState("front")
         GameModel.conversationHandler.startConversation("start")
         GameModel.conversationHandler.doneCallBack = () => {
             this.isConversation = false
+
             this.charFaceHandler.setState("default")
         }
 

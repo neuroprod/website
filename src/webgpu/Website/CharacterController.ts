@@ -155,6 +155,7 @@ export default class CharacterController {
     }
     gotoAndIdle(worldPos: Vector3, dir: number = 1, gotoDone: () => void) {
         this.gotoDone = gotoDone;
+
         this.autoWalk = true;
         this.autoWalkTarget.copy(worldPos);
         this.autoWalkTargetDir = dir;
@@ -311,6 +312,7 @@ export default class CharacterController {
         DebugDraw.drawCircle(this.charHitBottomWorld, this.charHitRadius);
     }
     checkCameraEdge() {
+        if (this.autoWalk) return
         let minMax = GameModel.gameCamera.getScreenEdge();
         this.targetPos.x = Math.max(minMax.x + 0.35, this.targetPos.x);
         this.targetPos.x = Math.min(minMax.y - 0.35, this.targetPos.x);

@@ -61,14 +61,14 @@ export class IntroLevel extends PlatformLevel {
         this.landlord.setScaler(1.2)
         this.landlord.z = -0.3
         this.landlord.x = -1.5 - 0.5
-        this.landlord.y = 0
+        this.landlord.y = -0.05
         this.landlord.ry = 0
         sceneHandler.getSceneObject("LandlordArmGun").hide()
         this.landlordHand = sceneHandler.getSceneObject("landlordArmPoint")
         this.landlordHand.rz = -0.8
         this.landlordHand.x = 0.03
         let charRoot = SceneHandler.getSceneObject("charRoot");
-        charRoot.x = this.startPos - 3
+        charRoot.x = this.startPos - 2
         charRoot.y = 0.15
         charRoot.setScaler(1.2)
         this.characterController.setCharacter()
@@ -76,10 +76,10 @@ export class IntroLevel extends PlatformLevel {
 
 
         })
-        gsap.delayedCall(3, this.playIntro.bind(this));
+        gsap.delayedCall(2, this.playIntro.bind(this));
         GameModel.gameCamera.camDistance = 2;
         GameModel.gameCamera.heightOffset = 0.4
-        GameModel.gameCamera.setMinMaxX(this.startPos - 0.5, this.startPos + 5)
+        GameModel.gameCamera.setMinMaxX(this.startPos - 0.5, this.startPos + 100)
 
         GameModel.coinHandler.hide()
         GameModel.gameCamera.setForCharPos(new Vector3(this.startPos - 0.5, 0, 0))
@@ -103,7 +103,7 @@ export class IntroLevel extends PlatformLevel {
         let tl = gsap.timeline()
         SoundHandler.playBush()
         GameModel.gameCamera.TweenToLockedView(new Vector3(-1.0, 0.4, 0), new Vector3(-1.0, 0.4, 1.5), 3)
-        tl.to(this.landlord, { x: -1.5, ry: -0.1, duration: 1.5 }, 0)
+        tl.to(this.landlord, { y: 0, x: -1.5, ry: -0.1, duration: 1, ease: "back.out" }, 0)
         // tl.to(this.landlordHand, { rz: -0.7, x: 0.05, y: 0.12 }, 1)
         // GameModel.gameCamera.TweenToLockedView()
 
@@ -136,8 +136,9 @@ export class IntroLevel extends PlatformLevel {
             }
             GameModel.conversationHandler.doneCallBack = () => {
                 this.characterController.setAngle(0)
-                this.characterController.gotoAndIdle(new Vector3(2, 0.1, 0), 1, () => {
-                    LevelHandler.setLevel("Tree")
+                gsap.delayedCall(2, () => { LevelHandler.setLevel("Tree") })
+                this.characterController.gotoAndIdle(new Vector3(5, 0.1, 0), 1, () => {
+
 
                 })
             }

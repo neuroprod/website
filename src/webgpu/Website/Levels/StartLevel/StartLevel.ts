@@ -160,11 +160,11 @@ export class StartLevel extends BaseLevel {
             SoundHandler.playSound = true
             gsap.to(pirate, { sx: 0, sy: 0, sz: 0, duration: 0.2 })
             gsap.to(graphicsDev, { sx: 0, sy: 0, sz: 0, duration: 0.2 })
-            this.characterController.gotoAndIdle(new Vector3(3, 0.1, 0), 1, () => {
-                this.goGraphicDev = false;
-                LevelHandler.setLevel("Intro")
-            })
+            this.characterController.gotoAndIdle(new Vector3(5, 0.1, 0), 1, () => {
 
+
+            })
+            gsap.delayedCall(2, () => { this.goGraphicDev = false; LevelHandler.setLevel("Intro") })
             gsap.killTweensOf(GameModel.gameRenderer)
             GameModel.gameRenderer.distortValue = 0
         }
