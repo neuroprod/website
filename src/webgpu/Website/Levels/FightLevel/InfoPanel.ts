@@ -1,4 +1,5 @@
 import { Textures } from "../../../data/Textures.ts";
+import ColorV from "../../../lib/ColorV.ts";
 import Renderer from "../../../lib/Renderer.ts";
 import AnimatedTextMaterial from "../../../lib/twoD/AnimatedTextMaterial.ts";
 
@@ -7,6 +8,7 @@ import FontPool from "../../../lib/twoD/FontPool.ts";
 import Object2D from "../../../lib/twoD/Object2D.ts";
 import Sprite from "../../../lib/twoD/Sprite.ts";
 import Text from "../../../lib/twoD/Text.ts";
+import Color from "../../../lib/UI/math/Color.ts";
 import SoundHandler from "../../SoundHandler.ts";
 import gsap from "gsap";
 export default class InfoPanel {
@@ -32,6 +34,7 @@ export default class InfoPanel {
         this.text = new Text(renderer, font, 25, "_")
         this.text.material = new AnimatedTextMaterial(renderer, "fontMat")
         this.text.material.setTexture("texture", font.texture)
+        //this.text.material.setUniform("color", new ColorV(0, 0, 0, 1))
         this.text.x = 0
         this.text.y = -5
         this.text.visible = false

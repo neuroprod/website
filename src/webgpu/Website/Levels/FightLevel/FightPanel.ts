@@ -20,7 +20,7 @@ export default class FightPanel {
 
 
             let text = new Text(renderer, font, 25, op)
-
+            //  text.material.setUniform("color", [0, 0, 0, 1])
             text.x = -700 / 2 + 20 + 40
             text.y = -150 / 2 + 20 + spacing;
             spacing += 40

@@ -6,6 +6,7 @@ import DefaultTextures from "../textures/DefaultTextures.ts";
 import { CullMode } from "../WebGPUConstants.ts";
 import Blend from "../material/Blend.ts";
 import { Matrix4 } from "@math.gl/core";
+import ColorV from "../ColorV.ts";
 
 export default class TextMaterial extends Material {
 
@@ -23,6 +24,7 @@ export default class TextMaterial extends Material {
         let uniforms = new UniformGroup(this.renderer, "uniforms");
         this.addUniformGroup(uniforms, true);
         uniforms.addUniform("worldMatrix", new Matrix4().identity())
+        uniforms.addUniform("color", new ColorV(1, 1, 1, 1))
         uniforms.addUniform("alpha", 1);
 
         uniforms.addTexture("texture", DefaultTextures.getGrid(this.renderer));
@@ -80,7 +82,7 @@ fn mainFragment(${this.getFragmentInput()}) ->  @location(0) vec4f
   
 
 
-    return vec4(1*a,1*a,1*a,a);
+    return uniforms.color*a;
 }
 ///////////////////////////////////////////////////////////
         `

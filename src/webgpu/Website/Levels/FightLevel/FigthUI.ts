@@ -34,7 +34,7 @@ export default class FightUI {
         this.backPanel = new Sprite(renderer, DefaultTextures.getBlack(renderer))
         this.backPanel.sx = 700;
         this.backPanel.sy = 150;
-        this.infoHolder.addChild(this.backPanel)
+        //  this.infoHolder.addChild(this.backPanel)
 
         this.infoPanel = new InfoPanel(renderer)
         this.infoHolder.addChild(this.infoPanel.root)

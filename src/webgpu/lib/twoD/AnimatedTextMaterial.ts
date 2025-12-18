@@ -5,7 +5,7 @@ import UniformGroup from "../material/UniformGroup.ts";
 import DefaultTextures from "../textures/DefaultTextures.ts";
 import { CullMode } from "../WebGPUConstants.ts";
 import Blend from "../material/Blend.ts";
-import { Matrix4 } from "@math.gl/core";
+import { Matrix4, Vector4 } from "@math.gl/core";
 
 export default class AnimatedTextMaterial extends Material {
 
@@ -23,8 +23,10 @@ export default class AnimatedTextMaterial extends Material {
         let uniforms = new UniformGroup(this.renderer, "uniforms");
         this.addUniformGroup(uniforms, true);
         uniforms.addUniform("worldMatrix", new Matrix4().identity())
+        uniforms.addUniform("color", new Vector4(1, 1, 1, 1))
         uniforms.addUniform("alpha", 1);
         uniforms.addUniform("charPos", 8.0)
+
         uniforms.addTexture("texture", DefaultTextures.getGrid(this.renderer));
 
         uniforms.addSampler("mySampler")
@@ -84,9 +86,9 @@ fn mainFragment(${this.getFragmentInput()}) ->  @location(0) vec4f
   let a= smoothstep(-edgeWidth, edgeWidth, pxDist);
    
   
+let c =uniforms.color*a;
 
-
-    return vec4(1*a,1*a,1*a,a);
+    return c;
 }
 ///////////////////////////////////////////////////////////
         `

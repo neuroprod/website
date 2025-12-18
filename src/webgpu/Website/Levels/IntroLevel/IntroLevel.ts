@@ -16,7 +16,7 @@ export class IntroLevel extends PlatformLevel {
     private landlord!: SceneObject3D;
 
 
-    private startPos = -2
+    private startPos = -9
     private landlordHand!: SceneObject3D;
     tl!: gsap.core.Timeline;
 
@@ -72,14 +72,17 @@ export class IntroLevel extends PlatformLevel {
         charRoot.y = 0.15
         charRoot.setScaler(1.2)
         this.characterController.setCharacter()
+
+
+
         this.characterController.gotoAndIdle(new Vector3(- 0.5, 0.1, 0), 1, () => {
 
 
         })
-        gsap.delayedCall(2, this.playIntro.bind(this));
+        gsap.delayedCall(7, this.playIntro.bind(this));
         GameModel.gameCamera.camDistance = 2;
         GameModel.gameCamera.heightOffset = 0.4
-        GameModel.gameCamera.setMinMaxX(this.startPos - 0.5, this.startPos + 100)
+        GameModel.gameCamera.setMinMaxX(-4.5, this.startPos + 100)
 
         GameModel.coinHandler.hide()
         GameModel.gameCamera.setForCharPos(new Vector3(this.startPos - 0.5, 0, 0))
