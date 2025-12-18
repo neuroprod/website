@@ -256,7 +256,7 @@ export class FightLevel extends BaseLevel {
 
         this.bullet.x = -0.03
         tl.to(this.bullet, { x: 0, duration: 3.3, ease: "power1.in" }, time)
-        time += 3
+        time += 1
         tl.call(() => {
             let x = 0
             let y = 0.3

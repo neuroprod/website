@@ -32,8 +32,8 @@ export default class InfoPanel {
         this.text = new Text(renderer, font, 25, "_")
         this.text.material = new AnimatedTextMaterial(renderer, "fontMat")
         this.text.material.setTexture("texture", font.texture)
-        this.text.x = -700 / 2 + 20
-        this.text.y = -150 / 2 + 20
+        this.text.x = 0
+        this.text.y = -5
         this.text.visible = false
         this.root.addChild(this.text)
 
@@ -53,7 +53,7 @@ export default class InfoPanel {
     setText(text: string) {
         this.text.visible = true
         this.nextTriangle.visible = false
-        this.text.setText(text)
+        this.text.setText(text, true, true)
 
         this.charPos = 0
         this.charPosOld = -1;

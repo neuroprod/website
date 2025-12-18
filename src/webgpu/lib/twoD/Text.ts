@@ -37,9 +37,9 @@ export default class Text extends Object2D {
         this.material.setTexture("texture", font.texture)
 
     }
-    setText(text: string) {
+    setText(text: string, HAlignCenter = false, VAlignCenter = false) {
 
-        this.mesh.setText(text, this.font, this.size)
+        this.mesh.setText(text, this.font, this.size, HAlignCenter, VAlignCenter)
         this.rect.min.set(this.mesh.min.x, this.mesh.min.y)
         this.rect.max.set(this.mesh.max.x, this.mesh.max.y)
         this.width = this.mesh.max.x;

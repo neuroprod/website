@@ -14,41 +14,39 @@ export default class TextMesh extends Mesh {
     numLines = 0;
     spacing = 1;
     public charCount = 0;
-    setText(text: string, font: Font, fontSize: number = 0.003) {
-        fontSize /= 42
+    fontSize: number = 1;
+    font!: Font;
 
-        this.startX = 0;
-        this.startY = 0;
+
+    setText(text: string, font: Font, fontSize: number = 0.003, HAlignCenter = false, VAlignCenter = false) {
+        this.fontSize = fontSize /= 42
+        this.font = font;
+
+        let lines = text.split("\n")
+        this.numLines = lines.length;
+
         this.indicesPos = 0;
-        this.numLines = 1;
         this.charCount = 0;
-        for (let i = 0; i < text.length; i++) {
-            let c = text.charCodeAt(i);
-            if (c == 32) {
-                let char = font.charArray[c];
-                this.startX += char.xadvance * fontSize - this.spacing * fontSize
-                this.charCount += 2
-                continue;
-            }
-            if (c == 10) {
-                this.startY += fontSize * 42;
-                this.startX = 0
-                this.numLines++;
-                this.charCount += 2
-                continue
-            }
-            let char = font.charArray[c];
-            if (char == undefined) {
-                console.log("char not found", c, text.charAt(i))
-                continue
-            }
-
-            this.charCount += 1
-            this.addChar(char, fontSize);
-
-            //startPos.x += Font.charSize.x;
-            //rect.pos = startPos.clone();
+        this.startY = 0
+        if (VAlignCenter) {
+            this.startY = -(fontSize * 42 * this.numLines) / 2;
         }
+
+
+        for (let l of lines) {
+            this.startX = 0
+
+            if (HAlignCenter) {
+                let w = this.messure(l)
+                this.startX = -w / 2;
+            }
+            this.setLine(l)
+            this.startY += fontSize * 42;
+        }
+
+
+
+
 
         this.setPositions(new Float32Array(this.posTemp))
         this.setNormals(new Float32Array(this.normalTemp))
@@ -61,6 +59,49 @@ export default class TextMesh extends Mesh {
         this.uvTemp = [];
         this.indexTemp = [];
 
+    }
+    messure(text: string) {
+        let width = 0
+        for (let i = 0; i < text.length; i++) {
+            let c = text.charCodeAt(i);
+            if (c == 10) {
+                width += this.fontSize * 42;
+            } else {
+                let char = this.font.charArray[c]
+                width += char.xadvance * this.fontSize - this.spacing * this.fontSize
+            }
+
+        }
+        return width
+    }
+    setLine(text: string) {
+        for (let i = 0; i < text.length; i++) {
+            let c = text.charCodeAt(i);
+            if (c == 32) {
+                let char = this.font.charArray[c];
+                this.startX += char.xadvance * this.fontSize - this.spacing * this.fontSize
+                this.charCount += 2
+                continue;
+            }
+            if (c == 10) {
+                this.startY += this.fontSize * 42;
+                this.startX = 0
+                this.numLines++;
+                this.charCount += 2
+                continue
+            }
+            let char = this.font.charArray[c];
+            if (char == undefined) {
+                console.log("char not found", c, text.charAt(i))
+                continue
+            }
+
+            this.charCount += 1
+            this.addChar(char, this.fontSize);
+
+            //startPos.x += Font.charSize.x;
+            //rect.pos = startPos.clone();
+        }
     }
 
 
