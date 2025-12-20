@@ -10,6 +10,7 @@ import SoundHandler from "../../SoundHandler.ts";
 
 import SceneObject3D from "../../../data/SceneObject3D.ts";
 import gsap from "gsap";
+import ColorV from "../../../lib/ColorV.ts";
 
 export default class FisTik extends NavigationLevel {
     private prevBeat: number = 0;
@@ -54,7 +55,7 @@ export default class FisTik extends NavigationLevel {
             this.letters.push(SceneHandler.getSceneObject("l" + i))
 
         }
-
+        GameModel.gameRenderer.setRenderSettingsNeutral({ sunColor: new ColorV(0.99, 0.84, 0.56, 0.00), backgroundColor: new ColorV(0.18, 0.16, 0.07, 0.00) })
     }
 
     public update() {

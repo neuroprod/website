@@ -85,7 +85,7 @@ export class FactoryLevel extends PlatformLevel {
 
 
 
-        GameModel.gameCamera.setMinMaxX(this.startPos, this.startPos + 20)
+        GameModel.gameCamera.setMinMaxX(this.startPos, this.startPos + 200)
 
 
         GameModel.gameCamera.setForCharPos(new Vector3(this.startPos, 0, 0))
@@ -192,7 +192,7 @@ export class FactoryLevel extends PlatformLevel {
 
             if (f.hitTriggerItem == HitTrigger.FISHBOY) {
                 f.triggerIsEnabled = false;
-
+                this.characterController.needsCameraEdge = false
                 // 
                 this.isConversation = true
                 this.characterController.gotoAndIdle(new Vector3(this.fishRoot.x - 0.7, 0, 0), 1, () => {

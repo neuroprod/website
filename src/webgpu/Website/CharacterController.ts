@@ -68,6 +68,7 @@ export default class CharacterController {
     private browRight!: SceneObject3D;
     private feetToFloor = 0.1;// 0.06/1.2
     fishTicks: Array<SceneObject3D> = [];
+    needsCameraEdge: boolean = true;
 
 
 
@@ -112,7 +113,7 @@ export default class CharacterController {
      }*/
     setCharacter() {
         if (this.waveTL) this.waveTL.clear()
-
+        this.needsCameraEdge = true
         SceneHandler.getSceneObject("patch").hide();
         SceneHandler.getSceneObject("fishTrow").hide();
 
@@ -289,7 +290,7 @@ export default class CharacterController {
 
         //
         //console.log(SceneData.hitTestModels)
-        this.checkCameraEdge()
+        if (this.needsCameraEdge) this.checkCameraEdge()
         //if(Timer.frame%10==0)console.log(this.targetPos)
         this.charRoot.setPositionV(this.targetPos)
         this.setFeet(delta)
