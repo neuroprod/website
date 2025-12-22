@@ -18,7 +18,7 @@ import FaceHandler from "../../handlers/FaceHandler.ts";
 import Model from "../../../lib/model/Model.ts";
 import SceneObject3D from "../../../data/SceneObject3D";
 
-
+import Animation from "../../../sceneEditor/timeline/animation/Animation.ts";
 export class StartLevel extends BaseLevel {
 
     private kris!: Kris;
@@ -33,7 +33,8 @@ export class StartLevel extends BaseLevel {
     game!: SceneObject3D
 
     gameLine!: SceneObject3D
-
+    charAnimation!: Animation;
+    charTime = 0
 
     init() {
         super.init();
@@ -66,9 +67,10 @@ export class StartLevel extends BaseLevel {
 
         this.characterController.updateIdle(Timer.delta)
 
-
+        this.charAnimation.setTime(this.charTime)
 
     }
+
 
     private configScene() {
 
@@ -89,15 +91,15 @@ export class StartLevel extends BaseLevel {
         this.kris.reset()
 
         let char = sceneHandler.getSceneObject("charRoot")
-        char.setScaler(1.2)
+        char.setScaler(1.4)
         char.x = -2;
         char.y = 1;
 
         this.characterController.setCharacter()
-        this.charFaceHandler = new FaceHandler(char)
-        this.charFaceHandler.setState("front")
-        this.camPos.set(0, 0.7, 2)
-        this.camTarget.set(0, 0.7, 0)
+        //this.charFaceHandler = new FaceHandler(char)
+        // this.charFaceHandler.setState("front")
+        this.camPos.set(0.1, 0.73, 1.9)
+        this.camTarget.set(0.1, 0.73, 0)
         GameModel.gameCamera.setLockedView(this.camTarget.add([0, 0, 0]), this.camPos.clone().add([0, 0, 1]))
         GameModel.gameCamera.TweenToLockedView(this.camTarget, this.camPos, 3)
         this.game = SceneHandler.getSceneObject("game")
@@ -108,7 +110,7 @@ export class StartLevel extends BaseLevel {
 
         this.gameLine = SceneHandler.getSceneObject("gameLine")
 
-
+        this.charAnimation = SceneHandler.sceneAnimationsByName.get("startAnime") as Animation;
 
         this.gameLine.hide()
 
@@ -174,8 +176,9 @@ export class StartLevel extends BaseLevel {
             gsap.killTweensOf(line)
             gsap.to(line, { sx: 1, duration: 0.2, ease: "back.out" })
             GameModel.renderer.setCursor(true)
-            this.game.show()
-            this.gameLine.show()
+            // this.game.show()
+            //this.gameLine.show()
+            gsap.to(this, { charTime: 30, duration: 1, ease: "power3.out" })
 
         }
         mainChar.onRollOut = () => {
@@ -183,12 +186,13 @@ export class StartLevel extends BaseLevel {
             gsap.killTweensOf(line)
             gsap.to(line, { sx: 0.5, duration: 0.1, ease: "back.in", onComplete: () => { line.sx = 0 } })
             GameModel.renderer.setCursor(false)
-            this.game.hide()
-            this.gameLine.hide()
+            // this.game.hide()
+            // this.gameLine.hide()
+            gsap.to(this, { charTime: 0, duration: 1, ease: "power3.out" })
 
         }
         this.kris.show();
-        this.characterController.gotoAndIdle(new Vector3(0, 0.1, 0), 1, () => {
+        this.characterController.gotoAndIdle(new Vector3(0.1, 0.1, 0), 1, () => {
         })
 
 

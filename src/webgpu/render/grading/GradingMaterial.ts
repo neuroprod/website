@@ -112,7 +112,7 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
    // color3.z = 1.0-color3.z;
     color3 = pow(color3,vec3(1.0/2.2));
     
-    
+    color3 =max(color3,vec3(0.0));
     return vec4(color3,1.0) ;
 }
 ///////////////////////////////////////////////////////////
