@@ -110,7 +110,7 @@ export class StartLevel extends BaseLevel {
 
         this.gameLine = SceneHandler.getSceneObject("gameLine")
 
-        this.charAnimation = SceneHandler.sceneAnimationsByName.get("startAnime") as Animation;
+        this.charAnimation = SceneHandler.sceneAnimationsByName.get("startScene") as Animation;
 
         this.gameLine.hide()
 
@@ -178,7 +178,7 @@ export class StartLevel extends BaseLevel {
             GameModel.renderer.setCursor(true)
             // this.game.show()
             //this.gameLine.show()
-            gsap.to(this, { charTime: 30, duration: 1, ease: "power3.out" })
+            gsap.to(this, { charTime: 30, duration: 0.5, ease: "power3.out" })
 
         }
         mainChar.onRollOut = () => {
