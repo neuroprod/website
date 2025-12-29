@@ -463,7 +463,7 @@
           0.82,
           0
         ],
-        "text": "I don't know Sammy,\nseems wrong."
+        "text": "I don't know Sammy,\nthat doesn't seem right."
       },
       {
         "char": "rootSausage",
@@ -472,7 +472,7 @@
           1.0,
           0
         ],
-        "text": "Come on man,\nIt's just fruits and vegetables."
+        "text": "Come on man, it's just\nfruits and vegetables."
       },
       {
         "char": "charRoot",
@@ -481,7 +481,7 @@
           0.82,
           0
         ],
-        "text": "If you put it that way.\nI wouldn't mind blowing\noff some steam..."
+        "text": "If you put it that way...\nI wouldn't mind blowing\noff some steam..."
       },
       {
         "char": "rootSausage",
@@ -550,7 +550,10 @@
           0.8,
           0
         ],
-        "text": "Yea, and I really need some money\nto buy...\neuh... medicine."
+        "text": "Us strawberies seem\nto get blamed for\nanything these days."
+      },
+      {
+        "text": "And I really need some money\nto buy...\neuh... medicine."
       },
       {
         "char": "charRoot",
@@ -559,7 +562,7 @@
           0.8,
           0
         ],
-        "text": "How much?"
+        "text": "How much do you need?"
       },
       {
         "char": "strawberryRoot",
@@ -568,7 +571,7 @@
           0.8,
           0
         ],
-        "text": "Just a few coins. #numCoins, to be exact."
+        "text": "Just a few coins.\n#numCoins to be exact."
       },
       {
         "char": "charRoot",
@@ -616,7 +619,7 @@
           0.8,
           0
         ],
-        "text": "Thats ok, I'm sure Mister Billy\nneeds it more then I do."
+        "text": "That's OK,\nI'm sure Mister Billy\nneeds it more then I do."
       }
     ]
   },
@@ -626,8 +629,8 @@
       {
         "char": "rootHand",
         "pos": [
-          -0.25,
-          0.85,
+          -0.15,
+          0.8,
           0
         ],
         "text": "Hi pirate, want to have some fun?"
@@ -639,28 +642,29 @@
           0.8,
           0
         ],
-        "text": "I'm broke Candy. Maybe some other time..."
+        "text": "I'm broke Candy.\nMaybe some other time..."
       },
       {
         "char": "rootHand",
         "pos": [
-          -0.25,
-          0.85,
+          -0.15,
+          0.8,
           0
         ],
-        "text": "Yeah... seems everyone's broke now."
+        "text": "Looks like everyone's broke these days."
       },
       {
         "text": "Hey, maybe you can help me!"
       },
       {
-        "text": "Mister Billy took my fingers.\nSaid I didn't make him enough money."
+        "text": "Mister Billy took my fingers.\nSaid I didn't make him enough\nmoney."
       },
       {
         "text": "Some of my clients really miss them."
       },
       {
-        "text": "And you being a pirate and such..."
+        "delay": "0.5",
+        "text": "And you being a pirate and such...?"
       },
       {
         "char": "charRoot",
@@ -669,28 +673,28 @@
           0.8,
           0
         ],
-        "text": "You know, Candy... I'm not a real pirate."
+        "text": "This is just a costume Candy."
       },
       {
-        "text": "Sure, I download a movie every know and then."
+        "text": "And sure, I download a movie\nevery know and then."
       },
       {
-        "text": "I just wanted to be someone... meaningful, you know?"
+        "text": "But I'm not a real pirate."
       },
       {
-        "text": "I don't even own a sword, or a ship..."
+        "text": "I'm just pretending to be someone...\nmeaningful, you know?"
       },
       {
-        "text": "All I have is a couple of Fish Sticks..."
+        "text": "I don't even own a sword,\nor a ship..."
       },
       {
         "char": "rootHand",
         "pos": [
-          -0.25,
-          0.85,
+          -0.15,
+          0.8,
           0
         ],
-        "text": "...Oh "
+        "text": "...Oh, I get it. Maybe someday?"
       },
       {
         "char": "charRoot",
@@ -699,7 +703,7 @@
           0.8,
           0
         ],
-        "text": "...   "
+        "text": "I can't even pay my rent right now..."
       }
     ]
   },
@@ -746,7 +750,13 @@
         "text": "It's not mine kid. I'm just the mascotte."
       },
       {
-        "text": "It's part of Billy's Global Industries"
+        "text": "It's part of Billy's Global Industries."
+      },
+      {
+        "text": "I'm just grinding myself down here."
+      },
+      {
+        "text": "Selling my soul for the next paycheck,\nlike everyone else."
       },
       {
         "char": "charRoot",
