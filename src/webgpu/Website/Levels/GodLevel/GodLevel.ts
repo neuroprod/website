@@ -73,7 +73,7 @@ export class GodLevel extends PlatformLevel {
         this.tree = sceneHandler.getSceneObject("rootTree")
         this.tree.setScaler(1.5)
         this.tree.z = -0.05
-        this.tree.x = 3 + 14
+        this.tree.x = 3 + 15
 
 
         this.god = sceneHandler.getSceneObject("godRoot")
@@ -107,7 +107,7 @@ export class GodLevel extends PlatformLevel {
         })
         GameModel.gameCamera.camDistance = 2;
         GameModel.gameCamera.heightOffset = 0.5
-        GameModel.gameCamera.setMinMaxX(this.startPos + 0.5, 17)
+        GameModel.gameCamera.setMinMaxX(this.startPos + 0.5, 18)
 
 
         this.pupilRightTree = SceneHandler.getSceneObject("pupilRightTree");
@@ -183,7 +183,7 @@ export class GodLevel extends PlatformLevel {
                 GameModel.gameCamera.TweenToLockedView(target, target.clone().add([0, 0, 1.7]))
                 this.isConversation = true
 
-                this.characterController.gotoAndIdle(this.tree.getWorldPos().add([-0.65, 0, 0]), 1, () => {
+                this.characterController.gotoAndIdle(this.tree.getWorldPos().add([-1.0, 0, 0]), 1, () => {
                     this.characterController.setAngle(0.1)
                     gsap.delayedCall(0.5, () => {
                         this.charFaceHandler.setState("looktree")
