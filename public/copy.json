@@ -759,6 +759,9 @@
         "text": "Selling my soul for the next paycheck,\nlike everyone else."
       },
       {
+        "text": "That aside,\nare you lost, or just trespassing?"
+      },
+      {
         "char": "charRoot",
         "pos": [
           0.1,
@@ -767,7 +770,7 @@
         ],
         "choice": [
           {
-            "text": "Can you lend me some coins.",
+            "text": "I'm looking for coins.\nCan you lend me some?",
             "callText": "fishBoyMoney"
           },
           {
@@ -829,7 +832,7 @@
           0.85,
           0
         ],
-        "text": "I don't know Miss...\nI can't seem to collect enough\ncoins these days."
+        "text": "I don't know Miss...\nI can't seem to collect enough\ncoins."
       },
       {
         "text": "Feels like the game\nis rigged against me.",
@@ -957,7 +960,10 @@
           0.8,
           0
         ],
-        "text": "Oh, it's you again.\nGot my money boy?"
+        "text": "Oh, it's you again."
+      },
+      {
+        "text": "Got my money boy?"
       },
       {
         "char": "charRoot",
@@ -969,13 +975,58 @@
         "choice": [
           {
             "text": "Sorry Mister Billy...\nI'll have it tomorrow. I promise!",
-            "callBack": "endCall"
+            "callText": "moneyTommorow"
           },
           {
             "text": "I have some Fish Sticks you can have?",
-            "callBack": "endCall"
+            "callText": "givefishSticks"
           }
         ]
+      }
+    ]
+  },
+  {
+    "name": "moneyTommorow",
+    "data": [
+      {
+        "char": "rootLandlord",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "That won't do Pirate",
+        "callText": "gunready"
+      }
+    ]
+  },
+  {
+    "name": "givefishSticks",
+    "data": [
+      {
+        "char": "rootLandlord",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "Why do you think I want those?",
+        "callText": "gunready"
+      }
+    ]
+  },
+  {
+    "name": "gunready",
+    "data": [
+      {
+        "char": "rootLandlord",
+        "pos": [
+          0.01,
+          0.8,
+          0
+        ],
+        "text": "Plenty of fish in the sea that can replace you. You wont get missed!",
+        "callBack": "endCall"
       }
     ]
   },

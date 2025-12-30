@@ -34,13 +34,10 @@ export class SeaLevel extends PlatformLevel {
         LoadHandler.startLoading()
         LoadHandler.startLoading()
         LoadHandler.startLoading()
-        LoadHandler.startLoading()
-        LoadHandler.startLoading()
-        LoadHandler.startLoading()
         SceneHandler.setScene("51c74f13-320e-4899").then(() => {
 
 
-            SceneHandler.addScene("edb3050b-b132-4957").then(() => {
+            SceneHandler.addScene("edb3050b-b132-4958").then(() => {
                 LoadHandler.stopLoading()
             });
 
@@ -48,16 +45,16 @@ export class SeaLevel extends PlatformLevel {
                 LoadHandler.stopLoading()
             });
 
-            SceneHandler.addScene("9f307f29-4140-48d6").then(() => {
-                LoadHandler.stopLoading()
-            });
-            SceneHandler.addScene("58745956-acac-4aba").then(() => {
-                LoadHandler.stopLoading()
-            });
-            SceneHandler.addScene("c7dc8752-9088-476b").then(() => {
-                LoadHandler.stopLoading()
-            });
-
+            /*  SceneHandler.addScene("9f307f29-4140-48d6").then(() => {
+                  LoadHandler.stopLoading()
+              });
+               SceneHandler.addScene("58745956-acac-4aba").then(() => {
+                    LoadHandler.stopLoading()
+                });
+                SceneHandler.addScene("c7dc8752-9088-476b").then(() => {
+                    LoadHandler.stopLoading()
+                });
+    */
             SceneHandler.addScene("0c10748d-698e-4393").then(() => {
                 LoadHandler.stopLoading()
             });
@@ -98,34 +95,39 @@ export class SeaLevel extends PlatformLevel {
         this.rootShip.addChild(char)
 
 
-        let tree = sceneHandler.getSceneObject("rootTree")
-        tree.setScaler(1.5)
-        tree.z = 0
-        tree.x = 1.5
-        tree.y = 0.3
-        tree.ry = Math.PI;
-        tree.rz = 0.02;
-        this.rootShip.addChild(tree)
+        /* let tree = sceneHandler.getSceneObject("rootTree")
+         tree.setScaler(1.5)
+         tree.z = 0
+         tree.x = 1.5
+         tree.y = 0.3
+         tree.ry = Math.PI;
+         tree.rz = 0.02;
+         this.rootShip.addChild(tree)
+ 
+ 
+         let cookie = sceneHandler.getSceneObject("cookieRoot")
+         cookie.setScaler(1.3)
+         cookie.z = 0
+         cookie.x = 0
+         cookie.y = 0.3
+         cookie.ry = Math.PI;
+         this.rootShip.addChild(cookie)
+ 
+ 
+         let strawberyy = sceneHandler.getSceneObject("strawberryRoot")
+         strawberyy.setScaler(1.2)
+         strawberyy.z = 0.1
+         strawberyy.x = 0.7
+         strawberyy.y = 0.7
+         strawberyy.ry = Math.PI;
+         this.rootShip.addChild(strawberyy)
+ */
+        SceneHandler.getSceneObject("fishTrow").hide();
 
-
-        let cookie = sceneHandler.getSceneObject("cookieRoot")
-        cookie.setScaler(1.3)
-        cookie.z = 0
-        cookie.x = 0
-        cookie.y = 0.3
-        cookie.ry = Math.PI;
-        this.rootShip.addChild(cookie)
-
-
-        let strawberyy = sceneHandler.getSceneObject("strawberryRoot")
-        strawberyy.setScaler(1.2)
-        strawberyy.z = 0.1
-        strawberyy.x = 0.7
-        strawberyy.y = 0.7
-        strawberyy.ry = Math.PI;
-        this.rootShip.addChild(strawberyy)
-
-
+        SceneHandler.getSceneObject("fish1").hide();
+        SceneHandler.getSceneObject("fish2").hide();
+        SceneHandler.getSceneObject("fish3").hide();
+        SceneHandler.getSceneObject("fish4").hide();
 
         this.god = sceneHandler.getSceneObject("godRoot")
 
@@ -163,9 +165,12 @@ export class SeaLevel extends PlatformLevel {
         this.isConversation = true
 
         this.tl = gsap.timeline()
-        this.tl.to(this.rootShip, { x: 0, duration: 10 }, 0)
-        this.tl.to(this.camPosition, { x: 2.4, y: 1, z: 1.5, ease: "power2.inOut", duration: 5 }, 9)
-        this.tl.to(this.camLookAt, { x: 2.4, y: 1, z: 0, ease: "power2.inOut", duration: 5 }, 9)
+
+        this.tl.to(this.rootShip, { x: 0.2, duration: 10 }, 0)
+        this.tl.to(this.camPosition, { z: 3, ease: "power2.inOut", duration: 9 }, 0)
+        let end = 15
+        this.tl.to(this.camPosition, { x: 2.4, y: 1, z: 1.5, ease: "power2.inOut", duration: 5 }, end)
+        this.tl.to(this.camLookAt, { x: 2.4, y: 1, z: 0, ease: "power2.inOut", duration: 5 }, end)
         this.tl.call(() => {
             this.godController.showEnd(() => {
                 GameModel.conversationHandler.startConversation("godEnd")
@@ -176,7 +181,7 @@ export class SeaLevel extends PlatformLevel {
 
 
             })
-        }, [], 15)
+        }, [], end + 5)
     }
 
     conversationDataCallBack(data: string) {
