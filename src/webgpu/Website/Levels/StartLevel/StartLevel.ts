@@ -178,6 +178,8 @@ export class StartLevel extends BaseLevel {
             GameModel.renderer.setCursor(true)
             // this.game.show()
             //this.gameLine.show()
+
+
             gsap.to(this, { charTime: 30, duration: 0.5, ease: "power3.out" })
 
         }

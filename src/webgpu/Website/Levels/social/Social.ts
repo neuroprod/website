@@ -86,6 +86,8 @@ export default class Social extends NavigationLevel {
                     ease: "elastic.out",
                     duration: 0.5
                 })
+
+                SoundHandler.playMoan(Math.round(Math.random() * 100))
                 // SoundHandler.playFart()
             }
             link.onRollOut = () => {

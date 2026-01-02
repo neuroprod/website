@@ -39,6 +39,7 @@ class SoundHandler {
     kick!: Howl;
     bush!: Howl;
     eyeHit!: Howl;
+    moan!: Howl;
 
     init() {
 
@@ -104,7 +105,19 @@ class SoundHandler {
 
             }
         });
+        this.moan = new Howl({
+            src: ['sound/384214__vidrik__woman-moaning.mp3'],
+            sprite: {
+                s0: [0, 2000],
+                s1: [2000, 1000],
+                s2: [3000, 2000],
+                s3: [5000, 1000],
+                s4: [6000, 1500],
+                s5: [7500, 1500],
+                s6: [9000, 1900],
 
+            }
+        });
         this.coin = new Howl({
             src: ['sound/coins.mp3'],
             sprite: {
@@ -232,6 +245,17 @@ class SoundHandler {
 
         this.clock.pos(count % 2 - 0.5, 0, -0.5);
         this.clock.play("s" + count % 6)
+
+    }
+    playMoan(count: number) {
+        if (!this.playSound) return
+
+
+        this.moan.stop()
+        this.moan.volume(this.fxVolume);
+
+
+        this.moan.play("s" + count % 7)
 
     }
     playEyeHit() {
