@@ -95,6 +95,7 @@ export class GodLevel extends PlatformLevel {
         this.charFaceHandler = new FaceHandler(charRoot)
         this.charFaceHandler.setState("default")
         this.godFaceHandler = new FaceHandler(this.god)
+        this.godFaceHandler.setState("godLook")
         this.treeFaceHandler = new FaceHandler(this.tree)
         charRoot.x = this.startPos - 2
         charRoot.y = 0.15

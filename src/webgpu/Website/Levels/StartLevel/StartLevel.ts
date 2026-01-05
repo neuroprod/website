@@ -29,12 +29,13 @@ export class StartLevel extends BaseLevel {
 
     private characterController!: CharacterController;
     private goGraphicDev: boolean = false;
-    charFaceHandler!: FaceHandler;
+
     game!: SceneObject3D
 
     gameLine!: SceneObject3D
     charAnimation!: Animation;
     charTime = 0
+    tl!: gsap.core.Timeline;
 
     init() {
         super.init();
@@ -67,10 +68,16 @@ export class StartLevel extends BaseLevel {
 
         this.characterController.updateIdle(Timer.delta)
 
-        this.charAnimation.setTime(this.charTime)
+        let animeTime = this.charTime * 20 + Math.sin(Timer.time * 8) * 10 * this.charTime
+
+        this.charAnimation.setTime(animeTime)
 
     }
-
+    getTimeline() {
+        if (this.tl) this.tl.clear()
+        this.tl = gsap.timeline()
+        return this.tl;
+    }
 
     private configScene() {
 
@@ -95,9 +102,11 @@ export class StartLevel extends BaseLevel {
         char.x = -2;
         char.y = 1;
 
+
+
+
         this.characterController.setCharacter()
-        //this.charFaceHandler = new FaceHandler(char)
-        // this.charFaceHandler.setState("front")
+
         this.camPos.set(0.15, 0.73, 1.9)
         this.camTarget.set(0.15, 0.73, 0)
         GameModel.gameCamera.setLockedView(this.camTarget.add([0, 0, 0]), this.camPos.clone().add([0, 0, 1]))
@@ -109,7 +118,7 @@ export class StartLevel extends BaseLevel {
         this.game.hide()
 
         this.gameLine = SceneHandler.getSceneObject("gameLine")
-
+        console.log(SceneHandler)
         this.charAnimation = SceneHandler.sceneAnimationsByName.get("startScene") as Animation;
 
         this.gameLine.hide()
@@ -138,6 +147,7 @@ export class StartLevel extends BaseLevel {
             GameModel.renderer.setCursor(true)
             gsap.killTweensOf(devText)
             devText.sx = devText.sy = 0.7
+
             gsap.to(devText, { sx: 1.2, sy: 1.2, duration: 0.8, ease: "elastic.out" })
             GameModel.gameRenderer.distortValue = 0.15
 
@@ -160,6 +170,10 @@ export class StartLevel extends BaseLevel {
         line.sx = 0;
         mainChar.onClick = () => {
             SoundHandler.playSound = true
+
+
+
+
             gsap.to(pirate, { sx: 0, sy: 0, sz: 0, duration: 0.2 })
             gsap.to(graphicsDev, { sx: 0, sy: 0, sz: 0, duration: 0.2 })
             this.characterController.gotoAndIdle(new Vector3(5, 0.1, 0), 1, () => {
@@ -174,18 +188,20 @@ export class StartLevel extends BaseLevel {
             // this.characterController.startWave()
             line.sx = 0.5;
             gsap.killTweensOf(line)
+            gsap.killTweensOf(this)
             gsap.to(line, { sx: 1, duration: 0.2, ease: "back.out" })
             GameModel.renderer.setCursor(true)
             // this.game.show()
             //this.gameLine.show()
 
 
-            gsap.to(this, { charTime: 30, duration: 0.5, ease: "power3.out" })
+            gsap.to(this, { charTime: 1, duration: 0.5, ease: "power3.out" })
 
         }
         mainChar.onRollOut = () => {
             // this.characterController.stopWave()
             gsap.killTweensOf(line)
+            gsap.killTweensOf(this)
             gsap.to(line, { sx: 0.5, duration: 0.1, ease: "back.in", onComplete: () => { line.sx = 0 } })
             GameModel.renderer.setCursor(false)
             // this.game.hide()
@@ -229,9 +245,7 @@ export class StartLevel extends BaseLevel {
         })
         GameModel.tweenToNonBlack()
     }
-    onUI(): void {
-        this.charFaceHandler?.onUI()
-    }
+
     destroy() {
         super.destroy();
     }

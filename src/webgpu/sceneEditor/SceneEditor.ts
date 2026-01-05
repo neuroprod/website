@@ -460,11 +460,12 @@ class SceneEditor {
     }
 
     private setScene(id: string) {
+        console.log("setscene")
         LoadHandler.startLoading()
         AppState.setState(AppStates.EDIT_SCENE, id)
         let state = AppState.getState(AppStates.MAIN_STATE);
 
-        SceneHandler.saveCurrentScene()
+        //   SceneHandler.saveCurrentScene()
 
         this.gameRenderer.clearAllModels()
 

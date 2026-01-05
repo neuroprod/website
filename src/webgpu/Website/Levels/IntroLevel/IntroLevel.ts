@@ -11,6 +11,7 @@ import { Vector3 } from "@math.gl/core";
 import gsap from "gsap";
 import LevelHandler from "../LevelHandler.ts";
 import SoundHandler from "../../SoundHandler.ts";
+import FaceHandler from "../../handlers/FaceHandler.ts";
 
 export class IntroLevel extends PlatformLevel {
     private landlord!: SceneObject3D;
@@ -19,6 +20,7 @@ export class IntroLevel extends PlatformLevel {
     private startPos = -9
     private landlordHand!: SceneObject3D;
     tl!: gsap.core.Timeline;
+    charFaceHandler!: FaceHandler;
 
 
     init() {
@@ -73,7 +75,8 @@ export class IntroLevel extends PlatformLevel {
         charRoot.setScaler(1.2)
         this.characterController.setCharacter()
 
-
+        this.charFaceHandler = new FaceHandler(charRoot)
+        this.charFaceHandler.setState("default")
 
         this.characterController.gotoAndIdle(new Vector3(- 0.5, 0.1, 0), 1, () => {
 
@@ -89,7 +92,9 @@ export class IntroLevel extends PlatformLevel {
         GameModel.gameRenderer.setRenderSetting({ dofMin: 0.83, dofSize: 5 })
 
     }
-
+    onUI(): void {
+        this.charFaceHandler?.onUI()
+    }
     update() {
         super.update();
 
@@ -109,7 +114,7 @@ export class IntroLevel extends PlatformLevel {
         tl.to(this.landlord, { y: 0, x: -1.5, ry: -0.1, duration: 1, ease: "back.out" }, 0)
         // tl.to(this.landlordHand, { rz: -0.7, x: 0.05, y: 0.12 }, 1)
         // GameModel.gameCamera.TweenToLockedView()
-
+        tl.call(() => { this.charFaceHandler.setState("lookIntro") }, [], 1.7)
 
         this.characterController.setAngle(-Math.PI - 0.3, 0.7, 1.7)
         let count = 0;
