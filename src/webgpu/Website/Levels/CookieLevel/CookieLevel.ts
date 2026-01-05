@@ -77,7 +77,7 @@ export class CookieLevel extends PlatformLevel {
         this.rootSausage.setScaler(1.4)
 
         this.rootSausage.z = -0.1
-        this.rootSausage.x = 7
+        this.rootSausage.x = 7.5
         this.rootSausage.ry = -0.2
 
         this.charFaceHandler = new FaceHandler(char)
