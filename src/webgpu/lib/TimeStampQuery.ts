@@ -111,7 +111,8 @@ export default class TimeStampQuery {
 
     getData() {
         if (!this.useTimeStampQuery) return;
-        if (this.done) {
+        if (this.done && this.querySet) {
+    
             this.renderer.commandEncoder.resolveQuerySet(this.querySet, 0, this.capacity, this.resolveBuffer, 0);
 
             // Read GPUBuffer memory.
@@ -127,7 +128,7 @@ export default class TimeStampQuery {
 
         for (let t of this.timeStamps) {
 
-            t.time = Number(times[t.index + 1] - times[t.index]) / 1000000;
+            t.time = Number(times[t.index + 1] - times[t.index]);
 
         }
 

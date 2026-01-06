@@ -254,6 +254,7 @@ export class FactoryLevel extends PlatformLevel {
         this.drinkAnimation.setTime(this.drinkTime)
     }
     onUI() {
+        if(this.charFaceHandler)
         this.charFaceHandler.onUI()
     }
     destroy() {

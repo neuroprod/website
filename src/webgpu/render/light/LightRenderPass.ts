@@ -20,7 +20,7 @@ export default class LightRenderPass extends RenderPass {
     private blit: Blit;
 
     constructor(renderer: Renderer, camera: Camera, dirLight: DirectionalLight) {
-        super(renderer, "lightRenderPass");
+        super(renderer, "lightRenderPass",true);
         this.colorTarget = new RenderTexture(renderer, Textures.LIGHT, {
             format: TextureFormat.RGBA16Float,
             sampleCount: this.sampleCount,

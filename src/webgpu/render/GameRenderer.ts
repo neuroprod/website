@@ -33,6 +33,7 @@ import ColorV from "../lib/ColorV.ts";
 import DofPrepPass from "./dof/DofPrepPass.ts";
 import DofHorPass from "./dof/DofHorPass.ts";
 import DofVertPass from "./dof/DofVertPass.ts";
+import FxaaRenderPass from "./fxaa/FxaaRenderPass.ts";
 
 
 
@@ -128,6 +129,7 @@ export const RenderOptionsNeutral: RenderOptions = {
 
 
 export default class GameRenderer {
+    fxaaPass: FxaaRenderPass;
 
 
     onUI() {
@@ -304,6 +306,8 @@ export default class GameRenderer {
         this.dofPrepPass = new DofPrepPass(renderer)
         this.dofHorPass = new DofHorPass(renderer)
         this.dofVertPass = new DofVertPass(renderer)
+
+        this.fxaaPass = new FxaaRenderPass(renderer)
         this.gradingPass = new GradingRenderPass(renderer)
 
         this.postLightModelRenderer = new ModelRenderer(this.renderer, "postLight", camera)
@@ -549,7 +553,7 @@ export default class GameRenderer {
             this.inGameFXPass.add()
         }
 
-
+this.fxaaPass.add();
         this.gradingPass.add()
 
         if (this.postLightPass.modelRenderer.models.length) {

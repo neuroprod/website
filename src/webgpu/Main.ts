@@ -191,7 +191,7 @@ export default class Main {
 
 
 
-
+this.renderer.timeStamps.init();
 
         this.tick();
 
@@ -271,8 +271,10 @@ export default class Main {
                 }
                 this.game.setGUI()
                 UI.pushWindow("rendering")
+            
                 this.gameRenderer.onUI()
                 UI.popWindow()
+                    this.renderer.performanceUI()
             }
             // popMainMenu()
         } else {

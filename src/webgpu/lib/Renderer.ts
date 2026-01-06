@@ -13,7 +13,7 @@ import { TextureFormat } from "./WebGPUConstants.ts";
 
 export default class Renderer {
 
-    useTimeStampQuery: boolean = false;
+    useTimeStampQuery: boolean = true;
 
 
     static instance: Renderer;
@@ -74,10 +74,10 @@ export default class Renderer {
             }
             //  console.log(requiredFeatures)
             const hdrMediaQuery = window.matchMedia('(dynamic-range: high)');
-            if (hdrMediaQuery.matches) {
-                //console.log("hdr windown")
+            console.log("Display supports HDR:", hdrMediaQuery.matches);
+            const supportsDisplayP3 = window.matchMedia("(color-gamut: p3)").matches;
+            console.log("Display supports P3 gamut:", supportsDisplayP3);
 
-            }
 
             this.device = await adapter.requestDevice({ requiredFeatures: requiredFeatures });
 
@@ -126,7 +126,7 @@ export default class Renderer {
         this.timeStamps.getData();
         this.device.queue.submit([this.commandEncoder.finish()]);
 
-
+  
         this.timeStamps.readback()
 
 

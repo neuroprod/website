@@ -27,6 +27,7 @@ export const Textures = {
     BLUE_NOISE: "blueNoise.png",
     DRAWING_BACKGROUND: "drawBackground.png",
     GRADING: "grading",
+    FXAA: "fxaa",
     INGAMEFX: "ingameFX",
     MASK: "mask",
     TEXT_INVASION: "TextInvasion.png",

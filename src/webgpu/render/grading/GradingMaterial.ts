@@ -35,7 +35,7 @@ export default class GradingMaterial extends Material {
         uniforms.addTexture("grainTexture", this.renderer.getTexture(Textures.GRAIN), { sampleType: TextureSampleType.UnfilterableFloat })
 
 
-        uniforms.addTexture("colorTexture", this.renderer.getTexture(Textures.LIGHT), { sampleType: TextureSampleType.UnfilterableFloat })
+        uniforms.addTexture("colorTexture", this.renderer.getTexture(Textures.FXAA), { sampleType: TextureSampleType.UnfilterableFloat })
         this.depthWrite = false;
         this.depthCompare = "always"
         //this.logShader =true;

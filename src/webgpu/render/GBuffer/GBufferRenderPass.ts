@@ -24,7 +24,7 @@ export default class GBufferRenderPass extends RenderPass {
 
     constructor(renderer: Renderer, camera: Camera) {
 
-        super(renderer, "GbufferRenderPass");
+        super(renderer, "GbufferRenderPass",true);
 
         this.modelRenderer = new ModelRenderer(renderer, "modelRenderer", camera)
 
