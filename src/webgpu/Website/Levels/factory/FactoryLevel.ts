@@ -15,6 +15,7 @@ import LevelHandler from "../LevelHandler.ts";
 import Timer from "../../../lib/Timer.ts";
 import SoundHandler from "../../SoundHandler.ts";
 import Animation from "../../../sceneEditor/timeline/animation/Animation.ts";
+import FaceHandler from "../../handlers/FaceHandler.ts";
 
 export class FactoryLevel extends PlatformLevel {
     private startPos: number = -3;
@@ -34,6 +35,7 @@ export class FactoryLevel extends PlatformLevel {
     takeFishsticks: boolean = false;
     handPullAnimation!: Animation;
     drinkAnimation!: Animation;
+    charFaceHandler!: FaceHandler;
     init() {
         super.init();
         this.characterController = new CharacterController(GameModel.renderer)
@@ -83,7 +85,8 @@ export class FactoryLevel extends PlatformLevel {
         this.isConversation = true
         this.characterController.gotoAndIdle(new Vector3(this.startPos + 0.5, 0, 0), 1, () => { this.isConversation = false })
 
-
+        this.charFaceHandler = new FaceHandler(charRoot)
+        this.charFaceHandler.setState("default")
 
         GameModel.gameCamera.setMinMaxX(this.startPos, this.startPos + 200)
 
@@ -197,6 +200,7 @@ export class FactoryLevel extends PlatformLevel {
                 this.isConversation = true
                 this.characterController.gotoAndIdle(new Vector3(this.fishRoot.x - 0.7, 0, 0), 1, () => {
                     let target = new Vector3(this.fishRoot.x + 0.12, 0.6, 0)
+                    this.charFaceHandler.setState("lookFish")
                     GameModel.gameCamera.TweenToLockedView(target, target.clone().add([1, 0.1, 1.1]))
                     this.characterController.setAngle(1)
                     gsap.delayedCall(0.5, () => {
@@ -249,7 +253,9 @@ export class FactoryLevel extends PlatformLevel {
 
         this.drinkAnimation.setTime(this.drinkTime)
     }
-
+    onUI() {
+        this.charFaceHandler.onUI()
+    }
     destroy() {
         super.destroy();
         this.boxes = []
