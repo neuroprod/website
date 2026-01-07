@@ -14,15 +14,15 @@ export default class FxaaMaterial extends Material {
         let uniforms = new UniformGroup(this.renderer, "uniforms");
         this.addUniformGroup(uniforms, true);
 
-  
-        uniforms.addTexture("screenTexture", this.renderer.getTexture(Textures.LIGHT), {
+
+        uniforms.addTexture("screenTexture", this.renderer.getTexture(Textures.GRADING), {
             sampleType: TextureSampleType.Float,
         });
         uniforms.addSampler("samp");
 
         this.depthWrite = false;
         this.depthCompare = "always";
-        this.logShader=true
+        this.logShader = true
     }
 
     getShader(): string {

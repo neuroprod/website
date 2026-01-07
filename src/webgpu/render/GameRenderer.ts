@@ -307,9 +307,9 @@ export default class GameRenderer {
         this.dofHorPass = new DofHorPass(renderer)
         this.dofVertPass = new DofVertPass(renderer)
 
-        this.fxaaPass = new FxaaRenderPass(renderer)
-        this.gradingPass = new GradingRenderPass(renderer)
 
+        this.gradingPass = new GradingRenderPass(renderer)
+        this.fxaaPass = new FxaaRenderPass(renderer)
         this.postLightModelRenderer = new ModelRenderer(this.renderer, "postLight", camera)
         this.postLightPass = new PostLightRenderPass(renderer, camera, this.sunLight, this.postLightModelRenderer)
 
@@ -320,7 +320,9 @@ export default class GameRenderer {
 
 
         // this.passSelect.push(new SelectItem(Textures.DOF_PREP, { texture: Textures.DOF_PREP, type: 0 }));
+        this.passSelect.push(new SelectItem(Textures.FXAA, { texture: Textures.FXAA, type: 0 }));
         this.passSelect.push(new SelectItem(Textures.GRADING, { texture: Textures.GRADING, type: 0 }));
+
         this.passSelect.push(new SelectItem(Textures.ASCII, { texture: Textures.ASCII, type: 0 }));
         if (this.renderer.hasFloat32Filterable) {
             this.passSelect.push(new SelectItem(Textures.GTAO, { texture: Textures.GTAO, type: 1 }));
@@ -553,14 +555,14 @@ export default class GameRenderer {
             this.inGameFXPass.add()
         }
 
-this.fxaaPass.add();
+
         this.gradingPass.add()
 
         if (this.postLightPass.modelRenderer.models.length) {
             this.postLightPass.modelRenderer.sortZ()
             this.postLightPass.add()
         }
-
+        this.fxaaPass.add();
     }
 
     //put in canvas
