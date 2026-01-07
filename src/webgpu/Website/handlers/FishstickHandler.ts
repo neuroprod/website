@@ -30,6 +30,17 @@ export default class FishstickHandler {
 
 
     }
+    removeFishstick(value: number) {
+        let temp = this.numFishsticks;
+        this.numFishsticks -= value
+
+        GameModel.UI2D.setFishsticks(this.numFishsticks)
+        SoundHandler.playCoin()
+
+
+
+
+    }
     reset() {
         this.numFishsticks = 0
         GameModel.UI2D.setFishsticks(this.numFishsticks)

@@ -16,6 +16,7 @@ export default class FightUI {
 
 
 
+
     root = new Object2D()
     private renderer: Renderer;
     backPanel: Sprite;
@@ -62,6 +63,10 @@ export default class FightUI {
     destroy() {
 
 
+    }
+    hidePanels() {
+        this.infoPanel.hide()
+        this.fightPannel.hide()
     }
     setInfoPanel(text: string) {
         this.infoPanel.show()

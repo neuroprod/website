@@ -57,6 +57,7 @@ export class FightLevel extends BaseLevel {
     bullet!: SceneObject3D;
     landlordArm!: SceneObject3D;
     splash!: SceneObject3D;
+    firstShot: boolean = true;
     init() {
         super.init();
         LoadHandler.onComplete = this.configScene.bind(this)
@@ -90,7 +91,7 @@ export class FightLevel extends BaseLevel {
 
         LoadHandler.onComplete = () => { }
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
-
+        GameModel.coinHandler.show()
         sceneHandler.getSceneObject("patch").hide()
         let char = sceneHandler.getSceneObject("charRoot")
         char.x = 0.6;
@@ -140,10 +141,15 @@ export class FightLevel extends BaseLevel {
         this.fishTrow.hide()
 
         this.billyDeadAnimation = SceneHandler.sceneAnimationsByName.get("billyDead") as Animation;
+        this.firstShot = true
         this.setFirstShot()
     }
 
     onUI(): void {
+
+        UI.LText(GameModel.fishstickHandler.numFishsticks + "", "num fishsticks")
+        if (UI.LButton("addFishstick")) GameModel.fishstickHandler.addFishstick(1)
+
         if (UI.LBool("moveBilly", false)) {
             UI.LFloat(this.landlord, "y", "y")
             UI.LFloat(this.landlord, "x", "x")
@@ -284,8 +290,15 @@ export class FightLevel extends BaseLevel {
         time += 1
 
         tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FShot")) }, [], time)
-        tl.call(() => { this.setNextCall(this.setFightPanel.bind(this)) }, [], time)
+        tl.call(() => { this.setNextCall(this.fightBackText.bind(this)) }, [], time)
 
+
+    }
+    fightBackText() {
+        let tl = this.getTimeline()
+
+        tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FFightBack")) }, [], 0)
+        tl.call(() => { this.setNextCall(this.setFightPanel.bind(this)) }, [], 0)
 
     }
     doLandlordFight() {
@@ -357,8 +370,13 @@ export class FightLevel extends BaseLevel {
 
     }
     doPirateFight() {
-        if (Math.random() > 0.3) {
+
+
+
+        GameModel.fishstickHandler.removeFishstick(1)
+        if (Math.random() > 0.3 || this.firstShot) {
             this.doPirateFightSucces()
+            this.firstShot = false;
         } else {
             this.doPirateFightFail()
         }
@@ -366,7 +384,7 @@ export class FightLevel extends BaseLevel {
     doPirateFightSucces() {
 
         this.state = FSTATE.PAUZE
-
+        this.fightUI.hidePanels()
         let target = Math.max(this.landlordLife - 0.34, 0);
         this.pirateFrame = 0
         this.landlordFrame = 0
@@ -414,8 +432,8 @@ export class FightLevel extends BaseLevel {
         } else {
 
 
-            tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FFightSucces")) }, [], 0)
-            tl.call(() => { this.setNextCall(this.doLandlordFight.bind(this)) }, [], 2)
+            tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FFightSucces")) }, [], 4)
+            tl.call(() => { this.setNextCall(this.doLandlordFight.bind(this)) }, [], 5)
 
 
 
@@ -437,6 +455,7 @@ export class FightLevel extends BaseLevel {
 
     }
     doPirateHeal() {
+        GameModel.fishstickHandler.removeFishstick(1)
         if (Math.random() > 0.2 || this.pirateLife < 0.3) {
             this.doPirateHealSucces()
         } else {
