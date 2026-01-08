@@ -358,7 +358,9 @@ export default class CharacterController {
                 this.charBody.sy = 1 - smoothstep(1, 9, vEf) * 0.4;
                 this.cloudParticles.addParticlesHitFloor(this.targetPos)
             }
-            SoundHandler.playHitFloor(Math.abs(this.velocity.y))
+            let vol = Math.max(0, Math.min(1, Math.abs(this.velocity.y) * 0.15 - 0.5));
+
+            SoundHandler.playHitFloor(vol)
 
         }
         this.isGrounded = value;

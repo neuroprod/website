@@ -74,12 +74,12 @@ export class DockLevel extends PlatformLevel {
         this.rootShip.x = 1
         this.rootShip.z = -0.7
         let char = sceneHandler.getSceneObject("charRoot")
-        char.x = -4;
-        char.y = 1;
+        char.x = -5;
+        char.y = 0.1;
         char.setScaler(1.2)
-
-        this.charFaceHandler = new FaceHandler(char)
-        this.charFaceHandler.setState("default")
+        this.isConversation = true
+        //this.charFaceHandler = new FaceHandler(char)
+        // this.charFaceHandler.setState("default")
 
 
         this.landlord = sceneHandler.getSceneObject("rootLandlord")
@@ -106,10 +106,10 @@ export class DockLevel extends PlatformLevel {
 
 
 
+        this.characterController.gotoAndIdle(new Vector3(-3.5, 0, 0), 1, () => { this.isConversation = false })
 
-
-
-        GameModel.gameCamera.setMinMaxX(-3, 100)
+        GameModel.gameCamera.setForCharPos(new Vector3(-3.5, 0, 0))
+        GameModel.gameCamera.setMinMaxX(-3.5, 100)
 
 
 
@@ -121,7 +121,7 @@ export class DockLevel extends PlatformLevel {
     resolveHitTrigger(f: SceneObject3D) {
         if (!super.resolveHitTrigger(f)) {
 
-
+            console.log("hit")
 
             if (f.hitTriggerItem == HitTrigger.DOCK) {
 
@@ -179,7 +179,7 @@ export class DockLevel extends PlatformLevel {
         this.rootShip.y = Math.sin(Timer.time * 0.5) * 0.03
         this.rootShip.rz = Math.sin(Timer.time * 0.33) * 0.02 + Math.PI
 
-        let seaSoundTransition = (GameModel.gameCamera.cameraWorld.x + 3) / 7;
+        let seaSoundTransition = (GameModel.gameCamera.cameraWorld.x + 3.5) / 7;
         SoundHandler.setSeaSoundTranstion(seaSoundTransition)
     }
 

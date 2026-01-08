@@ -325,7 +325,7 @@ class SoundHandler {
         if (!this.playSound) return
         let s = Math.floor(Math.random() * 1000) % 9;
 
-        this.hitFloor.volume(this.fxVolume);
+        this.hitFloor.volume(this.fxVolume * strength);
         this.hitFloor.play("s" + s)
 
     }

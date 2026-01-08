@@ -19,7 +19,7 @@ import Animation from "../../../sceneEditor/timeline/animation/Animation.ts";
 
 export class GirlLevel extends PlatformLevel {
     private tl!: gsap.core.Timeline;
-    private startPos: number = -10;
+    private startPos: number = -5;
     girl!: SceneObject3D;
     charFaceHandler!: FaceHandler;
     girlLegL!: SceneObject3D;
@@ -62,12 +62,13 @@ export class GirlLevel extends PlatformLevel {
         this.isConversation = true
 
         let charRoot = SceneHandler.getSceneObject("charRoot");
-        charRoot.x = this.startPos
+        charRoot.x = this.startPos - 2
         charRoot.y = 0.0
         charRoot.setScaler(1.2)
         this.characterController.setCharacter()
-        this.isConversation = true
-        this.characterController.gotoAndIdle(new Vector3(this.startPos + 0.5, 0, 0), 1, () => { this.isConversation = false })
+
+
+
 
         this.girl = SceneHandler.getSceneObject("rootFairy");
 
@@ -79,10 +80,7 @@ export class GirlLevel extends PlatformLevel {
         this.girl.y = 2.2
         this.girl.ry = -0.3
         this.girl.setScaler(1.2)
-        GameModel.gameCamera.setMinMaxX(this.startPos, this.girl.x + 2 + 5)
 
-
-        GameModel.gameCamera.setForCharPos(new Vector3(this.startPos, 0, 0))
 
         this.charFaceHandler = new FaceHandler(charRoot)
         this.charFaceHandler.setState("default")
@@ -92,6 +90,19 @@ export class GirlLevel extends PlatformLevel {
 
         this.girlFrame = 10
         this.girlPhoneAnimation.setTime(this.girlFrame)
+
+
+        this.isConversation = true
+
+
+
+
+
+        this.characterController.gotoAndIdle(new Vector3(this.startPos, 0, 0), 1, () => { this.isConversation = false })
+        GameModel.gameCamera.setMinMaxX(this.startPos, this.girl.x + 2 + 5)
+
+
+        GameModel.gameCamera.setForCharPos(new Vector3(this.startPos, 0, 0))
     }
     onUI(): void {
         this.charFaceHandler?.onUI()
