@@ -119,6 +119,9 @@ export default class Main {
         new TextureLoader(this.renderer, Textures.STICK_ICON);
         new TextureLoader(this.renderer, Textures.TRIANGLE)
         new TextureLoader(this.renderer, Textures.GRAIN)
+        new TextureLoader(this.renderer, Textures.FIGHTUIBACK)
+
+
         let tl = new HDRTextureLoader()
         tl.loadURL(this.renderer, "specular.hdr").then()
 
@@ -191,7 +194,7 @@ export default class Main {
 
 
 
-this.renderer.timeStamps.init();
+        this.renderer.timeStamps.init();
 
         this.tick();
 
@@ -271,10 +274,10 @@ this.renderer.timeStamps.init();
                 }
                 this.game.setGUI()
                 UI.pushWindow("rendering")
-            
+
                 this.gameRenderer.onUI()
                 UI.popWindow()
-                    this.renderer.performanceUI()
+                this.renderer.performanceUI()
             }
             // popMainMenu()
         } else {

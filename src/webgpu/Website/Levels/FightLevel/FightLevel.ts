@@ -58,6 +58,8 @@ export class FightLevel extends BaseLevel {
     landlordArm!: SceneObject3D;
     splash!: SceneObject3D;
     firstShot: boolean = true;
+    charHealAnimation!: Animation;
+    fishTicks: Array<SceneObject3D> = [];
     init() {
         super.init();
         LoadHandler.onComplete = this.configScene.bind(this)
@@ -88,8 +90,22 @@ export class FightLevel extends BaseLevel {
     }
     configScene() {
 
-        console.log(sceneHandler.sceneAnimations)
+
         LoadHandler.onComplete = () => { }
+
+
+        this.fishTicks = []
+        this.fishTicks.push(sceneHandler.getSceneObject("fish1"))
+        this.fishTicks.push(SceneHandler.getSceneObject("fish2"))
+        this.fishTicks.push(SceneHandler.getSceneObject("fish3"))
+        this.fishTicks.push(SceneHandler.getSceneObject("fish4"))
+        this.fishTicks.reverse()
+
+
+
+
+
+
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         GameModel.coinHandler.show()
         sceneHandler.getSceneObject("patch").hide()
@@ -134,6 +150,9 @@ export class FightLevel extends BaseLevel {
         this.charGotHitAnimation = SceneHandler.sceneAnimationsByName.get("charGotHit2") as Animation;
         this.fishTrowAnimation = SceneHandler.sceneAnimationsByName.get("fishTrow4") as Animation;
         this.hitLandAnimation = SceneHandler.sceneAnimationsByName.get("hitLand") as Animation;
+
+        this.charHealAnimation = SceneHandler.sceneAnimationsByName.get("fishEat") as Animation;
+
 
         this.landlordArm = sceneHandler.getSceneObject("LandlordArmGun")
         this.landlordArm.rz = 0.21
@@ -190,6 +209,19 @@ export class FightLevel extends BaseLevel {
 
         return this.tl;
     }
+    setFishsticks() {
+        let n = GameModel.fishstickHandler.numFishsticks
+        for (let i = 0; i < this.fishTicks.length; i++) {
+            if (i <= n - 1) {
+                this.fishTicks[i].show()
+            }
+            else {
+                this.fishTicks[i].hide()
+            }
+        }
+
+    }
+
     setFightPanel() {
         this.state = FSTATE.FIGHT_SELECT
         this.fightSelectIndex = 0;
@@ -373,7 +405,7 @@ export class FightLevel extends BaseLevel {
 
 
 
-        GameModel.fishstickHandler.removeFishstick(1)
+
         if (Math.random() > 0.3 || this.firstShot) {
             this.doPirateFightSucces()
             this.firstShot = false;
@@ -403,7 +435,13 @@ export class FightLevel extends BaseLevel {
         })
 
         tl.to(this, { pirateFrame: 8, duration: 0.5, ease: "power3.out" }, 1)
-        tl.call(() => { this.fishTrow.show() }, [], 1.3)
+        tl.call(() => {
+            this.fishTrow.show()
+            GameModel.fishstickHandler.removeFishstick(1)
+            this.setFishsticks()
+
+
+        }, [], 1.3)
         tl.to(this, { pirateFrame: 19, duration: 0.5, ease: "power2.in" }, 2.5)
         tl.call(() => { SoundHandler.playKick() }, [], 2.9)
         if (target != 0) {
@@ -455,17 +493,64 @@ export class FightLevel extends BaseLevel {
 
     }
     doPirateHeal() {
-        GameModel.fishstickHandler.removeFishstick(1)
-        if (Math.random() > 0.2 || this.pirateLife < 0.3) {
-            this.doPirateHealSucces()
-        } else {
-            this.doPirateHealFail()
-        }
+
+        this.state = FSTATE.PAUZE
+
+
+        this.pirateFrame = 0;
+
+        let animeTime = 0.8
+        let totaltime = 0
+
+        let tl = this.getTimeline(() => {
+
+            this.charHealAnimation.setTime(this.pirateFrame)
+        })
+
+
+        tl.to(this, { pirateFrame: 17, duration: animeTime })
+        totaltime += animeTime
+        tl.call(() => {
+            this.fishTrow.show()
+            GameModel.fishstickHandler.removeFishstick(1)
+            this.setFishsticks()
+
+        }, [], totaltime)
+
+        totaltime += 0.6
+        //eat
+        animeTime = 1.5
+        tl.to(this, { pirateFrame: 41, duration: animeTime }, totaltime)
+        totaltime += animeTime
+
+        tl.call(() => {
+            this.fishTrow.hide()
+
+
+        }, [], totaltime)
+
+
+        tl.to(this, { pirateFrame: 60, duration: 0.8 }, totaltime)
+        totaltime += animeTime + 0.4
+        tl.call(() => {
+            if (Math.random() > 0.2 || this.pirateLife < 0.3) {
+                this.doPirateHealSucces()
+            } else {
+                this.doPirateHealFail()
+            }
+
+        }, [], totaltime)
+
+
+
+
+
+
     }
     doPirateHealSucces() {
 
 
-        this.state = FSTATE.PAUZE
+
         let tl = this.getTimeline()
         tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FHealSucces")) }, [], 0)
         let target = Math.min(this.pirateLife + 0.6, 1);
@@ -478,7 +563,7 @@ export class FightLevel extends BaseLevel {
 
     }
     doPirateHealFail() {
-        this.state = FSTATE.PAUZE
+
         let tl = this.getTimeline()
         tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FHealFail")) }, [], 0)
         let target = Math.min(this.pirateLife - 0.2);
@@ -512,7 +597,7 @@ export class FightLevel extends BaseLevel {
         super.destroy()
 
         GameModel.gameCamera.camera.near = 0.3
-
+        this.fishTicks = []
 
         if (this.tl) this.tl.clear()
 

@@ -43,8 +43,8 @@ export const Textures = {
     SETTINGS_BTN: "iconSettings.png",
     COIN_ICON: "iconCoin.png",
     STICK_ICON: "iconStick.png",
-    TRIANGLE: "triangle.png"
-
+    TRIANGLE: "triangle.png",
+    FIGHTUIBACK: "FightUIBack.png"
 
 
 }

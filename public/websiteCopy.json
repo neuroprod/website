@@ -13,6 +13,7 @@
   "clients": " Nike  Adidas  PepsiCo  CocaCola  Redbull  Google  Microsoft  Netflix  Hulu  Amazon  Cisco  Unilever  Nestle  Accenture  ExxonMobil  Shell Sony Samsung",
   "ross1": "I PAYED 20 DOLLARS FOR THIS ROSS GELLER.\n                       SO, I HOPE YOU LIKE IT!",
   "contactCursor": "CONTACT ME!",
+  "worked": "I've worked with a lot of awesome,\ntalented people making games,\nwebsites, and installations for",
   "FIGHTGAME": "----------------------------------------",
   "FShot": "Owch, Mister Billy shot you right in the eye\nThat hurts a lot",
   "FFightBack": "Its time to fight back",
@@ -21,5 +22,7 @@
   "FFightSucces": "You hit Mister Billy right in the head\nHe's getting angrier",
   "FFightFail": "You missed  ",
   "FRun": "You can't run from this\nMister Billy shoots you for a final time",
-  "worked": "I've worked with a lot of awesome,\ntalented people making games,\nwebsites, and installations for"
+  "FFightText": "Try to hit Mr billy in the face with one of\nyour frozen Fish Sticks!",
+  "FHealText": "Eat a Fish Stick and hope it doesn't make\nyou sick!",
+  "FRunText": "Run for your life"
 }

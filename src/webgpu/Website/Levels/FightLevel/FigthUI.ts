@@ -12,6 +12,7 @@ import InfoPanel from "./InfoPanel.ts";
 import FightPanel from "./FightPanel.ts";
 import { Vector3 } from "@math.gl/core";
 import LifeBar from "./LifeBar.ts";
+import { Textures } from "../../../data/Textures.ts";
 export default class FightUI {
 
 
@@ -32,10 +33,10 @@ export default class FightUI {
 
         this.infoHolder = new Object2D()
         this.root.addChild(this.infoHolder)
-        this.backPanel = new Sprite(renderer, DefaultTextures.getBlack(renderer))
-        this.backPanel.sx = 700;
-        this.backPanel.sy = 150;
-        //  this.infoHolder.addChild(this.backPanel)
+        this.backPanel = new Sprite(renderer, renderer.getTexture(Textures.FIGHTUIBACK))
+        this.backPanel.sx = this.backPanel.sy = 0.6;
+
+        this.infoHolder.addChild(this.backPanel)
 
         this.infoPanel = new InfoPanel(renderer)
         this.infoHolder.addChild(this.infoPanel.root)

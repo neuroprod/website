@@ -31,21 +31,23 @@ export default class InfoPanel {
         let font = FontPool.getFont("bold") as Font;
 
 
-        this.text = new Text(renderer, font, 25, "_")
+        this.text = new Text(renderer, font, 37, "_")
         this.text.material = new AnimatedTextMaterial(renderer, "fontMat")
         this.text.material.setTexture("texture", font.texture)
         //this.text.material.setUniform("color", new ColorV(0, 0, 0, 1))
         this.text.x = 0
-        this.text.y = -5
+        this.text.y = -20
         this.text.visible = false
         this.root.addChild(this.text)
 
 
         this.nextTriangle = new Sprite(renderer, renderer.getTexture(Textures.TRIANGLE))
 
-        this.nextTriangle.x = 700 / 2 - 20
+        this.nextTriangle.x = 0
         this.nextTriangle.y = 150 / 2 - 20
         this.nextTriangle.sx = this.nextTriangle.sy = 0.6
+        this.nextTriangle.sx *= 0.75
+        this.nextTriangle.r = Math.PI / 2
         this.root.addChild(this.nextTriangle)
         this.nextTriangle.visible = false
 
@@ -67,7 +69,7 @@ export default class InfoPanel {
         this.charPos = start
         gsap.to(this, { charPos: this.text.mesh.charCount, duration: length / 30 })
         this.text.alpha = 0
-        gsap.to(this.text, { alpha: 1, duration: 1 })
+        gsap.to(this.text, { alpha: 0.7, duration: 1 })
     }
     update() {
 
