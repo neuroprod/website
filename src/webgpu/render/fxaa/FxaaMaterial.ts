@@ -22,7 +22,7 @@ export default class FxaaMaterial extends Material {
 
         this.depthWrite = false;
         this.depthCompare = "always";
-        this.logShader = true
+
     }
 
     getShader(): string {

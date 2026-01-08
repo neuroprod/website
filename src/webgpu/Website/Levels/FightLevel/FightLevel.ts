@@ -88,7 +88,7 @@ export class FightLevel extends BaseLevel {
     }
     configScene() {
 
-
+        console.log(sceneHandler.sceneAnimations)
         LoadHandler.onComplete = () => { }
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         GameModel.coinHandler.show()
