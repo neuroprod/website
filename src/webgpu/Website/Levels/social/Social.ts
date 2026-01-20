@@ -27,6 +27,8 @@ export default class Social extends NavigationLevel {
     ly = 0.06351309939657937;
     rx = 0.13538324159630588;
     ry = 0.08235943682215295;
+    mouth!: SceneObject3D;
+    tl!: gsap.core.Timeline;
     constructor() {
         super();
 
@@ -67,7 +69,7 @@ export default class Social extends NavigationLevel {
         GameModel.gameCamera.setLockedViewZoom(new Vector3(0, 0.0, 0), new Vector3(0, 0.0, 0.65))
 
         GameModel.gameRenderer.setLevelType("website")
-
+        this.mouth = SceneHandler.getSceneObject("mouth")
 
         for (let l of this.links) {
             let link = this.mouseInteractionMap.get(l[0]) as MouseInteractionWrapper
@@ -86,15 +88,21 @@ export default class Social extends NavigationLevel {
                     ease: "elastic.out",
                     duration: 0.5
                 })
+                let index = Math.round(Math.random() * 100) % 7;
+                console.log(index)
+                if (this.tl) this.tl.clear();
+                this.tl = gsap.timeline();
+                this.tl.to(this.mouth, { sy: 1 + Math.random() * 0.05 + 0.05, y: -0.07 + (Math.random() * 0.03 - 0.015) * 0.2, ease: "power2.out" }, 0)
+                this.tl.to(this.mouth, { sy: 1, y: -0.07, ease: "power2.out" }, 1)
 
-                SoundHandler.playMoan(Math.round(Math.random() * 100))
-                // SoundHandler.playFart()
+                SoundHandler.playMoan(index)
+                GameModel.renderer.setCursor(true)
             }
             link.onRollOut = () => {
                 GameModel.renderer.setCursor(false)
                 gsap.killTweensOf(link.sceneObject)
                 gsap.to(link.sceneObject, { sx: 1.0, sy: 1.0, rz: 0, ease: "back.out", duration: 0.1 })
-
+                GameModel.renderer.setCursor(false)
             }
 
         }
@@ -118,6 +126,7 @@ export default class Social extends NavigationLevel {
 
     destroy() {
         super.destroy()
+        if (this.tl) this.tl.clear();
         this.bgModel.destroy()
         SoundHandler.killBackgroundSounds()
     }
