@@ -158,7 +158,16 @@ export default class Shaders extends NavigationLevel {
         }
         button.onUp = () => {
             this.isDragging = false;
+
         }
+
+        button.onRollOver = () => {
+            GameModel.renderer.setCursor(true)
+        }
+        button.onRollOut = () => {
+            GameModel.renderer.setCursor(false)
+        }
+
         this.updateButton()
 
         this.armR = SceneHandler.getSceneObject("armR")
@@ -236,7 +245,7 @@ export default class Shaders extends NavigationLevel {
         let pos2 = smoothstep(0.25, 0.75, pos)
         let pos3 = smoothstep(0.5, 1, pos)
         this.lerpPos = pos2;
-        let pos4 = smoothstep(0.0, 0.15, pos)
+        let pos4 = smoothstep(0.1, 0.3, pos)
 
 
         let smileS = smoothstep(0.8, 1.0, pos)

@@ -2,16 +2,18 @@ import Material from "../../../lib/material/Material.ts";
 import { ShaderType } from "../../../lib/material/ShaderTypes.ts";
 import UniformGroup from "../../../lib/material/UniformGroup.ts";
 import DefaultTextures from "../../../lib/textures/DefaultTextures.ts";
-import { TextureSampleType } from "../../../lib/WebGPUConstants.ts";
+import { AddressMode, TextureSampleType } from "../../../lib/WebGPUConstants.ts";
 import DefaultUniformGroups from "../../../lib/material/DefaultUniformGroups.ts";
 import Blend from "../../../lib/material/Blend.ts";
+import { Textures } from "../../../data/Textures.ts";
 
 
 export default class MeatMaterial extends Material {
     setup() {
         this.addAttribute("aPos", ShaderType.vec3);
-
+        this.addAttribute("aUV0", ShaderType.vec2);
         this.addVertexOutput("worldPos", ShaderType.vec3)
+        this.addVertexOutput("uv", ShaderType.vec2)
         this.addUniformGroup(DefaultUniformGroups.getCamera(this.renderer));
         this.addUniformGroup(DefaultUniformGroups.getModelTransform(this.renderer));
 
@@ -22,6 +24,8 @@ export default class MeatMaterial extends Material {
         uniforms.addUniform("pos2", 1.0)
         uniforms.addUniform("pos3", 1.0)
         uniforms.addUniform("pos4", 1.0)
+        uniforms.addTexture("textureS", this.renderer.getTexture(Textures.PATATO))
+        uniforms.addSampler("mySampler", { addressMode: AddressMode.Repeat })
         this.blendModes = [Blend.preMultAlpha()]
     }
     getShader(): string {
@@ -127,8 +131,8 @@ fn map(p:vec3f)->f32
 {
 var pFlat = p;
 
-    let d1 = sdSphere(pFlat+vec3f(0.1,0.0,0)*uniforms.pos1,0.15+sin(uniforms.time)*0.005*uniforms.pos1);
-    let d2 = sdSphere(pFlat+vec3f(-0.1,0.03,0)*uniforms.pos1,0.15+cos(uniforms.time)*0.01*uniforms.pos1);
+    let d1 = sdSphere(pFlat+vec3f(0.1,0.0,0),0.14+sin(uniforms.time)*0.005);
+    let d2 = sdSphere(pFlat+vec3f(-0.1,0.03,0),0.15+cos(uniforms.time)*0.01);
     var d = opSmoothUnion(d1,d2,0.1);
      var noiseP =p*7.0;
     noiseP.z +=uniforms.time*0.09;
@@ -226,6 +230,7 @@ fn mainVertex( ${this.getShaderAttributes()} ) -> VertexOutput
       
     output.position =camera.viewProjectionMatrix*model.modelMatrix* vec4( aPos,1.0);
 output.worldPos = (model.modelMatrix* vec4( aPos,1.0)).xyz;
+output.uv=aUV0*vec2(2.0,3.0)+vec2(0.7,0.2);
     return output;
 }
 
@@ -261,10 +266,11 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
     col += spe*shadow;
    
  col +=vec3(pow(1.0+dot(rd,N),2.0))*vec3(0.2,0.1,0.1)*0.3;
-   
-   col = mix(vec3f(0.9,0.2,0.3)*0.3,col,uniforms.pos4);
-   let a = (uniforms.pos1-0.5)*2.0;
-     return vec4(col*a,a) ;
+    let colt =textureSample(textureS, mySampler,  uv).xyz;   
+   col = mix(colt.xyz,col,uniforms.pos4);
+   let a =1.0;// (uniforms.pos1-0.5)*2.0;
+
+     return vec4( col,a) ;
 }
 ///////////////////////////////////////////////////////////
         `
