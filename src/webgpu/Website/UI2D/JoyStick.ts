@@ -50,7 +50,7 @@ let downTime =
 
         }
 
-        this.setAllPos(100, 300)
+        this.setAllPos(100, 200)
 
     }
 
@@ -76,11 +76,10 @@ let downTime =
             let moveLen = this.moveVec.len()
             if (moveLen > 50) {
                 this.moveVec.normalize()
-                this.moveVec.scale(moveLen - 50)
-                this.joyStickBack.x += this.moveVec.x
-                this.joyStickBack.y += this.moveVec.y
-                this.moveVec.set(this.joyStick.x, this.joyStick.y)
-                this.moveVec.subtract([this.joyStickBack.x, this.joyStickBack.y])
+                this.moveVec.scale( 50)
+                this.joyStick.x = this.joyStickBack.x + this.moveVec.x
+                this.joyStick.y = this.joyStickBack.y + this.moveVec.y
+            
 
             }
 
