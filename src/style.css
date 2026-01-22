@@ -16,12 +16,14 @@ body {
   background: #000;
   overflow: hidden;
   overscroll-behavior-y: none;
+  user-select: none;
 }
 
 canvas {
   position: sticky;
   top: 0px;
   touch-action: none;
+  user-select: none;
 }
 
 /* To remove the scrollbars */
