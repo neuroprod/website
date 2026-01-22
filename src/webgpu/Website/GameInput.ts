@@ -5,10 +5,11 @@ import KeyInput from "./KeyInput";
 class GameInput {
     joyStickX: number = 0;
     joyStickY: number = 0;
-    setJoystick(x: number, y: number) {
+    forceJump: boolean=false;
+    setJoystick(x: number, y: number,forceJump:boolean) {
         this.joyStickX = x;
         this.joyStickY = y;
-
+this.forceJump = forceJump;
 
     }
     mouseListener!: MouseListener;
@@ -69,7 +70,7 @@ class GameInput {
                 this.space = true
             }
         }
-
+if(this.forceJump){this.jump = true; this.space = true;this.forceJump = false;}
 
     }
     reset() {

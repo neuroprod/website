@@ -29,7 +29,7 @@ export default class JoyStick {
 
 
         this.joyStickBack.mouseDown = () => {
-
+let downTime = 
             this.down = true;
             let pos = GameModel.mouseListener.mousePos.clone()
             pos.scale(1 / this.renderer.pixelRatio)
@@ -40,7 +40,10 @@ export default class JoyStick {
         this.joyStickBack.mouseUp = () => {
 
             this.down = false;
-            GameInput.setJoystick(0, 0)
+            let downTime = GameModel.mouseListener.downTime;
+            let jump =false
+            if(downTime < 400 ){jump = true}
+            GameInput.setJoystick(0, 0,jump)
 
 
             gsap.to(this.joyStick, { x: this.joyStickBack.x, y: this.joyStickBack.y, duration: 0.5, ease: "elastic.out(1, 0.5)" })
@@ -82,7 +85,7 @@ export default class JoyStick {
             }
 
             this.moveVec.scale(1 / 50);
-            GameInput.setJoystick(this.moveVec.x, this.moveVec.y)
+            GameInput.setJoystick(this.moveVec.x, this.moveVec.y,false)
 
 
         }
