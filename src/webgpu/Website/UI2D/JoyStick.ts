@@ -29,11 +29,9 @@ export default class JoyStick {
 
 
         this.joyStickBack.mouseDown = () => {
-let downTime = 
+
             this.down = true;
-            let pos = GameModel.mouseListener.mousePos.clone()
-            pos.scale(1 / this.renderer.pixelRatio)
-            this.setAllPos(pos.x, pos.y)
+          
             gsap.killTweensOf(this.joyStick)
 
         }
@@ -49,8 +47,9 @@ let downTime =
             gsap.to(this.joyStick, { x: this.joyStickBack.x, y: this.joyStickBack.y, duration: 0.5, ease: "elastic.out(1, 0.5)" })
 
         }
-
-        this.setAllPos(100, 200)
+console.log("joy stick pos", renderer.htmlHeight);
+       
+        
 
     }
 
@@ -59,7 +58,7 @@ let downTime =
         this.joyStick.y = this.joyStickBack.y = y
     }
     update() {
-
+ this.setAllPos(100, this.renderer.htmlHeight - 100)
         if (this.down) {
 
             let pos = GameModel.mouseListener.mousePos.clone()
