@@ -1,5 +1,6 @@
 import { Matrix4, Quaternion, Vector2, Vector3 } from "@math.gl/core";
 import RenderPass from "../RenderPass.ts";
+import GameModel from "../../Website/GameModel.ts";
 
 export default class Object2D {
     public parent: Object2D | null = null;
@@ -159,13 +160,18 @@ export default class Object2D {
         }
         if (isDownThisFrame) {
             this.currentDown = this.currentOver;
-            if (this.currentDown) this.currentDown.mouseDown()
+            if (this.currentDown) {
+                this.currentDown.mouseDown()
+
+
+            }
         }
         if (isUpThisFrame) {
             if (this.currentDown) {
                 this.currentDown.mouseUp()
                 if (this.currentDown == this.currentOver) this.currentDown.onClick()
                 this.currentDown = null
+                GameModel.mouseListener.reset()
             }
 
         }

@@ -77,7 +77,11 @@ export default class Renderer {
             console.log("Display supports HDR:", hdrMediaQuery.matches);
             const supportsDisplayP3 = window.matchMedia("(color-gamut: p3)").matches;
             console.log("Display supports P3 gamut:", supportsDisplayP3);
+            let colSpace: PredefinedColorSpace = "srgb"
+            if (supportsDisplayP3) {
+                colSpace = "display-p3";
 
+            }
 
             this.device = await adapter.requestDevice({ requiredFeatures: requiredFeatures });
 
@@ -88,9 +92,9 @@ export default class Renderer {
             this.context.configure({
                 device: this.device,
                 format: this.presentationFormat,
-                colorSpace: "display-p3",
+                colorSpace: colSpace,
                 alphaMode: "premultiplied",
-                toneMapping: { mode: "extended" },
+                // toneMapping: { mode: "extended" },
             });
             console.log(this.context.getConfiguration())
 
@@ -126,7 +130,7 @@ export default class Renderer {
         this.timeStamps.getData();
         this.device.queue.submit([this.commandEncoder.finish()]);
 
-  
+
         this.timeStamps.readback()
 
 

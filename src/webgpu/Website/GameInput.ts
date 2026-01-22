@@ -1,7 +1,9 @@
+import MouseListener from "../lib/MouseListener";
 import GamePadInput from "./GamePadInput";
 import KeyInput from "./KeyInput";
 
 class GameInput {
+    mouseListener!: MouseListener;
 
     getSpace() {
         throw new Error("Method not implemented.");
@@ -17,9 +19,10 @@ class GameInput {
     constructor() {
 
     }
-    init(keyInput: KeyInput, gamepadInput: GamePadInput) {
+    init(keyInput: KeyInput, gamepadInput: GamePadInput, mouseListener: MouseListener) {
         this.keyInput = keyInput;
         this.gamePadInput = gamepadInput;
+        this.mouseListener = mouseListener;
 
     }
     update() {
@@ -34,12 +37,18 @@ class GameInput {
 
             if (!jump) jump = this.gamePadInput.getJump()
         }
+
+
         this.jump = jump;
         this.hInput = hInput;
         this.vInput = vInput;
 
         this.space = this.keyInput.getSpace()
-
+        if (this.mouseListener.isUpThisFrame) {
+            if (this.mouseListener.downTime < 400 && !this.blockInput) {
+                this.jump = true
+            }
+        }
 
 
     }

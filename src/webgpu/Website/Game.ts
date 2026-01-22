@@ -54,7 +54,7 @@ export default class Game {
         this.conversationHandler = new ConversationHandler(this.renderer, this.textBalloonHandler)
 
 
-        GameInput.init(new KeyInput(), new GamePadInput())
+        GameInput.init(new KeyInput(), new GamePadInput(), mouseListener)
 
         //this.keyInput = new KeyInput()
         //this.gamepadInput = new GamePadInput()
@@ -83,7 +83,7 @@ export default class Game {
 
         if (!LoadHandler.isLoading()) {
 
-
+            GameModel.UI2D.updateMouse()
             GameInput.update()
             if (LevelHandler.currentLevel) {
                 LevelHandler.currentLevel.updateMouse()
@@ -95,7 +95,7 @@ export default class Game {
             GameModel.coinHandler.update()
             this.textBalloonHandler.update()
             this.overlay.update()
-            GameModel.UI2D.updateMouse()
+
             GameModel.UI2D.update()
         }
 

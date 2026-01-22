@@ -1,33 +1,33 @@
 import Material from "../../lib/material/Material.ts";
-import {ShaderType} from "../../lib/material/ShaderTypes.ts";
+import { ShaderType } from "../../lib/material/ShaderTypes.ts";
 import DefaultUniformGroups from "../../lib/material/DefaultUniformGroups.ts";
 import UniformGroup from "../../lib/material/UniformGroup.ts";
 import DefaultTextures from "../../lib/textures/DefaultTextures.ts";
-import {CullMode} from "../../lib/WebGPUConstants.ts";
+import { CullMode } from "../../lib/WebGPUConstants.ts";
 import Blend from "../../lib/material/Blend.ts";
 
 
-export default class TransparentMaterial extends Material{
+export default class TransparentMaterial extends Material {
 
-    setup(){
+    setup() {
         this.addAttribute("aPos", ShaderType.vec3);
 
         this.addAttribute("aUV0", ShaderType.vec2);
 
 
-        this.addVertexOutput("uv", ShaderType.vec2 );
+        this.addVertexOutput("uv", ShaderType.vec2);
 
         this.addUniformGroup(DefaultUniformGroups.getCamera(this.renderer));
         this.addUniformGroup(DefaultUniformGroups.getModelTransform(this.renderer));
 
 
-        let uniforms =new UniformGroup(this.renderer,"uniforms");
-        this.addUniformGroup(uniforms,true);
+        let uniforms = new UniformGroup(this.renderer, "uniforms");
+        this.addUniformGroup(uniforms, true);
 
-        uniforms.addTexture("colorTexture",DefaultTextures.getWhite(this.renderer))
+        uniforms.addTexture("colorTexture", DefaultTextures.getWhite(this.renderer))
         uniforms.addSampler("mySampler")
-        this.cullMode =CullMode.None;
-       this.blendModes =[Blend.preMultAlpha()]
+        this.cullMode = CullMode.None;
+        this.blendModes = [Blend.preMultAlpha()]
     }
     getShader(): string {
         return /* wgsl */ `

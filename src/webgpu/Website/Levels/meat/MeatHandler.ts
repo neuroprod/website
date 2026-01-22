@@ -4,10 +4,10 @@ import Timer from "../../../lib/Timer.ts";
 import MouseInteractionWrapper from "../../MouseInteractionWrapper.ts";
 import gsap from "gsap";
 import { MainState } from "../../../Main.ts";
-import IndexedItem from "../WebsiteLevel/IndexedItem.ts";
+
 import SceneHandler from "../../../data/SceneHandler.ts";
 
-export default class MeatHandler extends IndexedItem {
+export default class MeatHandler {
     private meat1!: SceneObject3D;
     private meat2!: SceneObject3D;
     private time = 0;
@@ -21,7 +21,7 @@ export default class MeatHandler extends IndexedItem {
     private m2pR!: SceneObject3D;
     private button!: SceneObject3D;
     constructor() {
-        super()
+
     }
 
     init(meat1: SceneObject3D, meat2: SceneObject3D, editBtn: SceneObject3D, edit: MouseInteractionWrapper) {

@@ -20,6 +20,7 @@ export default class MouseListener {
     private renderer: Renderer;
     pressure: number = 0;
     private pointerID: number = -1;
+    downTime: number = 0;
     constructor(renderer: Renderer) {
         this.renderer = renderer;
         this.element = document;
@@ -98,6 +99,7 @@ export default class MouseListener {
             this.shiftKey = e.shiftKey;
             this.metaKey = e.metaKey;
 
+            this.downTime = e.timeStamp
 
             this.mouseDown();
         }
@@ -116,7 +118,7 @@ export default class MouseListener {
             this.ctrlKey = e.ctrlKey;
             this.shiftKey = e.shiftKey;
             this.metaKey = e.metaKey;
-
+            this.downTime = e.timeStamp - this.downTime
 
 
             this.mouseUp();

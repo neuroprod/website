@@ -1,12 +1,12 @@
 import Material from "../material/Material.ts";
 import Renderer from "../Renderer.ts";
-import {ShaderType} from "../material/ShaderTypes.ts";
+import { ShaderType } from "../material/ShaderTypes.ts";
 import DefaultUniformGroups from "../material/DefaultUniformGroups.ts";
 import UniformGroup from "../material/UniformGroup.ts";
 import DefaultTextures from "../textures/DefaultTextures.ts";
 import Blend from "../material/Blend.ts";
-import {CullMode} from "../WebGPUConstants.ts";
-import {Matrix4} from "@math.gl/core";
+import { CullMode } from "../WebGPUConstants.ts";
+import { Matrix4 } from "@math.gl/core";
 
 export default class SpriteMaterial extends Material {
 
@@ -26,13 +26,13 @@ export default class SpriteMaterial extends Material {
 
         let uniforms = new UniformGroup(this.renderer, "uniforms");
         this.addUniformGroup(uniforms, true);
-        uniforms.addUniform("worldMatrix",new Matrix4().identity())
+        uniforms.addUniform("worldMatrix", new Matrix4().identity())
         uniforms.addUniform("alpha", 1);
 
         uniforms.addTexture("texture", DefaultTextures.getGrid(this.renderer));
 
         uniforms.addSampler("mySampler")
-       this.blendModes = [Blend.preMultAlpha()]
+        this.blendModes = [Blend.preMultAlpha()]
         this.cullMode = CullMode.None;
         this.depthWrite = false;
         this.depthCompare = "always"
@@ -70,7 +70,7 @@ fn mainFragment(${this.getFragmentInput()}) ->  @location(0) vec4f
  
     
     
-    return   vec4(textColor.xyz*textColor.w*uniforms.alpha,textColor.w*uniforms.alpha);
+    return   vec4(textColor.xyz*uniforms.alpha,textColor.w*uniforms.alpha);
 }
 ///////////////////////////////////////////////////////////
         `

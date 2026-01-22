@@ -63,6 +63,9 @@ export default class UI2D {
         this.root.addChild(this.settings.settingsRoot)
         this.root.addChild(this.guageLevel2D.root)
         this.root.sx = this.root.sy = renderer.pixelRatio
+
+
+
         //LevelHandler.
     }
 

@@ -1,13 +1,13 @@
 import PixelObject from "./PixelObject.ts";
 import GameModel from "../../GameModel.ts";
-import {Textures} from "../../../data/Textures.ts";
+import { Textures } from "../../../data/Textures.ts";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
 import Model from "../../../lib/model/Model.ts";
 import Object3D from "../../../lib/model/Object3D.ts";
-import IndexedItem from "../WebsiteLevel/IndexedItem.ts";
+
 import gsap from "gsap";
 import Timer from "../../../lib/Timer.ts";
-export default class ArduinoGamePixels extends IndexedItem {
+export default class ArduinoGamePixels {
 
     private title!: Model;
     private ship!: Model;
@@ -15,33 +15,33 @@ export default class ArduinoGamePixels extends IndexedItem {
     private arm1!: Model;
     private arm2!: Model;
     private shipHolder: Object3D;
-    private enabled =false;
+    private enabled = false;
     private tl!: gsap.core.Timeline;
 
     constructor() {
-        super();
+
         this.shipHolder = new Object3D(GameModel.renderer)
 
     }
-    setEnabled(enabled:boolean){
-       if( this.enabled==enabled)return
-      if( !this.enabled){
-          this.enabled =true
-          if(this.tl) this.tl.clear()
-        this.tl = gsap.timeline()
+    setEnabled(enabled: boolean) {
+        if (this.enabled == enabled) return
+        if (!this.enabled) {
+            this.enabled = true
+            if (this.tl) this.tl.clear()
+            this.tl = gsap.timeline()
 
-          this.tl.to(       this.shipHolder,{y:0.2,duration:2,ease:"elastic.out(1,0.9)"});
-          this.tl.to(this.head,{y:0.07},2);
+            this.tl.to(this.shipHolder, { y: 0.2, duration: 2, ease: "elastic.out(1,0.9)" });
+            this.tl.to(this.head, { y: 0.07 }, 2);
 
-      }else if(this.enabled){
-          this.enabled = false;
-          if(this.tl) this.tl.clear()
-          this.tl = gsap.timeline()
-          this.tl.to(this.head,{y:0.02,duration:0.5},0);
-          this.tl.to(        this.shipHolder,{y:2,duration:2,ease:"back.in(0.5)"},0.5);
+        } else if (this.enabled) {
+            this.enabled = false;
+            if (this.tl) this.tl.clear()
+            this.tl = gsap.timeline()
+            this.tl.to(this.head, { y: 0.02, duration: 0.5 }, 0);
+            this.tl.to(this.shipHolder, { y: 2, duration: 2, ease: "back.in(0.5)" }, 0.5);
 
 
-      }
+        }
 
     }
     init(holder: SceneObject3D) {
@@ -49,7 +49,7 @@ export default class ArduinoGamePixels extends IndexedItem {
 
 
         this.title = this.add(new PixelObject(GameModel.renderer, Textures.TEXT_INVASION).pixelModel, holder);
-      holder.addChild(this.shipHolder)
+        holder.addChild(this.shipHolder)
 
 
         this.ship = this.add(new PixelObject(GameModel.renderer, Textures.SPACE_SHIP).pixelModel, this.shipHolder);
@@ -74,9 +74,9 @@ export default class ArduinoGamePixels extends IndexedItem {
     }
 
     update() {
-if(this.enabled){
-    this.ship.y = Math.sin(Timer.time)*0.01
-}
+        if (this.enabled) {
+            this.ship.y = Math.sin(Timer.time) * 0.01
+        }
     }
 
     private add(m: Model, h: Object3D) {
