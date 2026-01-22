@@ -4,6 +4,7 @@ import Renderer from "../../lib/Renderer";
 import Object2D from "../../lib/twoD/Object2D";
 import Sprite from "../../lib/twoD/Sprite";
 import GameModel from "../GameModel";
+import GameInput from "../GameInput";
 
 export default class JoyStick {
     joystickRoot: Object2D;
@@ -28,21 +29,24 @@ export default class JoyStick {
 
 
         this.joyStickBack.mouseDown = () => {
-            console.log("down")
+            
             this.down = true;
             let pos = GameModel.mouseListener.mousePos.clone()
             pos.scale(1 / this.renderer.pixelRatio)
             this.setAllPos(pos.x, pos.y)
+            
+
         }
         this.joyStickBack.mouseUp = () => {
-            console.log("up")
+        
             this.down = false;
-
+            GameInput.setJoystick(0, 0)
+          
 
 
 
         }
-        console.log(this.renderer.htmlHeight - 100)
+     
         this.setAllPos(100, 300)
 
     }
@@ -57,7 +61,7 @@ export default class JoyStick {
 
             let pos = GameModel.mouseListener.mousePos.clone()
             pos.scale(1 / this.renderer.pixelRatio)
-            console.log(pos)
+           
             this.joyStick.x = pos.x;
             this.joyStick.y = pos.y;
 
@@ -65,7 +69,22 @@ export default class JoyStick {
             this.moveVec.subtract([this.joyStickBack.x, this.joyStickBack.y])
 
 
-            console.log(this.moveVec)
+        
+            let moveLen = this.moveVec.len()
+            if (moveLen > 50) {
+                this.moveVec.normalize()
+                this.moveVec.scale(moveLen-50)
+               this.joyStickBack.x += this.moveVec.x
+               this.joyStickBack.y += this.moveVec.y
+                this.moveVec.set(this.joyStick.x, this.joyStick.y)
+            this.moveVec.subtract([this.joyStickBack.x, this.joyStickBack.y])
+
+            }
+            
+            this.moveVec.scale(1/50);
+            GameInput.setJoystick(this.moveVec.x, this.moveVec.y)
+       
+
         }
     }
 

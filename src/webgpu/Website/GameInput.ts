@@ -3,6 +3,14 @@ import GamePadInput from "./GamePadInput";
 import KeyInput from "./KeyInput";
 
 class GameInput {
+    joyStickX: number = 0;
+    joyStickY: number = 0;
+    setJoystick(x: number, y: number) {
+        this.joyStickX = x;
+        this.joyStickY = y;
+
+
+    }
     mouseListener!: MouseListener;
 
     getSpace() {
@@ -40,13 +48,25 @@ class GameInput {
 
 
         this.jump = jump;
+
+
         this.hInput = hInput;
         this.vInput = vInput;
 
         this.space = this.keyInput.getSpace()
+
+        if (this.joyStickX != 0 || this.joyStickY != 0) {
+            this.hInput = this.joyStickX;
+            vInput = -this.joyStickY;
+            if (vInput > 0.5) {
+
+                this.jump = true; this.space = true
+            }
+        }
         if (this.mouseListener.isUpThisFrame) {
-            if (this.mouseListener.downTime < 400 && !this.blockInput) {
+            if (this.mouseListener.downTime < 400 ) {
                 this.jump = true
+                this.space = true
             }
         }
 
