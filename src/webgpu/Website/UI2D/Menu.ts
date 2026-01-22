@@ -59,8 +59,12 @@ export default class Menu {
 
 
     update() {
-        this.menuRoot.x = this.renderer.htmlWidth - this.width - this.space * 4
-        this.menuRoot.y = 10
+
+        let s = (this.renderer.htmlWidth - 100) / this.width;
+        s = Math.min(s, 1);
+        this.menuRoot.x = this.renderer.htmlWidth - this.width * s - this.space * 4
+        this.menuRoot.y = 12
+        this.menuRoot.sx = this.menuRoot.sy = s
     }
 
     setLevel(key: string) {

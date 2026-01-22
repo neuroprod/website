@@ -32,7 +32,7 @@ export default class SpriteMaterial extends Material {
         uniforms.addTexture("texture", DefaultTextures.getGrid(this.renderer));
 
         uniforms.addSampler("mySampler")
-        this.blendModes = [Blend.preMultAlpha()]
+        this.blendModes = [Blend.alpha()]
         this.cullMode = CullMode.None;
         this.depthWrite = false;
         this.depthCompare = "always"

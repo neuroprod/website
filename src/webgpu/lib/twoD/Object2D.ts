@@ -158,9 +158,12 @@ export default class Object2D {
             this.currentOver = mouseObject
             if (this.currentOver) this.currentOver.rollOver()
         }
+
         if (isDownThisFrame) {
+            console.log("downs", this.currentOver)
             this.currentDown = this.currentOver;
             if (this.currentDown) {
+                console.log(this.currentDown)
                 this.currentDown.mouseDown()
 
 

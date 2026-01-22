@@ -45,6 +45,8 @@ export const Textures = {
     STICK_ICON: "iconStick.png",
     TRIANGLE: "triangle.png",
     FIGHTUIBACK: "FightUIBack.png",
-    PATATO: "patato.png"
+    PATATO: "patato.png",
 
+    JOYSTICK: "joystick.png",
+    JOYSTICKBACK: "joystickBack.png"
 }

@@ -10,6 +10,7 @@ import SettingsUI from "./SettingsUI.ts";
 import FightUI from "../Levels/FightLevel/FigthUI.ts";
 import Sprite from "../../lib/twoD/Sprite.ts";
 import DefaultTextures from "../../lib/textures/DefaultTextures.ts";
+import JoyStick from "./JoyStick.ts";
 
 export default class UI2D {
 
@@ -17,7 +18,8 @@ export default class UI2D {
     private renderer2D: Renderer2D;
     private root: Object2D;
     private menu: Menu;
-    guageLevel2D: GuageLevel2D;
+    private joyStick: JoyStick;
+    //  guageLevel2D: GuageLevel2D;
     settings: SettingsUI;
     fightUI: FightUI;
     black: Sprite;
@@ -47,7 +49,7 @@ export default class UI2D {
         this.black.sx = 10000
         this.black.sy = 10000
         this.menu = new Menu(renderer)
-        this.guageLevel2D = new GuageLevel2D(renderer)
+        //  this.guageLevel2D = new GuageLevel2D(renderer)
         this.settings = new SettingsUI(renderer)
 
 
@@ -61,9 +63,15 @@ export default class UI2D {
         this.root.addChild(this.menu.menuRoot)
         this.root.addChild(this.black)
         this.root.addChild(this.settings.settingsRoot)
-        this.root.addChild(this.guageLevel2D.root)
-        this.root.sx = this.root.sy = renderer.pixelRatio
 
+
+        this.root.addChild(this.settings.settingsRoot)
+
+        this.joyStick = new JoyStick(renderer)
+        this.root.addChild(this.joyStick.joystickRoot)
+
+        // this.root.addChild(this.guageLevel2D.root)
+        this.root.sx = this.root.sy = renderer.pixelRatio
 
 
         //LevelHandler.
@@ -71,9 +79,10 @@ export default class UI2D {
 
     public update() {
         this.menu.update()
-        this.guageLevel2D.update()
-        this.settings.update()
-        this.fightUI.update()
+        // this.guageLevel2D.update()
+        this.settings.update();
+        this.fightUI.update();
+        this.joyStick.update();
     }
 
     updateMouse() {
@@ -95,7 +104,7 @@ export default class UI2D {
 
     setLevel(key: string) {
         this.menu.setLevel(key)
-        this.guageLevel2D.setLevel(key)
+        //  this.guageLevel2D.setLevel(key)
         this.settings.setLevel(key)
         this.fightUI.setLevel(key)
     }

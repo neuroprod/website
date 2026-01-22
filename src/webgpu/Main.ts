@@ -121,7 +121,8 @@ export default class Main {
         new TextureLoader(this.renderer, Textures.GRAIN)
         new TextureLoader(this.renderer, Textures.FIGHTUIBACK)
         new TextureLoader(this.renderer, Textures.PATATO)
-
+        new TextureLoader(this.renderer, Textures.JOYSTICK)
+        new TextureLoader(this.renderer, Textures.JOYSTICKBACK)
         let tl = new HDRTextureLoader()
         tl.loadURL(this.renderer, "specular.hdr").then()
 
