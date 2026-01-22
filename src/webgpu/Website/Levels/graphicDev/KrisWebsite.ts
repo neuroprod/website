@@ -8,7 +8,7 @@ import LevelHandler from "../LevelHandler.ts";
 import ProjectData from "../../../data/ProjectData.ts";
 import GameModel from "../../GameModel.ts";
 import Model from "../../../lib/model/Model.ts";
-import LinkedItem from "../WebsiteLevel/LinkedItem.ts";
+
 import { createNoise2D } from "../../../lib/SimplexNoise.ts";
 import ColorV from "../../../lib/ColorV.ts";
 
@@ -41,7 +41,7 @@ export default class KrisWebsite {
 
     private krisTarget = new Vector3(-0, 0, 0)
     private friends = ["textHolder2", "textHolder1", "kris", "always", "starGreen1"]
-    private rootLinked!: LinkedItem;
+  
     constructor() {
 
     }

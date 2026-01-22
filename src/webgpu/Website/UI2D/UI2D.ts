@@ -4,8 +4,7 @@ import Object2D from "../../lib/twoD/Object2D.ts";
 import Renderer from "../../lib/Renderer.ts";
 import Menu from "./Menu.ts";
 import GameModel from "../GameModel.ts";
-import GuageLevel from "../Levels/guage/GuageLevel.ts";
-import GuageLevel2D from "../Levels/guage/GuageLevel2D.ts";
+
 import SettingsUI from "./SettingsUI.ts";
 import FightUI from "../Levels/FightLevel/FigthUI.ts";
 import Sprite from "../../lib/twoD/Sprite.ts";
