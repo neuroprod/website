@@ -1,4 +1,7 @@
+import LoadHandler from "../../data/LoadHandler.ts";
+import { Textures } from "../../data/Textures.ts";
 import Renderer from "../Renderer.ts";
+import TextureLoader from "../textures/TextureLoader.ts";
 
 import VideoRenderPass from "./VideoRenderPass.ts";
 import { Vector2 } from "@math.gl/core";
@@ -8,7 +11,9 @@ export default class VideoPlayer {
     video: HTMLVideoElement;
     private renderer: Renderer;
     private videoRenderPass: VideoRenderPass;
-
+    holdTexture: TextureLoader;
+hasFrame:boolean=false;
+    onPlay!: () => void;
 
     constructor(renderer: Renderer, file: string, size: Vector2) {
 
@@ -22,8 +27,19 @@ export default class VideoPlayer {
         this.video.muted = true;
         this.video.playsInline = true;
         this.video.preload = 'auto';
+
+LoadHandler.startLoading();
+        this.holdTexture = new TextureLoader(this.renderer, Textures.PATATO)
+        this.holdTexture.onComplete=()=>{
+        
+         LoadHandler.stopLoading();
+        }
+
     }
     getTexture() {
+        if(!this.hasFrame){
+        return this.holdTexture;
+    }
         return this.videoRenderPass.texture
     }
 
@@ -57,6 +73,15 @@ export default class VideoPlayer {
         this.video.requestVideoFrameCallback(this.setFrame.bind(this));
         // this.onVideoFrame()*/
         videoFrame.close()
+
+        console.log("play",this.hasFrame,this.onPlay);
+
+        if(!this.hasFrame && this.onPlay){
+            this.hasFrame = true;
+            this.onPlay();
+           
+        }
+
 
     }
 
