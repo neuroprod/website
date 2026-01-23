@@ -62,14 +62,15 @@ export default class UI2D {
         this.root.addChild(this.fightUI.root)
 
         this.root.addChild(this.menu.menuRoot)
+        this.joyStick = new JoyStick(renderer)
+        this.root.addChild(this.joyStick.joystickRoot)
         this.root.addChild(this.black)
         this.root.addChild(this.settings.settingsRoot)
 
 
         this.root.addChild(this.settings.settingsRoot)
         this.root.multiTouch = true;
-        this.joyStick = new JoyStick(renderer)
-        this.root.addChild(this.joyStick.joystickRoot)
+
 
         // this.root.addChild(this.guageLevel2D.root)
         this.root.sx = this.root.sy = renderer.pixelRatio

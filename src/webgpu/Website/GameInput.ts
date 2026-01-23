@@ -61,12 +61,7 @@ class GameInput {
             vInput = -this.joyStickY;
 
         }
-        if (this.mouseListener.isUpThisFrame) {
-            if (this.mouseListener.downTime < 400) {
-                this.jump = true
-                this.space = true
-            }
-        }
+
         if (this.forceJump) { this.jump = true; this.space = true; this.forceJump = false; }
 
     }

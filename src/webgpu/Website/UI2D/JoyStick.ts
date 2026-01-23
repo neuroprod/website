@@ -30,29 +30,14 @@ export default class JoyStick {
 
 
 
-        this.joyStickBack.mouseDown = () => {
+        this.joyStick.mouseDown = () => {
 
             this.down = true;
 
             gsap.killTweensOf(this.joyStick)
 
         }
-        this.joyStickBack.mouseUp = () => {
-
-            this.down = false;
-
-
-
-            gsap.to(this.joyStick, { x: this.joyStickBack.x, y: this.joyStickBack.y, duration: 0.5, ease: "elastic.out(1, 0.5)" })
-
-        }
-
-
-
-
-
-
-        this.joyStickBack.mouseUp = () => {
+        this.joyStick.mouseUp = () => {
 
             this.down = false;
 
@@ -61,10 +46,16 @@ export default class JoyStick {
             gsap.to(this.joyStick, { x: this.joyStickBack.x, y: this.joyStickBack.y, duration: 0.5, ease: "elastic.out(1, 0.5)" })
 
         }
+
+
+
+
+
+
         this.joyStickBtn = new Sprite(renderer, this.renderer.getTexture(Textures.JOYSTICK))
         this.joyStickBtn.sx = this.joyStickBtn.sy = 0.5
         this.joyStickBtn.mouseDown = () => {
-            this.joyStickBtn.sx = this.joyStickBtn.sy = 1
+            this.joyStickBtn.sx = this.joyStickBtn.sy = 0.7
             this.jump = true;
 
         }
@@ -88,7 +79,7 @@ export default class JoyStick {
         if (this.down || this.jump) {
 
             if (this.down) {
-                let pos = this.joyStickBack.mousePos.clone()
+                let pos = this.joyStick.mousePos.clone()
                 pos.scale(1 / this.renderer.pixelRatio)
 
                 this.joyStick.x = pos.x;
@@ -110,6 +101,7 @@ export default class JoyStick {
                 }
 
                 this.moveVec.scale(1 / 50);
+
 
             } else {
                 this.moveVec.set(0, 0)

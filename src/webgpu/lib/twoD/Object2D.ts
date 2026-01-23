@@ -239,7 +239,7 @@ export default class Object2D {
                 this.touchDownMap.delete(touchId);
                 this.touchMap.delete(touchId);
             } else {
-                console.log(touch.pos)
+
                 touchObject?.mousePos.copy(touch.pos)
 
             }
@@ -248,9 +248,11 @@ export default class Object2D {
     updateMouseInt(mousePos: Vector2): null | Object2D {
         if (!this.visible) return null;
         if (!this.mouseEnabled) return null;
-        //TODO: revers order
-        for (let c of this.children) {
-            let a = c.updateMouseInt(mousePos)
+
+
+        for (let i = this.children.length - 1; i >= 0; i--) {
+            const c = this.children[i];
+            const a = c.updateMouseInt(mousePos);
             if (a) return a;
         }
 
