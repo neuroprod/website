@@ -67,7 +67,7 @@ export default class UI2D {
 
 
         this.root.addChild(this.settings.settingsRoot)
-
+        this.root.multiTouch = true;
         this.joyStick = new JoyStick(renderer)
         this.root.addChild(this.joyStick.joystickRoot)
 
@@ -83,13 +83,7 @@ export default class UI2D {
         //LevelHandler.
     }
 
-    /**
-     * Enable or disable multitouch input
-     */
-    setMultiTouchEnabled(enabled: boolean) {
-        // Can be used to enable/disable multitouch at runtime
-        // For now, multitouch is always enabled if initialized
-    }
+
 
     public update() {
         this.menu.update()
@@ -97,29 +91,15 @@ export default class UI2D {
         this.settings.update();
         this.fightUI.update();
         this.joyStick.update();
-        
+
         // Update input
-        this.updateInput();
+        this.updateMouse()
     }
 
-    /**
-     * Handle both legacy single-touch and multitouch input
-     */
-    private updateInput() {
-        if (this.multiTouchInput) {
-            // Use multitouch if available
-            const touches = this.multiTouchInput.getAllTouches();
-            if (touches.length > 0) {
-                this.root.updateMultiTouch(touches);
-            }
-        } else {
-            // Fallback to legacy mouse input
-            this.updateMouse();
-        }
-    }
 
     updateMouse() {
-        this.root.updateMouse(GameModel.mouseListener.mousePos, GameModel.mouseListener.isDownThisFrame, GameModel.mouseListener.isUpThisFrame)
+        this.root.updateMouse(GameModel.mouseListener.mousePos, GameModel.mouseListener.isDownThisFrame, GameModel.mouseListener.isUpThisFrame, GameModel.mouseListener.getAllPointers())
+
 
     }
     setCoins(displayCoins: number) {

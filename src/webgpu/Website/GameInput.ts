@@ -5,11 +5,11 @@ import KeyInput from "./KeyInput";
 class GameInput {
     joyStickX: number = 0;
     joyStickY: number = 0;
-    forceJump: boolean=false;
-    setJoystick(x: number, y: number,forceJump:boolean) {
+    forceJump: boolean = false;
+    setJoystick(x: number, y: number, forceJump: boolean) {
         this.joyStickX = x;
         this.joyStickY = y;
-this.forceJump = forceJump;
+        this.forceJump = forceJump;
 
     }
     mouseListener!: MouseListener;
@@ -59,18 +59,15 @@ this.forceJump = forceJump;
         if (this.joyStickX != 0 || this.joyStickY != 0) {
             this.hInput = this.joyStickX;
             vInput = -this.joyStickY;
-            if (vInput > 0.5) {
 
-                this.jump = true; this.space = true
-            }
         }
         if (this.mouseListener.isUpThisFrame) {
-            if (this.mouseListener.downTime < 400 ) {
+            if (this.mouseListener.downTime < 400) {
                 this.jump = true
                 this.space = true
             }
         }
-if(this.forceJump){this.jump = true; this.space = true;this.forceJump = false;}
+        if (this.forceJump) { this.jump = true; this.space = true; this.forceJump = false; }
 
     }
     reset() {

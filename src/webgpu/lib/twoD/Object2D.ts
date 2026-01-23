@@ -22,6 +22,7 @@ export default class Object2D {
     private _localMatrix: Matrix4 = new Matrix4()
     protected _worldMatrixInv: Matrix4 = new Matrix4()
     public mouseEnabled = true;
+    multiTouch: boolean = false
     constructor() {
         this.id = "" + Math.random()
     }
@@ -147,20 +148,22 @@ export default class Object2D {
     }
 
 
-    ///mouse/touch
 
-    // Single-touch support (legacy)
     public currentOver: Object2D | null = null;
     public currentDown: Object2D | null = null;
 
-    // Multi-touch support
+
     private touchMap: Map<number, Object2D | null> = new Map(); // touchId -> hovered Object2D
     private touchDownMap: Map<number, Object2D | null> = new Map(); // touchId -> pressed Object2D
+    mousePos: Vector2 = new Vector2();
 
-    /**
-     * Legacy single-touch input handler
-     */
-    updateMouse(mousePos: Vector2, isDownThisFrame: boolean, isUpThisFrame: boolean) {
+    updateMouse(mousePos: Vector2, isDownThisFrame: boolean, isUpThisFrame: boolean, pointers: TouchPointer[]) {
+
+        if (this.multiTouch) {
+            this.updateMultiTouch(pointers)
+            return;
+        }
+
         let mouseObject = this.updateMouseInt(mousePos);
         if (this.currentOver != mouseObject) {
             if (this.currentOver) this.currentOver.rollOut()
@@ -169,7 +172,7 @@ export default class Object2D {
         }
 
         if (isDownThisFrame) {
-            console.log("downs", this.currentOver)
+
             this.currentDown = this.currentOver;
             if (this.currentDown) {
                 console.log(this.currentDown)
@@ -195,21 +198,24 @@ export default class Object2D {
      */
     updateMultiTouch(touches: TouchPointer[]) {
         // Update active touches
+
         for (const touch of touches) {
             const touchObject = this.updateMouseInt(touch.pos);
+            if (touchObject) touchObject.mousePos.copy(touch.pos);
             const prevObject = this.touchMap.get(touch.id);
 
             // Handle rollover/rollout
-            if (prevObject !== touchObject) {
+            /*if (prevObject !== touchObject) {
                 if (prevObject) prevObject.rollOut();
                 if (touchObject) touchObject.rollOver();
                 this.touchMap.set(touch.id, touchObject);
-            }
+            }*/
 
             // Handle touch down
             if (touch.isPressed && !this.touchDownMap.has(touch.id)) {
                 if (touchObject) {
                     touchObject.mouseDown();
+
                     this.touchDownMap.set(touch.id, touchObject);
                 }
             }
@@ -217,10 +223,14 @@ export default class Object2D {
 
         // Check for ended touches
         for (const [touchId, touchObject] of this.touchDownMap) {
-            if (!touches.find(t => t.id === touchId)) {
+
+            let touch = touches.find(t => t.id === touchId)
+
+            if (!touch) {
                 // Touch ended
                 if (touchObject) {
                     touchObject.mouseUp();
+
                     const hovered = this.touchMap.get(touchId);
                     if (touchObject === hovered) {
                         touchObject.onClick();
@@ -228,6 +238,10 @@ export default class Object2D {
                 }
                 this.touchDownMap.delete(touchId);
                 this.touchMap.delete(touchId);
+            } else {
+                console.log(touch.pos)
+                touchObject?.mousePos.copy(touch.pos)
+
             }
         }
     }
@@ -239,6 +253,7 @@ export default class Object2D {
             let a = c.updateMouseInt(mousePos)
             if (a) return a;
         }
+
         return this.checkMouseHit(mousePos)
     }
     checkMouseHit(mousePos: Vector2): null | Object2D {

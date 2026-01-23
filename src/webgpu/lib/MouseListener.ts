@@ -1,6 +1,15 @@
 import { Vector2 } from "@math.gl/core";
 import Renderer from "./Renderer.ts";
-
+export interface TouchPointer {
+    id: number;
+    pos: Vector2;
+    prevPos: Vector2;
+    downTime: number;
+    isPressed: boolean;
+    pointerType: "mouse" | "touch" | "pen"; // Pointer Events API type
+    pressure: number; // 0.0 to 1.0 (pressure sensitivity)
+    isPrimary: boolean; // True if this is the primary pointer
+}
 
 export default class MouseListener {
     public mouseNorm: Vector2 = new Vector2();
@@ -21,6 +30,9 @@ export default class MouseListener {
     pressure: number = 0;
     private pointerID: number = -1;
     downTime: number = 0;
+
+    activePointers: Map<number, TouchPointer> = new Map();
+
     constructor(renderer: Renderer) {
         this.renderer = renderer;
         this.element = document;
@@ -84,16 +96,17 @@ export default class MouseListener {
 
     mouseDownListener(e: PointerEvent) {
 
-        if (e.button == 0) {
 
-            if (this.pointerID != -1) {
-                if (e.pointerId != this.pointerID) return;
-            }
-            this.pointerID = e.pointerId
+        const pos = this.getPointerPosition(e);
+        this.startPointer(e.pointerId, pos, e);
+        if (this.preventDefault) {
+            e.preventDefault();
+        }
+        if (e.button == 0 && e.isPrimary) {
+
+
             this.setMousePosition(e);
-            if (this.preventDefault) {
-                e.preventDefault();
-            }
+
             this.altKey = e.altKey;
             this.ctrlKey = e.ctrlKey;
             this.shiftKey = e.shiftKey;
@@ -107,13 +120,17 @@ export default class MouseListener {
 
     mouseUpListener(e: PointerEvent) {
 
-        if (e.button == 0) {
-            if (e.pointerId != this.pointerID) return;
-            this.pointerID = -1;
+
+        const pos = this.getPointerPosition(e);
+        this.endPointer(e.pointerId, pos);
+
+        if (this.preventDefault) {
+            e.preventDefault();
+        }
+        if (e.button == 0 && e.isPrimary) {
+
             this.setMousePosition(e)
-            if (this.preventDefault) {
-                e.preventDefault();
-            }
+
             this.altKey = e.altKey;
             this.ctrlKey = e.ctrlKey;
             this.shiftKey = e.shiftKey;
@@ -127,27 +144,39 @@ export default class MouseListener {
 
 
     mouseMoveListener(e: PointerEvent) {
-        // if (e.pointerId != this.pointerID) return;
-        this.setMousePosition(e);
+
+        const pos = this.getPointerPosition(e);
+        this.movePointer(e.pointerId, pos, e);
+
+
+        if (e.isPrimary) {
+            this.setMousePosition(e);
+        }
+
         if (this.preventDefault) {
             e.preventDefault();
         }
     }
 
     cancelListener(e: PointerEvent) {
-        if (e.pointerId != this.pointerID) return;
-        this.pointerID = -1;
-        this.isDown = false;
-        this.isDownThisFrame = false;
-        this.isDirty = 1;
+        const pos = this.getPointerPosition(e);
+        this.endPointer(e.pointerId, pos);
+        if (e.isPrimary) {
+            this.isDown = false;
+            this.isDownThisFrame = false;
+            this.isDirty = 1;
+        }
     }
 
     endListener(e: PointerEvent) {
-        if (e.pointerId != this.pointerID) return;
-        this.pointerID = -1;
-        this.isDown = false;
-        this.isDownThisFrame = false;
-        this.isDirty = 1;
+        const pos = this.getPointerPosition(e);
+        this.endPointer(e.pointerId, pos);
+        if (e.isPrimary) {
+
+            this.isDown = false;
+            this.isDownThisFrame = false;
+            this.isDirty = 1;
+        }
     }
 
     mouseDown() {
@@ -168,6 +197,7 @@ export default class MouseListener {
         this.mousePos.x = e.offsetX * window.devicePixelRatio;
         this.mousePos.y = e.offsetY * window.devicePixelRatio;
         this.isDirty = 1;
+
     }
 
     reset() {
@@ -179,5 +209,54 @@ export default class MouseListener {
         this.isDownThisFrame = false;
         this.wheelDelta = 0;
         this.isDirty--;
+    }
+    //
+    private getPointerPosition(e: PointerEvent): Vector2 {
+
+        return new Vector2(
+            e.offsetX * window.devicePixelRatio,
+            e.offsetY * window.devicePixelRatio
+        );
+    }
+
+    private startPointer(pointerId: number, pos: Vector2, event: PointerEvent) {
+        const pointer: TouchPointer = {
+            id: pointerId,
+            pos: pos.clone(),
+            prevPos: pos.clone(),
+            downTime: Date.now(),
+            isPressed: true,
+            pointerType: event.pointerType as "mouse" | "touch" | "pen",
+            pressure: event.pressure,
+            isPrimary: event.isPrimary,
+        };
+        this.activePointers.set(pointerId, pointer);
+    }
+
+    /**
+     * Update pointer position
+     */
+    private movePointer(pointerId: number, pos: Vector2, event: PointerEvent) {
+        const pointer = this.activePointers.get(pointerId);
+        if (pointer) {
+            pointer.prevPos = pointer.pos.clone();
+            pointer.pos = pos.clone();
+            pointer.pressure = event.pressure;
+            pointer.isPrimary = event.isPrimary;
+        }
+    }
+
+    /**
+     * End pointer tracking
+     */
+    private endPointer(pointerId: number, pos: Vector2) {
+        const pointer = this.activePointers.get(pointerId);
+        if (pointer) {
+            pointer.isPressed = false;
+            this.activePointers.delete(pointerId);
+        }
+    }
+    getAllPointers(): TouchPointer[] {
+        return Array.from(this.activePointers.values());
     }
 }
