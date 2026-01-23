@@ -5,12 +5,12 @@ import GameModel from "../../GameModel.ts";
 import { Vector2, Vector3 } from "@math.gl/core";
 import VideoPlayer from "../../../lib/video/VideoPlayer.ts";
 import Model from "../../../lib/model/Model.ts";
-import GBufferMaterial from "../../../render/GBuffer/GBufferMaterial.ts";
-import Plane from "../../../lib/mesh/geometry/Plane.ts";
+
 import Quad from "../../../lib/mesh/geometry/Quad.ts";
 import FullScreenStretchMaterial from "../../backgroundShaders/FullscreenStretchMaterial.ts";
 import { Howl } from "howler";
 import MouseInteractionWrapper from "../../MouseInteractionWrapper.ts";
+import SoundHandler from "../../SoundHandler.ts";
 
 export default class Robots extends NavigationLevel {
 
@@ -21,13 +21,13 @@ export default class Robots extends NavigationLevel {
 
     constructor() {
         super();
-        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/robot.mp4", new Vector2(1920, 1080))
+
     }
 
 
     init() {
         super.init();
-        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/robot.mp4", new Vector2(1920, 1080))
+
 
         LoadHandler.onComplete = this.configScene.bind(this)
         LoadHandler.startLoading()
@@ -36,26 +36,27 @@ export default class Robots extends NavigationLevel {
             LoadHandler.stopLoading()
 
         });
-        this.bgSound = new Howl({
-            src: ['sound/robot-riff-44991.mp3'],
-            loop: true,
-            autoplay: true,
-            onload: () => {
-
-                this.bgSound.fade(0, 1, 2000);
-            }
-        });
-        this.bgSound2 = new Howl({
-            src: ['sound/robot-robby-1-83380.mp3'],
-            loop: true,
-            autoplay: true,
-            onload: () => {
-
-                this.bgSound2.fade(0, 1, 2000);
-            }
-        });
-
-
+        /*
+                this.bgSound = new Howl({
+                    src: ['sound/robot-riff-44991.mp3'],
+                    loop: true,
+                    autoplay: true,
+                    onload: () => {
+        
+                        this.bgSound.fade(0, 1, 2000);
+                    }
+                });
+                this.bgSound2 = new Howl({
+                    src: ['sound/robot-robby-1-83380.mp3'],
+                    loop: true,
+                    autoplay: true,
+                    onload: () => {
+        
+                        this.bgSound2.fade(0, 1, 2000);
+                    }
+                });*/
+        SoundHandler.setBackgroundSounds(['sound/robot-riff-44991.mp3', 'sound/robot-robby-1-83380.mp3'])
+        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/robot.mp4", new Vector2(1920, 1080))
     }
 
     configScene() {
@@ -80,7 +81,10 @@ export default class Robots extends NavigationLevel {
         this.bgModel.z = -100
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
 
+        this.video.onPlay = () => {
 
+            this.bgModel.material.setTexture('colorTexture', this.video.getTexture())
+        }
 
 
         let link = this.mouseInteractionMap.get("youtube") as MouseInteractionWrapper
@@ -112,8 +116,7 @@ export default class Robots extends NavigationLevel {
     destroy() {
         super.destroy()
         this.video.pauze()
-        this.bgSound.unload()
-        this.bgSound2.unload()
+
     }
 
 

@@ -22,7 +22,7 @@ export default class Internet extends NavigationLevel {
     private video!: VideoPlayer;
     constructor() {
         super();
-        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/macaroni.mp4", new Vector2(1920, 1080))
+
     }
 
 
@@ -38,6 +38,9 @@ export default class Internet extends NavigationLevel {
             LoadHandler.stopLoading()
         }
         SoundHandler.setBackgroundSounds(["sound/389493__juanlopz08__06-boiling-water-present.mp3"])
+
+
+        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/macaroni.mp4", new Vector2(1920, 1080))
     }
 
     configScene() {
@@ -53,7 +56,6 @@ export default class Internet extends NavigationLevel {
 
 
 
-
         /*   this.bgModel = new Model(GameModel.renderer, "background")
            this.bgModel.mesh = new Quad(GameModel.renderer)
            this.bgModel.material = new FullScreenFillMaterial(GameModel.renderer, "bg")
@@ -61,7 +63,7 @@ export default class Internet extends NavigationLevel {
            this.bgModel.z = -100
            GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
    */
-        this.video.play()
+
 
 
         this.bgModel = new Model(GameModel.renderer, "background")
@@ -69,6 +71,16 @@ export default class Internet extends NavigationLevel {
         this.bgModel.material = new FullScreenStretchMaterial(GameModel.renderer, "bg")
         this.bgModel.material.setTexture("colorTexture", this.video.getTexture())
         this.bgModel.z = -100
+
+
+        this.video.onPlay = () => {
+
+            this.bgModel.material.setTexture('colorTexture', this.video.getTexture())
+        }
+
+        this.video.play()
+
+
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
 
     }

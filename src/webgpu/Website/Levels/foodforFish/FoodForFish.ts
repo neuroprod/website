@@ -22,7 +22,7 @@ export default class FoodForFish extends NavigationLevel {
     fishMouth!: Model;
     constructor() {
         super();
-    
+
     }
 
 
@@ -39,15 +39,15 @@ export default class FoodForFish extends NavigationLevel {
         });
         SoundHandler.setBackgroundSounds(["sound/Goldberg.mp3"])
 
-            if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/foodfish.mp4", new Vector2(1920, 1080))
-                 
-              
-                
+        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/foodfish.mp4", new Vector2(1920, 1080))
+
+
+
     }
 
     configScene() {
         super.configScene()
-        console.log("CONFIG SCENE FOOD FOR FISH")
+
         LoadHandler.onComplete = () => {
         }
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
@@ -55,20 +55,20 @@ export default class FoodForFish extends NavigationLevel {
 
         GameModel.gameCamera.setLockedViewZoom(new Vector3(0, 0.25, 0), new Vector3(0, 0.25, 0.65))
 
-console.log(this.configScene,"CONFIG SCENE FOOD FOR FISH???????????????????????????????")
+
         GameModel.gameRenderer.setLevelType("website")
 
-        
+
         let fv = SceneHandler.getSceneObject("videoHolder")
         let m = new Model(GameModel.renderer, "video1")
         m.material = new GBufferMaterial(GameModel.renderer, "video1")
         m.material.setTexture('colorTexture', this.video.getTexture())
         m.mesh = new Plane(GameModel.renderer, 1920 / 1000, 1080 / 1000)
         this.video.onPlay = () => {
-            console.log("onplayé")
+
             m.material.setTexture('colorTexture', this.video.getTexture())
         }
-        console.log(this.video.onPlay,"????????????????????????????????")
+
         this.video.play()
         m.setScaler(0.37)
         m.z = 0.017
@@ -136,7 +136,7 @@ console.log(this.configScene,"CONFIG SCENE FOOD FOR FISH????????????????????????
     public update() {
         super.update()
 
- 
+
 
 
     }

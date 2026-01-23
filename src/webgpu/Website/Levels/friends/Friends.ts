@@ -142,7 +142,7 @@ export default class Friends extends NavigationLevel {
 
         this.rossModel.material.setTexture("irradiance", GameModel.renderer.getTexture("irradiance.hdr"))
         this.rossModel.material.setTexture("specular", GameModel.renderer.getTexture("specular.hdr"))
-        GameModel.gameRenderer.postLightModelRenderer.addModel(this.rossModel)
+        // GameModel.gameRenderer.postLightModelRenderer.addModel(this.rossModel)
         this.rossModel.rx = Math.PI / 2
         this.rossModel.setPosition(0, 0, -2)
         this.rossModel.setScaler(0.8)

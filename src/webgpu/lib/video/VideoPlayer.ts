@@ -12,7 +12,7 @@ export default class VideoPlayer {
     private renderer: Renderer;
     private videoRenderPass: VideoRenderPass;
     holdTexture: TextureLoader;
-hasFrame:boolean=false;
+    hasFrame: boolean = false;
     onPlay!: () => void;
 
     constructor(renderer: Renderer, file: string, size: Vector2) {
@@ -27,19 +27,20 @@ hasFrame:boolean=false;
         this.video.muted = true;
         this.video.playsInline = true;
         this.video.preload = 'auto';
+        let img = file.replace(".mp4", ".jpg")
+        LoadHandler.startLoading();
 
-LoadHandler.startLoading();
-        this.holdTexture = new TextureLoader(this.renderer, Textures.PATATO)
-        this.holdTexture.onComplete=()=>{
-        
-         LoadHandler.stopLoading();
+        this.holdTexture = new TextureLoader(this.renderer, img)
+        this.holdTexture.onComplete = () => {
+
+            LoadHandler.stopLoading();
         }
 
     }
     getTexture() {
-        if(!this.hasFrame){
-        return this.holdTexture;
-    }
+        if (!this.hasFrame) {
+            return this.holdTexture;
+        }
         return this.videoRenderPass.texture
     }
 
@@ -74,12 +75,12 @@ LoadHandler.startLoading();
         // this.onVideoFrame()*/
         videoFrame.close()
 
-        console.log("play",this.hasFrame,this.onPlay);
 
-        if(!this.hasFrame && this.onPlay){
+
+        if (!this.hasFrame && this.onPlay) {
             this.hasFrame = true;
             this.onPlay();
-           
+
         }
 
 

@@ -20,7 +20,7 @@ export default class Lab101 extends NavigationLevel {
 
     constructor() {
         super();
-        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/overview1.mp4", new Vector2(1920, 1080))
+
     }
 
 
@@ -36,6 +36,7 @@ export default class Lab101 extends NavigationLevel {
 
         });
         SoundHandler.setBackgroundSounds(["sound/somnium-female-choir-vocalise-319176.mp3"])
+        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/overview1.mp4", new Vector2(1920, 1080))
     }
 
     configScene() {
@@ -51,13 +52,22 @@ export default class Lab101 extends NavigationLevel {
         GameModel.gameRenderer.setLevelType("website")
 
 
-        this.video.play()
+
 
         this.bgModel = new Model(GameModel.renderer, "background")
         this.bgModel.mesh = new Quad(GameModel.renderer)
         this.bgModel.material = new FullScreenFillMaterial(GameModel.renderer, "bg")
         this.bgModel.material.setTexture("colorTexture", this.video.getTexture())
         this.bgModel.z = -100
+
+
+        this.video.onPlay = () => {
+
+            this.bgModel.material.setTexture('colorTexture', this.video.getTexture())
+        }
+
+        this.video.play()
+
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
         let link = this.mouseInteractionMap.get("lab101") as MouseInteractionWrapper
 

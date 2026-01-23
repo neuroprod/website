@@ -40,8 +40,8 @@ export default class ArduinoGame extends NavigationLevel {
 
         });
         SoundHandler.setBackgroundSounds(["sound/neighbourhood.mp3"])
-        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/game.mp4", new Vector2(1920, 1080))
 
+        if (!this.video) this.video = new VideoPlayer(GameModel.renderer, "video/game.mp4", new Vector2(1920, 1080))
     }
 
     configScene() {
@@ -58,11 +58,19 @@ export default class ArduinoGame extends NavigationLevel {
         this.arduinoGame.init(SceneHandler.getSceneObject("root4"))
         this.arduinoGame.setEnabled(true)
 
-        this.video.play()
+
         let fv = SceneHandler.getSceneObject("arduinPicture")
         let m = new Model(GameModel.renderer, "video1")
         m.material = new GBufferMaterial(GameModel.renderer, "video1")
         m.material.setTexture('colorTexture', this.video.getTexture())
+
+
+        this.video.onPlay = () => {
+
+            m.material.setTexture('colorTexture', this.video.getTexture())
+        }
+
+        this.video.play()
         m.mesh = new Plane(GameModel.renderer, 1920 / 1000, 1080 / 1000)
         m.setScaler(0.26)
         m.z = 0.017
@@ -75,6 +83,8 @@ export default class ArduinoGame extends NavigationLevel {
         this.arduino = SceneHandler.getSceneObject("arduino")
 
         GameModel.gameRenderer.setRenderSettingsNeutral({ backgroundColor: new ColorV(0.04, 0.05, 0.07, 0.00) })
+
+
     }
 
     public update() {
