@@ -243,6 +243,19 @@ export default class MouseListener {
             pointer.pos = pos.clone();
             pointer.pressure = event.pressure;
             pointer.isPrimary = event.isPrimary;
+        } else {
+
+            const pointer: TouchPointer = {
+                id: pointerId,
+                pos: pos.clone(),
+                prevPos: pos.clone(),
+                downTime: Date.now(),
+                isPressed: false,
+                pointerType: event.pointerType as "mouse" | "touch" | "pen",
+                pressure: event.pressure,
+                isPrimary: event.isPrimary,
+            };
+            this.activePointers.set(pointerId, pointer);
         }
     }
 

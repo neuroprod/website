@@ -205,11 +205,11 @@ export default class Object2D {
             const prevObject = this.touchMap.get(touch.id);
 
             // Handle rollover/rollout
-            /*if (prevObject !== touchObject) {
+            if (prevObject !== touchObject) {
                 if (prevObject) prevObject.rollOut();
                 if (touchObject) touchObject.rollOver();
                 this.touchMap.set(touch.id, touchObject);
-            }*/
+            }
 
             // Handle touch down
             if (touch.isPressed && !this.touchDownMap.has(touch.id)) {

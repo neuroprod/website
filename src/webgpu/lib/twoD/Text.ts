@@ -107,6 +107,7 @@ export default class Text extends Object2D {
 
     }
     checkMouseHit(mousePos: Vector2) {
+
         this.mousePosLocal.set(mousePos.x, mousePos.y, 0, 1)
         this.mousePosLocal.applyMatrix4(this._worldMatrixInv)
         if (this.rect.contains(this.mousePosLocal)) {
