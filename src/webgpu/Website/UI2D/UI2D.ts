@@ -10,6 +10,7 @@ import FightUI from "../Levels/FightLevel/FigthUI.ts";
 import Sprite from "../../lib/twoD/Sprite.ts";
 import DefaultTextures from "../../lib/textures/DefaultTextures.ts";
 import JoyStick from "./JoyStick.ts";
+import MultiTouchInput from "../../lib/input/MultiTouchInput.ts";
 
 export default class UI2D {
 
@@ -18,6 +19,7 @@ export default class UI2D {
     private root: Object2D;
     private menu: Menu;
     private joyStick: JoyStick;
+    private multiTouchInput: MultiTouchInput | null = null;
     //  guageLevel2D: GuageLevel2D;
     settings: SettingsUI;
     fightUI: FightUI;
@@ -72,8 +74,21 @@ export default class UI2D {
         // this.root.addChild(this.guageLevel2D.root)
         this.root.sx = this.root.sy = renderer.pixelRatio
 
+        // Initialize multitouch input handler on the canvas
+        const canvas = renderer.canvas;
+        if (canvas) {
+            this.multiTouchInput = new MultiTouchInput(canvas);
+        }
 
         //LevelHandler.
+    }
+
+    /**
+     * Enable or disable multitouch input
+     */
+    setMultiTouchEnabled(enabled: boolean) {
+        // Can be used to enable/disable multitouch at runtime
+        // For now, multitouch is always enabled if initialized
     }
 
     public update() {
@@ -82,6 +97,25 @@ export default class UI2D {
         this.settings.update();
         this.fightUI.update();
         this.joyStick.update();
+        
+        // Update input
+        this.updateInput();
+    }
+
+    /**
+     * Handle both legacy single-touch and multitouch input
+     */
+    private updateInput() {
+        if (this.multiTouchInput) {
+            // Use multitouch if available
+            const touches = this.multiTouchInput.getAllTouches();
+            if (touches.length > 0) {
+                this.root.updateMultiTouch(touches);
+            }
+        } else {
+            // Fallback to legacy mouse input
+            this.updateMouse();
+        }
     }
 
     updateMouse() {

@@ -1,6 +1,7 @@
 import { Matrix4, Quaternion, Vector2, Vector3 } from "@math.gl/core";
 import RenderPass from "../RenderPass.ts";
 import GameModel from "../../Website/GameModel.ts";
+import { TouchPointer } from "../input/MultiTouchInput.ts";
 
 export default class Object2D {
     public parent: Object2D | null = null;
@@ -146,11 +147,19 @@ export default class Object2D {
     }
 
 
-    ///mouse
+    ///mouse/touch
 
-
+    // Single-touch support (legacy)
     public currentOver: Object2D | null = null;
     public currentDown: Object2D | null = null;
+
+    // Multi-touch support
+    private touchMap: Map<number, Object2D | null> = new Map(); // touchId -> hovered Object2D
+    private touchDownMap: Map<number, Object2D | null> = new Map(); // touchId -> pressed Object2D
+
+    /**
+     * Legacy single-touch input handler
+     */
     updateMouse(mousePos: Vector2, isDownThisFrame: boolean, isUpThisFrame: boolean) {
         let mouseObject = this.updateMouseInt(mousePos);
         if (this.currentOver != mouseObject) {
@@ -179,6 +188,48 @@ export default class Object2D {
 
         }
 
+    }
+
+    /**
+     * Multi-touch input handler - supports multiple simultaneous touches
+     */
+    updateMultiTouch(touches: TouchPointer[]) {
+        // Update active touches
+        for (const touch of touches) {
+            const touchObject = this.updateMouseInt(touch.pos);
+            const prevObject = this.touchMap.get(touch.id);
+
+            // Handle rollover/rollout
+            if (prevObject !== touchObject) {
+                if (prevObject) prevObject.rollOut();
+                if (touchObject) touchObject.rollOver();
+                this.touchMap.set(touch.id, touchObject);
+            }
+
+            // Handle touch down
+            if (touch.isPressed && !this.touchDownMap.has(touch.id)) {
+                if (touchObject) {
+                    touchObject.mouseDown();
+                    this.touchDownMap.set(touch.id, touchObject);
+                }
+            }
+        }
+
+        // Check for ended touches
+        for (const [touchId, touchObject] of this.touchDownMap) {
+            if (!touches.find(t => t.id === touchId)) {
+                // Touch ended
+                if (touchObject) {
+                    touchObject.mouseUp();
+                    const hovered = this.touchMap.get(touchId);
+                    if (touchObject === hovered) {
+                        touchObject.onClick();
+                    }
+                }
+                this.touchDownMap.delete(touchId);
+                this.touchMap.delete(touchId);
+            }
+        }
     }
     updateMouseInt(mousePos: Vector2): null | Object2D {
         if (!this.visible) return null;
