@@ -64,8 +64,11 @@ fn mainFragment(${this.getFragmentInput()}) -> @location(0) vec4f
 {
    
     
-      let n =simplex2d(uv0*vec2(3.0,9.0)+vec2f(uniforms.time,0))+simplex2d(uv0*vec2(10.0,20.0)+vec2f(-uniforms.time*0.5,0))*0.3;
-     return vec4(smoothstep(0.4,0.6,n),0,0,1.0) ;
+      let n =simplex2d(uv0*20.0+vec2(4.3,2.0))*0.5+1.0+uv0.x*10;
+      let s = round(n*10.0);
+      let p = hash(vec2(s,0.5));
+       let p2 = hash(vec2(0.6,s));
+     return vec4(p.x,p2.y,p2.x,p2.y) ;
 }
 ///////////////////////////////////////////////////////////
         `

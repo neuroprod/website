@@ -19,6 +19,8 @@ import Plane from "../../../lib/mesh/geometry/Plane.ts";
 import GradingMaterial from "../../../render/grading/GradingMaterial.ts";
 import Quad from "../../../lib/mesh/geometry/Quad.ts";
 import GridMaterial from "./GridMaterial.ts";
+import ProjectsMaterial from "./ProjectsMaterial.ts";
+import Renderer from "../../../lib/Renderer.ts";
 
 class FlowerParticle {
     position: Vector3 = new Vector3()
@@ -77,6 +79,8 @@ export default class Shaders extends NavigationLevel {
     private armR!: SceneObject3D;
     private armL!: SceneObject3D;
     bgModel!: Model;
+    projectsModel!: Model;
+    projectTexture!: TextureLoader;
     constructor() {
         super();
         this.material = new MeatMaterial(GameModel.renderer, "meat")
@@ -95,8 +99,9 @@ export default class Shaders extends NavigationLevel {
         });
         SoundHandler.setBackgroundSounds(["sound/looperman-l-4499538-0400053-chill-cloudy-vapor-loop.mp3"])
         //looperman-l-4499538-0400053-chill-cloudy-vapor-loop.mp3
-
-
+        LoadHandler.startLoading()
+        this.projectTexture = new TextureLoader(GameModel.renderer, "projects.png")
+        this.projectTexture.onComplete = () => { LoadHandler.stopLoading() }
         this.time = 0
     }
 
@@ -111,10 +116,21 @@ export default class Shaders extends NavigationLevel {
         this.bgModel.mesh = new Quad(GameModel.renderer)
         this.bgModel.material = new GridMaterial(GameModel.renderer, "bg")
 
+
+
+        this.projectsModel = new Model(GameModel.renderer, "projects")
+        this.projectsModel.mesh = new Plane(GameModel.renderer)
+        this.projectsModel.rx = Math.PI / 2
+        this.projectsModel.material = new ProjectsMaterial(GameModel.renderer, "proj")
+        this.projectsModel.material.setTexture("colorTexture", this.projectTexture)
+
+        this.projectsModel.rz = -0.1
+        this.projectsModel.setScaler(0.5)
+        this.projectsModel.x = 0.35
+        this.projectsModel.y = 0.2
+        this.projectsModel.z = 0.01
+        GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.projectsModel)
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
-
-
-
 
         this.setMouseHitObjects(SceneHandler.mouseHitModels);
 
@@ -251,7 +267,7 @@ export default class Shaders extends NavigationLevel {
         let smileS = smoothstep(0.8, 1.0, pos)
         this.smile.y = -100
         if (smileS > 0) this.smile.y = (-0.03 - 0.03 + smileS * 0.03) + 0.01
-
+        this.projectsModel.material.setUniform("size", pos)
         this.material.setUniform("pos1", this.pos1 * 0.5 + 0.5)
         this.material.setUniform("pos2", pos2)
         this.material.setUniform("pos3", pos3)
@@ -262,7 +278,9 @@ export default class Shaders extends NavigationLevel {
         super.destroy()
         //    this.flowerTexture.destroy()
         SoundHandler.killBackgroundSounds()
-        this.bgModel.destroy()
+        this.bgModel?.destroy()
+        this.projectTexture?.destroy()
+        this.projectsModel?.destroy()
 
     }
 

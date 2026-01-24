@@ -43,6 +43,7 @@ export default class Renderer {
 
     hasFloat32Filterable = false;
     updateBufferCount = 0;
+    isMobile: boolean = false;
     constructor() {
 
     }
@@ -53,6 +54,10 @@ export default class Renderer {
         this.pixelRatio = window.devicePixelRatio;
         this.textureHandler = new TextureHandler();
         Renderer.instance = this;
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (isMobile) {
+            this.isMobile = true;
+        }
 
         const adapter = await navigator.gpu.requestAdapter({ featureLevel: 'compatibility', powerPreference: "high-performance" });
 

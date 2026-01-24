@@ -264,7 +264,7 @@ export default class GameRenderer {
     dofHorPass: DofHorPass;
     dofVertPass: DofVertPass;
     options!: RenderOptions;
-
+    firstDraw = true;
     constructor(renderer: Renderer, camera: Camera) {
 
 
@@ -316,21 +316,18 @@ export default class GameRenderer {
 
         this.debugTextureMaterial = new DebugTextureMaterial(this.renderer, "debugTextureMaterial")
         this.blitFinal = new Blit(renderer, "blitFinal", this.debugTextureMaterial)
-        // this.passSelect.push(new SelectItem(Textures.DRIP, {texture: Textures.DRIP, type: 0}));
 
 
-        // this.passSelect.push(new SelectItem(Textures.DOF_PREP, { texture: Textures.DOF_PREP, type: 0 }));
         this.passSelect.push(new SelectItem(Textures.FXAA, { texture: Textures.FXAA, type: 0 }));
         this.passSelect.push(new SelectItem(Textures.GRADING, { texture: Textures.GRADING, type: 0 }));
-
         this.passSelect.push(new SelectItem(Textures.ASCII, { texture: Textures.ASCII, type: 0 }));
+
         if (this.renderer.hasFloat32Filterable) {
             this.passSelect.push(new SelectItem(Textures.GTAO, { texture: Textures.GTAO, type: 1 }));
             this.passSelect.push(new SelectItem(Textures.GTAO_DENOISE, { texture: Textures.GTAO_DENOISE, type: 1 }));
         }
         this.passSelect.push(new SelectItem(Textures.MASK, { texture: Textures.MASK, type: 0 }));
         this.passSelect.push(new SelectItem(Textures.LIGHT, { texture: Textures.LIGHT, type: 0 }));
-        this.passSelect.push(new SelectItem("video/test.mp4", { texture: "video/test.mp4", type: 0 }));
         this.passSelect.push(new SelectItem(Textures.SHADOW, { texture: Textures.SHADOW, type: 0 }));
         // this.passSelect.push(new SelectItem(Textures.SHADOW_DEPTH_BLUR, {texture: Textures.SHADOW_DEPTH_BLUR, type: 0}));
         this.passSelect.push(new SelectItem(Textures.SHADOW_DEPTH, { texture: Textures.SHADOW_DEPTH, type: 2 }));
@@ -515,7 +512,11 @@ export default class GameRenderer {
     //doPasses
     draw() {
         if (LoadHandler.isLoading()) return;
-        this.ascciPass.add();
+        if (this.firstDraw) {
+            this.ascciPass.add();
+            this.firstDraw = false;
+        }
+
 
         if (this.needsShadowInt) this.shadowMapPass.add();
 

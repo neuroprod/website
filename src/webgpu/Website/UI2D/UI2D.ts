@@ -62,8 +62,11 @@ export default class UI2D {
         this.root.addChild(this.fightUI.root)
 
         this.root.addChild(this.menu.menuRoot)
-        this.joyStick = new JoyStick(renderer)
-        this.root.addChild(this.joyStick.joystickRoot)
+
+        if (renderer.isMobile) {
+            this.joyStick = new JoyStick(renderer)
+            this.root.addChild(this.joyStick.joystickRoot)
+        }
         this.root.addChild(this.black)
         this.root.addChild(this.settings.settingsRoot)
 
@@ -91,7 +94,7 @@ export default class UI2D {
         // this.guageLevel2D.update()
         this.settings.update();
         this.fightUI.update();
-        this.joyStick.update();
+        this.joyStick?.update();
 
         // Update input
         this.updateMouse()

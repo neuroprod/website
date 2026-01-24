@@ -22,11 +22,10 @@ export default class AsciiPass extends RenderPass {
     constructor(renderer: Renderer) {
         super(renderer, "asciiPass");
         this.colorTarget = new RenderTexture(renderer, Textures.ASCII, {
-            format: TextureFormat.R8Unorm,
+            format: TextureFormat.RGBA16Float,
             sampleCount: this.sampleCount,
-            scaleToCanvas: true,
-            sizeMultiplier: 1 / 3,
-            heightMultiplier: 18 / 27,
+            width: 1024,
+            height: 1,
             usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING
         });
         this.colorAttachment = new ColorAttachment(this.colorTarget);
