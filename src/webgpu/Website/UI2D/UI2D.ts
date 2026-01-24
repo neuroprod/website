@@ -18,7 +18,7 @@ export default class UI2D {
     private renderer2D: Renderer2D;
     private root: Object2D;
     private menu: Menu;
-    private joyStick: JoyStick;
+    private joyStick!: JoyStick;
     private multiTouchInput: MultiTouchInput | null = null;
     //  guageLevel2D: GuageLevel2D;
     settings: SettingsUI;
