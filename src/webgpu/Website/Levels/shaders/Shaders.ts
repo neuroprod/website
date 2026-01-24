@@ -267,7 +267,7 @@ export default class Shaders extends NavigationLevel {
         let smileS = smoothstep(0.8, 1.0, pos)
         this.smile.y = -100
         if (smileS > 0) this.smile.y = (-0.03 - 0.03 + smileS * 0.03) + 0.01
-        this.projectsModel.material.setUniform("size", pos)
+        this.projectsModel.material.setUniform("size", smoothstep(0.15, 1.0, pos))
         this.material.setUniform("pos1", this.pos1 * 0.5 + 0.5)
         this.material.setUniform("pos2", pos2)
         this.material.setUniform("pos3", pos3)

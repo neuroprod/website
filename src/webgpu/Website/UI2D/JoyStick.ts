@@ -6,6 +6,8 @@ import Sprite from "../../lib/twoD/Sprite";
 import GameModel from "../GameModel";
 import GameInput from "../GameInput";
 import { gsap } from "gsap";
+import { smoothstep } from "../../lib/MathUtils";
+
 export default class JoyStick {
     joystickRoot: Object2D;
     renderer: Renderer;
@@ -91,6 +93,10 @@ export default class JoyStick {
 
 
                 let moveLen = this.moveVec.len()
+                let xDir = smoothstep(0.4, 0.6, Math.abs(this.moveVec.x / 50))
+                let sX = Math.sign(this.moveVec.x)
+                let yDir = smoothstep(0.4, 0.6, Math.abs(this.moveVec.y / 50))
+                let sY = Math.sign(this.moveVec.y)
                 if (moveLen > 50) {
                     this.moveVec.normalize()
                     this.moveVec.scale(50)
@@ -100,12 +106,13 @@ export default class JoyStick {
 
                 }
 
-                this.moveVec.scale(1 / 50);
+                this.moveVec.set(xDir * sX, yDir * sY)
 
 
             } else {
                 this.moveVec.set(0, 0)
             }
+
             GameInput.setJoystick(this.moveVec.x, this.moveVec.y, this.jump)
 
 
