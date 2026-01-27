@@ -252,7 +252,7 @@ class SoundHandler {
 
 
         this.moan.stop()
-        this.moan.volume(this.fxVolume * 0.5);
+        this.moan.volume(this.fxVolume * 0.1);
 
 
         this.moan.play("s" + count % 7)
