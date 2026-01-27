@@ -159,7 +159,7 @@ export default class ConversationHandler {
 
         if (jump) {
             this.setCallBack(this.currentData.callBack)
-            console.log(this.currentData.callText)
+
             if (this.currentData.callText) {
 
                 this.startConversation(this.currentData.callText)

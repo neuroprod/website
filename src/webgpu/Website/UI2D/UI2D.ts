@@ -11,6 +11,7 @@ import Sprite from "../../lib/twoD/Sprite.ts";
 import DefaultTextures from "../../lib/textures/DefaultTextures.ts";
 import JoyStick from "./JoyStick.ts";
 import MultiTouchInput from "../../lib/input/MultiTouchInput.ts";
+import LevelHandler from "../Levels/LevelHandler.ts";
 
 export default class UI2D {
 
@@ -25,6 +26,10 @@ export default class UI2D {
     fightUI: FightUI;
     black: Sprite;
     _blackValue: number = 1;
+    isNavigation: boolean = false
+    renderer: Renderer;
+    isDown: boolean = false;
+    navPos: any;
 
     set blackValue(value: number) {
 
@@ -41,6 +46,7 @@ export default class UI2D {
         return this._blackValue
     }
     constructor(renderer: Renderer, renderer2D: Renderer2D) {
+        this.renderer = renderer;
         this.renderer2D = renderer2D
         this.root = renderer2D.root
 
@@ -103,7 +109,34 @@ export default class UI2D {
 
     updateMouse() {
         this.root.updateMouse(GameModel.mouseListener.mousePos, GameModel.mouseListener.isDownThisFrame, GameModel.mouseListener.isUpThisFrame, GameModel.mouseListener.getAllPointers())
+        if (this.renderer.isMobile && this.isNavigation) {
 
+            if (GameModel.mouseListener.isDownThisFrame) {
+                this.isDown = true;
+                this.navPos = GameModel.mouseListener.mousePos.clone()
+
+            }
+            if (GameModel.mouseListener.isUpThisFrame) {
+                this.isDown = false;
+
+            }
+            if (this.isDown) {
+                let dY = GameModel.mouseListener.mousePos.y - this.navPos.y;
+                let dX = GameModel.mouseListener.mousePos.x - this.navPos.x;
+                if (dX == 0) return;
+                console.log(dY, Math.abs(dY / dX))
+                if (Math.abs(dY / dX) > 2 && dY > 200) {
+                    this.isDown = false;
+                    LevelHandler.setPrevNavigationLevel()
+                }
+                if (Math.abs(dY / dX) > 2 && dY < -200) {
+                    this.isDown = false;
+                    LevelHandler.setNextNavigationLevel()
+                }
+            }
+        } else {
+            this.isDown = false;
+        }
 
     }
     setCoins(displayCoins: number) {
@@ -120,9 +153,17 @@ export default class UI2D {
     }
 
     setLevel(key: string) {
+
+
+        if (LevelHandler.navigationLevels.includes(key)) {
+            this.isNavigation = true;
+        } else {
+            this.isNavigation = false;
+        }
         this.menu.setLevel(key)
-        //  this.guageLevel2D.setLevel(key)
+
         this.settings.setLevel(key)
         this.fightUI.setLevel(key)
+        this.joyStick?.setLevel(key);
     }
 }

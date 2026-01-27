@@ -55,6 +55,7 @@ export default class Menu {
         this.width = size;
         this.line = new Sprite(renderer, DefaultTextures.getWhite(renderer))
         this.menuRoot.addChild(this.line)
+
     }
 
 

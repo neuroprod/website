@@ -97,7 +97,8 @@ export default class SettingsUI {
         this.scoreStickText.y = -11
         this.scoreStickText.alpha = 0.7
         this.settingsRoot.addChild(this.scoreStickText)
-
+        this.backButton.visible = false
+        this.settingsButton.visible = false
     }
     update() {
         this.scoreText.x = this.renderer.htmlWidth - 150

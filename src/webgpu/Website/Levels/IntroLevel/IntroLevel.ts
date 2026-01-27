@@ -103,6 +103,7 @@ export class IntroLevel extends PlatformLevel {
 
     destroy() {
         super.destroy();
+        if (this.tl) this.tl.clear();
     }
 
     private playIntro() {
@@ -118,9 +119,13 @@ export class IntroLevel extends PlatformLevel {
 
         this.characterController.setAngle(-Math.PI - 0.3, 0.7, 1.7)
         let count = 0;
-        gsap.delayedCall(3, () => {
+        if (this.tl) this.tl.clear();
+        this.tl = gsap.timeline()
+
+        this.tl.call(() => {
             GameModel.conversationHandler.startConversation("mrLoathsome")
             GameModel.conversationHandler.dataCallBack = (data: string) => {
+                console.log(data)
                 if (this.tl) this.tl.clear();
                 this.tl = gsap.timeline()
                 if (data == "raiseHand") {
@@ -151,7 +156,7 @@ export class IntroLevel extends PlatformLevel {
                 })
             }
 
-        });
+        }, [], 3);
     }
 
 }

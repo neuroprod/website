@@ -22,10 +22,12 @@ export default class KeyInput {
 
 
     constructor() {
-
+        //w
+        //asd
         document.addEventListener('keydown', (event) => {
-
+            console.log(event.key)
             switch (event.key) {
+                case "a":
                 case "ArrowLeft":
 
 
@@ -33,18 +35,20 @@ export default class KeyInput {
                     this.leftDownTime = event.timeStamp
 
                     break;
+                case "d":
                 case "ArrowRight":
 
                     this.rightDown = true;
                     this.rightDownTime = event.timeStamp
 
                     break;
+                case "w":
                 case "ArrowUp":
                     this.upDown = true;
 
                     this.upDownTime = event.timeStamp
                     break;
-
+                case "s":
                 case "ArrowDown":
                     this.downDown = true
                     this.downDownTime = event.timeStamp
@@ -65,9 +69,11 @@ export default class KeyInput {
 
         document.addEventListener('keyup', (event) => {
             switch (event.key) {
+                case "a":
                 case "ArrowLeft":
                     this.leftDown = false
                     break;
+                case "d":
                 case "ArrowRight":
                     this.rightDown = false
                     break;
@@ -76,13 +82,14 @@ export default class KeyInput {
                     this.space = false
                     break;
                     ;
+                case "w":
                 case "ArrowUp":
 
                     this.jumpTime = event.timeStamp - this.upDownTime;
                     this.upDown = false
                     this.space = false
                     break;
-
+                case "s":
                 case "ArrowDown":
 
 

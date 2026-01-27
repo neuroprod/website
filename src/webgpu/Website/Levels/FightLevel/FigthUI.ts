@@ -103,10 +103,20 @@ export default class FightUI {
     }
     public update() {
         if (!this.root.visible) return
+        let scale = 1
+        if (this.renderer.htmlHeight < 1000) {
 
+            scale = this.renderer.htmlHeight / 1000
+        }
         this.root.x = this.renderer.htmlWidth / 2
         this.root.y = this.renderer.htmlHeight / 2
+
         this.infoHolder.y = this.renderer.htmlHeight / 3
+        this.infoHolder.sx = this.infoHolder.sy = scale;
+
+
+        this.pirateLife.root.sx = this.pirateLife.root.sy = scale;
+        this.landLordLife.root.sx = this.landLordLife.root.sy = scale;
         this.infoPanel.update()
     }
 

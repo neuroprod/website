@@ -9,6 +9,7 @@ import { gsap } from "gsap";
 import { smoothstep } from "../../lib/MathUtils";
 
 export default class JoyStick {
+
     joystickRoot: Object2D;
     renderer: Renderer;
     joyStick: Sprite;
@@ -18,6 +19,7 @@ export default class JoyStick {
     private moveVec = new Vector2()
     joyStickBtn: Sprite;
     jump: boolean = false
+    tl!: gsap.core.Timeline;
     constructor(renderer: Renderer) {
         this.renderer = renderer;
         this.joystickRoot = new Object2D()
@@ -68,7 +70,31 @@ export default class JoyStick {
         }
         this.joystickRoot.addChild(this.joyStickBtn)
     }
+    setLevel(key: string) {
+        if (key == "Home") {
+            this.joystickRoot.visible = false
+            if (this.tl) this.tl.clear()
 
+        }
+        if (key == "Intro") {
+
+            this.joyStick.sx = this.joyStick.sy = 0.0
+            this.joyStickBack.sx = this.joyStickBack.sy = 0.0
+            this.joyStickBtn.sx = this.joyStickBtn.sy = 0.0
+            if (this.tl) this.tl.clear()
+            this.tl = gsap.timeline()
+            this.tl.call(() => {
+                this.joystickRoot.visible = true
+            }, [], 6)
+
+            this.tl.to(this.joyStickBtn, { sx: 0.5, sy: 0.5, ease: "elastic.out", duration: 2 }, 6.5);
+
+            this.tl.to(this.joyStickBack, { sx: 0.5, sy: 0.5, ease: "elastic.out", duration: 2 }, 7.5);
+            this.tl.to(this.joyStick, { sx: 0.5, sy: 0.5, ease: "elastic.out", duration: 2 }, 7.5);
+
+        }
+
+    }
     setAllPos(x: number, y: number, x2: number) {
         this.joyStick.x = this.joyStickBack.x = x
         this.joyStick.y = this.joyStickBack.y = y
