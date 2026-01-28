@@ -172,7 +172,7 @@ export default class ConversationHandler {
 
     }
     replace(input: string) {
-
+        input = GameModel.replaceFishStick(input);
         return input.replace(/#(\w+)/g, (_, $1) => {
             return this.replaceMap.get($1) as string
         })

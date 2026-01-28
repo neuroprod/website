@@ -123,6 +123,8 @@ export default class Main {
         new TextureLoader(this.renderer, Textures.PATATO)
         new TextureLoader(this.renderer, Textures.JOYSTICK)
         new TextureLoader(this.renderer, Textures.JOYSTICKBACK)
+        new TextureLoader(this.renderer,Textures.SLIDER_BUTTON)
+        new TextureLoader(this.renderer,Textures.TOGGLE_BACK)
         let tl = new HDRTextureLoader()
         tl.loadURL(this.renderer, "specular.hdr").then()
 

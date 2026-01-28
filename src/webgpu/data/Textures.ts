@@ -48,5 +48,10 @@ export const Textures = {
     PATATO: "patato.png",
 
     JOYSTICK: "joystick.png",
-    JOYSTICKBACK: "joystickBack.png"
+    JOYSTICKBACK: "joystickBack.png",
+SLIDER_BUTTON:"sliderBtn.png",
+TOGGLE_BACK:"togle.png"
+
+
+
 }

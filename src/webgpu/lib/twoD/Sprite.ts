@@ -21,6 +21,7 @@ export default class Sprite extends Object2D {
     private mousePosLocal: Vector4 = new Vector4()
     private rect: Rect;
 
+
     constructor(renderer: Renderer, texture: Texture) {
         super();
 
