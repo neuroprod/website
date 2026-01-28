@@ -37,7 +37,13 @@ export default class JoyStick {
         this.joyStick.mouseDown = () => {
 
             this.down = true;
+            let pos = this.joyStick.mousePos.clone()
+            pos.scale(1 / this.renderer.pixelRatio)
 
+            this.joyStick.x = pos.x;
+            this.joyStick.y = pos.y;
+            this.joyStickBack.x = pos.x;
+            this.joyStickBack.y = pos.y;
             gsap.killTweensOf(this.joyStick)
 
         }
