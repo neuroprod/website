@@ -7,7 +7,7 @@ export default class Object2D {
     public parent: Object2D | null = null;
     public children: Array<Object2D> = []
     public id: string = ""
-    public visible: boolean = true;
+    private _visible: boolean = true;
     protected _position = new Vector3(0, 0, 0);
     private _r = 0;
     private _rotation = new Quaternion(0, 0, 0, 1);
@@ -46,6 +46,16 @@ export default class Object2D {
         this._scale.y = value
         this.setDirty()
     }
+
+    get visible(): boolean {
+        return this._visible;
+    }
+
+    set visible(value: boolean) {
+        this._visible = value;
+        this.setDirty();
+    }
+
     private _worldMatrix: Matrix4 = new Matrix4()
 
     public get worldMatrix() {

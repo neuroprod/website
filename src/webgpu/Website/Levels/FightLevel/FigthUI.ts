@@ -13,6 +13,8 @@ import FightPanel from "./FightPanel.ts";
 import { Vector3 } from "@math.gl/core";
 import LifeBar from "./LifeBar.ts";
 import { Textures } from "../../../data/Textures.ts";
+import Game from "../../Game.ts";
+import GameModel from "../../GameModel.ts";
 export default class FightUI {
 
 
@@ -70,6 +72,7 @@ export default class FightUI {
         this.fightPannel.hide()
     }
     setInfoPanel(text: string) {
+        text=GameModel.replaceFishStick(text);
         this.infoPanel.show()
         this.fightPannel.hide()
         this.infoPanel.setText(text)

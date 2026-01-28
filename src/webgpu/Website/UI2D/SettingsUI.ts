@@ -8,6 +8,7 @@ import Sprite from "../../lib/twoD/Sprite";
 import GameModel from "../GameModel";
 import LevelHandler from "../Levels/LevelHandler";
 import gsap from "gsap";
+import SettingHolder from "./SettingsHolder.ts";
 export default class SettingsUI {
 
 
@@ -21,6 +22,7 @@ export default class SettingsUI {
     stickIcon: Sprite;
     scoreStickText: Text;
     numFishsticks: number = 0;
+    settingHolder: SettingHolder;
 
     constructor(renderer: Renderer) {
         this.renderer = renderer;
@@ -29,6 +31,9 @@ export default class SettingsUI {
         let font = FontPool.getFont("bold") as Font;
         this.settingsRoot.x = 40
         this.settingsRoot.y = 40
+
+        this.settingHolder = new SettingHolder(renderer);
+        this.settingsRoot.addChild(this.settingHolder.root);
 
 
         this.backButton = new Sprite(renderer, this.renderer.getTexture(Textures.BACK_BTN))
@@ -57,10 +62,7 @@ export default class SettingsUI {
         this.settingsButton.x = 32
         this.settingsButton.alpha = 0.7
         this.settingsRoot.addChild(this.settingsButton)
-        this.settingsButton.onClick = () => {
-
-
-        }
+   
         this.settingsButton.rollOver = () => {
             this.settingsButton.alpha = 1
             GameModel.renderer.setCursor(true)
@@ -70,7 +72,9 @@ export default class SettingsUI {
             this.settingsButton.alpha = 0.7
 
         }
-
+this.settingsButton.onClick=()=>{
+    this.settingHolder.root.visible=!this.settingHolder.root.visible;
+}
         this.coinIcon = new Sprite(renderer, this.renderer.getTexture(Textures.COIN_ICON))
         this.coinIcon.sx = this.coinIcon.sy = 0.2
         this.coinIcon.x = 32 * 2 + 10
@@ -109,6 +113,7 @@ export default class SettingsUI {
         this.scoreStickText.x = this.renderer.htmlWidth - 150 - 110
 
         this.stickIcon.x = this.renderer.htmlWidth - 80 - 130
+        if(this.settingHolder.root.visible) this.settingHolder.update();
 
     }
     setLevel(level: string) {

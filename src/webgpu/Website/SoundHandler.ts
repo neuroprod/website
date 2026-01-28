@@ -10,12 +10,24 @@ class SoundObject {
 }
 
 class SoundHandler {
+    setMusicVolume(value: number) {
+        this.musicVolume = value;
+        for (let i = 0; i < this.bgSounds.length; i++) {
+            let bs = this.bgSounds[i]
+            bs.sound.volume(this.musicVolume);
+        }
+      console.log("set music volume", this.musicVolume)
+    }
+    setSoundFXVolume(value: number) {
+      this.fxVolume = value;
+      console.log("set fx volume", this.fxVolume)
+    }
 
 
 
 
-    public fxVolume = 1;
-    public musicVolume = 1
+    public fxVolume = 0.8;
+    public musicVolume = 0.8
     private coin!: Howl;
     private step!: Howl;
     private hitFloor!: Howl;
@@ -426,7 +438,7 @@ class SoundHandler {
             }
 
         }
-        console.log(sounds, this.bgSounds)
+   
         for (let i = 0; i < this.bgSounds.length; i++) {
             let bs = this.bgSounds[i]
             if (bs.needsDelete) {
@@ -472,10 +484,10 @@ class SoundHandler {
     setSeaSoundTranstion(seaSoundTransition: number) {
         for (let s of this.bgSounds) {
             if (s.name == "sound/653311__mfedward__relaxing-sea.mp3") {
-                s.sound.volume(this.fxVolume * (seaSoundTransition) * 0.1);
+                s.sound.volume(this.musicVolume * (seaSoundTransition) * 0.1);
             }
             else {
-                s.sound.volume(this.fxVolume * (1 - seaSoundTransition));
+                s.sound.volume(this.musicVolume * (1 - seaSoundTransition));
             }
             //  s.volume(this.fxVolume * (1 - seaSoundTransition));
         }

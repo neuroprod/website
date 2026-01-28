@@ -18,6 +18,7 @@ import gsap from "gsap";
 
 class GameModel {
 
+
     renderer!: Renderer;
     gameRenderer!: GameRenderer;
     gameCamera!: GameCamera;
@@ -43,6 +44,7 @@ class GameModel {
     happyEnd: boolean = false;
     singleCopy!: any;
     fishstickHandler!: FishstickHandler;
+    fishFingers: boolean =false;
 
     getCopy(key: string) {
         return this.singleCopy[key] + ""
@@ -62,7 +64,18 @@ class GameModel {
         gsap.to(this.UI2D, { blackValue: 0, duration: time })
 
     }
+    replaceFishStick(input: string): string {
+        if (this.fishFingers) {
+            input = input.replace(/fish stick/g, "fish finger");
+            input = input.replace(/Fish Stick/g, "Fish Finger");
+            input = input.replace(/fish sticks/g, "fish fingers");
+            input = input.replace(/Fish Sticks/g, "Fish Fingers");  
+            
 
+            return input
+        }
+        return input;
+    }
 
 }
 export default new GameModel()
