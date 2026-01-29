@@ -92,7 +92,7 @@ export default class DeadLevel extends BaseLevel {
         this.fishParicles2 = new FishParicles(fish2)
         GameModel.gameRenderer.gBufferPass.modelRenderer.addModel(this.fishParicles2.particlesModel)
         console.log(GameModel.gameCamera.camera.near)
-        GameModel.gameRenderer.setRenderSettingsNeutral({ backgroundColor: new ColorV(0.18, 0.36, 0.31, 0.00), fogColor: new ColorV(0.18, 0.36, 0.31, 0.00), fogMax: 3.5, fogMin: 0, dofMax: 0.9, dofMin: 0.7, dofSize: 6, grain: 0.5 })
+        GameModel.gameRenderer.setRenderSettingsNeutral({ backgroundColor: new ColorV(0.45,0.45,0.45,0.00), fogColor: new ColorV(0.45,0.45,0.45,0.00), fogMax: 3.5, fogMin: 0, dofMax: 0.9, dofMin: 0.7, dofSize: 6, grain: 0.5,vinFalloff:-0.8, vinAmount:1.9,sunStrength:20 })
     }
 
     update() {

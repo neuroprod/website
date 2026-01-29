@@ -171,8 +171,11 @@ export class GirlLevel extends PlatformLevel {
 
                             }
                             GameModel.conversationHandler.doneCallBack = () => {
-                                if (GameModel.fishstickHandler.numFishsticks < 3) {
-                                    GameModel.fishstickHandler.addFishstick(1)
+
+                               if (GameModel.fishstickHandler.numFishsticks < 5) {
+
+                                
+                                    GameModel.fishstickHandler.addFishstick(5 - GameModel.fishstickHandler.numFishsticks)
 
                                 }
                                 let tl = this.getTimeline(() => {
