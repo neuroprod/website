@@ -900,7 +900,7 @@
     ]
   },
   {
-    "name": "girlFishEnd",
+    "name": "girlFishEndOne",
     "data": [
       {
         "char": "bodyFairy",
@@ -910,6 +910,20 @@
           0
         ],
         "text": "A man needs at least 5 Fish Sticks,\nhave one of mine!"
+      }
+    ]
+  },
+    {
+    "name": "girlFishEndSome",
+    "data": [
+      {
+        "char": "bodyFairy",
+        "pos": [
+          -0.39,
+          0.135,
+          0
+        ],
+        "text": "A man needs at least 5 Fish Sticks,\nhave some of mine!"
       }
     ]
   },

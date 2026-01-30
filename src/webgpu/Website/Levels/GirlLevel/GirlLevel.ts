@@ -164,9 +164,11 @@ export class GirlLevel extends PlatformLevel {
 
                         GameModel.conversationHandler.doneCallBack = () => {
 
-                            if (GameModel.fishstickHandler.numFishsticks < 3) {
-                                GameModel.conversationHandler.startConversation("girlFishEnd")
-                            } else {
+                            if (GameModel.fishstickHandler.numFishsticks== 4) {
+                                GameModel.conversationHandler.startConversation("girlFishEndOne")
+                            } else if (GameModel.fishstickHandler.numFishsticks < 5) {
+                                GameModel.conversationHandler.startConversation("girlFishEndSome")
+                            }else {
                                 GameModel.conversationHandler.startConversation("girlEnd")
 
                             }

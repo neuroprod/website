@@ -126,10 +126,10 @@ export default class Scroll extends NavigationLevel {
 
         let worm1Mouse = this.mouseInteractionMap.get("worm1")
         if (worm1Mouse) {
-            worm1Mouse.onRollOver = () => { GameModel.renderer.setCursor(true) }
-            worm1Mouse.onRollOut = () => { GameModel.renderer.setCursor(false) }
+            worm1Mouse.onRollOver = () => { if(! this.worm1Playing )return; GameModel.renderer.setCursor(true) }
+            worm1Mouse.onRollOut = () => { if(! this.worm1Playing )return; GameModel.renderer.setCursor(false) }
             worm1Mouse.onClick = () => {
-
+if(! this.worm1Playing )return;
                 this.splash1.show()
                 this.head1.hide()
                 this.worm1.hide()
@@ -139,15 +139,17 @@ export default class Scroll extends NavigationLevel {
                 this.splash1.sx = 0.7
                 this.splash1.sy = 0.9
                 gsap.to(this.splash1, { sx: 1, sy: 1, ease: "power3.out", duration: 0.3 })
+                 GameModel.renderer.setCursor(false)
             }
         }
 
         let worm2Mouse = this.mouseInteractionMap.get("worm2")
         if (worm2Mouse) {
-            worm2Mouse.onRollOver = () => { GameModel.renderer.setCursor(true) }
-            worm2Mouse.onRollOut = () => { GameModel.renderer.setCursor(false) }
+            worm2Mouse.onRollOver = () => {if(! this.worm2Playing )return; GameModel.renderer.setCursor(true) }
+            worm2Mouse.onRollOut = () => { if(! this.worm2Playing )return;GameModel.renderer.setCursor(false) }
             worm2Mouse.onClick = () => {
 
+ if(! this.worm2Playing )return;
                 this.splash2.show()
                 this.head2.hide()
                 this.worm2.hide()
@@ -158,6 +160,7 @@ export default class Scroll extends NavigationLevel {
                 this.splash2.sx = 0.7
                 this.splash2.sy = 0.9
                 gsap.to(this.splash2, { sx: 1, sy: 1, ease: "power3.out", duration: 0.3 })
+                GameModel.renderer.setCursor(false)
             }
         }
 
