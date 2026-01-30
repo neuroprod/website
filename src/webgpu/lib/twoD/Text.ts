@@ -21,8 +21,8 @@ export default class Text extends Object2D {
     height: number = 0;
     size: number;
     font: Font;
-    alpha = 1;
-    constructor(renderer: Renderer, font: Font, size: number = 25, text: string = "testText") {
+
+    constructor(renderer: Renderer, font: Font, size: number = 25, text: string = "testText",HAlignCenter = false, VAlignCenter = false) {
         super();
 
         this.id = text
@@ -30,7 +30,7 @@ export default class Text extends Object2D {
         this.font = font
         this.mesh = new TextMesh(renderer)
 
-        this.setText(text)
+        this.setText(text,HAlignCenter,VAlignCenter)
 
 
         this.material = new TextMaterial(renderer, "text2DMAt")

@@ -12,8 +12,10 @@ import DefaultTextures from "../../lib/textures/DefaultTextures.ts";
 import JoyStick from "./JoyStick.ts";
 import MultiTouchInput from "../../lib/input/MultiTouchInput.ts";
 import LevelHandler from "../Levels/LevelHandler.ts";
+import EndCredits from "./EndCredits.ts";
 
 export default class UI2D {
+
 
 
     private renderer2D: Renderer2D;
@@ -30,6 +32,7 @@ export default class UI2D {
     renderer: Renderer;
     isDown: boolean = false;
     navPos: any;
+    endCredits: EndCredits;
 
     set blackValue(value: number) {
 
@@ -73,6 +76,11 @@ export default class UI2D {
             this.joyStick = new JoyStick(renderer)
             this.root.addChild(this.joyStick.joystickRoot)
         }
+
+
+        this.endCredits = new EndCredits(renderer)
+        this.root.addChild(this.endCredits.root)
+
         this.root.addChild(this.black)
         this.root.addChild(this.settings.settingsRoot)
 
@@ -101,7 +109,7 @@ export default class UI2D {
         this.settings.update();
         this.fightUI.update();
         this.joyStick?.update();
-
+this.endCredits.update();
         // Update input
         this.updateMouse()
     }
@@ -165,5 +173,12 @@ export default class UI2D {
         this.settings.setLevel(key)
         this.fightUI.setLevel(key)
         this.joyStick?.setLevel(key);
+    }
+
+        hideEnd() {
+       this.endCredits.hide()
+    }
+    showEnd() {
+      this.endCredits.show()
     }
 }

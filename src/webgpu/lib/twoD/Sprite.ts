@@ -17,7 +17,7 @@ export default class Sprite extends Object2D {
     public width: number;
     public height: number;
     public text: string = "";
-    public alpha = 1
+
     private mousePosLocal: Vector4 = new Vector4()
     private rect: Rect;
 

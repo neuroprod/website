@@ -15,7 +15,7 @@ export default class Object2D {
 
 
 
-
+    public alpha = 1
 
     private isDirty: boolean = true;
     private tempMatrix = new Matrix4()

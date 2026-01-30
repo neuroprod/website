@@ -48,13 +48,17 @@ export default class DeadLevel extends BaseLevel {
     }
 
     private configScene() {
-
+GameModel.happyEnd =true
         LoadHandler.onComplete = () => { }
 
 
         SoundHandler.setBackgroundSounds(["sound/JuliaFlorida.mp3", "sound/651743__department64__underwater-deep-water-loop.mp3"])
+ GameModel.gameCamera.setLockedView(new Vector3(0, 0, 0), new Vector3(0, 0, 1))
+       
+   if (this.tl) this.tl.clear()
+            this.tl = gsap.timeline()
 
-        if (!GameModel.happyEnd) {
+ if (!GameModel.happyEnd) {
 
             this.posy = 0.3;
             this.fall = 1
@@ -64,6 +68,7 @@ export default class DeadLevel extends BaseLevel {
 
             this.holder = SceneHandler.getSceneObject("pirateHolder")
             this.holder.y = 1
+     
             this.leg1 = SceneHandler.getSceneObject("l1");
             this.leg2 = SceneHandler.getSceneObject("l2");
 
@@ -71,16 +76,17 @@ export default class DeadLevel extends BaseLevel {
 
             this.arm2 = SceneHandler.getSceneObject("a2");
 
-            GameModel.gameCamera.setLockedView(new Vector3(0, 0, 0), new Vector3(0, 0, 1))
-            // GameModel.gameCamera.setPan(new Vector3(0, 0, 0), new Vector3(0, 0, 1.5))
+           
+            
 
-            if (this.tl) this.tl.clear()
-            this.tl = gsap.timeline()
+          
 
             this.tl.to(this, { fall: 0, ease: "elastic.out(0.5,0.5),0.5", duration: 2 }, 0.5)
             this.tl.call(() => { SoundHandler.playSplash() }, [], 0.3 + 0.5)
+               this.tl.call(() => { GameModel.UI2D.showEnd() }, [], 2)
         } else {
             GameModel.gameRenderer.setModels([])
+            GameModel.UI2D.showEnd()
         }
         GameModel.tweenToNonBlack(1)
         MathUtils.setRandomSeed(6)
@@ -95,6 +101,7 @@ export default class DeadLevel extends BaseLevel {
         GameModel.gameRenderer.gBufferPass.modelRenderer.addModel(this.fishParicles2.particlesModel)
       
         GameModel.gameRenderer.setRenderSettingsNeutral({ backgroundColor: new ColorV(0.45,0.45,0.45,0.00), fogColor: new ColorV(0.45,0.45,0.45,0.00), fogMax: 3.5, fogMin: 0, dofMax: 0.9, dofMin: 0.7, dofSize: 6, grain: 0.5,vinFalloff:-0.8, vinAmount:1.9,sunStrength:20 })
+   
     }
 
     update() {
@@ -103,7 +110,7 @@ export default class DeadLevel extends BaseLevel {
             this.holder.rz = Math.sin(Timer.time * 0.5) * 0.05
             this.posy -= Timer.delta * 0.03
             this.holder.y = this.fall + this.posy;
-            this.holder.x = Math.sin(Timer.time * 0.1) * 0.02
+            this.holder.x = Math.sin(Timer.time * 0.1) * 0.02 -0.3
             this.leg1.rz = this.leg1R + Math.cos(Timer.time * 0.5) * 0.2
             this.leg2.rz = this.leg2R + Math.cos((Timer.time + 0.3) * 0.5) * 0.2
             this.arm1.rz = this.arm1R + Math.sin(Timer.time * 0.3) * 0.1
@@ -118,7 +125,7 @@ export default class DeadLevel extends BaseLevel {
         if (this.tl) this.tl.clear()
         this.fishParicles1.destroy()
         this.fishParicles2.destroy()
-
+      GameModel.UI2D.hideEnd()
     }
 
 

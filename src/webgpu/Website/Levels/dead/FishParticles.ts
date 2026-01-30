@@ -19,11 +19,15 @@ class FishParticle {
     constructor() {
     
         this.position = new Vector3(MathUtils.fastRandom() * 3+1 , MathUtils.fastRandom()-0.5, 0);
+       if( GameModel.happyEnd ==true){
+
+        this.position.x -=0.5
+       }
         this.time = MathUtils.fastRandom() * 100
         this.speed = 0.5 + MathUtils.fastRandom() * 0.5;
         this.speed *= 0.1;
          this.startY = (MathUtils.fastRandom() - 0.5) * 2
-              this.startZ = -(MathUtils.fastRandom()) * 2 + 0.5
+           //   this.startZ = -(MathUtils.fastRandom()) * 2 + 0.5
     }
 
     update(delta: number) {
