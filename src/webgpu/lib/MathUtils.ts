@@ -4,8 +4,105 @@ const _lut = [ '00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '0a',
 const temp1:Vector3 =new Vector3()
 const temp2:Vector3 =new Vector3()
 const temp3:Vector3 =new Vector3()
+
+/**
+ * Fast seeded random number generator using xorshift32
+ * Better distribution than LCG, passes statistical tests
+ * Deterministic results when seeded
+ */
+class SeededRandom {
+    private seed: number;
+
+    constructor(seed: number = 123456789) {
+        this.seed = seed || 123456789;
+    }
+
+    /**
+     * Set a new seed value. Can be set at any time.
+     */
+    setSeed(seed: number): void {
+        this.seed = seed || 123456789;
+    }
+
+    /**
+     * Get the current seed value
+     */
+    getSeed(): number {
+        return this.seed;
+    }
+
+    /**
+     * Generate next random number between 0 and 1
+     * Uses xorshift32 algorithm - better distribution than LCG
+     */
+    next(): number {
+       
+        // xorshift32 algorithm
+        this.seed ^= this.seed << 13;
+        this.seed ^= this.seed >> 17;
+        this.seed ^= this.seed << 5;
+        return ((this.seed >>> 0) / 0x100000000);
+    }
+
+    /**
+     * Random integer between min (inclusive) and max (exclusive)
+     */
+    nextInt(min: number, max: number): number {
+        return Math.floor(this.next() * (max - min)) + min;
+    }
+
+    /**
+     * Random float between min (inclusive) and max (exclusive)
+     */
+    nextFloat(min: number, max: number): number {
+        return this.next() * (max - min) + min;
+    }
+
+    /**
+     * Random boolean with given probability (0-1) of being true
+     */
+    nextBool(probability: number = 0.5): boolean {
+        return this.next() < probability;
+    }
+}
+
 export default class MathUtils
 {
+    private static seededRandom = new SeededRandom();
+
+    /**
+     * Get the shared seeded random instance
+     */
+ 
+
+    /**
+     * Set seed for the global seeded random generator
+     */
+    public static setRandomSeed(seed: number): void {
+        this.seededRandom.setSeed(seed);
+    }
+
+    /**
+     * Get a fast random number between 0 and 1
+     */
+    public static fastRandom(): number {
+        return this.seededRandom.next();
+    }
+
+    /**
+     * Get a fast random integer between min (inclusive) and max (exclusive)
+     */
+    public static fastRandomInt(min: number, max: number): number {
+        return this.seededRandom.nextInt(min, max);
+    }
+
+    /**
+     * Get a fast random float between min (inclusive) and max (exclusive)
+     */
+    public static fastRandomFloat(min: number, max: number): number {
+        return this.seededRandom.nextFloat(min, max);
+    }
+
     public static generateUUID() {
 
         const d0 = Math.random() * 0xffffffff | 0;

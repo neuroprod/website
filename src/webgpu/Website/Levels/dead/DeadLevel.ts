@@ -10,6 +10,7 @@ import LevelHandler from "../LevelHandler";
 import SceneObject3D from "../../../data/SceneObject3D";
 import FishParicles from "./FishParticles";
 import ColorV from "../../../lib/ColorV";
+import MathUtils from "../../../lib/MathUtils";
 export default class DeadLevel extends BaseLevel {
     animationTime: number = 0;
     tl!: gsap.core.Timeline;
@@ -82,6 +83,7 @@ export default class DeadLevel extends BaseLevel {
             GameModel.gameRenderer.setModels([])
         }
         GameModel.tweenToNonBlack(1)
+        MathUtils.setRandomSeed(6)
         let fish1 = SceneHandler.getSceneObject("seaFishstick1")
         fish1.hide()
         this.fishParicles1 = new FishParicles(fish1)
@@ -91,7 +93,7 @@ export default class DeadLevel extends BaseLevel {
         fish2.hide()
         this.fishParicles2 = new FishParicles(fish2)
         GameModel.gameRenderer.gBufferPass.modelRenderer.addModel(this.fishParicles2.particlesModel)
-        console.log(GameModel.gameCamera.camera.near)
+      
         GameModel.gameRenderer.setRenderSettingsNeutral({ backgroundColor: new ColorV(0.45,0.45,0.45,0.00), fogColor: new ColorV(0.45,0.45,0.45,0.00), fogMax: 3.5, fogMin: 0, dofMax: 0.9, dofMin: 0.7, dofSize: 6, grain: 0.5,vinFalloff:-0.8, vinAmount:1.9,sunStrength:20 })
     }
 
@@ -99,7 +101,7 @@ export default class DeadLevel extends BaseLevel {
         super.update();
         if (!GameModel.happyEnd) {
             this.holder.rz = Math.sin(Timer.time * 0.5) * 0.05
-            this.posy -= Timer.delta * 0.02
+            this.posy -= Timer.delta * 0.03
             this.holder.y = this.fall + this.posy;
             this.holder.x = Math.sin(Timer.time * 0.1) * 0.02
             this.leg1.rz = this.leg1R + Math.cos(Timer.time * 0.5) * 0.2

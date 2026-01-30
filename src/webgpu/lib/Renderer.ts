@@ -13,7 +13,7 @@ import { TextureFormat } from "./WebGPUConstants.ts";
 
 export default class Renderer {
 
-    useTimeStampQuery: boolean = true;
+    useTimeStampQuery: boolean = false;
 
 
     static instance: Renderer;
@@ -211,6 +211,7 @@ export default class Renderer {
     }
 
     performanceUI() {
+        if(!this.useTimeStampQuery)return;
         UI.pushWindow("performance")
         UI.LText(Timer.fps + "", "fps:")
         UI.separator()
