@@ -20,6 +20,7 @@ export class StrawberryLevel extends PlatformLevel {
     private strawBerry!: SceneObject3D;
     charFaceHandler!: FaceHandler;
     gaveCoins: boolean = false;
+    startPos = -2
     init() {
         super.init();
 
@@ -61,7 +62,7 @@ export class StrawberryLevel extends PlatformLevel {
 
         this.charFaceHandler = new FaceHandler(char);
         char.setScaler(1.2)
-        char.x = startX - 2
+
         GameModel.gameCamera.camDistance = 2.3;
         GameModel.gameCamera.heightOffset = 0.5
 
@@ -81,6 +82,16 @@ export class StrawberryLevel extends PlatformLevel {
         this.characterController.gotoAndIdle(new Vector3(startX, 0.1, 0), 1, () => {
             this.isConversation = false
         })
+
+
+        this.isConversation = true
+        char.x = this.startPos - 2
+        this.characterController.setCharacter()
+        GameModel.gameCamera.setCharacter()
+        this.characterController.gotoAndIdle(new Vector3(this.startPos, 0, 0), 1, () => { this.isConversation = false })
+        GameModel.gameCamera.setMinMaxX(this.startPos, 4.8)
+        GameModel.gameCamera.setForCharPos(new Vector3(this.startPos, 0, 0))
+
     }
     onUI() {
         if (this.charFaceHandler) this.charFaceHandler.onUI()

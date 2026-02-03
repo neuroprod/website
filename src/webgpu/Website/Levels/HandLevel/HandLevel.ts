@@ -12,6 +12,7 @@ import { HitTrigger } from "../../../data/HitTriggers.ts";
 import GameModel from "../../GameModel.ts";
 import LevelHandler from "../LevelHandler.ts";
 import FaceHandler from "../../handlers/FaceHandler.ts";
+import { Vector3 } from "@math.gl/core";
 
 
 
@@ -21,7 +22,7 @@ export class HandLevel extends PlatformLevel {
     charFaceHandler!: FaceHandler;
 
 
-
+    startPos = 0
 
 
 
@@ -51,7 +52,7 @@ export class HandLevel extends PlatformLevel {
     configScene() {
         super.configScene()
         LoadHandler.onComplete = () => { }
-        this.isConversation = false
+
         this.characterController.setCharacter()
         GameModel.gameCamera.setCharacter()
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
@@ -63,7 +64,7 @@ export class HandLevel extends PlatformLevel {
 
         let char = sceneHandler.getSceneObject("charRoot")
         char.setScaler(1.2)
-        char.x = 0
+
 
         this.hand = sceneHandler.getSceneObject("rootHand")
         this.hand.setScaler(1.2)
@@ -74,6 +75,16 @@ export class HandLevel extends PlatformLevel {
 
         this.charFaceHandler = new FaceHandler(char)
         this.charFaceHandler.setState("default")
+
+        this.isConversation = true
+        char.x = this.startPos - 2
+        this.characterController.setCharacter()
+        GameModel.gameCamera.setCharacter()
+        this.characterController.gotoAndIdle(new Vector3(this.startPos, 0, 0), 1, () => { this.isConversation = false })
+        GameModel.gameCamera.setMinMaxX(this.startPos, 5)
+        GameModel.gameCamera.setForCharPos(new Vector3(this.startPos, 0, 0))
+
+
 
     }
     onUI() {

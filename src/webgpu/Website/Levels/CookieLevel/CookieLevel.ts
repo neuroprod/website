@@ -10,6 +10,7 @@ import GameModel from "../../GameModel.ts";
 import LevelHandler from "../LevelHandler.ts";
 import CoinHandler from "../../handlers/CoinHandler.ts";
 import FaceHandler from "../../handlers/FaceHandler.ts";
+import { Vector3 } from "@math.gl/core";
 
 
 
@@ -22,7 +23,7 @@ export class CookieLevel extends PlatformLevel {
     charFaceHandler!: FaceHandler;
 
 
-
+    private startPos = 0
     init() {
         super.init();
         LoadHandler.onComplete = this.configScene.bind(this)
@@ -53,9 +54,8 @@ export class CookieLevel extends PlatformLevel {
     configScene() {
         super.configScene()
         LoadHandler.onComplete = () => { }
-        this.isConversation = false
-        this.characterController.setCharacter()
-        GameModel.gameCamera.setCharacter()
+
+
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         GameModel.gameRenderer.addModel(this.characterController.cloudParticles.particlesModel)
 
@@ -72,7 +72,7 @@ export class CookieLevel extends PlatformLevel {
 
         let char = sceneHandler.getSceneObject("charRoot")
         char.setScaler(1.2)
-        char.x = 0
+
         this.rootSausage = sceneHandler.getSceneObject("rootSausage")
         this.rootSausage.setScaler(1.4)
 
@@ -83,9 +83,19 @@ export class CookieLevel extends PlatformLevel {
         this.charFaceHandler = new FaceHandler(char)
         this.charFaceHandler.setState("default")
 
-        GameModel.gameCamera.setMinMaxX(-0.3, 100)
+
 
         GameModel.gameRenderer.setRenderSetting({})
+
+        this.isConversation = true
+        char.x = this.startPos - 2
+        this.characterController.setCharacter()
+        GameModel.gameCamera.setCharacter()
+        this.characterController.gotoAndIdle(new Vector3(this.startPos, 0, 0), 1, () => { this.isConversation = false })
+        GameModel.gameCamera.setMinMaxX(this.startPos, this.rootSausage.x)
+        GameModel.gameCamera.setForCharPos(new Vector3(this.startPos, 0, 0))
+
+
 
     }
     onUI(): void {

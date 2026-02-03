@@ -62,7 +62,7 @@ export class GirlLevel extends PlatformLevel {
         this.isConversation = true
 
         let charRoot = SceneHandler.getSceneObject("charRoot");
-        charRoot.x = this.startPos - 2
+        charRoot.x = this.startPos - 3
         charRoot.y = 0.0
         charRoot.setScaler(1.2)
         this.characterController.setCharacter()
@@ -164,19 +164,19 @@ export class GirlLevel extends PlatformLevel {
 
                         GameModel.conversationHandler.doneCallBack = () => {
 
-                            if (GameModel.fishstickHandler.numFishsticks== 4) {
+                            if (GameModel.fishstickHandler.numFishsticks == 4) {
                                 GameModel.conversationHandler.startConversation("girlFishEndOne")
                             } else if (GameModel.fishstickHandler.numFishsticks < 5) {
                                 GameModel.conversationHandler.startConversation("girlFishEndSome")
-                            }else {
+                            } else {
                                 GameModel.conversationHandler.startConversation("girlEnd")
 
                             }
                             GameModel.conversationHandler.doneCallBack = () => {
 
-                               if (GameModel.fishstickHandler.numFishsticks < 5) {
+                                if (GameModel.fishstickHandler.numFishsticks < 5) {
 
-                                
+
                                     GameModel.fishstickHandler.addFishstick(5 - GameModel.fishstickHandler.numFishsticks)
 
                                 }

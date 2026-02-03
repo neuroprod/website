@@ -18,7 +18,7 @@ import Animation from "../../../sceneEditor/timeline/animation/Animation.ts";
 import FaceHandler from "../../handlers/FaceHandler.ts";
 
 export class FactoryLevel extends PlatformLevel {
-    private startPos: number = -3;
+    private startPos: number = -2;
 
     tlBox!: gsap.core.Timeline;
     tlLever!: gsap.core.Timeline;
@@ -78,7 +78,7 @@ export class FactoryLevel extends PlatformLevel {
         this.fishRoot.setScaler(1.4)
 
         let charRoot = SceneHandler.getSceneObject("charRoot");
-        charRoot.x = this.startPos
+
         charRoot.y = 0.0
         charRoot.setScaler(1.2)
         this.characterController.setCharacter()
@@ -88,10 +88,7 @@ export class FactoryLevel extends PlatformLevel {
         this.charFaceHandler = new FaceHandler(charRoot)
         this.charFaceHandler.setState("default")
 
-        GameModel.gameCamera.setMinMaxX(this.startPos, this.startPos + 200)
 
-
-        GameModel.gameCamera.setForCharPos(new Vector3(this.startPos, 0, 0))
         GameModel.gameCamera.camDistance = 2.3
         for (let i = 1; i < 7; i++) {
             this.rollers.push(SceneHandler.getSceneObject("r" + i))
@@ -180,7 +177,13 @@ export class FactoryLevel extends PlatformLevel {
         }, [], 4)
         this.tlDrink.to(this, { drinkTime: 0, ease: "power2.inOut" }, 5)
 
-
+        this.isConversation = true
+        charRoot.x = this.startPos - 3
+        this.characterController.setCharacter()
+        GameModel.gameCamera.setCharacter()
+        this.characterController.gotoAndIdle(new Vector3(this.startPos, 0, 0), 1, () => { this.isConversation = false })
+        GameModel.gameCamera.setMinMaxX(this.startPos, 5)
+        GameModel.gameCamera.setForCharPos(new Vector3(this.startPos, 0, 0))
 
     }
 
@@ -254,8 +257,8 @@ export class FactoryLevel extends PlatformLevel {
         this.drinkAnimation.setTime(this.drinkTime)
     }
     onUI() {
-        if(this.charFaceHandler)
-        this.charFaceHandler.onUI()
+        if (this.charFaceHandler)
+            this.charFaceHandler.onUI()
     }
     destroy() {
         super.destroy();
