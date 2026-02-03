@@ -48,7 +48,7 @@ export default class DeadLevel extends BaseLevel {
     }
 
     private configScene() {
-GameModel.happyEnd =true
+
         LoadHandler.onComplete = () => { }
 
 
