@@ -13,7 +13,7 @@ import Rect from "./Rect.ts";
 export default class Sprite extends Object2D {
     private texture: Texture;
     private mesh: Mesh
-    private material: Material
+     material: Material
     public width: number;
     public height: number;
     public text: string = "";
