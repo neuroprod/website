@@ -19,11 +19,11 @@
           0.72,
           0
         ],
-        "text": "Don't \"Mister\" me Pirate!\nI want my money by\nthe end of the day!",
+        "text": "Don't \"Mister\" me, Pirate!\nI want my money by\nthe end of the day!",
         "callBack": "moveHand"
       },
       {
-        "text": "Or you'll be sleeping in the street,\nwith the rest of the scum.",
+        "text": "Or you'll be out on the street\nwith the rest of the scum.",
         "callBack": "lowerHand"
       },
       {
@@ -33,7 +33,7 @@
           0.8,
           0
         ],
-        "text": "Yes Sir! I won't disapoint you!",
+        "text": "Yes, Sir! I won't disappoint you!",
         "callBack": "raiseHand"
       },
       {
@@ -43,11 +43,11 @@
           0.72,
           0
         ],
-        "text": "Types like you always\ndisappoint me Pirate!",
+        "text": "Your kind always\ndisappoints me, Pirate.",
         "callBack": "moveHand"
       },
       {
-        "text": "Ungrateful, lazy Bunch."
+        "text": "Ungrateful, lazy bunch."
       },
       {
         "text": "Now, get me those\nthirty coins you owe me.",
@@ -60,7 +60,7 @@
           0.8,
           0
         ],
-        "text": "Yes Sir, I Will!"
+        "text": "Yes, Sir, I will!"
       }
     ]
   },
@@ -91,7 +91,7 @@
           0.9,
           0
         ],
-        "text": "Hi Pirate. Are you ready to\ngo on an adventure!?"
+        "text": "Hi, Pirate. Are you ready to\ngo on an adventure!?"
       },
       {
         "char": "charRoot",
@@ -100,7 +100,7 @@
           0.9,
           0
         ],
-        "text": "No time for that Mr. Tree,\nI'm collecting coins."
+        "text": "No time for that, Mr. Tree.\nI'm collecting coins."
       },
       {
         "text": "Gotta pay the rent."
@@ -115,10 +115,10 @@
         "text": "Sigh... There's more to life than rent, you know."
       },
       {
-        "text": "Breathe in and smell the roses.\nFeel that sweet rest and relaxation."
+        "text": "When's the last time you just... breathed?"
       },
       {
-        "text": "Climb my branches,\nand discover what it's all about."
+        "text": "Climb my branches\nand discover what it's all about."
       },
       {
         "char": "charRoot",
@@ -137,7 +137,7 @@
           0.9,
           0
         ],
-        "text": "Sigh... The are also\ncoins in my branches.",
+        "text": "Sigh...Fine, There are also\ncoins in my branches.",
         "callBack": "sighDone"
       },
       {
@@ -161,10 +161,10 @@
           0.85,
           0
         ],
-        "text": "Goodmorning little child."
+        "text": "Good morning, little child."
       },
       {
-        "text": "Those where some impressive jumps!"
+        "text": "Excellent platforming!"
       },
       {
         "char": "charRoot",
@@ -200,7 +200,7 @@
         "text": "It's the Miracle of Economics!\nAnd omnipresent surveillance."
       },
       {
-        "text": "Would you like a present child?"
+        "text": "Would you like a present, child?"
       },
       {
         "char": "charRoot",
@@ -248,7 +248,7 @@
           0.85,
           0
         ],
-        "text": "Oh... very well.\nYou can have my coins if you want?"
+        "text": "Oh... very well.\nYou can have my coins if you want."
       },
       {
         "text": "No need for coins in the sky."
@@ -279,7 +279,7 @@
           0.8,
           0
         ],
-        "text": "A User Agreement!\nBy choosing this, You agree that\nyour data will be sold to\nthe highest bidder!"
+        "text": "A User Agreement!\nBy choosing this, you agree that\nyour data will be sold to\nthe highest bidder!"
       },
       {
         "text": "Thanks!"
@@ -302,14 +302,11 @@
         "text": "This grants you the sacred knowledge of synergistic paradigm shifts."
       },
       {
-        "text": "You can use it to maximize shareholder value."
-      },
-      {
-        "text": "Which will trickle down before\nyou can say 'I'll pick myself\nup by my bootstraps."
+        "text": "Maximize that shareholder value. It'll trickle down any day now."
       },
       {
         "delay": 1,
-        "text": "Trickling down not guaranteed.\nFor the cheap price of 3 coins!"
+        "text": "Trickling down not guaranteed.\nFor the cheap price of only 3 coins!"
       }
     ]
   },
@@ -326,14 +323,14 @@
         "text": "Some Fish Sticks!"
       },
       {
-        "text": "Bought to you by our\nsponser Fish-Boy Fish Sticks"
+        "text": "Brought to you by our\nsponsor, Fish-Boy Fish Sticks."
       },
       {
         "text": "All the goodness of the sea\nprocessed into tasty, frozen blocks."
       },
       {
         "delay": 1,
-        "text": "They are yours for only one coin!"
+        "text": "They're yours for only one coin!"
       }
     ]
   },
@@ -364,7 +361,7 @@
           0.82,
           0
         ],
-        "text": "Hi Sammy,\nyou won't believe who I just met!"
+        "text": "Hi, Sammy.\nYou won't believe who I just met!"
       }
     ]
   },
@@ -378,7 +375,7 @@
           0.82,
           0
         ],
-        "text": "Hi Sammy,\nwant to sign my User Agreement?"
+        "text": "Hi, Sammy.\nWant to sign my User Agreement?"
       }
     ]
   },
@@ -392,7 +389,7 @@
           0.82,
           0
         ],
-        "text": "Hi Sammy,\nWan't to see my stocks?"
+        "text": "Hi, Sammy.\nWant to see my stocks?"
       }
     ]
   },
@@ -406,7 +403,7 @@
           0.82,
           0
         ],
-        "text": "Hi Sammy,\nGot me some fish."
+        "text": "Hi, Sammy.\nGot me some fish."
       }
     ]
   },
@@ -420,7 +417,7 @@
           0.82,
           0
         ],
-        "text": "Hi Sammy, Got an MBA!\nWant me to do some layoffs\nfor a big bonus?"
+        "text": "Hi, Sammy. Got an MBA!\nWant me to do some layoffs\nfor a big bonus?"
       }
     ]
   },
@@ -434,7 +431,7 @@
           1.0,
           0
         ],
-        "text": "Fuck off man, get lost!"
+        "text": "Fuck off, man, get lost!"
       },
       {
         "char": "charRoot",
@@ -443,7 +440,7 @@
           0.82,
           0
         ],
-        "text": "Why are you so angry?\nIt's such a beautifull day!"
+        "text": "Why are you so angry?\nIt's such a beautiful day!"
       },
       {
         "char": "rootSausage",
@@ -455,16 +452,16 @@
         "text": "I don't know?\nMy mom told me\nI was a happy baby."
       },
       {
-        "text": "But then I had to go to school,\nget a job and pay my bills..."
+        "text": "But then... school. Job. Bills."
       },
       {
-        "text": "It went downhill ever since..."
+        "text": " Been downhill ever since..."
       },
       {
         "text": "Now I just smash stuff!"
       },
       {
-        "text": "You should try it, it feels great!\n...It really gives your life a purpose!"
+        "text": "You should try it, it feels  amazing!\n...It really gives your life... purpose!"
       },
       {
         "char": "charRoot",
@@ -473,7 +470,7 @@
           0.82,
           0
         ],
-        "text": "I don't know Sammy,\nthat doesn't seem right."
+        "text": "I don't know, Sammy.\nThat doesn't seem right."
       },
       {
         "char": "rootSausage",
@@ -542,7 +539,7 @@
           0.8,
           0
         ],
-        "text": "Just got a call from my mum:\nMy brother got squased by some jerk!"
+        "text": "Just got a call from my mum:\nMy brother got squashed by some jerk!"
       },
       {
         "char": "charRoot",
@@ -551,7 +548,7 @@
           0.8,
           0
         ],
-        "text": " Ow... "
+        "text": "Ow..."
       },
       {
         "char": "strawberryRoot",
@@ -560,7 +557,7 @@
           0.8,
           0
         ],
-        "text": "And I really need some money\nto buy...\neuh... medicine."
+        "text": "And I really need some money\nto buy...\nuh... medicine."
       },
       {
         "char": "charRoot",
@@ -626,7 +623,7 @@
           0.8,
           0
         ],
-        "text": "That's OK,\nI'm sure Mister Billy\nneeds it more then I do."
+        "text": "That's OK.\nI'm sure Mister Billy\nneeds it more than I do."
       }
     ]
   },
@@ -640,7 +637,7 @@
           0.8,
           0
         ],
-        "text": "Hi pirate, want to have some fun?"
+        "text": "Hi, Pirate. Want to have some fun?"
       },
       {
         "char": "charRoot",
@@ -649,7 +646,7 @@
           0.8,
           0
         ],
-        "text": "I'm broke Candy.\nMaybe some other time..."
+        "text": "I'm broke, Candy.\nMaybe some other time..."
       },
       {
         "char": "rootHand",
@@ -680,10 +677,10 @@
           0.8,
           0
         ],
-        "text": "This is just a costume Candy."
+        "text": "This is just a costume, Candy."
       },
       {
-        "text": "And sure, I download a movie\nevery know and then."
+        "text": "And sure, I download a movie\nevery now and then."
       },
       {
         "text": "But I'm not a real pirate."
@@ -692,7 +689,7 @@
         "text": "I'm just pretending to be someone...\nmeaningful, you know?"
       },
       {
-        "text": "I don't even own a sword,\nor a ship..."
+        "text": "I don't even own a sword\nor a ship Or... anything, really."
       },
       {
         "char": "rootHand",
@@ -701,7 +698,7 @@
           0.8,
           0
         ],
-        "text": "...Oh, I get it. Maybe someday?"
+        "text": "...Yeah. I get it. Maybe someday, Pirate."
       },
       {
         "char": "charRoot",
@@ -736,7 +733,7 @@
           0.8,
           0
         ],
-        "text": "I sure am kid."
+        "text": "I sure am, kid."
       },
       {
         "char": "charRoot",
@@ -745,7 +742,7 @@
           0.9,
           0
         ],
-        "text": "Damn! I dindn't know you\nworked in your own factory?"
+        "text": "Damn! I didn't know you\nworked in your own factory?"
       },
       {
         "char": "FishBoyRoot",
@@ -754,16 +751,16 @@
           0.8,
           0
         ],
-        "text": "It's not mine kid. I'm just the mascotte."
+        "text": "It's not mine, kid. I'm just the face."
       },
       {
-        "text": "It's part of Billy's Global Industries."
+        "text":  "Billy's Global Industries owns it. Owns me too, pretty much."
       },
       {
         "text": "I'm just grinding myself down here."
       },
       {
-        "text": "Selling my soul for the next paycheck,\nlike everyone else."
+        "text": "All for the next paycheck."
       },
       {
         "text": "That aside,\nare you lost, or just trespassing?"
@@ -799,7 +796,7 @@
           0
         ],
         "callBack": "getFishSticks",
-        "text": "Sure, help yourself, I don't care."
+        "text": "Sure, help yourself. I don't care."
       }
     ]
   },
@@ -813,7 +810,7 @@
           0.8,
           0
         ],
-        "text": "Do I look like I have money kid?"
+        "text": "Do I look like I have money, kid?"
       },
       {
         "text": "Now, get out of here!\nAuthorized personnel only!"
@@ -830,7 +827,7 @@
           0.135,
           0
         ],
-        "text": "Hi Pirate, what's up?"
+        "text": "Hi, Pirate. What's up?"
       },
       {
         "char": "charRoot",
@@ -839,7 +836,7 @@
           0.85,
           0
         ],
-        "text": "I don't know Miss...\nI can't seem to collect enough\ncoins."
+        "text": "I don't know, Miss...\nI can't seem to collect enough\ncoins."
       },
       {
         "text": "Feels like the game\nis rigged against me.",
@@ -853,7 +850,7 @@
           0.145,
           0
         ],
-        "text": "If the game is rigged,\nyou shouldn't play by\nthe rules Pirate."
+        "text": "If the game is rigged,\nyou shouldn't play by\nthe rules, Pirate."
       },
       {
         "char": "charRoot",
@@ -862,7 +859,7 @@
           0.85,
           0
         ],
-        "text": "I'm afraid I don't have\nmuch of a choise Miss... ",
+        "text": "I'm afraid I don't have\nmuch of a choice, Miss...",
         "callBack": "lookUp"
       },
       {
@@ -873,7 +870,7 @@
           0.135,
           0
         ],
-        "text": "There is always a\nchoise Pirate."
+        "text": "There is always a\nchoice, Pirate."
       },
       {
         "text": "But sometimes it takes\neverything you got."
@@ -888,7 +885,7 @@
         "text": "Sigh... I only got #numCoins of\nthe 30 coins I need."
       },
       {
-        "text": "and #numFishsticks Fish Sticks\nfor some reason..."
+        "text": "And #numFishsticks Fish Sticks\nfor some reason..."
       }
     ]
   },
@@ -902,7 +899,7 @@
           0.135,
           0
         ],
-        "text": "Thats all you need Pirate!\n...thats al you need!"
+        "text": "That's all you need, Pirate!\n...That's all you need!"
       }
     ]
   },
@@ -916,7 +913,7 @@
           0.135,
           0
         ],
-        "text": "A man needs at least 5 Fish Sticks,\nhave one of mine!"
+        "text": "A man needs at least 5 Fish Sticks.\nHave one of mine!"
       }
     ]
   },
@@ -930,7 +927,7 @@
           0.135,
           0
         ],
-        "text": "A man needs at least 5 Fish Sticks,\nhave some of mine!"
+        "text": "A man needs at least 5 Fish Sticks.\nHave some of mine!"
       }
     ]
   },
@@ -944,10 +941,10 @@
           0.85,
           0
         ],
-        "text": "The open ocean.\nThe birthplace of the mighty fishstick."
+        "text": "The open ocean.\nThe birthplace of the mighty fish stick."
       },
       {
-        "text": "How I wish I could sail from these shores,\nand cross the endless sea."
+        "text": "How I wish I could sail from these shores\nand cross the endless sea."
       },
       {
         "text": "Be free, like a real pirate."
@@ -964,7 +961,7 @@
           0.8,
           0
         ],
-        "text": "Can't you read boy!\nThis is private property!"
+        "text": "Can't you read, boy!\nThis is private property!"
       },
       {
         "text": "I should shoot you right now."
@@ -984,7 +981,7 @@
         "text": "Oh, it's you again."
       },
       {
-        "text": "Got my money boy?"
+        "text": "Got my money, boy?"
       },
       {
         "char": "charRoot",
@@ -995,7 +992,7 @@
         ],
         "choice": [
           {
-            "text": "Sorry Mister Billy...\nI'll have it tomorrow. I promise!",
+            "text": "Sorry, Mister Billy...\nI'll have it tomorrow. I promise!",
             "callText": "moneyTommorow"
           },
           {
@@ -1016,7 +1013,7 @@
           0.8,
           0
         ],
-        "text": "That won't do Pirate.",
+        "text": "That won't do, Pirate.",
         "callText": "gunready"
       }
     ]
@@ -1046,12 +1043,12 @@
           0.8,
           0
         ],
-        "text": "Plenty of fish in the sea that can replace you.",
-        "callBack": "raiseGunCall",
-        "delay": 1
+        "text": "Plenty of fish in the sea to replace you."
+       
+      
       },
       {
-        "text": "You wont get missed!",
+        "text": "You won't get missed!",
         "callBack": "endCall"
       }
     ]
@@ -1066,7 +1063,7 @@
           0.8,
           0
         ],
-        "text": "Hi God, Want to join the party?"
+        "text": "Hi, God. Want to join the party?"
       },
       {
         "char": "godRoot",
@@ -1075,7 +1072,7 @@
           0.85,
           0
         ],
-        "text": "Don't believe in God pirate.\nIt only gives you false hope..."
+        "text": "Don't believe in me, Pirate.\nI'm just false hope..."
       },
       {
         "text": "...Nice ship, though."
@@ -1105,7 +1102,7 @@
           0.8,
           0
         ],
-        "text": "Sure, I might drown tomorrow, but at least tonight I'm sailing."
+        "text": "Sure, I might drown tomorrow,\nbut at least tonight I'm sailing."
       },
       {
         "char": "godRoot",
@@ -1114,11 +1111,11 @@
           0.85,
           0
         ],
-        "text": "Thats the spirit!\nEnjoy the party while it last...",
+        "text": "That's the spirit!\nEnjoy the party while it lasts...",
         "delay": 1
       },
       {
-        "text": "Anyway, I will see you soon Pirate."
+        "text": "Anyway, I will see you soon, Pirate."
       },
       {
         "char": "charRoot",
@@ -1127,7 +1124,10 @@
           0.8,
           0
         ],
-        "text": "Yeah... See you soon God!"
+        "text": "Yeah... See you soon, God!"
+      },
+      {
+        "text":"But not today."
       }
     ]
   }
