@@ -75,6 +75,9 @@
           0
         ],
         "text": "Better get crackin'..."
+      },
+      {
+        "text": "Hard work always pays off!"
       }
     ]
   },
@@ -296,14 +299,17 @@
         "text": "An MBA in business administration!\n"
       },
       {
-        "text": "You can use it to maximize shareholder value. "
+        "text": "This grants you the sacred knowledge of synergistic paradigm shifts."
+      },
+      {
+        "text": "You can use it to maximize shareholder value."
       },
       {
         "text": "Which will trickle down before\nyou can say 'I'll pick myself\nup by my bootstraps."
       },
       {
         "delay": 1,
-        "text": "Trickling down not guaranteed."
+        "text": "Trickling down not guaranteed.\nFor the cheap price of 3 coins!"
       }
     ]
   },
@@ -324,6 +330,10 @@
       },
       {
         "text": "All the goodness of the sea\nprocessed into tasty, frozen blocks."
+      },
+      {
+        "delay": 1,
+        "text": "They are yours for only one coin!"
       }
     ]
   },
@@ -382,7 +392,7 @@
           0.82,
           0
         ],
-        "text": "Hi Sammy,\nWan't to see my gains?"
+        "text": "Hi Sammy,\nWan't to see my stocks?"
       }
     ]
   },
@@ -396,7 +406,7 @@
           0.82,
           0
         ],
-        "text": "Hi Sammy,\nGot me some fish for the sky guy."
+        "text": "Hi Sammy,\nGot me some fish."
       }
     ]
   },
@@ -472,7 +482,7 @@
           1.0,
           0
         ],
-        "text": "Come on man, it's just\nfruits and vegetables."
+        "text": "Just produce, man.\nStress relief."
       },
       {
         "char": "charRoot",
@@ -481,7 +491,7 @@
           0.82,
           0
         ],
-        "text": "If you put it that way...\nI wouldn't mind blowing\noff some steam..."
+        "text": "When you put it like that...\nSign me up."
       },
       {
         "char": "rootSausage",
@@ -550,9 +560,6 @@
           0.8,
           0
         ],
-        "text": "Us strawberies seem\nto get blamed for\nanything these days."
-      },
-      {
         "text": "And I really need some money\nto buy...\neuh... medicine."
       },
       {
@@ -582,7 +589,7 @@
         ],
         "choice": [
           {
-            "text": "Those are all my coins Strawberry,\nMister Billy needs those.",
+            "text": "That's everything I've got...\nMister Billy needs those.",
             "callBack": "coinsNo",
             "callText": "dontgiveCoins"
           },
@@ -913,7 +920,7 @@
       }
     ]
   },
-    {
+  {
     "name": "girlFishEndSome",
     "data": [
       {
@@ -1009,7 +1016,7 @@
           0.8,
           0
         ],
-        "text": "That won't do Pirate",
+        "text": "That won't do Pirate.",
         "callText": "gunready"
       }
     ]
@@ -1039,7 +1046,12 @@
           0.8,
           0
         ],
-        "text": "Plenty of fish in the sea that can replace you. You wont get missed!",
+        "text": "Plenty of fish in the sea that can replace you.",
+        "callBack": "raiseGunCall",
+        "delay": 1
+      },
+      {
+        "text": "You wont get missed!",
         "callBack": "endCall"
       }
     ]
@@ -1075,7 +1087,7 @@
           0.8,
           0
         ],
-        "text": "Thanks! found it"
+        "text": "Thanks! Found it."
       },
       {
         "char": "godRoot",
@@ -1093,7 +1105,7 @@
           0.8,
           0
         ],
-        "text": "I dont care, it doesn't matter..."
+        "text": "Sure, I might drown tomorrow, but at least tonight I'm sailing."
       },
       {
         "char": "godRoot",
@@ -1102,7 +1114,8 @@
           0.85,
           0
         ],
-        "text": "Nothing matters, Pirate. That's the trick.\nJust enjoy the party while it last..."
+        "text": "Thats the spirit!\nEnjoy the party while it last...",
+        "delay": 1
       },
       {
         "text": "Anyway, I will see you soon Pirate."
