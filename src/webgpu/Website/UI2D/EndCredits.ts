@@ -7,6 +7,7 @@ import { Vector4 } from "@math.gl/core";
 import gsap from "gsap";
 import GameModel from "../GameModel.ts";
 import LevelHandler from "../Levels/LevelHandler.ts";
+import Game from "../Game.ts";
 
 export default class EndCredits{
 
@@ -24,7 +25,11 @@ this.renderer =renderer;
 
 let hAlign =false
  let pos =100;
- let thanks = new Text(renderer, font, 35, "Thanks for playing!",hAlign);
+let endText ="You Failed!"
+ if(GameModel.happyEnd){
+endText ="Thanks for playing!"
+ }
+ let thanks = new Text(renderer, font, 35, endText,hAlign);
 thanks.material.setUniform("color",this.color)
 thanks.y=pos
   this.root.addChild(thanks)
@@ -73,7 +78,7 @@ pos+=30
 
 
  pos+=70
-  let  link = new Text(renderer, font, 30, "Check out the Portfolio\npart of the site",hAlign);
+  let  link = new Text(renderer, font, 30, "Check out the Portfolio\npart of the site or replay.",hAlign);
  link.material.setUniform("color",this.color)
  link.y=pos
  this.root.addChild( link)

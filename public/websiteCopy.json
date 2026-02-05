@@ -18,11 +18,15 @@
   "FShot": "Owch, Mister Billy shot you right in the eye\nThat hurts a lot",
   "FFightBack": "Its time to fight back",
   "FHealSucces": "The fishstick has a weird taste\nYou feel the adrenaline rushing to your head.",
-  "FHealFail": "The fishstick smells like your underpants \nThe toxins fill your body.",
+  "FHealFail": "The fishstick smells like underpants\nThe toxins fill your body.\nIt doesn't work",
   "FFightSucces": "You hit Mister Billy right in the head\nHe's getting angrier",
-  "FFightFail": "You missed  ",
-  "FRun": "You can't run from this\nMister Billy shoots you for a final time",
+  "FFightFail": "You missed",
+  "FRun": "You can't run from this",
   "FFightText": "Try to hit Mr billy in the face with one of\nyour frozen Fish Sticks!",
   "FHealText": "Eat a Fish Stick and hope it doesn't make\nyou sick!",
-  "FRunText": "Run for your life"
+  "FRunText": "Run for your life",
+ "YouWin": "You did it!",
+  "BillyFightSucces":"Billy does a karate kick in your face\nIt hurts.",
+  "BillyFightFail":"Billy missed! Luck is on your side!",
+  "outOfFishSticks":"You ran out of out of FishSticks\nThis isn't looking good"
 }

@@ -18,6 +18,7 @@ import LevelHandler from "../LevelHandler.ts";
 import SoundHandler from "../../SoundHandler.ts";
 import Animation from "../../../sceneEditor/timeline/animation/Animation.ts";
 import GameCamera from "../../GameCamera.ts";
+import FishstickHandler from "../../handlers/FishstickHandler.ts";
 
 enum FSTATE {
     START,
@@ -60,6 +61,10 @@ export class FightLevel extends BaseLevel {
     firstShot: boolean = true;
     charHealAnimation!: Animation;
     fishTicks: Array<SceneObject3D> = [];
+    eyeRight!: SceneObject3D;
+    pupilRight!: SceneObject3D;
+    pirateDeadAnimation!: Animation;
+    fishTrowMissAnimation!: Animation;
     init() {
         super.init();
         LoadHandler.onComplete = this.configScene.bind(this)
@@ -116,8 +121,11 @@ export class FightLevel extends BaseLevel {
         char.setScaler(1.2)
         this.pirate = char;
         this.eyeLeft = sceneHandler.getSceneObject("eyeLeft")
+        this.eyeRight = sceneHandler.getSceneObject("eyeRight")
+
         // eyeLeft.hide()
         this.pupilLeft = sceneHandler.getSceneObject("pupilLeft")
+        this.pupilRight = sceneHandler.getSceneObject("pupilRight")
         // pupilLeft.hide()
         this.landlord = sceneHandler.getSceneObject("rootLandlord")
         this.landlord.setScaler(1.2)
@@ -149,6 +157,7 @@ export class FightLevel extends BaseLevel {
         this.kickAnimation = SceneHandler.sceneAnimationsByName.get("kick") as Animation;
         this.charGotHitAnimation = SceneHandler.sceneAnimationsByName.get("charGotHit2") as Animation;
         this.fishTrowAnimation = SceneHandler.sceneAnimationsByName.get("fishTrow4") as Animation;
+         this.fishTrowMissAnimation = SceneHandler.sceneAnimationsByName.get("fishTrowmiss") as Animation;
         this.hitLandAnimation = SceneHandler.sceneAnimationsByName.get("hitLand") as Animation;
 
         this.charHealAnimation = SceneHandler.sceneAnimationsByName.get("fishEat") as Animation;
@@ -160,6 +169,7 @@ export class FightLevel extends BaseLevel {
         this.fishTrow.hide()
 
         this.billyDeadAnimation = SceneHandler.sceneAnimationsByName.get("billyDead") as Animation;
+        this.pirateDeadAnimation = SceneHandler.sceneAnimationsByName.get("dead") as Animation;
         this.firstShot = true
         this.setFirstShot()
     }
@@ -195,6 +205,12 @@ export class FightLevel extends BaseLevel {
         }
         if (UI.LButton("billyFightSucc",)) {
             this.doLandlordFightSucces()
+        }
+        if (UI.LButton("billyFightFail",)) {
+            this.doLandlordFightFail()
+        }
+        if (UI.LButton("deadBlow",)) {
+            this.doDeadBlow()
         }
     }
 
@@ -334,17 +350,76 @@ export class FightLevel extends BaseLevel {
 
     }
     doLandlordFight() {
-        if (Math.random() > 0.5) {
+
+
+        if (GameModel.fishstickHandler.numFishsticks <= 0) {
+            let tl = this.getTimeline()
+            tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("outOfFishSticks")) }, [], 0)
+            tl.call(() => { this.setNextCall(this.doDeadBlow.bind(this)) }, [], 0)
+        }
+
+        else if (Math.random() > 0.5) {
             this.doLandlordFightSucces()
         } else {
             this.doLandlordFightFail()
         }
     }
+    doDeadBlow() {
+        this.state = FSTATE.PAUZE
+        GameModel.happyEnd = false;
+        this.pirateFrame = 0
+        let tl = this.getTimeline(() => {
+            this.pirateDeadAnimation.setTime(this.pirateFrame)
+        })
+        let lR = this.landlordArm.rz;
+        this.landlordArm.rz = 0.28
+        let startPos = this.landlordArm.getWorldPos(new Vector3(0.25, 0.025, 0));
+        this.landlordArm.rz = lR;
+        let endPos = this.pupilRight.getWorldPos();
+
+
+
+        this.splash.setPosition(endPos.x - 0.01, endPos.y - 0.01, endPos.z + 0.1)
+        this.splash.sx = this.splash.sy = 1
+
+        this.bullet.setPositionV(startPos)
+        tl.to(this.landlordArm, { rz: 0.28, duration: 2 }, 0)
+        tl.call(() => { this.bullet.show(), SoundHandler.playGunShot() }, [], 2)
+        let time = 0.4
+        tl.to(this.bullet, { x: endPos.x, y: endPos.y, z: endPos.z, duration: time, ease: "power2.in" }, 2)
+        time += 2;
+        tl.call(() => { this.bullet.hide(); this.pupilRight.hide();GameModel.tweenToBlack(1); this.eyeRight.hide(); this.splash.show(); SoundHandler.playEyeHit(), GameModel.gameCamera.screenShakeHit(-0.01) }, [], time)
+        tl.to(this.splash, { sx: 1.2, sy: 1.2, duration: 0.1, ease: "power3.out" }, time)
+        time += 0.1
+        tl.call(() => { this.splash.hide() ,this.pirate.x =0.8;}, [], time)
+        tl.to(this, { pirateLife: 0 }, time)
+
+        tl.to(this, { pirateFrame: 15, duration: 1 }, time)
+        tl.to(this.pirate, { x: 1,y:-0.1, ease: "power1.in", duration:1 }, time)
+        tl.call(() => { LevelHandler.setLevel("Dead") }, [], time + 1)
+
+    }
     doLandlordFightFail() {
         this.state = FSTATE.PAUZE
+        let tl = this.getTimeline(() => {
+        })
+        let lR = this.landlordArm.rz;
+        this.landlordArm.rz = 0.15
+        let startPos = this.landlordArm.getWorldPos(new Vector3(0.25, 0.025, 0));
+        this.landlordArm.rz = lR;
+        let endPos = this.pupilRight.getWorldPos(new Vector3(0, -0.1, -0.2));
+        let dir = endPos.clone().subtract(startPos)
+        endPos.add(dir)
+        endPos.add(dir)
 
-        let tl = this.getTimeline()
-        tl.call(() => { this.fightUI.setInfoPanel("billy fight fail") }, [], 0)
+
+        this.bullet.setPositionV(startPos)
+        tl.to(this.landlordArm, { rz: 0.15, duration: 1 }, 0)
+        tl.call(() => { this.bullet.show(), SoundHandler.playGunShot() }, [], 1)
+        tl.to(this.bullet, { x: endPos.x, y: endPos.y, z: endPos.z, duration: 2 }, 1)
+
+
+        tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("BillyFightFail")); this.bullet.hide() }, [], 2)
 
         tl.call(() => { this.setNextCall(this.setFightPanel.bind(this)) }, [], 2)
 
@@ -355,7 +430,11 @@ export class FightLevel extends BaseLevel {
         this.state = FSTATE.PAUZE
 
         let target = Math.max(this.pirateLife - 0.2, 0);
+        if (target == 0) {
 
+            this.doDeadBlow();
+            return;
+        }
         this.pirateFrame = 0
         this.landlordFrame = 0
         let tl = this.getTimeline(() => {
@@ -366,7 +445,7 @@ export class FightLevel extends BaseLevel {
         this.kickSplash.hide()
         this.kickSplash.sx = this.kickSplash.sy = 1
         tl.to(this, { pirateFrame: 8, duration: 0.2 }, 1.6)
-        tl.call(() => { this.fightUI.setInfoPanel("billy fight succes") }, [], 3)
+        tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("BillyFightSucces")) }, [], 3)
         //prep
 
         tl.to(this, { landlordFrame: 5 }, 0.5)
@@ -462,7 +541,7 @@ export class FightLevel extends BaseLevel {
         tl.to(this, { pirateFrame: 60, duration: 1, ease: "power2.in" }, 3.2)
         tl.to(this, { landlordLife: target }, 3)
         if (target == 0) {
-            tl.call(() => { this.fightUI.setInfoPanel("you win") }, [], 3)
+            tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("YouWin")) }, [], 3)
             tl.call(() => {
                 GameModel.happyEnd = true;
                 this.setNextCall(this.doWin.bind(this))
@@ -485,10 +564,33 @@ export class FightLevel extends BaseLevel {
 
 
 
-        let tl = this.getTimeline()
-        tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FFightFail")) }, [], 0)
+   this.pirateFrame = 0
+       
 
-        tl.call(() => { this.setNextCall(this.doLandlordFight.bind(this)) }, [], 2)
+        let tl = this.getTimeline(() => {
+
+          
+            this.fishTrowMissAnimation.setTime(this.pirateFrame)
+        })
+
+        tl.to(this, { pirateFrame: 8, duration: 0.5, ease: "power3.out" }, 1)
+        tl.call(() => {
+            this.fishTrow.show()
+            GameModel.fishstickHandler.removeFishstick(1)
+            this.setFishsticks()
+
+
+        }, [], 1.3)
+        tl.to(this, { pirateFrame: 22, duration: 1, ease: "power2.in" }, 2.5)
+      
+        tl.call(() => { this.fishTrow.hide() }, [],3.5)
+
+      
+
+        tl.to(this, { pirateFrame: 60, duration: 1, ease: "power2.in" }, 3.5)
+        tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FFightFail")) }, [], 3.5)
+
+        tl.call(() => { this.setNextCall(this.doLandlordFight.bind(this)) }, [], 4)
 
 
     }
@@ -579,11 +681,11 @@ export class FightLevel extends BaseLevel {
         let tl = this.getTimeline()
         this.state = FSTATE.PAUZE
         tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FRun")) }, [], 0)
-        tl.to(this, { pirateLife: 0.0 }, 2)
+
 
         tl.call(() => {
             GameModel.happyEnd = false;
-            this.setNextCall(this.doLose.bind(this))
+            this.setNextCall(this.doDeadBlow.bind(this))
 
         }, [], 2)
     }
