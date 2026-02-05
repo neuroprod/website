@@ -275,12 +275,17 @@ export default class CharacterController {
             this.setGrounded(false)
 
         }
-
+if(    this.targetPos.y<0)this.targetPos.y=0
 
         this.sideRay.rayDir.set(Math.sign(this.velocity.x), 0, 0);
         this.sideRay.rayStart.copy(this.charRoot.getPosition() as NumericArray);
-        this.sideRay.rayStart.y += 0.1
+        this.sideRay.rayStart.y += 0.05
+
         let sideDist = this.checkRay(this.sideRay);
+         this.sideRay.rayStart.y += 0.05
+        sideDist =Math.min(sideDist, this.checkRay(this.sideRay));
+            this.sideRay.rayStart.y += 0.1
+        sideDist =Math.min(sideDist, this.checkRay(this.sideRay));
         if (sideDist < 0.22) {
             let adj = (sideDist - 0.22) * Math.sign(this.velocity.x);
             this.targetPos.x += adj;

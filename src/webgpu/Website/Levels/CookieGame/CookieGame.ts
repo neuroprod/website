@@ -244,7 +244,7 @@ export default class CookieGame extends BaseLevel {
         GameModel.tweenToNonBlack()
 
         gsap.delayedCall(1, () => {
-            GameModel.textBalloonHandler.setText("Now, Get those fruits!")
+            GameModel.textBalloonHandler.setText("Now, Get those fruity basterds!")
             this.playGame = true
         });
 

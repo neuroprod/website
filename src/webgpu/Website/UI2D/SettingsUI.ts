@@ -126,7 +126,7 @@ this.settingsButton.onClick=()=>{
             this.settingsRoot.y = 40
         }
         if (level == "Home") {
-
+this.backButton.alpha =0.7
             this.backButton.visible = false
             this.settingsButton.visible = false
             this.hideCoins()

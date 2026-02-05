@@ -296,17 +296,17 @@
           0.8,
           0
         ],
-        "text": "An MBA in business administration!\n"
+        "text": "An MBA in business administration!"
       },
       {
-        "text": "This grants you the sacred knowledge of synergistic paradigm shifts."
+        "text": "This grants you the sacred\nknowledge of synergistic\nparadigm shifts."
       },
       {
-        "text": "Maximize that shareholder value. It'll trickle down any day now."
+        "text": "and maximizes that shareholder value.\nIt'll trickle down any day now."
       },
       {
         "delay": 1,
-        "text": "Trickling down not guaranteed.\nFor the cheap price of only 3 coins!"
+        "text": "For the cheap price of only 3 coins!\nTrickling down not guaranteed."
       }
     ]
   },
@@ -449,7 +449,7 @@
           1.0,
           0
         ],
-        "text": "I don't know?\nMy mom told me\nI was a happy baby."
+        "text": "I don't know...\nMy mom told me\nI was a happy baby."
       },
       {
         "text": "But then... school. Job. Bills."
@@ -754,7 +754,7 @@
         "text": "It's not mine, kid. I'm just the face."
       },
       {
-        "text":  "Billy's Global Industries owns it. Owns me too, pretty much."
+        "text":  "Billy's Global Industries owns it.\n Owns me too, pretty much."
       },
       {
         "text": "I'm just grinding myself down here."
@@ -1111,11 +1111,13 @@
           0.85,
           0
         ],
-        "text": "That's the spirit!\nEnjoy the party while it lasts...",
-        "delay": 1
+        "text": "That's the spirit!\nEnjoy the party while it lasts..."
+        
       },
       {
-        "text": "Anyway, I will see you soon, Pirate."
+        "text": "Anyway, I will see you soon, Pirate.",
+        
+"delay":1
       },
       {
         "char": "charRoot",
