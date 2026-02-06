@@ -113,6 +113,13 @@ export default class Game {
         if (!newName || !GameModel.debug) {
             newName = "Start"
         }
+        console.log(GameModel.goBackToLevel)
+        if(GameModel.goBackToLevel !=""){
+
+            newName =GameModel.goBackToLevel
+            GameModel.goBackToLevel =""
+        }
+
         LevelHandler.setLevel(newName)
 
 

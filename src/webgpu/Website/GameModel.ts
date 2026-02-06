@@ -45,6 +45,7 @@ class GameModel {
     singleCopy!: any;
     fishstickHandler!: FishstickHandler;
     fishFingers: boolean =false;
+    goBackToLevel: string ="";
 
     getCopy(key: string) {
         return this.singleCopy[key] + ""

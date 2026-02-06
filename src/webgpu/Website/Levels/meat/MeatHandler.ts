@@ -62,6 +62,7 @@ export default class MeatHandler {
 
         }
         edit.onClick = () => {
+            GameModel.goBackToLevel = "This"
             GameModel.setMainState(MainState.editor)
 
 
