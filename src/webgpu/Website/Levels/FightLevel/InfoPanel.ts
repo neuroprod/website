@@ -9,6 +9,7 @@ import Object2D from "../../../lib/twoD/Object2D.ts";
 import Sprite from "../../../lib/twoD/Sprite.ts";
 import Text from "../../../lib/twoD/Text.ts";
 import Color from "../../../lib/UI/math/Color.ts";
+import GameModel from "../../GameModel.ts";
 import SoundHandler from "../../SoundHandler.ts";
 import gsap from "gsap";
 export default class InfoPanel {
@@ -58,7 +59,7 @@ export default class InfoPanel {
     setText(text: string) {
         this.text.visible = true
         this.nextTriangle.visible = false
-        this.text.setText(text, true, true)
+        this.text.setText(GameModel.replaceFishStick(text), true, true)
 
         this.charPos = 0
         this.charPosOld = -1;

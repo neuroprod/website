@@ -48,7 +48,7 @@ class GameModel {
     goBackToLevel: string ="";
 
     getCopy(key: string) {
-        return this.singleCopy[key] + ""
+        return  this.singleCopy[key] + "";
     }
     tweenToNonBlack(duration = 2) {
         gsap.killTweensOf(this.UI2D)

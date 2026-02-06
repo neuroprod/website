@@ -53,7 +53,7 @@ export default class FightPanel {
 
         //this.text.material.setUniform("color", new ColorV(0, 0, 0, 1))
         this.text.x = -160
-        this.text.y = -70
+        this.text.y = -70+5
         this.text.alpha = 0.5
 
         this.root.addChild(this.text)
@@ -67,7 +67,7 @@ export default class FightPanel {
 
 
         this.triangle.y = -45 + index * 45 - 3;
-        this.text.setText(this.fightTextCopy[index], false, false)
+        this.text.setText(GameModel.replaceFishStick(this.fightTextCopy[index]), false, false)
 
 
         for (let i = 0; i < 3; i++) {
