@@ -34,6 +34,7 @@ import GLFTLoader from "./lib/GLFTLoader.ts";
 import HDRTextureLoader from "./lib/HDRTextureLoader.ts";
 import JsonLoader from "./lib/JsonLoader.ts";
 import FaceDataHandler from "./data/FaceDataHandler.ts";
+import Timer from "./lib/Timer.ts";
 
 
 export enum MainState {
@@ -60,11 +61,12 @@ export default class Main {
     private mouseListener!: MouseListener;
 
 
-    private currentMainState!: MainState
+    private currentMainState!: MainState;
     private camera!: Camera;
     private gameRenderer!: GameRenderer;
     private game!: Game;
     private gameCopy!: JsonLoader;
+    lastLevelName: string ="";
 
 
     constructor() {
@@ -185,7 +187,7 @@ export default class Main {
         this.modelMaker = new ModelMaker(this.renderer, this.mouseListener);
 
         let state = AppState.getState(AppStates.MAIN_STATE);
-
+console.log(state)
         if (state != undefined && GameModel.debug) {
             this.setMainState(state)
         } else {
@@ -206,6 +208,7 @@ export default class Main {
     }
 
     private setMainState(state: MainState) {
+        console.log("setMainState",state,this.currentMainState)
         AppState.setState(AppStates.MAIN_STATE, state);
         if (this.currentMainState == MainState.modelMaker) {
             this.modelMaker.saveTemp()
@@ -215,7 +218,9 @@ export default class Main {
             SceneEditor.saveTemp()
         }
         if (this.currentMainState == MainState.game) {
+           
             LevelHandler.destroyCurrentLevel()
+       
         }
         if (state == MainState.modelMaker) {
             this.modelMaker.setActive()
@@ -231,6 +236,7 @@ export default class Main {
         }
         this.gameRenderer.fxEnabled = false
         this.currentMainState = state;
+        console.log(this.currentMainState)
     }
 
     private tick() {
@@ -259,6 +265,8 @@ export default class Main {
         } else if (this.currentMainState == MainState.modelMaker) {
             this.modelMaker.update();
         } else if (this.currentMainState == MainState.game) {
+        
+            
             this.game.update();
         }
         this.onUI()
@@ -286,9 +294,12 @@ export default class Main {
             }
             // popMainMenu()
         } else {
-            pushMainMenu("MainMenu", 207, 0)
-
-            if (addMainMenuToggleButton("Game", Icons.GAME, false)) this.setMainState(MainState.game);
+            pushMainMenu("MainMenu", 207+22, 0)
+ if (addMainMenuTextButton("Back", true)) {
+                this.setMainState(MainState.game);
+            }
+               addMainMenuDivider("div")
+            // if (addMainMenuToggleButton("Game", Icons.GAME, false)) this.setMainState(MainState.game);
             if (addMainMenuToggleButton("Scene Editor", Icons.CUBE, this.currentMainState == MainState.editor)) this.setMainState(MainState.editor);
             if (addMainMenuToggleButton("Model Maker", Icons.PAINT, this.currentMainState == MainState.modelMaker)) this.setMainState(MainState.modelMaker);
             addMainMenuDivider("div")

@@ -45,7 +45,7 @@ export default class Meat extends NavigationLevel{
 
         GameModel.gameRenderer.setLevelType("website")
 
-        this.meatHandler.init(SceneHandler.getSceneObject("meat1"), SceneHandler.getSceneObject("meat2"), SceneHandler.getSceneObject("editBtn"), this.mouseInteractionMap.get("edit") as MouseInteractionWrapper)
+        this.meatHandler.init(SceneHandler.getSceneObject("meat1"), SceneHandler.getSceneObject("meat2"), SceneHandler.getSceneObject("editBtn"), this.mouseInteractionMap.get("edit") as MouseInteractionWrapper,SceneHandler.getSceneObject("github"), this.mouseInteractionMap.get("github") as MouseInteractionWrapper)
 
         this.meatHandler.enabled =true;
     }

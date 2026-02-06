@@ -87,6 +87,7 @@ export default class Game {
             GameInput.update()
             if (LevelHandler.currentLevel) {
                 LevelHandler.currentLevel.updateMouse()
+                if(!LevelHandler.currentLevel)return//mouse can leave state
                 LevelHandler.currentLevel.update()
             }
 

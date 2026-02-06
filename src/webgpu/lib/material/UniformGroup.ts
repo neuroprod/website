@@ -469,7 +469,7 @@ ${this.getUniformStruct()}
 
     destroy() {
         if (this.hasUniformBuffer) {
-            this.buffer.destroy();
+            this.buffer?.destroy();
         }
         this.markDelete = true;
         if (this.autoUpdate) {

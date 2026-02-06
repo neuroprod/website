@@ -20,11 +20,12 @@ export default class MeatHandler {
     private m2pL!: SceneObject3D;
     private m2pR!: SceneObject3D;
     private button!: SceneObject3D;
+    githubBtn!: SceneObject3D;
     constructor() {
 
     }
 
-    init(meat1: SceneObject3D, meat2: SceneObject3D, editBtn: SceneObject3D, edit: MouseInteractionWrapper) {
+    init(meat1: SceneObject3D, meat2: SceneObject3D, editBtn: SceneObject3D, edit: MouseInteractionWrapper,githubBtn: SceneObject3D, github: MouseInteractionWrapper) {
 
         this.meat1 = meat1;
         this.meat2 = meat2;
@@ -62,6 +63,25 @@ export default class MeatHandler {
         }
         edit.onClick = () => {
             GameModel.setMainState(MainState.editor)
+
+
+        }
+        this.githubBtn =githubBtn;
+        githubBtn.hide()
+         github.onRollOver = () => {
+         
+            GameModel.renderer.setCursor(true)
+          
+        }
+        github.onRollOut = () => {
+           
+            
+            GameModel.renderer.setCursor(false)
+
+        }
+        github.onClick = () => {
+               // @ts-ignore
+              window.open("https://github.com/neuroprod/website", '_blank').focus();
 
 
         }
@@ -105,7 +125,9 @@ export default class MeatHandler {
             }
             if (this.indexCount == 5) {
                 gsap.to(this.button, { sx: 1, sy: 1, sz: 1, ease: "elastic.out" })
-
+this.githubBtn.sx=this.githubBtn.sy =0
+this.githubBtn.show();
+ gsap.to(this.githubBtn, { sx: 1, sy: 1, sz: 1, duration:0.2,delay:1.0 })
             }
             this.time = 2.5;
             this.indexCount++

@@ -45,7 +45,7 @@ class LevelHandler {
     public currentLevel!: BaseLevel | null;
 
     public navigationLevels: Array<string> = ["Worries", "Me", "Smullen", "Food", "Shaders", "Clients", "Robot", "This", "Invasion", "Friends", "Lab101", "Macaroni", "Social", "Contact"]
-    private currentLevelName: string = "";
+    currentLevelName: string = "";
     init() {
         this.addLevel("Home", new StartLevel())
 
@@ -98,6 +98,7 @@ class LevelHandler {
         this.currentLevelName = key;
         // history.pushState({urlPath: '/' + key}, "", '/' + key)
         // GameModel.gameRenderer.tweenToBlack()
+        gsap.globalTimeline.clear()
         GameModel.UI2D.setLevel(key)
         let delay = 0
         if (this.currentLevel) delay = this.currentLevel.endAnime()
@@ -141,6 +142,7 @@ class LevelHandler {
     destroyCurrentLevel() {
         if (this.currentLevel) this.currentLevel.destroy()
         this.currentLevel = null;
+    this.currentLevelName =""
     }
 
     onUI() {
