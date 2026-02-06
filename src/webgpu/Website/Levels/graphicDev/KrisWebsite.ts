@@ -148,7 +148,7 @@ export default class KrisWebsite {
         this.leg1.y = lerp(0, Math.sin(this.legRot) * legSize + legSize, this.legLerp)
         this.leg2.y = lerp(0, Math.cos(this.legRot) * legSize + legSize, this.legLerp)
 
-        this.headAngle += delta * (2 + this.armLerp * 9);
+        this.headAngle += delta * (2 + this.armLerp * 9)*0.5;
         this.head.y = 0.32 + Math.sin(this.headAngle) * 0.009
 
         this.arm1Angle += delta * 8

@@ -88,7 +88,7 @@ export class GraphicDev extends NavigationLevel {
         for (let b of this.butterFlys) {
             b.update()
         }
-
+this.krisWebsite.update()
     }
 
     destroy() {

@@ -61,8 +61,8 @@ fn mainFragment(${this.getFragmentInput()}) ->  @location(0) vec4f
     let  uvBottom=uv+ vec2(0,uniforms.bottomOffset);  
     let bottom =step(0.5,1.0-textureSample(colorTexture, mySampler,  uvBottom).z);
 
-    let c = (top+bottom)*mask*0.87;
-
+    var c = (top+bottom)*mask*0.87;
+c+=0.1;
     return vec4(c,c,c,1.0);
 }
 ///////////////////////////////////////////////////////////
