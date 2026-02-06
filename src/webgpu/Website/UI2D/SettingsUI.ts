@@ -62,7 +62,7 @@ export default class SettingsUI {
         this.settingsButton.x = 32
         this.settingsButton.alpha = 0.7
         this.settingsRoot.addChild(this.settingsButton)
-   
+
         this.settingsButton.rollOver = () => {
             this.settingsButton.alpha = 1
             GameModel.renderer.setCursor(true)
@@ -72,9 +72,9 @@ export default class SettingsUI {
             this.settingsButton.alpha = 0.7
 
         }
-this.settingsButton.onClick=()=>{
-    this.settingHolder.root.visible=!this.settingHolder.root.visible;
-}
+        this.settingsButton.onClick = () => {
+            this.settingHolder.root.visible = !this.settingHolder.root.visible;
+        }
         this.coinIcon = new Sprite(renderer, this.renderer.getTexture(Textures.COIN_ICON))
         this.coinIcon.sx = this.coinIcon.sy = 0.2
         this.coinIcon.x = 32 * 2 + 10
@@ -113,11 +113,11 @@ this.settingsButton.onClick=()=>{
         this.scoreStickText.x = this.renderer.htmlWidth - 150 - 110
 
         this.stickIcon.x = this.renderer.htmlWidth - 80 - 130
-        if(this.settingHolder.root.visible) this.settingHolder.update();
+        if (this.settingHolder.root.visible) this.settingHolder.update();
 
     }
     setLevel(level: string) {
-        console.log(level)
+
         if (LevelHandler.navigationLevels.includes(level)) {
             this.settingsRoot.x = 20
             this.settingsRoot.y = 20
@@ -126,7 +126,7 @@ this.settingsButton.onClick=()=>{
             this.settingsRoot.y = 40
         }
         if (level == "Home") {
-this.backButton.alpha =0.7
+            this.backButton.alpha = 0.7
             this.backButton.visible = false
             this.settingsButton.visible = false
             this.hideCoins()

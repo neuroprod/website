@@ -31,7 +31,7 @@ export default class InfoPanel {
         let font = FontPool.getFont("bold") as Font;
 
 
-        this.text = new Text(renderer, font, 37, "_")
+        this.text = new Text(renderer, font, 32, "_")
         this.text.material = new AnimatedTextMaterial(renderer, "fontMat")
         this.text.material.setTexture("texture", font.texture)
         //this.text.material.setUniform("color", new ColorV(0, 0, 0, 1))
