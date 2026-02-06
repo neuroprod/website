@@ -118,7 +118,7 @@ export class StartLevel extends BaseLevel {
         this.game.hide()
 
         this.gameLine = SceneHandler.getSceneObject("gameLine")
-        console.log(SceneHandler)
+       
         this.charAnimation = SceneHandler.sceneAnimationsByName.get("startScene") as Animation;
 
         this.gameLine.hide()

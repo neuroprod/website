@@ -19,6 +19,7 @@ import LevelHandler from "../LevelHandler.ts";
 import TextMesh from "../../../lib/twoD/TextMesh.ts";
 import SceneObject3D from "../../../data/SceneObject3D.ts";
 import gsap from "gsap";
+import Renderer from "../../../lib/Renderer.ts";
 class LineParticle {
 
     private position: Vector3 = new Vector3();
@@ -139,9 +140,11 @@ export default class Friends extends NavigationLevel {
         this.rossModel.mesh = GameModel.glft.meshes[0]
         this.rossModel.material = new RossMaterial(GameModel.renderer, "ross")
         this.rossModel.material.setTexture("colorTexture", this.rossTexture)
-
-        //this.rossModel.material.setTexture("irradiance", GameModel.renderer.getTexture("irradiance.hdr"))
-        // this.rossModel.material.setTexture("specular", GameModel.renderer.getTexture("specular.hdr"))
+if(!GameModel.renderer.isMobile){
+    this.rossModel.material.setTexture("irradiance", GameModel.renderer.getTexture("irradiance.hdr"))
+         this.rossModel.material.setTexture("specular", GameModel.renderer.getTexture("specular.hdr"))
+}
+    
         GameModel.gameRenderer.postLightModelRenderer.addModel(this.rossModel)
         this.rossModel.rx = Math.PI / 2
         this.rossModel.setPosition(0, 0, -2)

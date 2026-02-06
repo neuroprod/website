@@ -140,7 +140,7 @@ export default class Main {
         // this.sceneLoader = new JsonLoader("scene1", this.preloader)
         this.preloader.startLoad()
         ModelData.init(this.renderer, this.preloader).then(() => {
-            console.log("initModelsDone")
+       
             this.preloader.stopLoad()
         });
         this.preloader.startLoad()
@@ -187,7 +187,7 @@ export default class Main {
         this.modelMaker = new ModelMaker(this.renderer, this.mouseListener);
 
         let state = AppState.getState(AppStates.MAIN_STATE);
-console.log(state)
+
         if (state != undefined && GameModel.debug) {
             this.setMainState(state)
         } else {
@@ -208,7 +208,7 @@ console.log(state)
     }
 
     private setMainState(state: MainState) {
-        console.log("setMainState",state,this.currentMainState)
+      
         AppState.setState(AppStates.MAIN_STATE, state);
         if (this.currentMainState == MainState.modelMaker) {
             this.modelMaker.saveTemp()
@@ -236,7 +236,7 @@ console.log(state)
         }
         this.gameRenderer.fxEnabled = false
         this.currentMainState = state;
-        console.log(this.currentMainState)
+       
     }
 
     private tick() {

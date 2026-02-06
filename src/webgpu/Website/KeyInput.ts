@@ -25,7 +25,7 @@ export default class KeyInput {
         //w
         //asd
         document.addEventListener('keydown', (event) => {
-            console.log(event.key)
+  
             switch (event.key) {
                 case "a":
                 case "ArrowLeft":

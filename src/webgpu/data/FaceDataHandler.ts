@@ -27,7 +27,7 @@ class FaceDataHandler {
 
         this.faceData = JSON.parse(text);
 
-        console.log(this.faceData)
+     
 
     }
     getDataForLabel(name: string): any {

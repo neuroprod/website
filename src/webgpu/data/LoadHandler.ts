@@ -1,37 +1,36 @@
 import GameModel from "../Website/GameModel.ts";
 
-class LoadHandler{
+class LoadHandler {
 
-    private loadingCount =0;
+    private loadingCount = 0;
     private _isLoading = false;
 
 
-    onComplete!:  () => void
+    onComplete!: () => void
 
-    update(){
-        if(this.loadingCount==0 && this._isLoading){
-            this._isLoading =false;
-            console.log("loadDone")
-           // GameModel.gameRenderer.tweenToNonBlack()
-            if(this.onComplete)this.onComplete()
-            //console.log("loadingDone")
+    update() {
+        if (this.loadingCount == 0 && this._isLoading) {
+            this._isLoading = false;
+
+            if (this.onComplete) this.onComplete()
+
         }
     }
 
-    isLoading(){
+    isLoading() {
 
         return this._isLoading;
     }
 
-    startLoading(){
-        if(this.loadingCount==0){
-           // console.log("startLoading")
-            this._isLoading =true;
+    startLoading() {
+        if (this.loadingCount == 0) {
+
+            this._isLoading = true;
         }
-        this.loadingCount ++;
+        this.loadingCount++;
 
     }
-    stopLoading(){
+    stopLoading() {
         this.loadingCount--
 
 

@@ -248,7 +248,7 @@ export default class GLFTLoader {
                 }
 
             this.meshes.push(mesh);
-console.log(mesh)
+
 
         }
     }
