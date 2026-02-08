@@ -157,7 +157,7 @@ export class FightLevel extends BaseLevel {
         this.kickAnimation = SceneHandler.sceneAnimationsByName.get("kick") as Animation;
         this.charGotHitAnimation = SceneHandler.sceneAnimationsByName.get("charGotHit2") as Animation;
         this.fishTrowAnimation = SceneHandler.sceneAnimationsByName.get("fishTrow4") as Animation;
-         this.fishTrowMissAnimation = SceneHandler.sceneAnimationsByName.get("fishTrowmiss") as Animation;
+        this.fishTrowMissAnimation = SceneHandler.sceneAnimationsByName.get("fishTrowmiss") as Animation;
         this.hitLandAnimation = SceneHandler.sceneAnimationsByName.get("hitLand") as Animation;
 
         this.charHealAnimation = SceneHandler.sceneAnimationsByName.get("fishEat") as Animation;
@@ -196,6 +196,9 @@ export class FightLevel extends BaseLevel {
         }
         if (UI.LButton("fightFail",)) {
             this.doPirateFightFail()
+        }
+        if (UI.LButton("heal",)) {
+            this.doPirateHeal()
         }
         if (UI.LButton("healSucces",)) {
             this.doPirateHealSucces()
@@ -388,14 +391,14 @@ export class FightLevel extends BaseLevel {
         let time = 0.4
         tl.to(this.bullet, { x: endPos.x, y: endPos.y, z: endPos.z, duration: time, ease: "power2.in" }, 2)
         time += 2;
-        tl.call(() => { this.bullet.hide(); this.pupilRight.hide();GameModel.tweenToBlack(1); this.eyeRight.hide(); this.splash.show(); SoundHandler.playEyeHit(), GameModel.gameCamera.screenShakeHit(-0.01) }, [], time)
+        tl.call(() => { this.bullet.hide(); this.pupilRight.hide(); GameModel.tweenToBlack(1); this.eyeRight.hide(); this.splash.show(); SoundHandler.playEyeHit(), GameModel.gameCamera.screenShakeHit(-0.01) }, [], time)
         tl.to(this.splash, { sx: 1.2, sy: 1.2, duration: 0.1, ease: "power3.out" }, time)
         time += 0.1
-        tl.call(() => { this.splash.hide() ,this.pirate.x =0.8;}, [], time)
+        tl.call(() => { this.splash.hide(), this.pirate.x = 0.8; }, [], time)
         tl.to(this, { pirateLife: 0 }, time)
 
         tl.to(this, { pirateFrame: 15, duration: 1 }, time)
-        tl.to(this.pirate, { x: 1,y:-0.1, ease: "power1.in", duration:1 }, time)
+        tl.to(this.pirate, { x: 1, y: -0.1, ease: "power1.in", duration: 1 }, time)
         tl.call(() => { LevelHandler.setLevel("Dead") }, [], time + 1)
 
     }
@@ -564,12 +567,12 @@ export class FightLevel extends BaseLevel {
 
 
 
-   this.pirateFrame = 0
-       
+        this.pirateFrame = 0
+
 
         let tl = this.getTimeline(() => {
 
-          
+
             this.fishTrowMissAnimation.setTime(this.pirateFrame)
         })
 
@@ -582,10 +585,10 @@ export class FightLevel extends BaseLevel {
 
         }, [], 1.3)
         tl.to(this, { pirateFrame: 22, duration: 1, ease: "power2.in" }, 2.5)
-      
-        tl.call(() => { this.fishTrow.hide() }, [],3.5)
 
-      
+        tl.call(() => { this.fishTrow.hide() }, [], 3.5)
+
+
 
         tl.to(this, { pirateFrame: 60, duration: 1, ease: "power2.in" }, 3.5)
         tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("FFightFail")) }, [], 3.5)
@@ -620,6 +623,11 @@ export class FightLevel extends BaseLevel {
         }, [], totaltime)
 
         totaltime += 0.6
+
+        tl.call(() => {
+            SoundHandler.playHeal();
+
+        }, [], totaltime)
         //eat
         animeTime = 1.5
         tl.to(this, { pirateFrame: 41, duration: animeTime }, totaltime)

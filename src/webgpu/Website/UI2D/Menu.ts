@@ -7,6 +7,7 @@ import LevelHandler from "../Levels/LevelHandler.ts";
 import Sprite from "../../lib/twoD/Sprite.ts";
 import DefaultTextures from "../../lib/textures/DefaultTextures.ts";
 import GameModel from "../GameModel.ts";
+import SoundHandler from "../SoundHandler.ts";
 
 export default class Menu {
     menuRoot = new Object2D()
@@ -30,7 +31,7 @@ export default class Menu {
             size += text.width + this.space;
             this.menuRoot.addChild(text)
             text.onClick = () => {
-
+                SoundHandler.playBtn()
                 LevelHandler.setLevel(item)
             }
             text.rollOver = () => {

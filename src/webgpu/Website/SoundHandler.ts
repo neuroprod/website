@@ -10,17 +10,18 @@ class SoundObject {
 }
 
 class SoundHandler {
+
     setMusicVolume(value: number) {
         this.musicVolume = value;
         for (let i = 0; i < this.bgSounds.length; i++) {
             let bs = this.bgSounds[i]
             bs.sound.volume(this.musicVolume);
         }
-      console.log("set music volume", this.musicVolume)
+
     }
     setSoundFXVolume(value: number) {
-      this.fxVolume = value;
-      console.log("set fx volume", this.fxVolume)
+        this.fxVolume = value;
+
     }
 
 
@@ -52,7 +53,9 @@ class SoundHandler {
     bush!: Howl;
     eyeHit!: Howl;
     moan!: Howl;
-
+    btnTick!: Howl;
+    fishSuck!: Howl;
+    heal!: Howl;
     init() {
 
         // this.fishFood = new Howl({src: ['sound/fishfood.mp3']});
@@ -65,6 +68,20 @@ class SoundHandler {
              src: ['sound/653311__mfedward__relaxing-sea.mp3'],
              loop: true
          });*/
+
+        this.heal = new Howl({
+            src: ['sound/250825-233907.mp3'],
+
+        });
+
+        this.fishSuck = new Howl({
+            src: ['sound/250825-233632.mp3'],
+
+        });
+        this.btnTick = new Howl({
+            src: ['sound/game-ui-sounds-14857.mp3'],
+
+        });
         this.gun = new Howl({
             src: ['sound/465488__janthracite__1911-pistol-cocking.mp3'],
 
@@ -270,11 +287,23 @@ class SoundHandler {
         this.moan.play("s" + count % 7)
 
     }
+    playHeal() {
+        if (!this.playSound) return
+        this.heal.volume(this.fxVolume * 0.5);
+        this.heal.play()
+
+    }
+    playFishSuck() {
+        if (!this.playSound) return
+        this.fishSuck.volume(this.fxVolume * 0.2);
+        this.fishSuck.play()
+
+    }
+    stopFishSuck() {
+        this.fishSuck.stop()
+    }
     playEyeHit() {
         if (!this.playSound) return
-
-
-
         this.eyeHit.volume(this.fxVolume * 0.5);
         this.eyeHit.play()
 
@@ -282,11 +311,15 @@ class SoundHandler {
     }
     playBush() {
         if (!this.playSound) return
-
-
-
         this.bush.volume(this.fxVolume);
         this.bush.play()
+    }
+    playBtn() {
+        if (!this.playSound) return
+
+
+        this.btnTick.volume(this.fxVolume * 0.3);
+        this.btnTick.play()
 
 
     }
@@ -294,7 +327,7 @@ class SoundHandler {
         if (!this.playSound) return
 
 
-        console.log("play")
+
         this.kick.volume(this.fxVolume);
         this.kick.play()
 
@@ -438,7 +471,7 @@ class SoundHandler {
             }
 
         }
-   
+
         for (let i = 0; i < this.bgSounds.length; i++) {
             let bs = this.bgSounds[i]
             if (bs.needsDelete) {

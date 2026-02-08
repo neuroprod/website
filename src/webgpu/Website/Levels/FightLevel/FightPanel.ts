@@ -7,6 +7,7 @@ import Object2D from "../../../lib/twoD/Object2D.ts";
 import Sprite from "../../../lib/twoD/Sprite.ts";
 import Text from "../../../lib/twoD/Text.ts";
 import GameModel from "../../GameModel.ts";
+import SoundHandler from "../../SoundHandler.ts";
 export default class FightPanel {
 
 
@@ -53,7 +54,7 @@ export default class FightPanel {
 
         //this.text.material.setUniform("color", new ColorV(0, 0, 0, 1))
         this.text.x = -160
-        this.text.y = -70+5
+        this.text.y = -70 + 5
         this.text.alpha = 0.5
 
         this.root.addChild(this.text)
@@ -63,6 +64,8 @@ export default class FightPanel {
         this.fightTextCopy.push(GameModel.getCopy("FRunText"))
     }
     show(index: number) {
+
+        if (this.root.visible) SoundHandler.playBtn()
         this.root.visible = true
 
 

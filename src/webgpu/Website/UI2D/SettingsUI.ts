@@ -9,6 +9,7 @@ import GameModel from "../GameModel";
 import LevelHandler from "../Levels/LevelHandler";
 import gsap from "gsap";
 import SettingHolder from "./SettingsHolder.ts";
+import SoundHandler from "../SoundHandler.ts";
 export default class SettingsUI {
 
 
@@ -42,6 +43,7 @@ export default class SettingsUI {
 
         this.backButton.onClick = () => {
             // gsap.globalTimeline.clear()
+            SoundHandler.playBtn();
             LevelHandler.setLevel("Home")
         }
         this.backButton.rollOver = () => {
@@ -74,6 +76,7 @@ export default class SettingsUI {
         }
         this.settingsButton.onClick = () => {
             this.settingHolder.root.visible = !this.settingHolder.root.visible;
+            SoundHandler.playBtn()
         }
         this.coinIcon = new Sprite(renderer, this.renderer.getTexture(Textures.COIN_ICON))
         this.coinIcon.sx = this.coinIcon.sy = 0.2

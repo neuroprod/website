@@ -20,6 +20,7 @@ export default class FoodForFish extends NavigationLevel {
     private video!: VideoPlayer;
     fwa!: Model
     fishMouth!: Model;
+    tl!: gsap.core.Timeline;
     constructor() {
         super();
 
@@ -114,14 +115,15 @@ export default class FoodForFish extends NavigationLevel {
 
         this.fishMouth = SceneHandler.getSceneObject("FishMouth").model as Model
 
-        let tl = gsap.timeline({
+        this.tl = gsap.timeline({
             delay: 5
         })
 
-
+        let tl = this.tl;
         this.fishMouth.rz = -1
 
         tl.to(this.fishMouth, { rz: 0, ease: "power2.inout", duration: 1.5 })
+        tl.call(() => { SoundHandler.playFishSuck() }, [])
         tl.to(this.fwa, { x: 0, sx: 1, ease: "power2.inout", duration: 2 })
 
         for (let i = 0; i < 2; i++) {
@@ -145,6 +147,8 @@ export default class FoodForFish extends NavigationLevel {
         super.destroy()
         this.video.pauze()
         SoundHandler.killBackgroundSounds()
+        SoundHandler.stopFishSuck()
+        if (this.tl) this.tl.clear()
     }
 
 
