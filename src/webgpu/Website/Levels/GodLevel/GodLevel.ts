@@ -18,8 +18,8 @@ export class GodLevel extends PlatformLevel {
     private god!: SceneObject3D;
     private godController!: God;
     private skipGodChoice: boolean = false;
-    private startPos = 0
-    private landlord!: SceneObject3D;
+    private startPos = -1
+  
     charFaceHandler!: FaceHandler;
     godFaceHandler!: FaceHandler;
     treeFaceHandler!: FaceHandler;
