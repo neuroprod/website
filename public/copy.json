@@ -479,7 +479,7 @@
           1.0,
           0
         ],
-        "text": "Just produce, man.\nStress relief."
+        "text": "It's Just produce, man.\nGreat stress relief."
       },
       {
         "char": "charRoot",
@@ -497,7 +497,7 @@
           1.0,
           0
         ],
-        "text": "Great! That will be 5 coins.\nSmash 4 fruit and you get the prize."
+        "text": "Great! That will be 5 coins.\nSmash 4 fruits and you get the prize."
       },
       {
         "char": "charRoot",
@@ -680,7 +680,7 @@
         "text": "This is just a costume, Candy."
       },
       {
-        "text": "And sure, I download a movie\nevery now and then."
+        "text": "Sure, I download a movie\nevery now and then."
       },
       {
         "text": "But I'm not a real pirate."
@@ -754,7 +754,7 @@
         "text": "It's not mine, kid. I'm just the face."
       },
       {
-        "text":  "Billy's Global Industries owns it.\n Owns me too, pretty much."
+        "text":  "Billy's Global Industries owns it.\nOwns me too, pretty much."
       },
       {
         "text": "I'm just grinding myself down here."
@@ -1072,7 +1072,7 @@
           0.85,
           0
         ],
-        "text": "Don't believe in me, Pirate.\nI'm just false hope, floating in the sky."
+        "text": "Don't believe in God, Pirate.\nI'm just false hope, floating in the sky."
       },
       {
         "text": "...Nice ship, though."
@@ -1111,7 +1111,7 @@
           0.85,
           0
         ],
-        "text": "That's the spirit!\nEnjoy the party while it lasts..."
+        "text": "That's the spirit Pirate!\nEnjoy the party while it lasts..."
         
       },
       {
@@ -1126,7 +1126,11 @@
           0.8,
           0
         ],
-        "text": "Yeah... See you soon, God!"
+        "text": "Yeah..."
+      }
+      ,
+      {
+        "text":"See you soon, God!"
       },
       {
         "text":"But not today."
