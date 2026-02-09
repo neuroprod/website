@@ -1116,7 +1116,7 @@
       },
       {
         "text": "Anyway, I will see you soon, Pirate.",
-        "delay": 1
+        "delay": 0.5
       },
       {
         "char": "charRoot",
@@ -1131,7 +1131,8 @@
         "text": "See you soon, God!"
       },
       {
-        "text": "But not today."
+        "delay": 0.5,
+        "text": "But not tonight."
       }
     ]
   }
