@@ -1,3 +1,4 @@
+import { Textures } from "../../data/Textures.ts";
 import Renderer from "../../lib/Renderer";
 import DefaultTextures from "../../lib/textures/DefaultTextures.ts";
 import Font from "../../lib/twoD/Font";
@@ -10,13 +11,16 @@ import Slider from "./Slider.ts";
 import Toggle from "./Toggle.ts";
 import gsap from "gsap";
 export default class SettingHolder {
+    show() {
+
+    }
 
     root: Object2D
     musicSlider: Slider;
     soundFXSlider: Slider;
     LanguageToggle: Toggle;
     closeButton: Sprite;
- 
+
     constructor(renderer: Renderer) {
 
         this.root = new Object2D()
@@ -24,6 +28,23 @@ export default class SettingHolder {
         this.root.y = 50;
         this.root.visible = false
         let font = FontPool.getFont("bold") as Font;
+
+
+
+
+
+        let back = new Sprite(renderer, renderer.getTexture(Textures.SETTINGS_BACK))
+        back.y = 100
+        back.x = 200
+        back.sx = 4
+        back.sy = 2
+        back.alpha = 0.3
+        back.mouseEnabled = false
+        this.root.addChild(back)
+
+
+
+
 
         let pos = 0
         let textMusic = new Text(renderer, font, 30, "Music")
@@ -74,13 +95,13 @@ export default class SettingHolder {
             renderer.setCursor(true);
             this.closeButton.r = 0;
 
-           gsap.to(this.closeButton, { r: Math.PI , duration: 0.3, ease: "power1.inOut" });
+            gsap.to(this.closeButton, { r: Math.PI, duration: 0.3, ease: "power1.inOut" });
         }
         this.closeButton.rollOut = () => {
             renderer.setCursor(false);
-            
+
         }
-let lineThickness = 2 ;
+        let lineThickness = 2;
         let line1 = new Sprite(renderer, DefaultTextures.getWhite(renderer));
         line1.sx = 1;
         line1.sy = lineThickness / btnSize;
@@ -100,7 +121,7 @@ let lineThickness = 2 ;
     update() {
         this.musicSlider.updateF();
         this.soundFXSlider.updateF();
-       
+
     }
 
 }

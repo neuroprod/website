@@ -78,8 +78,8 @@ export class DockLevel extends PlatformLevel {
         char.y = 0.1;
         char.setScaler(1.2)
         this.isConversation = true
-        //this.charFaceHandler = new FaceHandler(char)
-        // this.charFaceHandler.setState("default")
+        this.charFaceHandler = new FaceHandler(char)
+        this.charFaceHandler.setState("default")
 
 
         this.landlord = sceneHandler.getSceneObject("rootLandlord")

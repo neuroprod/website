@@ -32,7 +32,7 @@ export default class SpriteMaterial extends Material {
         uniforms.addTexture("texture", DefaultTextures.getGrid(this.renderer));
 
         uniforms.addSampler("mySampler")
-        this.blendModes = [Blend.alpha()]
+        this.blendModes = [Blend.preMultAlpha()]
         this.cullMode = CullMode.None;
         this.depthWrite = false;
         this.depthCompare = "always"
@@ -68,9 +68,9 @@ fn mainFragment(${this.getFragmentInput()}) ->  @location(0) vec4f
 
     var textColor =  textureSample(texture, mySampler, uv);
  
+    let a = textColor.w*uniforms.alpha;
     
-    
-    return   vec4(textColor.xyz*uniforms.alpha,textColor.w*uniforms.alpha);
+    return   vec4(textColor.xyz*a,a);
 }
 ///////////////////////////////////////////////////////////
         `

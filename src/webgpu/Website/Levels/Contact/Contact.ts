@@ -17,6 +17,7 @@ import Ray from "../../../lib/Ray.ts";
 import TextMesh from "../../../lib/twoD/TextMesh.ts";
 import FontPool from "../../../lib/twoD/FontPool.ts";
 import FontMesh from "../../../modelMaker/FontMesh.ts";
+import MouseInteractionWrapper from "../../MouseInteractionWrapper.ts";
 
 export default class Contact extends NavigationLevel {
 
@@ -44,6 +45,8 @@ export default class Contact extends NavigationLevel {
 
     private eCount = 0
     private line1!: SceneObject3D;
+    private line2!: SceneObject3D;
+    private line3!: SceneObject3D;
     private mouth!: SceneObject3D;
     private mouthMaterial!: MouthMaterial;
     private overTexture!: TextureLoader;
@@ -51,7 +54,7 @@ export default class Contact extends NavigationLevel {
     private ray2 = new Ray()
     private prevSeek: number = 100000;
     private contactTextMesh!: FontMesh;
-
+    startPos = new Vector3(0.09775478165497381, 0.1838312455732348, 0.25)
     private contactTextArr = ["Contact me!", "For great\nprojects!", "cool visuals!", "Happy CLients!", "The best\nDance Moves!"]
     private contactTextArrCount = 0
     constructor() {
@@ -124,8 +127,9 @@ export default class Contact extends NavigationLevel {
         if (this.contactText.model) {
             this.contactTextMesh = this.contactText.model.mesh as FontMesh
         }
-        this.line1 = SceneHandler.getSceneObject("line1")
-
+        this.line1 = SceneHandler.getSceneObject("lw1")
+        this.line2 = SceneHandler.getSceneObject("lw2")
+        this.line3 = SceneHandler.getSceneObject("lw3")
 
         this.mouth = SceneHandler.getSceneObject("mouth")
         if (!this.mouthMaterial) this.mouthMaterial = new MouthMaterial(GameModel.renderer, "mouth")
@@ -150,6 +154,26 @@ export default class Contact extends NavigationLevel {
         }
         this.prevSeek = 10000
         this.contactTextArrCount = 0;
+        this.contactText.setPositionV(this.startPos)
+
+        let link = this.mouseInteractionMap.get("email") as MouseInteractionWrapper
+
+        link.onClick = () => {
+
+            // @ts-ignore
+            window.open("mailto:kris@neuroproductions.be")
+        }
+        link.onRollOver = () => {
+            GameModel.renderer.setCursor(true)
+
+
+        }
+        link.onRollOut = () => {
+            GameModel.renderer.setCursor(false)
+
+
+        }
+
     }
 
     public update() {
@@ -185,7 +209,7 @@ export default class Contact extends NavigationLevel {
 
         this.ray2.setFromCamera(GameModel.gameCamera.camera, GameModel.mouseListener.mouseNorm);
         let int = this.ray2.intersectPlaneCor(new Vector3(0, 0, 0.25), new Vector3(0, 0, -1))
-
+        if (GameModel.renderer.isMobile) int = this.startPos
         if (int) {
 
 
@@ -205,7 +229,8 @@ export default class Contact extends NavigationLevel {
     private beat() {
 
         this.line1.rz -= 0.2
-
+        this.line2.rz -= 0.3
+        this.line3.rz += 0.21
         this.arms.y = this.armsY + 0.01
         gsap.to(this.arms, { y: this.armsY, duration: 0.4 })
 

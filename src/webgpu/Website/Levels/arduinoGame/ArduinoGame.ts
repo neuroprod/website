@@ -86,7 +86,9 @@ export default class ArduinoGame extends NavigationLevel {
 
 
     }
-
+    onUI(): void {
+        this.arduinoGame.onUI()
+    }
     public update() {
         super.update()
         this.arduinoGame.update()

@@ -474,7 +474,7 @@ export class FightLevel extends BaseLevel {
         if (target == 0) {
 
             tl.call(() => {
-                GameModel.happyEnd = false;
+
                 this.setNextCall(this.doLose.bind(this))
             }, [], 3)
         } else {
@@ -546,7 +546,7 @@ export class FightLevel extends BaseLevel {
         if (target == 0) {
             tl.call(() => { this.fightUI.setInfoPanel(GameModel.getCopy("YouWin")) }, [], 3)
             tl.call(() => {
-                GameModel.happyEnd = true;
+
                 this.setNextCall(this.doWin.bind(this))
             }, [], 9)
         } else {
@@ -692,15 +692,17 @@ export class FightLevel extends BaseLevel {
 
 
         tl.call(() => {
-            GameModel.happyEnd = false;
+
             this.setNextCall(this.doDeadBlow.bind(this))
 
         }, [], 2)
     }
     doWin() {
+        GameModel.happyEnd = true;
         LevelHandler.setLevel("Sea")
     }
     doLose() {
+        GameModel.happyEnd = false;
         LevelHandler.setLevel("Dead")
     }
     destroy() {

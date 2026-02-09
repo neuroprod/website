@@ -49,11 +49,12 @@ export const Textures = {
 
     JOYSTICK: "joystick.png",
     JOYSTICKBACK: "joystickBack.png",
-SLIDER_BUTTON:"sliderBtn.png",
-TOGGLE_BACK:"togle.png",
+    SLIDER_BUTTON: "sliderBtn.png",
+    TOGGLE_BACK: "togle.png",
 
-LIFE_BAR:"lifeBar.png",
-LIFE_BAR_BACK:"lifeBarBack.png"
+    LIFE_BAR: "lifeBar.png",
+    LIFE_BAR_BACK: "lifeBarBack.png",
 
-
+    SETTINGS_BACK: "settingBack.png",
+    YELLOW_LINE: "yellowLine.png"
 }

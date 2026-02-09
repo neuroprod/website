@@ -13,6 +13,7 @@ import SeaFull from "./SeaFull.ts";
 import God from "../GodLevel/God.ts";
 import levelHandler from "../LevelHandler.ts";
 import SoundHandler from "../../SoundHandler.ts";
+import FaceHandler from "../../handlers/FaceHandler.ts";
 
 
 
@@ -27,6 +28,9 @@ export class SeaLevel extends PlatformLevel {
     private camPosition!: Vector3;
     private god!: SceneObject3D;
     private godController!: God;
+    public renderDepth = 0.94
+    charFaceHandler!: FaceHandler
+    godFaceHandler!: FaceHandler;
     init() {
         super.init();
         LoadHandler.onComplete = this.configScene.bind(this)
@@ -62,6 +66,11 @@ export class SeaLevel extends PlatformLevel {
             LoadHandler.stopLoading()
         })
 
+    }
+    onUI(): void {
+        if (!this.charFaceHandler) return;
+        this.charFaceHandler.onUI()
+        this.godFaceHandler.onUI()
     }
     endAnime(): number {
         GameModel.tweenToBlack(3)
@@ -131,6 +140,7 @@ export class SeaLevel extends PlatformLevel {
 
         this.god = sceneHandler.getSceneObject("godRoot")
 
+        this.godFaceHandler = new FaceHandler(this.god)
 
 
         this.god.ry = 0
@@ -171,17 +181,24 @@ export class SeaLevel extends PlatformLevel {
         let end = 15
         this.tl.to(this.camPosition, { x: 2.4, y: 1, z: 1.5, ease: "power2.inOut", duration: 5 }, end)
         this.tl.to(this.camLookAt, { x: 2.4, y: 1, z: 0, ease: "power2.inOut", duration: 5 }, end)
+        this.tl.to(this, { renderDepth: 0.9, ease: "power2.inOut", duration: 5 }, end)
         this.tl.call(() => {
+            this.godFaceHandler.setState("godLook")
             this.godController.showEnd(() => {
                 GameModel.conversationHandler.startConversation("godEnd")
                 GameModel.conversationHandler.doneCallBack = () => {
-                    GameModel.happyEnd = true
+
                     levelHandler.setLevel("Dead")
                 }
 
 
             })
         }, [], end + 5)
+        GameModel.happyEnd = true
+        GameModel.gameRenderer.setRenderSetting({ dofMin: 0.94, dofMax: 0.96 })
+        this.renderDepth = 0.94
+        this.charFaceHandler = new FaceHandler(char)
+        this.charFaceHandler.setState("lookGod")
     }
 
     conversationDataCallBack(data: string) {
@@ -203,7 +220,7 @@ export class SeaLevel extends PlatformLevel {
         this.sea.update()
         this.rootShip.y = Math.sin(Timer.time * 2.4) * 0.03
         this.rootShip.rz = Math.sin(Timer.time * 1) * 0.02 + Math.PI + 0.05
-
+        GameModel.gameRenderer.dofPrepPass.setMinMax(this.renderDepth, 0.96)
         this.foam.y = -this.rootShip.y * 1.5
 
         for (let s of this.foam.children) {
