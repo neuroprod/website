@@ -846,7 +846,7 @@
         "callBack": "lookDown"
       },
       {
-        "delay": 1,
+        "delay": 0.5,
         "char": "bodyFairy",
         "pos": [
           -0.39,
@@ -903,6 +903,9 @@
           0
         ],
         "text": "That's all you need, Pirate!\n...That's all you need!"
+      },
+      {
+        "text": "Now go make your choice."
       }
     ]
   },
@@ -917,6 +920,9 @@
           0
         ],
         "text": "A man needs at least 5 Fish Sticks.\nHave one of mine!"
+      },
+      {
+        "text": "Now go make your choice."
       }
     ]
   },
@@ -931,6 +937,9 @@
           0
         ],
         "text": "A man needs at least 5 Fish Sticks.\nHave some of mine!"
+      },
+      {
+        "text": "Now go make your choice."
       }
     ]
   },

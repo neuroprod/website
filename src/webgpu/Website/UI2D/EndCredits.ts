@@ -8,6 +8,8 @@ import gsap from "gsap";
 import GameModel from "../GameModel.ts";
 import LevelHandler from "../Levels/LevelHandler.ts";
 import Game from "../Game.ts";
+import Sprite from "../../lib/twoD/Sprite.ts";
+import { Textures } from "../../data/Textures.ts";
 
 export default class EndCredits {
 
@@ -76,13 +78,26 @@ export default class EndCredits {
     testersA.material.setUniform("color", this.color)
     testersA.y = pos
     this.root.addChild(testersA)
-
-
     pos += 70
-    let link = new Text(renderer, font, 30, "Check out the Portfolio\npart of the site or replay.", hAlign);
+    let sound = new Text(renderer, font, 20, "Thanks to everyone who shares\npublic domain sounds and music", hAlign);
+    sound.material.setUniform("color", this.color)
+    sound.y = pos
+    this.root.addChild(sound)
+
+
+    pos += 80
+    let link = new Text(renderer, font, 30, "Now, go check out the Portfolio!!", hAlign);
     link.material.setUniform("color", this.color)
     link.y = pos
     this.root.addChild(link)
+
+    let line = new Sprite(renderer, renderer.getTexture(Textures.YELLOW_LINE))
+    line.y = pos + 35
+    line.x = 350;
+    line.sx = 0.7
+    line.sy = 0.7
+    this.root.addChild(line)
+
     link.onClick = () => {
 
       LevelHandler.setLevel("Home")

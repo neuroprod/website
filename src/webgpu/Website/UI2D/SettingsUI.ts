@@ -76,6 +76,9 @@ export default class SettingsUI {
         }
         this.settingsButton.onClick = () => {
             this.settingHolder.root.visible = !this.settingHolder.root.visible;
+            if (this.settingHolder.root.visible) {
+                this.settingHolder.show()
+            }
             SoundHandler.playBtn()
         }
         this.coinIcon = new Sprite(renderer, this.renderer.getTexture(Textures.COIN_ICON))

@@ -66,7 +66,7 @@ export default class Main {
     private gameRenderer!: GameRenderer;
     private game!: Game;
     private gameCopy!: JsonLoader;
-    lastLevelName: string ="";
+    lastLevelName: string = "";
 
 
     constructor() {
@@ -125,10 +125,15 @@ export default class Main {
         new TextureLoader(this.renderer, Textures.PATATO)
         new TextureLoader(this.renderer, Textures.JOYSTICK)
         new TextureLoader(this.renderer, Textures.JOYSTICKBACK)
-        new TextureLoader(this.renderer,Textures.SLIDER_BUTTON)
-        new TextureLoader(this.renderer,Textures.TOGGLE_BACK)
-         new TextureLoader(this.renderer,Textures.LIFE_BAR)
-          new TextureLoader(this.renderer,Textures.LIFE_BAR_BACK)
+        new TextureLoader(this.renderer, Textures.SLIDER_BUTTON)
+        new TextureLoader(this.renderer, Textures.TOGGLE_BACK)
+        new TextureLoader(this.renderer, Textures.LIFE_BAR)
+        new TextureLoader(this.renderer, Textures.LIFE_BAR_BACK)
+
+
+        new TextureLoader(this.renderer, Textures.YELLOW_LINE)
+        new TextureLoader(this.renderer, Textures.SETTINGS_BACK)
+
         let tl = new HDRTextureLoader()
         tl.loadURL(this.renderer, "specular.hdr").then()
 
@@ -140,7 +145,7 @@ export default class Main {
         // this.sceneLoader = new JsonLoader("scene1", this.preloader)
         this.preloader.startLoad()
         ModelData.init(this.renderer, this.preloader).then(() => {
-       
+
             this.preloader.stopLoad()
         });
         this.preloader.startLoad()
@@ -208,7 +213,7 @@ export default class Main {
     }
 
     private setMainState(state: MainState) {
-      
+
         AppState.setState(AppStates.MAIN_STATE, state);
         if (this.currentMainState == MainState.modelMaker) {
             this.modelMaker.saveTemp()
@@ -218,9 +223,9 @@ export default class Main {
             SceneEditor.saveTemp()
         }
         if (this.currentMainState == MainState.game) {
-           
+
             LevelHandler.destroyCurrentLevel()
-       
+
         }
         if (state == MainState.modelMaker) {
             this.modelMaker.setActive()
@@ -236,7 +241,7 @@ export default class Main {
         }
         this.gameRenderer.fxEnabled = false
         this.currentMainState = state;
-       
+
     }
 
     private tick() {
@@ -265,8 +270,8 @@ export default class Main {
         } else if (this.currentMainState == MainState.modelMaker) {
             this.modelMaker.update();
         } else if (this.currentMainState == MainState.game) {
-        
-            
+
+
             this.game.update();
         }
         this.onUI()
@@ -294,11 +299,11 @@ export default class Main {
             }
             // popMainMenu()
         } else {
-            pushMainMenu("MainMenu", 207+22, 0)
- if (addMainMenuTextButton("Back", true)) {
+            pushMainMenu("MainMenu", 207 + 22, 0)
+            if (addMainMenuTextButton("Back", true)) {
                 this.setMainState(MainState.game);
             }
-               addMainMenuDivider("div")
+            addMainMenuDivider("div")
             // if (addMainMenuToggleButton("Game", Icons.GAME, false)) this.setMainState(MainState.game);
             if (addMainMenuToggleButton("Scene Editor", Icons.CUBE, this.currentMainState == MainState.editor)) this.setMainState(MainState.editor);
             if (addMainMenuToggleButton("Model Maker", Icons.PAINT, this.currentMainState == MainState.modelMaker)) this.setMainState(MainState.modelMaker);

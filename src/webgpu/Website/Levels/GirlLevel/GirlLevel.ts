@@ -76,7 +76,7 @@ export class GirlLevel extends PlatformLevel {
         this.girlLegR = SceneHandler.getSceneObject("legFR");
         this.girlBody = SceneHandler.getSceneObject("bodyFairy");
 
-        this.girl.x = 5
+        this.girl.x = 4
         this.girl.y = 2.2
         this.girl.ry = -0.3
         this.girl.setScaler(1.2)
@@ -99,7 +99,7 @@ export class GirlLevel extends PlatformLevel {
 
 
         this.characterController.gotoAndIdle(new Vector3(this.startPos, 0, 0), 1, () => { this.isConversation = false })
-        GameModel.gameCamera.setMinMaxX(this.startPos, this.girl.x + 2 + 5)
+        GameModel.gameCamera.setMinMaxX(this.startPos, this.girl.x)
 
 
         GameModel.gameCamera.setForCharPos(new Vector3(this.startPos, 0, 0))
@@ -114,14 +114,14 @@ export class GirlLevel extends PlatformLevel {
                 this.girlPhoneAnimation.setTime(this.girlFrame)
 
             })
-            tl.to(this, { girlFrame: 10, duration: 2, ease: "power2.inOut" }, 0.0)
+            tl.to(this, { girlFrame: 10, duration: 1, ease: "power2.inOut" }, 0.0)
         }
         if (data == "lookUp") {
             let tl = this.getTimeline(() => {
                 this.girlPhoneAnimation.setTime(this.girlFrame)
 
             })
-            tl.to(this, { girlFrame: 0, duration: 1, ease: "power2.inOut" }, 0.0)
+            tl.to(this, { girlFrame: 0, duration: 0.8, ease: "power2.inOut" }, 0.0)
         }
     }
     resolveHitTrigger(f: SceneObject3D) {
@@ -149,7 +149,7 @@ export class GirlLevel extends PlatformLevel {
 
                     })
 
-                    tl.to(this, { girlFrame: 0, duration: 1, ease: "power2.inOut" }, 2.5)
+                    tl.to(this, { girlFrame: 0, duration: 1, ease: "power2.inOut" }, 1.5)
 
                     //this.girl.rz = 0.2
 
@@ -158,7 +158,7 @@ export class GirlLevel extends PlatformLevel {
 
 
 
-                    gsap.delayedCall(4.5, () => {
+                    gsap.delayedCall(2.5, () => {
 
                         GameModel.conversationHandler.startConversation("girl")
 
