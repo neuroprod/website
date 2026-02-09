@@ -111,9 +111,9 @@ export default class Game {
 
         let newName = AppState.getState("currentLevel");
         if (!newName || !GameModel.debug) {
-            newName = "Start"
+            newName = "Home"
         }
-        console.log(GameModel.goBackToLevel)
+      
         if(GameModel.goBackToLevel !=""){
 
             newName =GameModel.goBackToLevel
