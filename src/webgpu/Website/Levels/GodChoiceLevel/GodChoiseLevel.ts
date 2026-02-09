@@ -24,7 +24,7 @@ export default class GodChoiceLevel extends BaseLevel {
     private presentStartScale: Array<number> = []
     private selectIndex = 0;
     private switchTime = 0;
-    private speed = 0.5;
+    private speed = 0.4;
     private state = 0;
     private godHandler!: God;
     init() {
@@ -100,13 +100,24 @@ export default class GodChoiceLevel extends BaseLevel {
         GameModel.conversationHandler.doneCallBack = () => {
             GameModel.presentID = this.selectIndex;
             console.log(GameModel.presentID)
-            if (GameModel.presentID == 3) {
+            if (GameModel.presentID == 0) {
+                //user
+                GameModel.coinHandler.addCoins(-2)
+                gsap.delayedCall(2, () => { LevelHandler.setLevel("Sausage") });
+            }
+            if (GameModel.presentID == 2) {
+
+                GameModel.coinHandler.addCoins(-1)
+                gsap.delayedCall(2, () => { LevelHandler.setLevel("Sausage") });
+            }
+
+            else if (GameModel.presentID == 3) {
                 GameModel.coinHandler.addCoins(-3)
                 gsap.delayedCall(2, () => { LevelHandler.setLevel("Sausage") });
             } else {
-
-
-                gsap.delayedCall(1, () => { LevelHandler.setLevel("Sausage") });
+                //
+                GameModel.coinHandler.addCoins(-3)
+                gsap.delayedCall(2, () => { LevelHandler.setLevel("Sausage") });
             }
 
         }

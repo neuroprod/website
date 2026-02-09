@@ -283,6 +283,9 @@
       },
       {
         "text": "Thanks!"
+      },
+      {
+        "text": "Only 2 coins for a yearly subscription."
       }
     ]
   },
@@ -305,7 +308,7 @@
         "text": "and maximizes that shareholder value.\nIt'll trickle down any day now."
       },
       {
-        "delay": 1,
+        "delay": 0.5,
         "text": "For the cheap price of only 3 coins!\nTrickling down not guaranteed."
       }
     ]
@@ -754,7 +757,7 @@
         "text": "It's not mine, kid. I'm just the face."
       },
       {
-        "text":  "Billy's Global Industries owns it.\nOwns me too, pretty much."
+        "text": "Billy's Global Industries owns it.\nOwns me too, pretty much."
       },
       {
         "text": "I'm just grinding myself down here."
@@ -1044,8 +1047,6 @@
           0
         ],
         "text": "Plenty of fish in the sea to replace you."
-       
-      
       },
       {
         "text": "You won't get missed!",
@@ -1112,12 +1113,10 @@
           0
         ],
         "text": "That's the spirit Pirate!\nEnjoy the party while it lasts..."
-        
       },
       {
         "text": "Anyway, I will see you soon, Pirate.",
-        
-"delay":1
+        "delay": 1
       },
       {
         "char": "charRoot",
@@ -1127,13 +1126,12 @@
           0
         ],
         "text": "Yeah..."
-      }
-      ,
-      {
-        "text":"See you soon, God!"
       },
       {
-        "text":"But not today."
+        "text": "See you soon, God!"
+      },
+      {
+        "text": "But not today."
       }
     ]
   }
