@@ -96,6 +96,10 @@ export class IntroLevel extends PlatformLevel {
         this.space = SceneHandler.getSceneObject("space");
         this.space.sx = 0;
         this.space.sy = 0;
+
+        if (GameModel.renderer.isMobile) {
+            this.space.hide()
+        }
     }
     onUI(): void {
         this.charFaceHandler?.onUI()

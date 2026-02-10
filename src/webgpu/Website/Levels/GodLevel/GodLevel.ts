@@ -18,8 +18,8 @@ export class GodLevel extends PlatformLevel {
     private god!: SceneObject3D;
     private godController!: God;
     private skipGodChoice: boolean = false;
-    private startPos = -1
-  
+    private startPos = -0.7
+
     charFaceHandler!: FaceHandler;
     godFaceHandler!: FaceHandler;
     treeFaceHandler!: FaceHandler;
@@ -69,6 +69,12 @@ export class GodLevel extends PlatformLevel {
         GameModel.gameRenderer.setModels(SceneHandler.allModels)
         GameModel.gameRenderer.addModel(this.characterController.cloudParticles.particlesModel)
 
+
+        if (GameModel.renderer.isMobile) {
+            sceneHandler.getSceneObject("board").hide()
+            sceneHandler.getSceneObject("pole1").hide()
+            sceneHandler.getSceneObject("pole2").hide()
+        }
 
         this.tree = sceneHandler.getSceneObject("rootTree")
         this.tree.setScaler(1.5)
