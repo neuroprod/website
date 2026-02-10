@@ -31,6 +31,16 @@ export class SeaLevel extends PlatformLevel {
     public renderDepth = 0.94
     charFaceHandler!: FaceHandler
     godFaceHandler!: FaceHandler;
+    joint!: SceneObject3D;
+    rum!: SceneObject3D;
+    spiral1!: SceneObject3D;
+    spiral2!: SceneObject3D;
+    fishArm2!: SceneObject3D;
+    fishArm1!: SceneObject3D;
+    fishBoy!: SceneObject3D;
+    hand!: SceneObject3D;
+    armGirl!: SceneObject3D;
+    headGirl!: SceneObject3D;
     init() {
         super.init();
         LoadHandler.onComplete = this.configScene.bind(this)
@@ -199,6 +209,19 @@ export class SeaLevel extends PlatformLevel {
         this.renderDepth = 0.94
         this.charFaceHandler = new FaceHandler(char)
         this.charFaceHandler.setState("lookGod")
+
+
+        this.joint = SceneHandler.getSceneObject("joint")
+        this.rum = SceneHandler.getSceneObject("rum")
+        this.spiral1 = SceneHandler.getSceneObject("spiral1")
+        this.spiral2 = SceneHandler.getSceneObject("spiral2")
+
+        this.fishBoy = SceneHandler.getSceneObject("fishboy")
+        this.fishArm1 = SceneHandler.getSceneObject("fishArm1")
+        this.fishArm2 = SceneHandler.getSceneObject("fishArm2")
+        this.armGirl = SceneHandler.getSceneObject("armGirl")
+        this.hand = SceneHandler.getSceneObject("hand")
+        this.headGirl = SceneHandler.getSceneObject("headGirl")
     }
 
     conversationDataCallBack(data: string) {
@@ -228,6 +251,23 @@ export class SeaLevel extends PlatformLevel {
         }
         this.godController.update()
         GameModel.gameCamera.setLockedView(this.camLookAt, this.camPosition)
+
+
+        this.spiral1.rz = this.spiral2.rz = -Timer.time * 5
+
+
+        let dance = Math.sin(Timer.time * 2)
+        this.joint.rz = dance * 0.2
+        this.rum.rz = dance * 0.2 + Math.PI
+
+
+        this.fishBoy.rz = dance * 0.1
+        this.fishArm1.rz = dance * 0.2 + Math.PI
+        this.fishArm2.rz = dance * 0.2
+
+        this.armGirl.rz = dance * 0.1 - 0.5
+        this.headGirl.rz = -dance * 0.1
+        this.hand.rz = -dance * 0.15 + Math.PI
     }
 
     destroy() {
