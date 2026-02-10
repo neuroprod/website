@@ -99,7 +99,7 @@ export default class Camera extends UniformGroup {
             this.setProjection();
         } else {
 
-            if (this.ratio < 1) {
+            if (this.ratio < 1 && this.renderer.isMobile) {
 
                 this.projection.ortho({
                     bottom: this.orthoLeft,
@@ -172,7 +172,7 @@ export default class Camera extends UniformGroup {
         let ratio = this.ratio
         let h = cos_fov / sin_fov;
         let w = h / ratio;
-        if (this.ratio < 1) {
+        if (this.ratio < 1 && this.renderer.isMobile) {
 
             w = cos_fov / sin_fov;
             h = w * ratio;
@@ -247,7 +247,7 @@ export default class Camera extends UniformGroup {
         this.projection[14] = this.far * this.near / dz;
         this.projection[15] = 0.0;*/
 
-        if (this.ratio < 1) {
+        if (this.ratio < 1 && this.renderer.isMobile) {
 
             this.projection.rotateZ(Math.PI / 2)
 
