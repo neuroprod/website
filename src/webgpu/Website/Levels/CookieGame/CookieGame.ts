@@ -150,6 +150,7 @@ export default class CookieGame extends BaseLevel {
             let jump = GameInput.jump
             let hInput = GameInput.hInput
 
+            if (GameInput.vInput == 1) jump = true;
             this.setHole(hInput == -1, jump, hInput == 1)
         }
 
@@ -254,7 +255,7 @@ export default class CookieGame extends BaseLevel {
     private endGame() {
 
 
-        console.log(this.hitCount, this.points)
+
         if (this.points >= 4) {
             GameModel.textBalloonHandler.setText("Great job! You win 3 tasty fish sticks!")
             GameModel.fishstickHandler.addFishstick(3)

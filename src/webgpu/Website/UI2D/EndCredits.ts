@@ -119,6 +119,14 @@ export default class EndCredits {
     } else {
       this.root.x = this.renderer.htmlWidth / 2 + this.renderer.htmlHeight / 8
     }
+    if (this.renderer.htmlHeight < 670) {
+
+      this.root.sx = this.root.sy = this.renderer.htmlHeight / 670
+
+    }
+    else {
+      this.root.sx = this.root.sy = 1;
+    }
 
 
   }
@@ -138,6 +146,8 @@ export default class EndCredits {
       this.tl.to(f, { alpha: 1, duration: 2, ease: "power2.inOut" }, time)
       time += 0.3
     }
+
+
   }
   hide() {
     this.root.visible = false

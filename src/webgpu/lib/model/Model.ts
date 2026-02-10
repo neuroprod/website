@@ -127,6 +127,7 @@ export default class Model extends Object3D {
         this.renderer.removeModel(this);
         this.markedDelete = true;
 
+
     }
 
     setCamDistance(cam: Vector3) {

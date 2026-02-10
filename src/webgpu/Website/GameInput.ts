@@ -58,7 +58,7 @@ class GameInput {
 
         if (this.joyStickX != 0 || this.joyStickY != 0) {
             this.hInput = this.joyStickX;
-            vInput = -this.joyStickY;
+            this.vInput = -this.joyStickY;
 
         }
 
