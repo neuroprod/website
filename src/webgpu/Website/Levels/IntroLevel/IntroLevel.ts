@@ -21,6 +21,7 @@ export class IntroLevel extends PlatformLevel {
     private landlordHand!: SceneObject3D;
     tl!: gsap.core.Timeline;
     charFaceHandler!: FaceHandler;
+    space!: SceneObject3D;
 
 
     init() {
@@ -91,6 +92,10 @@ export class IntroLevel extends PlatformLevel {
         GameModel.gameCamera.setForCharPos(new Vector3(this.startPos - 0.5, 0, 0))
         GameModel.gameRenderer.setRenderSetting({ dofMin: 0.83, dofSize: 5 })
 
+
+        this.space = SceneHandler.getSceneObject("space");
+        this.space.sx = 0;
+        this.space.sy = 0;
     }
     onUI(): void {
         this.charFaceHandler?.onUI()
@@ -124,12 +129,17 @@ export class IntroLevel extends PlatformLevel {
 
         this.tl.call(() => {
             GameModel.conversationHandler.startConversation("mrLoathsome")
+            if (this.tl) this.tl.clear();
+            this.tl = gsap.timeline()
+            tl.to(this.space, { sx: 1, sy: 1 })
+
             GameModel.conversationHandler.dataCallBack = (data: string) => {
-                console.log(data)
+
                 if (this.tl) this.tl.clear();
                 this.tl = gsap.timeline()
                 if (data == "raiseHand") {
-                    tl.to(this.landlordHand, { rz: -0.1, x: 0.1, y: 0.12 })
+                    tl.to(this.landlordHand, { rz: -0.1, x: 0.1, y: 0.12 }, 0)
+                    tl.to(this.space, { sx: 0, sy: 0 }, 0)
                 } else if (data == "raiseHandCoins") {
 
                     GameModel.coinHandler.show()
