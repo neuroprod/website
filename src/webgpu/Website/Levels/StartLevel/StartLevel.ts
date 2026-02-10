@@ -118,13 +118,16 @@ export class StartLevel extends BaseLevel {
         this.game.hide()
 
         this.gameLine = SceneHandler.getSceneObject("gameLine")
-       
+
         this.charAnimation = SceneHandler.sceneAnimationsByName.get("startScene") as Animation;
 
         this.gameLine.hide()
 
         let kris = this.mouseInteractionMap.get("kris") as MouseInteractionWrapper
-
+        let devTextHit = sceneHandler.getSceneObject("graphicsDevHit")
+        devTextHit.hide()
+        devTextHit.sx = 0
+        devTextHit.sy = 0
         let devText = sceneHandler.getSceneObject("graphicsDev").model as Model
         kris.onClick = () => {
             SoundHandler.playSound = true
@@ -237,6 +240,7 @@ export class StartLevel extends BaseLevel {
         pirate.setScaler(0)
         gsap.to(pirate, { sx: 1, sy: 1, sz: 1, ease: "back.out", delay: delay + 0.7, duration: 0.5 })
         gsap.to(graphicsDev, { sx: 1, sy: 1, sz: 1, ease: "back.out", delay: delay + 0.8, duration: 0.5 })
+        gsap.to(devTextHit, { sx: 1, sy: 1, sz: 1, ease: "back.out", delay: delay + 0.8, duration: 0.5 })
         gsap.to(GameModel.gameRenderer, {
             distortValue: 1, delay: delay + 1.5, duration: 0.3, onComplete: () => {
 
