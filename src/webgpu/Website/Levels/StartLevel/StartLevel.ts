@@ -130,6 +130,7 @@ export class StartLevel extends BaseLevel {
         devTextHit.sy = 0
         let devText = sceneHandler.getSceneObject("graphicsDev").model as Model
         kris.onClick = () => {
+            SoundHandler.init()
             SoundHandler.playSound = true
             gsap.to(pirate, { sx: 0, sy: 0, sz: 0, duration: 0.2 })
             gsap.to(graphicsDev, { sx: 0, sy: 0, sz: 0, duration: 0.2 })
@@ -172,6 +173,7 @@ export class StartLevel extends BaseLevel {
         let line = sceneHandler.getSceneObject("line")
         line.sx = 0;
         mainChar.onClick = () => {
+            SoundHandler.init()
             SoundHandler.playSound = true
 
 

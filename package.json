@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build2": "tsc && vite build -c vite.config2.js",
     "preview": "vite preview"
   },
   "devDependencies": {

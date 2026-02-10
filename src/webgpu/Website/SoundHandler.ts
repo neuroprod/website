@@ -10,6 +10,7 @@ class SoundObject {
 }
 
 class SoundHandler {
+    isStarted = false;
 
     setMusicVolume(value: number) {
         this.musicVolume = value;
@@ -34,7 +35,7 @@ class SoundHandler {
     private hitFloor!: Howl;
     private wetHit!: Howl;
     private talking!: Howl;
-    playSound = true;
+    playSound = false;
     private scroll!: Howl;
     private drip!: Howl;
     bgSounds: Array<SoundObject> = [];
@@ -57,7 +58,9 @@ class SoundHandler {
     fishSuck!: Howl;
     heal!: Howl;
     init() {
-
+        if (this.isStarted) return;
+        this.isStarted = true;
+        this.playSound = true;
         // this.fishFood = new Howl({src: ['sound/fishfood.mp3']});
         let talkSound: any = {}
         for (let i = 0; i < 15; i++) {

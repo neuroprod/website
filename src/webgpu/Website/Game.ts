@@ -75,7 +75,7 @@ export default class Game {
         GameModel.fishstickHandler = new FishstickHandler()
 
         LevelHandler.init()
-        SoundHandler.init()
+
     }
 
     update() {
@@ -87,7 +87,7 @@ export default class Game {
             GameInput.update()
             if (LevelHandler.currentLevel) {
                 LevelHandler.currentLevel.updateMouse()
-                if(!LevelHandler.currentLevel)return//mouse can leave state
+                if (!LevelHandler.currentLevel) return//mouse can leave state
                 LevelHandler.currentLevel.update()
             }
 
@@ -113,11 +113,11 @@ export default class Game {
         if (!newName || !GameModel.debug) {
             newName = "Home"
         }
-      
-        if(GameModel.goBackToLevel !=""){
 
-            newName =GameModel.goBackToLevel
-            GameModel.goBackToLevel =""
+        if (GameModel.goBackToLevel != "") {
+
+            newName = GameModel.goBackToLevel
+            GameModel.goBackToLevel = ""
         }
 
         LevelHandler.setLevel(newName)
