@@ -72,10 +72,12 @@ export default class FightUI {
         this.fightPannel.hide()
     }
     setInfoPanel(text: string) {
-        text=GameModel.replaceFishStick(text);
+        text = GameModel.replaceFishStick(text);
         this.infoPanel.show()
         this.fightPannel.hide()
         this.infoPanel.setText(text)
+        gsap.to(this.backPanel, { alpha: 1, duration: 0.5 })
+
     }
     showNext() {
         this.infoPanel.showNext()
@@ -90,7 +92,7 @@ export default class FightUI {
 
         this.root.visible = true
 
-
+        this.backPanel.alpha = 0
     }
     setLevel(key: string) {
 
