@@ -6,7 +6,15 @@ class GameInput {
     joyStickX: number = 0;
     joyStickY: number = 0;
     forceJump: boolean = false;
+    enableJoystick: boolean = true;
     setJoystick(x: number, y: number, forceJump: boolean) {
+
+        if (!this.enableJoystick) {
+
+            if (x == 0 && y == 0 && forceJump == false) this.enableJoystick = true
+            else return;
+        }
+
         this.joyStickX = x;
         this.joyStickY = y;
         this.forceJump = forceJump;
@@ -58,7 +66,7 @@ class GameInput {
 
         if (this.joyStickX != 0 || this.joyStickY != 0) {
             this.hInput = this.joyStickX;
-            this.vInput = -this.joyStickY;
+            this.vInput = Math.round(this.joyStickY);
 
         }
 
@@ -66,8 +74,13 @@ class GameInput {
 
     }
     reset() {
+        this.joyStickX = 0;
+        this.joyStickY = 0;
+        this.forceJump = false;
         this.keyInput.clear()
         this.gamePadInput.clear()
+        this.enableJoystick = false;
+
     }
     get blockInput(): boolean {
         return this._blockInput;

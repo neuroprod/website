@@ -242,6 +242,7 @@ export class FightLevel extends BaseLevel {
     }
 
     setFightPanel() {
+
         this.state = FSTATE.FIGHT_SELECT
         this.fightSelectIndex = 0;
         this.fightUI.setFightPannel(this.fightSelectIndex)
