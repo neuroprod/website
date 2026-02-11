@@ -41,7 +41,7 @@ export default class TurnScreen2 {
     }
 
     update() {
-        console.log("update")
+
         if (this.renderer.ratio < 1) {
             if (this.home) {
                 this.turn.x = this.renderer.htmlWidth / 2
