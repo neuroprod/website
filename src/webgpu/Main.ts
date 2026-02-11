@@ -79,7 +79,7 @@ export default class Main {
             this.renderer.setup(this.canvas).then((value: boolean) => {
                 if (!value) {
 
-                    this.setInner("Sorry, can't WebGPU make adapter:(")
+                    this.setInner("Sorry, can't make the WebGPU adapter I need :(")
                     return;
                 }
                 this.preload()
@@ -109,7 +109,7 @@ export default class Main {
     setInner(text: string) {
         this.canvas.hidden = true
         let c = document.getElementById("app");
-        if (c) c.append("<br>" + text);
+        if (c) c.append(text);
 
     }
     public preload() {
