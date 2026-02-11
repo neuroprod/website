@@ -59,8 +59,8 @@ export default class Renderer {
             this.isMobile = true;
         }
 
-        const adapter = await navigator.gpu.requestAdapter({ featureLevel: 'compatibility', powerPreference: "high-performance" });
-
+        const adapter = await navigator.gpu.requestAdapter({ powerPreference: "high-performance" });
+        if (!adapter) navigator.gpu.requestAdapter();
         if (adapter) {
 
             for (let a of adapter.features.keys()) {
@@ -211,7 +211,7 @@ export default class Renderer {
     }
 
     performanceUI() {
-        if(!this.useTimeStampQuery)return;
+        if (!this.useTimeStampQuery) return;
         UI.pushWindow("performance")
         UI.LText(Timer.fps + "", "fps:")
         UI.separator()

@@ -489,7 +489,7 @@ class SoundHandler {
 
             let soundObject = new SoundObject()
             soundObject.name = s
-            console.log(s)
+
             soundObject.needsDelete = false
             soundObject.sound = new Howl({
                 src: [s],
