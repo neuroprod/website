@@ -80,7 +80,7 @@ export default class Main {
                 if (!value) {
                     this.canvas.hidden = true
                     let c = document.getElementById("app");
-                    if (c) c.innerHTML = "cant make adapter"
+                    if (c) c.innerHTML = "can't make adapter"
                 }
                 this.preload()
             }).catch((e) => {
