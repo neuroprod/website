@@ -70,12 +70,18 @@ export default class Lab101 extends NavigationLevel {
 
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
         let link = this.mouseInteractionMap.get("lab101") as MouseInteractionWrapper
+        link.onDown = () => {
 
-        link.onClick = () => {
 
-            // @ts-ignore
-            window.open("https://lab101.be", '_blank').focus();
+            if (GameModel.renderer.isMobile) {
+                window.location.href = "https://lab101.be";
+            } else {
+                window.open("https://lab101.be", '_blank');
+            }
+
+
         }
+
         link.onRollOver = () => {
             GameModel.renderer.setCursor(true)
 
@@ -86,6 +92,7 @@ export default class Lab101 extends NavigationLevel {
 
 
         }
+        GameModel.mouseListener.directCheck = true
     }
 
     public update() {
@@ -99,6 +106,7 @@ export default class Lab101 extends NavigationLevel {
         super.destroy()
         this.video.pauze()
         SoundHandler.killBackgroundSounds()
+        GameModel.mouseListener.directCheck = false
     }
 
 

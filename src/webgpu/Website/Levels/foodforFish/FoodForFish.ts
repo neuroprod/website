@@ -78,15 +78,21 @@ export default class FoodForFish extends NavigationLevel {
         m.rx = Math.PI / 2
         fv.addChild(m)
         GameModel.gameRenderer.addModel(m)
-
+        GameModel.mouseListener.directCheck = true
 
         let link = this.mouseInteractionMap.get("playFish") as MouseInteractionWrapper
+        link.onDown = () => {
 
-        link.onClick = () => {
 
-            // @ts-ignore
-            window.open("https://foodforfish.org", '_blank').focus();
+            if (GameModel.renderer.isMobile) {
+                window.location.href = "https://foodforfish.org";
+            } else {
+                window.open("https://foodforfish.org", '_blank');
+            }
+
+
         }
+
         link.onRollOver = () => {
             GameModel.renderer.setCursor(true)
             gsap.killTweensOf(link.sceneObject)
@@ -148,6 +154,7 @@ export default class FoodForFish extends NavigationLevel {
         this.video.pauze()
         SoundHandler.killBackgroundSounds()
         SoundHandler.stopFishSuck()
+        GameModel.mouseListener.directCheck = false
         if (this.tl) this.tl.clear()
     }
 

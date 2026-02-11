@@ -25,7 +25,7 @@ export default class MeatHandler {
 
     }
 
-    init(meat1: SceneObject3D, meat2: SceneObject3D, editBtn: SceneObject3D, edit: MouseInteractionWrapper,githubBtn: SceneObject3D, github: MouseInteractionWrapper) {
+    init(meat1: SceneObject3D, meat2: SceneObject3D, editBtn: SceneObject3D, edit: MouseInteractionWrapper, githubBtn: SceneObject3D, github: MouseInteractionWrapper) {
 
         this.meat1 = meat1;
         this.meat2 = meat2;
@@ -67,25 +67,32 @@ export default class MeatHandler {
 
 
         }
-        this.githubBtn =githubBtn;
+        this.githubBtn = githubBtn;
         githubBtn.hide()
-         github.onRollOver = () => {
-         
+        github.onRollOver = () => {
+
             GameModel.renderer.setCursor(true)
-          
+
         }
         github.onRollOut = () => {
-           
-            
+
+
             GameModel.renderer.setCursor(false)
 
         }
-        github.onClick = () => {
-               // @ts-ignore
-              window.open("https://github.com/neuroprod/website", '_blank').focus();
+        github.onDown = () => {
+
+
+            if (GameModel.renderer.isMobile) {
+                window.location.href = "https://github.com/neuroprod/website";
+            } else {
+                window.open("https://github.com/neuroprod/website", '_blank');
+            }
 
 
         }
+
+
         this.indexCount = 0;
         this.button = editBtn
         this.button.setScaler(0.0)
@@ -101,7 +108,7 @@ export default class MeatHandler {
 
         this.m2pR = SceneHandler.getSceneObject("m2pR")
 
-
+        GameModel.mouseListener.directCheck = true
     }
 
     update() {
@@ -126,9 +133,9 @@ export default class MeatHandler {
             }
             if (this.indexCount == 5) {
                 gsap.to(this.button, { sx: 1, sy: 1, sz: 1, ease: "elastic.out" })
-this.githubBtn.sx=this.githubBtn.sy =0
-this.githubBtn.show();
- gsap.to(this.githubBtn, { sx: 1, sy: 1, sz: 1, duration:0.2,delay:1.0 })
+                this.githubBtn.sx = this.githubBtn.sy = 0
+                this.githubBtn.show();
+                gsap.to(this.githubBtn, { sx: 1, sy: 1, sz: 1, duration: 0.2, delay: 1.0 })
             }
             this.time = 2.5;
             this.indexCount++
@@ -141,6 +148,7 @@ this.githubBtn.show();
         GameModel.textBalloonHandler.update()
     }
     destroy() {
+        GameModel.mouseListener.directCheck = false
         GameModel.textBalloonHandler.hideText()
     }
 

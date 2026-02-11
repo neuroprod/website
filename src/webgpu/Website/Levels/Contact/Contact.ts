@@ -159,9 +159,10 @@ export default class Contact extends NavigationLevel {
         let link = this.mouseInteractionMap.get("email") as MouseInteractionWrapper
 
         link.onClick = () => {
-
-            // @ts-ignore
-            window.open("mailto:kris@neuroproductions.be")
+            if (!GameModel.renderer.isMobile) {
+                // @ts-ignore
+                window.open("mailto:kris@neuroproductions.be")
+            }
         }
         link.onRollOver = () => {
             GameModel.renderer.setCursor(true)
