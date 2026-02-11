@@ -45,8 +45,7 @@ export default class JoyStick {
             this.joyStick.y = pos.y;
             this.joyStickBack.x = pos.x;
             this.joyStickBack.y = pos.y;
-            console.log("setPos")
-            console.log(this.joyStickBack.x)
+
 
         }
         this.joyStick.mouseUp = () => {
