@@ -151,12 +151,13 @@ export default class Main {
 
         new TextureLoader(this.renderer, Textures.YELLOW_LINE)
         new TextureLoader(this.renderer, Textures.SETTINGS_BACK)
+        if (!this.renderer.isMobile) {
+            let tl = new HDRTextureLoader()
+            tl.loadURL(this.renderer, "specular.hdr").then()
 
-        let tl = new HDRTextureLoader()
-        tl.loadURL(this.renderer, "specular.hdr").then()
-
-        let tl2 = new HDRTextureLoader()
-        tl2.loadURL(this.renderer, "irradiance.hdr").then()
+            let tl2 = new HDRTextureLoader()
+            tl2.loadURL(this.renderer, "irradiance.hdr").then()
+        }
         FontPool.loadFont(this.renderer, this.preloader, "bold")
 
         // this.modelLoader = new ModelLoader(this.renderer, this.preloader)
