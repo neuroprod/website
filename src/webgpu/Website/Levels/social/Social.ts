@@ -77,7 +77,7 @@ export default class Social extends NavigationLevel {
             link.onDown = () => {
 
                 // @ts-ignore
-                window.open(l[1], '_blank').focus();
+                window.open(l[1], '_blank');
             }
             link.onRollOver = () => {
 
