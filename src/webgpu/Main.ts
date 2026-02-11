@@ -81,12 +81,12 @@ export default class Main {
                     this.canvas.hidden = true
                     let c = document.getElementById("app");
                     if (c) c.innerHTML = "can't make adapter"
+                    this.setInner("Sorry, can't WebGPU make adapter:(")
                 }
                 this.preload()
             }).catch((e) => {
-                let c = document.getElementById("app");
-                this.canvas.hidden = true
-                if (c) c.innerHTML = e
+                this.setInner(e)
+
 
 
             })
@@ -103,12 +103,16 @@ export default class Main {
                 GameModel.debug = true;
             }
         } else {
-            let c = document.getElementById("app");
-            if (c) c.innerHTML = "Sorry, this site uses WebGPU :("
+            this.setInner("Sorry, this site uses WebGPU :(")
 
         }
     }
+    setInner(text: string) {
+        this.canvas.hidden = true
+        let c = document.getElementById("app");
+        if (c) c.append("<br/>" + text);
 
+    }
     public preload() {
         UI.setWebGPU(this.renderer)
 
