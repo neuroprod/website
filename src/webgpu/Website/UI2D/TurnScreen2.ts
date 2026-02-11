@@ -33,7 +33,7 @@ export default class TurnScreen2 {
         let hAlign = true
 
 
-        this.turn = new Text(renderer, font, 35, 'Turn your Screen', hAlign, true);
+        this.turn = new Text(renderer, font, 35, 'Turn your Device', hAlign, true);
         this.turn.material.setUniform("color", new Vector4(1, 1, 0, 1))
 
         this.root.addChild(this.turn)
