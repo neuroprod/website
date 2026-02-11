@@ -74,7 +74,7 @@ export default class Social extends NavigationLevel {
 
         for (let l of this.links) {
             let link = this.mouseInteractionMap.get(l[0]) as MouseInteractionWrapper
-            link.onClick = () => {
+            link.onDown = () => {
 
                 // @ts-ignore
                 window.open(l[1], '_blank').focus();
