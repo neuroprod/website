@@ -11,6 +11,7 @@ import FullScreenStretchMaterial from "../../backgroundShaders/FullscreenStretch
 import { Howl } from "howler";
 import MouseInteractionWrapper from "../../MouseInteractionWrapper.ts";
 import SoundHandler from "../../SoundHandler.ts";
+import FullScreenFillMaterial from "../../backgroundShaders/FullscreenFillMaterial.ts";
 
 export default class Robots extends NavigationLevel {
 
@@ -76,7 +77,7 @@ export default class Robots extends NavigationLevel {
 
         this.bgModel = new Model(GameModel.renderer, "background")
         this.bgModel.mesh = new Quad(GameModel.renderer)
-        this.bgModel.material = new FullScreenStretchMaterial(GameModel.renderer, "bg")
+        this.bgModel.material = new FullScreenFillMaterial(GameModel.renderer, "bg")
         this.bgModel.material.setTexture("colorTexture", this.video.getTexture())
         this.bgModel.z = -100
         GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
@@ -108,8 +109,9 @@ export default class Robots extends NavigationLevel {
     }
 
     public update() {
-        super.update()
+        super.update();
 
+        (this.bgModel.material as FullScreenFillMaterial).setRatios(GameModel.renderer.ratio, 16 / 9)
 
     }
 

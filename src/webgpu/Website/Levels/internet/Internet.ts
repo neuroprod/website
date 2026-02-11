@@ -56,22 +56,22 @@ export default class Internet extends NavigationLevel {
 
 
 
-        /*   this.bgModel = new Model(GameModel.renderer, "background")
-           this.bgModel.mesh = new Quad(GameModel.renderer)
-           this.bgModel.material = new FullScreenFillMaterial(GameModel.renderer, "bg")
-           this.bgModel.material.setTexture("colorTexture", this.backgroundTexture)
-           this.bgModel.z = -100
-           GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
-   */
-
-
-
         this.bgModel = new Model(GameModel.renderer, "background")
         this.bgModel.mesh = new Quad(GameModel.renderer)
-        this.bgModel.material = new FullScreenStretchMaterial(GameModel.renderer, "bg")
-        this.bgModel.material.setTexture("colorTexture", this.video.getTexture())
+        this.bgModel.material = new FullScreenFillMaterial(GameModel.renderer, "bg")
+        this.bgModel.material.setTexture("colorTexture", this.backgroundTexture)
         this.bgModel.z = -100
+        GameModel.gameRenderer.postLightModelRenderer.addModelToFront(this.bgModel)
 
+
+
+        /*
+                this.bgModel = new Model(GameModel.renderer, "background")
+                this.bgModel.mesh = new Quad(GameModel.renderer)
+                this.bgModel.material = new FullScreenStretchMaterial(GameModel.renderer, "bg")
+                this.bgModel.material.setTexture("colorTexture", this.video.getTexture())
+                this.bgModel.z = -100
+        */
 
         this.video.onPlay = () => {
 
@@ -87,7 +87,7 @@ export default class Internet extends NavigationLevel {
 
     public update() {
         super.update();
-        // (this.bgModel.material as FullScreenFillMaterial).setRatios(GameModel.renderer.ratio, this.backgroundTexture.options.width / this.backgroundTexture.options.height)
+        (this.bgModel.material as FullScreenFillMaterial).setRatios(GameModel.renderer.ratio, 16 / 9)
 
     }
 

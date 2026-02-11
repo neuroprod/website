@@ -32,6 +32,8 @@ export default class MouseListener {
     downTime: number = 0;
 
     activePointers: Map<number, TouchPointer> = new Map();
+    directCheck: boolean = false;
+    onDirectClick!: () => void;
 
     constructor(renderer: Renderer) {
         this.renderer = renderer;
@@ -114,7 +116,11 @@ export default class MouseListener {
 
             this.downTime = e.timeStamp
 
+
             this.mouseDown();
+            if (this.directCheck && this.renderer.isMobile) {
+                if (this.onDirectClick) this.onDirectClick()
+            }
         }
     }
 
@@ -184,6 +190,9 @@ export default class MouseListener {
         this.isDownThisFrame = true;
         this.mousePosDown = this.mousePos.clone();
         this.isDirty = 1;
+        if (this.directCheck) {
+
+        }
     }
 
     mouseUp() {

@@ -97,6 +97,11 @@ export default class UI2D {
         if (canvas) {
             this.multiTouchInput = new MultiTouchInput(canvas);
         }
+        GameModel.mouseListener.onDirectClick = () => {
+
+            console.log("klick")
+            this.updateMouse()
+        }
 
         //LevelHandler.
     }
@@ -109,11 +114,10 @@ export default class UI2D {
         this.settings.update();
         this.fightUI.update();
         this.joyStick?.update();
-this.endCredits.update();
+        this.endCredits.update();
         // Update input
         this.updateMouse()
     }
-
 
     updateMouse() {
         this.root.updateMouse(GameModel.mouseListener.mousePos, GameModel.mouseListener.isDownThisFrame, GameModel.mouseListener.isUpThisFrame, GameModel.mouseListener.getAllPointers())
@@ -175,10 +179,10 @@ this.endCredits.update();
         this.joyStick?.setLevel(key);
     }
 
-        hideEnd() {
-       this.endCredits.hide()
+    hideEnd() {
+        this.endCredits.hide()
     }
     showEnd() {
-      this.endCredits.show()
+        this.endCredits.show()
     }
 }

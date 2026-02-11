@@ -70,25 +70,31 @@ export default class Main {
 
 
     constructor() {
-        AppState.init()
-        this.canvas = document.getElementById("webGPUCanvas") as HTMLCanvasElement;
-        this.canvasManager = new CanvasManager(this.canvas);
-        this.renderer = new Renderer();
-        this.renderer.setup(this.canvas).then(() => {
-            this.preload()
-        })
 
-        let f = new SDFFont()
-        window.addEventListener("popstate", (event) => {
-            console.log(
-                `location: ${document.location}, state: ${JSON.stringify(event.state)}`,
-            );
-        });
+        if (navigator.gpu) {
+            AppState.init()
+            this.canvas = document.getElementById("webGPUCanvas") as HTMLCanvasElement;
+            this.canvasManager = new CanvasManager(this.canvas);
+            this.renderer = new Renderer();
+            this.renderer.setup(this.canvas).then(() => {
+                this.preload()
+            })
 
-        if (location.hostname === "localhost") {
-            GameModel.debug = true;
+            let f = new SDFFont()
+            window.addEventListener("popstate", (event) => {
+                console.log(
+                    `location: ${document.location}, state: ${JSON.stringify(event.state)}`,
+                );
+            });
+
+            if (location.hostname === "localhost") {
+                GameModel.debug = true;
+            }
+        } else {
+            let c = document.getElementById("app");
+            if (c) c.innerHTML = "Sorry, this site uses WebGPU :("
+
         }
-
     }
 
     public preload() {

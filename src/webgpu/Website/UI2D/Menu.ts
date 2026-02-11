@@ -67,6 +67,8 @@ export default class Menu {
         this.menuRoot.x = this.renderer.htmlWidth - this.width * s - this.space * 4
         this.menuRoot.y = 12
         this.menuRoot.sx = this.menuRoot.sy = s
+
+
     }
 
     setLevel(key: string) {

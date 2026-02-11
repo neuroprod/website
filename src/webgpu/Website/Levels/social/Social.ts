@@ -70,6 +70,7 @@ export default class Social extends NavigationLevel {
 
         GameModel.gameRenderer.setLevelType("website")
         this.mouth = SceneHandler.getSceneObject("mouth")
+        GameModel.mouseListener.directCheck = true
 
         for (let l of this.links) {
             let link = this.mouseInteractionMap.get(l[0]) as MouseInteractionWrapper
@@ -79,6 +80,9 @@ export default class Social extends NavigationLevel {
                 window.open(l[1], '_blank').focus();
             }
             link.onRollOver = () => {
+
+
+
                 GameModel.renderer.setCursor(true)
                 gsap.killTweensOf(link.sceneObject)
                 gsap.to(link.sceneObject, {
@@ -89,7 +93,7 @@ export default class Social extends NavigationLevel {
                     duration: 0.5
                 })
                 let index = Math.round(Math.random() * 100) % 7;
-                console.log(index)
+
                 if (this.tl) this.tl.clear();
                 this.tl = gsap.timeline();
                 this.tl.to(this.mouth, { sy: 1 + Math.random() * 0.05 + 0.05, y: -0.07 + (Math.random() * 0.03 - 0.015) * 0.2, ease: "power2.out" }, 0)
@@ -129,6 +133,7 @@ export default class Social extends NavigationLevel {
         if (this.tl) this.tl.clear();
         this.bgModel.destroy()
         SoundHandler.killBackgroundSounds()
+        GameModel.mouseListener.directCheck = false
     }
 
 
