@@ -29,7 +29,7 @@ class SoundHandler {
 
 
     public fxVolume = 0.8;
-    public musicVolume = 0.8
+    public musicVolume = 0.7
     private coin!: Howl;
     private step!: Howl;
     private hitFloor!: Howl;
