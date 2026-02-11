@@ -155,6 +155,7 @@ export default class Main {
 
         new TextureLoader(this.renderer, Textures.YELLOW_LINE)
         new TextureLoader(this.renderer, Textures.SETTINGS_BACK)
+        this.setInner("texturesOK?")
         if (!this.renderer.isMobile) {
             let tl = new HDRTextureLoader()
             tl.loadURL(this.renderer, "specular.hdr").then()
@@ -191,7 +192,7 @@ export default class Main {
         //   SceneData.parseSceneData();
         GameModel.gameCopy = this.gameCopy.data
 
-
+        this.setInner("start?")
         this.camera = new Camera(this.renderer);
         this.camera.cameraWorld.set(0.5, 0.3, 2)
         this.camera.cameraLookAt.set(0, 0.2, 0)
