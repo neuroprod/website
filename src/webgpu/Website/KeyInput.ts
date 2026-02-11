@@ -25,9 +25,9 @@ export default class KeyInput {
         //w
         //asd
         document.addEventListener('keydown', (event) => {
-  
-            switch (event.key) {
-                case "a":
+
+            switch (event.code) {
+                case "KeyA":
                 case "ArrowLeft":
 
 
@@ -35,30 +35,30 @@ export default class KeyInput {
                     this.leftDownTime = event.timeStamp
 
                     break;
-                case "d":
+                case "KeyD":
                 case "ArrowRight":
 
                     this.rightDown = true;
                     this.rightDownTime = event.timeStamp
 
                     break;
-                case "w":
+                case "KeyW":
                 case "ArrowUp":
                     this.upDown = true;
 
                     this.upDownTime = event.timeStamp
                     break;
-                case "s":
+                case "KeyS":
                 case "ArrowDown":
                     this.downDown = true
                     this.downDownTime = event.timeStamp
                     break;
-                case " ":
+                case "Space":
                     this.space = true;
                     this.spaceDownTime = event.timeStamp
 
                     break;
-                case "m":
+                case "Semicolon":
                     this.m = true;
 
 
@@ -68,28 +68,31 @@ export default class KeyInput {
         });
 
         document.addEventListener('keyup', (event) => {
-            switch (event.key) {
-                case "a":
+
+
+
+            switch (event.code) {
+                case "KeyA":
                 case "ArrowLeft":
                     this.leftDown = false
                     break;
-                case "d":
+                case "KeyD":
                 case "ArrowRight":
                     this.rightDown = false
                     break;
-                case " ":
+                case "Space":
                     this.jumpTime = event.timeStamp - this.spaceDownTime;
                     this.space = false
                     break;
                     ;
-                case "w":
+                case "KeyW":
                 case "ArrowUp":
 
                     this.jumpTime = event.timeStamp - this.upDownTime;
                     this.upDown = false
                     this.space = false
                     break;
-                case "s":
+                case "KeyS":
                 case "ArrowDown":
 
 
