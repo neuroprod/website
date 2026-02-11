@@ -20,6 +20,7 @@ export default class JoyStick {
     joyStickBtn: Sprite;
     jump: boolean = false
     tl!: gsap.core.Timeline;
+    isReady = false
     constructor(renderer: Renderer) {
         this.renderer = renderer;
         this.joystickRoot = new Object2D()
@@ -35,7 +36,7 @@ export default class JoyStick {
 
 
         this.joyStick.mouseDown = () => {
-
+            gsap.killTweensOf(this.joyStick)
             this.down = true;
             let pos = this.joyStick.mousePos.clone()
             pos.scale(1 / this.renderer.pixelRatio)
@@ -44,7 +45,8 @@ export default class JoyStick {
             this.joyStick.y = pos.y;
             this.joyStickBack.x = pos.x;
             this.joyStickBack.y = pos.y;
-            gsap.killTweensOf(this.joyStick)
+            console.log("setPos")
+            console.log(this.joyStickBack.x)
 
         }
         this.joyStick.mouseUp = () => {
@@ -67,6 +69,12 @@ export default class JoyStick {
         this.joyStickBtn.mouseDown = () => {
             this.joyStickBtn.sx = this.joyStickBtn.sy = 0.7
             this.jump = true;
+
+            let pos = this.joyStickBtn.mousePos.clone()
+            pos.scale(1 / this.renderer.pixelRatio)
+
+            this.joyStickBtn.x = pos.x;
+            this.joyStickBtn.y = pos.y;
 
         }
         this.joyStickBtn.mouseUp = () => {
@@ -97,7 +105,7 @@ export default class JoyStick {
 
             this.tl.to(this.joyStickBack, { sx: 0.5, sy: 0.5, ease: "elastic.out", duration: 2 }, 7.5);
             this.tl.to(this.joyStick, { sx: 0.5, sy: 0.5, ease: "elastic.out", duration: 2 }, 7.5);
-
+            this.setAllPos(100, this.renderer.htmlHeight - 100, this.renderer.htmlWidth - 100)
         }
 
     }
@@ -108,7 +116,12 @@ export default class JoyStick {
         this.joyStickBtn.y = y;
     }
     update() {
-        this.setAllPos(100, this.renderer.htmlHeight - 100, this.renderer.htmlWidth - 100)
+        if (!this.isReady) {
+            if (this.renderer.htmlHeight < 101) return
+            this.setAllPos(100, this.renderer.htmlHeight - 100, this.renderer.htmlWidth - 100)
+            this.isReady = true;
+        }
+
 
         if (this.down || this.jump) {
 
