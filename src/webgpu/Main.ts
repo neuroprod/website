@@ -78,10 +78,9 @@ export default class Main {
             this.renderer = new Renderer();
             this.renderer.setup(this.canvas).then((value: boolean) => {
                 if (!value) {
-                    this.canvas.hidden = true
-                    let c = document.getElementById("app");
-                    if (c) c.innerHTML = "can't make adapter"
+
                     this.setInner("Sorry, can't WebGPU make adapter:(")
+                    return;
                 }
                 this.preload()
             }).catch((e) => {
@@ -110,7 +109,7 @@ export default class Main {
     setInner(text: string) {
         this.canvas.hidden = true
         let c = document.getElementById("app");
-        if (c) c.append("<br/>" + text);
+        if (c) c.append("<br>" + text);
 
     }
     public preload() {
@@ -155,7 +154,7 @@ export default class Main {
 
         new TextureLoader(this.renderer, Textures.YELLOW_LINE)
         new TextureLoader(this.renderer, Textures.SETTINGS_BACK)
-        this.setInner("texturesOK?")
+
         if (!this.renderer.isMobile) {
             let tl = new HDRTextureLoader()
             tl.loadURL(this.renderer, "specular.hdr").then()
@@ -192,7 +191,7 @@ export default class Main {
         //   SceneData.parseSceneData();
         GameModel.gameCopy = this.gameCopy.data
 
-        this.setInner("start?")
+
         this.camera = new Camera(this.renderer);
         this.camera.cameraWorld.set(0.5, 0.3, 2)
         this.camera.cameraLookAt.set(0, 0.2, 0)
