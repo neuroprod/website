@@ -13,6 +13,8 @@ import JoyStick from "./JoyStick.ts";
 import MultiTouchInput from "../../lib/input/MultiTouchInput.ts";
 import LevelHandler from "../Levels/LevelHandler.ts";
 import EndCredits from "./EndCredits.ts";
+import TurnScreen2 from "./TurnScreen2.ts";
+
 
 export default class UI2D {
 
@@ -33,6 +35,7 @@ export default class UI2D {
     isDown: boolean = false;
     navPos: any;
     endCredits: EndCredits;
+    turnScreen: TurnScreen2;
 
     set blackValue(value: number) {
 
@@ -84,12 +87,15 @@ export default class UI2D {
         this.root.addChild(this.black)
         this.root.addChild(this.settings.settingsRoot)
 
+        this.turnScreen = new TurnScreen2(renderer)
+        this.root.addChild(this.turnScreen.root)
+
 
 
         this.root.multiTouch = true;
 
 
-        // this.root.addChild(this.guageLevel2D.root)
+
         this.root.sx = this.root.sy = renderer.pixelRatio
 
         // Initialize multitouch input handler on the canvas
@@ -99,7 +105,7 @@ export default class UI2D {
         }
         GameModel.mouseListener.onDirectClick = () => {
 
-            console.log("klick")
+
             this.updateMouse()
         }
 
@@ -115,6 +121,10 @@ export default class UI2D {
         this.fightUI.update();
         this.joyStick?.update();
         this.endCredits.update();
+
+        if (this.renderer.isMobile) {
+            this.turnScreen.update()
+        }
         // Update input
         this.updateMouse()
     }
@@ -177,6 +187,7 @@ export default class UI2D {
         this.settings.setLevel(key)
         this.fightUI.setLevel(key)
         this.joyStick?.setLevel(key);
+        this.turnScreen.setLevel(key)
     }
 
     hideEnd() {
