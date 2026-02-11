@@ -453,7 +453,7 @@ class SoundHandler {
     }
 
     setBackgroundSounds(sounds: string[]) {
-
+        console.log("this.setBackgroundSounds", sounds)
         for (let bs of this.bgSounds) {
             let found = false;
             bs.needsDelete = true
@@ -489,6 +489,7 @@ class SoundHandler {
 
             let soundObject = new SoundObject()
             soundObject.name = s
+            console.log(s)
             soundObject.needsDelete = false
             soundObject.sound = new Howl({
                 src: [s],

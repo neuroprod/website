@@ -1,15 +1,16 @@
 import NavigationLevel from "../NavigationLevel.ts";
 
 import GameModel from "../../GameModel.ts";
-import {Vector2, Vector3} from "@math.gl/core";
+import { Vector2, Vector3 } from "@math.gl/core";
 import LoadHandler from "../../../data/LoadHandler.ts";
 import SceneHandler from "../../../data/SceneHandler.ts";
 import MeatHandler from "./MeatHandler.ts";
 import MouseInteractionWrapper from "../../MouseInteractionWrapper.ts";
-import {Howl} from "howler";
+import SoundHandler from "../../SoundHandler.ts";
 
 
-export default class Meat extends NavigationLevel{
+
+export default class Meat extends NavigationLevel {
     private meatHandler: MeatHandler;
 
 
@@ -45,9 +46,10 @@ export default class Meat extends NavigationLevel{
 
         GameModel.gameRenderer.setLevelType("website")
 
-        this.meatHandler.init(SceneHandler.getSceneObject("meat1"), SceneHandler.getSceneObject("meat2"), SceneHandler.getSceneObject("editBtn"), this.mouseInteractionMap.get("edit") as MouseInteractionWrapper,SceneHandler.getSceneObject("github"), this.mouseInteractionMap.get("github") as MouseInteractionWrapper)
+        this.meatHandler.init(SceneHandler.getSceneObject("meat1"), SceneHandler.getSceneObject("meat2"), SceneHandler.getSceneObject("editBtn"), this.mouseInteractionMap.get("edit") as MouseInteractionWrapper, SceneHandler.getSceneObject("github"), this.mouseInteractionMap.get("github") as MouseInteractionWrapper)
 
-        this.meatHandler.enabled =true;
+        this.meatHandler.enabled = true;
+        SoundHandler.setBackgroundSounds([])
     }
 
     public update() {
@@ -59,7 +61,7 @@ export default class Meat extends NavigationLevel{
     destroy() {
         super.destroy()
         this.meatHandler.destroy()
-        this.meatHandler.enabled =false;
+        this.meatHandler.enabled = false;
 
     }
 
