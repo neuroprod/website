@@ -75,9 +75,10 @@ export default class Social extends NavigationLevel {
         for (let l of this.links) {
             let link = this.mouseInteractionMap.get(l[0]) as MouseInteractionWrapper
             link.onDown = () => {
-
+                console.log(Timer.frame)
                 // @ts-ignore
-                window.open(l[1], '_blank');
+                window.location.href = l[1];
+                //  window.open(l[1], '_blank');
             }
             link.onRollOver = () => {
 

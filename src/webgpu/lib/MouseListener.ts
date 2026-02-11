@@ -1,5 +1,6 @@
 import { Vector2 } from "@math.gl/core";
 import Renderer from "./Renderer.ts";
+import Timer from "./Timer.ts";
 export interface TouchPointer {
     id: number;
     pos: Vector2;
@@ -25,7 +26,7 @@ export default class MouseListener {
     public shiftKey: boolean = false;
     public metaKey: boolean = false;
     private element: Document;
-    private preventDefault = false;
+    private preventDefault = true;
     private renderer: Renderer;
     pressure: number = 0;
     private pointerID: number = -1;
@@ -118,9 +119,7 @@ export default class MouseListener {
 
 
             this.mouseDown();
-            if (this.directCheck && this.renderer.isMobile) {
-                if (this.onDirectClick) this.onDirectClick()
-            }
+
         }
     }
 
@@ -145,6 +144,10 @@ export default class MouseListener {
 
 
             this.mouseUp();
+            if (this.directCheck && this.renderer.isMobile) {
+
+                if (this.onDirectClick) this.onDirectClick()
+            }
         }
     }
 
