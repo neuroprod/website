@@ -76,9 +76,19 @@ export default class Main {
             this.canvas = document.getElementById("webGPUCanvas") as HTMLCanvasElement;
             this.canvasManager = new CanvasManager(this.canvas);
             this.renderer = new Renderer();
-            this.renderer.setup(this.canvas).then(() => {
+            this.renderer.setup(this.canvas).then((value: boolean) => {
+                if (!value) {
+                    let c = document.getElementById("app");
+                    if (c) c.innerHTML = "cant make adapter"
+                }
                 this.preload()
+            }).catch((e) => {
+                let c = document.getElementById("app");
+                if (c) c.innerHTML = e
+
+
             })
+
 
             let f = new SDFFont()
             window.addEventListener("popstate", (event) => {

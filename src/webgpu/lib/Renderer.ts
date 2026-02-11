@@ -61,6 +61,7 @@ export default class Renderer {
 
         const adapter = await navigator.gpu.requestAdapter({ powerPreference: "high-performance" });
         if (!adapter) navigator.gpu.requestAdapter();
+        if (!adapter) return false;
         if (adapter) {
 
             for (let a of adapter.features.keys()) {
@@ -106,6 +107,7 @@ export default class Renderer {
         }
         this.timeStamps = new TimeStampQuery(this)
         this.mipmapQueue = new MipMapQueue(this)
+        return true
     }
 
     public startCommandEncoder(setCommands: () => void) {
