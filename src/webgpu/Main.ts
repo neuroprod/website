@@ -78,12 +78,14 @@ export default class Main {
             this.renderer = new Renderer();
             this.renderer.setup(this.canvas).then((value: boolean) => {
                 if (!value) {
+                    this.canvas.hidden = true
                     let c = document.getElementById("app");
                     if (c) c.innerHTML = "cant make adapter"
                 }
                 this.preload()
             }).catch((e) => {
                 let c = document.getElementById("app");
+                this.canvas.hidden = true
                 if (c) c.innerHTML = e
 
 
