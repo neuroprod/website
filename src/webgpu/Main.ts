@@ -47,9 +47,9 @@ export enum MainState {
 
 
 export default class Main {
-    private canvas: HTMLCanvasElement;
-    private canvasManager: CanvasManager;
-    private renderer: Renderer;
+    private canvas!: HTMLCanvasElement;
+    private canvasManager!: CanvasManager;
+    private renderer!: Renderer;
     private canvasRenderPass!: CanvasRenderPass;
 
 
