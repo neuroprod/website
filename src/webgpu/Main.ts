@@ -1,6 +1,7 @@
 import CanvasManager from "./lib/CanvasManager.ts";
 import Renderer from "./lib/Renderer.ts";
 import CanvasRenderPass from "./CanvasRenderPass.ts";
+import { FallbackUI } from "./FallbackUI.ts";
 
 import PreLoader from "./lib/PreLoader.ts";
 import UI from "./lib/UI/UI.ts";
@@ -51,6 +52,7 @@ export default class Main {
     private canvasManager!: CanvasManager;
     private renderer!: Renderer;
     private canvasRenderPass!: CanvasRenderPass;
+    private fallbackUI!: FallbackUI;
 
 
     private preloader!: PreLoader;
@@ -70,21 +72,27 @@ export default class Main {
 
 
     constructor() {
-
+        const appElement = document.getElementById("app");
+        if (appElement) {
+            this.fallbackUI = new FallbackUI(appElement);
+        }
+ this.canvas = document.getElementById("webGPUCanvas") as HTMLCanvasElement;
+       // this.setFallback("Sorry, can't make the WebGPU adapter I need :(")
+       // return;
         if (navigator.gpu) {
             AppState.init()
-            this.canvas = document.getElementById("webGPUCanvas") as HTMLCanvasElement;
+          //  this.canvas = document.getElementById("webGPUCanvas") as HTMLCanvasElement;
             this.canvasManager = new CanvasManager(this.canvas);
             this.renderer = new Renderer();
             this.renderer.setup(this.canvas).then((value: boolean) => {
                 if (!value) {
 
-                    this.setInner("Sorry, can't make the WebGPU adapter I need :(")
+                    this.setFallback("Sorry, can't make the WebGPU adapter I need :(")
                     return;
                 }
                 this.preload()
             }).catch((e) => {
-                this.setInner(e)
+                 this.setFallback(e)
 
 
 
@@ -102,15 +110,15 @@ export default class Main {
                 GameModel.debug = true;
             }
         } else {
-            this.setInner("Sorry, this site uses WebGPU :(")
+            this.setFallback("Sorry, this site uses WebGPU :(")
 
         }
     }
-    setInner(text: string) {
+    setFallback(text: string) {
         this.canvas.hidden = true
-        let c = document.getElementById("app");
-        if (c) c.append(text);
-
+        if (this.fallbackUI) {
+            this.fallbackUI.show(text);
+        }
     }
     public preload() {
         UI.setWebGPU(this.renderer)
