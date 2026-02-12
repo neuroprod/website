@@ -1112,7 +1112,7 @@
           0.8,
           0
         ],
-        "text": "Sure, I might drown tomorrow,\nbut at least tonight I'm sailing."
+        "text": "Sure, I might drown tomorrow,\nbut at least now I'm sailing."
       },
       {
         "char": "godRoot",
@@ -1141,7 +1141,7 @@
       },
       {
         "delay": 0.5,
-        "text": "But not tonight."
+        "text": "But not tonight..."
       }
     ]
   }

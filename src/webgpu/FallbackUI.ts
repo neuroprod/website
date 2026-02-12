@@ -8,7 +8,7 @@ export class FallbackUI {
     show(message: string) {
         // Clear the app element
         this.appElement.innerHTML = "";
-document.body.style.userSelect="text"
+        document.body.style.userSelect = "text"
         // Create fallback page structure
         const fallbackContainer = document.createElement("div");
         fallbackContainer.id = "fallback-container";
@@ -26,7 +26,7 @@ document.body.style.userSelect="text"
                     text-align: center;
                     width: 100%;
                     box-sizing: border-box;
-                    background-image: url('/backgrounds/friends.jpg');
+                    background-image: url('/backgrounds/scrollBG.jpg');
                     background-size: cover;
                     background-position: center;
                     background-repeat: no-repeat;
@@ -45,18 +45,18 @@ document.body.style.userSelect="text"
                     margin: 0 0 16px 0;
                     font-weight: 600;
                     line-height: 1.4;
-                      color: #d9ff00;
+                      color: #ffffff;
                 }
                 
                 .fallback-content p {
                     font-size: 16px;
-                    margin: 0 0 16px 0;
+                    margin: 0 0 30px 0;
                     line-height: 1.6;
-                    color: #d9ff00;
+                    color: #ffffff;
                 }
                 
                 .fallback-image {
-                    max-width: 300px;
+                    max-width: 90%;
                     height: auto;
                     object-fit: contain;
                     margin-bottom: 16px;
@@ -65,7 +65,7 @@ document.body.style.userSelect="text"
                 .fallback-contact {
                     font-size: 14px;
                     line-height: 1.2;
-                    color: #d9ff00;
+                    color: #ffffff;
                   
                     margin-top: 0px;
                 }
@@ -85,12 +85,13 @@ document.body.style.userSelect="text"
                     
                     .fallback-content p {
                         font-size: 18px;
-                        margin: 0 0 24px 0;
+                        margin: 0 0 40px 0;
                     }
                     
                     .fallback-image {
                         max-width: 250px;
                         margin-bottom: 24px;
+                      
                     }
                     
                     .fallback-contact {
@@ -120,9 +121,9 @@ document.body.style.userSelect="text"
             </style>
             
             <div class="fallback-content">
-                <h1>Oops!</h1>
+                <h1>Sorry!</h1>
                 <p>${message}</p>
-                <img src="/patato.png" alt="Patato" class="fallback-image" />
+                <img src="/fallBack.png" alt="meat" class="fallback-image" />
                 <div class="fallback-contact">
                     <div class="fallback-contact-item-big">kris@neuroproductions.be<br>
 +32 485 94 11 55</div>
