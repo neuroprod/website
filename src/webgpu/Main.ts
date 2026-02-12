@@ -76,23 +76,22 @@ export default class Main {
         if (appElement) {
             this.fallbackUI = new FallbackUI(appElement);
         }
- this.canvas = document.getElementById("webGPUCanvas") as HTMLCanvasElement;
-       // this.setFallback("Sorry, can't make the WebGPU adapter I need :(")
-       // return;
+        this.canvas = document.getElementById("webGPUCanvas") as HTMLCanvasElement;
+
         if (navigator.gpu) {
             AppState.init()
-          //  this.canvas = document.getElementById("webGPUCanvas") as HTMLCanvasElement;
+            //  this.canvas = document.getElementById("webGPUCanvas") as HTMLCanvasElement;
             this.canvasManager = new CanvasManager(this.canvas);
             this.renderer = new Renderer();
             this.renderer.setup(this.canvas).then((value: boolean) => {
                 if (!value) {
 
-                    this.setFallback("Sorry, can't make the WebGPU adapter I need :(")
+                    this.setFallback("Can't make the WebGPU adapter I need :(")
                     return;
                 }
                 this.preload()
             }).catch((e) => {
-                 this.setFallback(e)
+                this.setFallback(e)
 
 
 
@@ -110,7 +109,7 @@ export default class Main {
                 GameModel.debug = true;
             }
         } else {
-            this.setFallback("Sorry, this site uses WebGPU :(")
+            this.setFallback("This site uses WebGPU :(")
 
         }
     }
